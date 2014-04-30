@@ -30,4 +30,3 @@ git fetch https://gerrit.omnirom.org/android_packages_apps_OmniSwitch refs/chang
 cd ../../..
 echo "----------------------------------------"
 echo "DONE"
-exit 0
