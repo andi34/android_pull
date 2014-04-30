@@ -16,8 +16,7 @@
   # Sync your sources again
   
   $ repo sync
-  $ ./device/samsung/golden/golden_pull
 
   # now run your pull script
 
-  $ ./pull/YOZR-PULL-SCRIPT
+  $ ./pull/YOUR-PULL-SCRIPT
