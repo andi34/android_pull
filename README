@@ -1,0 +1,22 @@
+  #
+  #
+  # Pull commits for unofficial SlimKat builds
+  #
+  # Pull fixes and changes from github repos or from gerrit using your terminal. 
+  # Make sure you opened your terminal inside your OmniROM Source folder.
+  #
+  #
+  # Create .repo/local_manifests/pull_manifest.xml with the following content:
+
+  <?xml version="1.0" encoding="UTF-8"?>
+   <manifest>
+     <project name="andi34/android_pull" remote="github" path="pull" revision="kk4.4" />
+   </manifest>
+
+  # Sync your sources again
+  
+  $ repo sync
+
+  # now run your pull script
+
+  $ ./pull/YOUR-PULL-SCRIPT
