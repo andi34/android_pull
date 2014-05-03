@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "Adding Battery Saver Mode..."
+cd frameworks/base
+echo "[1/3] Base: https://gerrit.omnirom.org/4835"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/35/4835/49 && git cherry-pick FETCH_HEAD
+cd  ../..
+cd packages/apps/Settings
+echo "[2/3] Settings: https://gerrit.omnirom.org/4836"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/36/4836/22 && git cherry-pick FETCH_HEAD
+cd ..
+cd OmniGears
+echo "[3/3] OmniGears: https://gerrit.omnirom.org/5386"
+git fetch https://gerrit.omnirom.org/android_packages_apps_OmniGears refs/changes/86/5386/32 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "DONE"
