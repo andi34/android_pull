@@ -1,0 +1,15 @@
+cd system/vold
+git fetch https://github.com/kumajaya/android_system_vold
+git cherry-pick 068646fe9be2d98f465a75ce2ccf5ddae17ea28a
+git cherry-pick 12807365b1b7f5ae9deaa073a9f98f13ab889384
+cd ../..
+cd external/busybox
+git fetch https://github.com/kumajaya/android_external_busybox
+git cherry-pick 24b6435ef50c1ae96934f31350a129fff8214a5c
+git cherry-pick d39b9afcbfb4e1b3e7e1f3f14e9a987ffba2b365
+cd ../..
+cd build
+git fetch https://github.com/kumajaya/android_build
+git cherry-pick e298cb3708423ad04cba25a44b6db16f92f32477
+git cherry-pick 9d75a10fc35b49d29427e72257e3d0fc91a04215
+cd ..
