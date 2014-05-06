@@ -27,6 +27,8 @@ cd ..
 echo "----------------------------------------"
 echo "Patching OmniSwitch"
 cd OmniSwitch
+echo "OmniSwitch: Immersive mode button https://gerrit.omnirom.org/6936"
+git fetch https://gerrit.omnirom.org/android_packages_apps_OmniSwitch refs/changes/36/6936/14 && git cherry-pick FETCH_HEAD
 echo "OmniSwitch: Allow open app as floating window https://gerrit.omnirom.org/6661"
 git fetch https://gerrit.omnirom.org/android_packages_apps_OmniSwitch refs/changes/61/6661/1 && git cherry-pick FETCH_HEAD
 cd ../../..

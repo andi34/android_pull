@@ -2,31 +2,35 @@
 echo "----------------------------------------"
 echo "Adding Theme Support..."
 cd build
-echo "[2/8] build: Theme Engine https://gerrit.omnirom.org/6721"
-git fetch https://gerrit.omnirom.org/android_build refs/changes/21/6721/4 && git cherry-pick FETCH_HEAD
+echo "[2/9] build: Theme Engine https://gerrit.omnirom.org/6721"
+git fetch https://gerrit.omnirom.org/android_build refs/changes/21/6721/6 && git cherry-pick FETCH_HEAD
 cd ..
 cd external/skia
-echo "[3/8] skia: Theme engine https://gerrit.omnirom.org/6720"
-git fetch https://gerrit.omnirom.org/android_external_skia refs/changes/20/6720/3 && git cherry-pick FETCH_HEAD
+echo "[3/9] skia: Theme engine https://gerrit.omnirom.org/6720"
+git fetch https://gerrit.omnirom.org/android_external_skia refs/changes/20/6720/4 && git cherry-pick FETCH_HEAD
 cd ../..
 cd frameworks/base
-echo "[4/8] Base: Theme engine https://gerrit.omnirom.org/5708"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/30 && git cherry-pick FETCH_HEAD
+echo "[4/9] Base: Theme engine https://gerrit.omnirom.org/5708"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/31 && git cherry-pick FETCH_HEAD
 cd ..
 cd native
-echo "[5/8] native: Theme engine https://gerrit.omnirom.org/6722"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/22/6722/4 && git cherry-pick FETCH_HEAD
+echo "[5/9] native: Theme engine https://gerrit.omnirom.org/6722"
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/22/6722/5 && git cherry-pick FETCH_HEAD
 cd  ../..
 cd packages/apps/Settings
-echo "[6/8] Settings: Theme engine https://gerrit.omnirom.org/5709"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/09/5709/8 && git cherry-pick FETCH_HEAD
+echo "[6/9] Settings: Theme engine https://gerrit.omnirom.org/5709"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/09/5709/9 && git cherry-pick FETCH_HEAD
 cd ../..
 cd providers/MediaProvider
-echo "[7/8] MediaProvider: Theme engine https://gerrit.omnirom.org/6723"
-git fetch https://gerrit.omnirom.org/android_packages_providers_MediaProvider refs/changes/23/6723/1 && git cherry-pick FETCH_HEAD
+echo "[7/9] MediaProvider: Theme engine https://gerrit.omnirom.org/6723"
+git fetch https://gerrit.omnirom.org/android_packages_providers_MediaProvider refs/changes/23/6723/2 && git cherry-pick FETCH_HEAD
 cd ../../..
+cd system/core
+echo "[8/9] Theme engine https://gerrit.omnirom.org/7260"
+git fetch https://gerrit.omnirom.org/android_system_core refs/changes/60/7260/1 && git cherry-pick FETCH_HEAD
+cd ../..
 cd vendor/omni
-echo "[8/8] omni: Theme engine https://gerrit.omnirom.org/2788"
-git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/88/2788/8 && git cherry-pick FETCH_HEAD
+echo "[9/9] omni: Theme engine https://gerrit.omnirom.org/2788"
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/88/2788/9 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "DONE"
