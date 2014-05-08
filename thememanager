@@ -11,11 +11,11 @@ git fetch https://gerrit.omnirom.org/android_external_skia refs/changes/20/6720/
 cd ../..
 cd frameworks/base
 echo "[4/9] Base: Theme engine https://gerrit.omnirom.org/5708"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/31 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/34 && git cherry-pick FETCH_HEAD
 cd ..
 cd native
 echo "[5/9] native: Theme engine https://gerrit.omnirom.org/6722"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/22/6722/5 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/22/6722/6 && git cherry-pick FETCH_HEAD
 cd  ../..
 cd packages/apps/Settings
 echo "[6/9] Settings: Theme engine https://gerrit.omnirom.org/5709"
