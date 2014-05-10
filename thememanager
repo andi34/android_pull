@@ -11,7 +11,7 @@ git fetch https://gerrit.omnirom.org/android_external_skia refs/changes/20/6720/
 cd ../..
 cd frameworks/base
 echo "[4/9] Base: Theme engine https://gerrit.omnirom.org/5708"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/34 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/08/5708/40 && git cherry-pick FETCH_HEAD
 cd ..
 cd native
 echo "[5/9] native: Theme engine https://gerrit.omnirom.org/6722"
@@ -19,7 +19,7 @@ git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/22/6
 cd  ../..
 cd packages/apps/Settings
 echo "[6/9] Settings: Theme engine https://gerrit.omnirom.org/5709"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/09/5709/9 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/09/5709/12 && git cherry-pick FETCH_HEAD
 cd ../..
 cd providers/MediaProvider
 echo "[7/9] MediaProvider: Theme engine https://gerrit.omnirom.org/6723"
@@ -31,6 +31,6 @@ git fetch https://gerrit.omnirom.org/android_system_core refs/changes/60/7260/1 
 cd ../..
 cd vendor/omni
 echo "[9/9] omni: Theme engine https://gerrit.omnirom.org/2788"
-git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/88/2788/9 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/88/2788/10 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "DONE"
