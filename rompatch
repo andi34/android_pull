@@ -8,7 +8,7 @@ git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/55/645
 echo "Base: Floating window with multitasking https://gerrit.omnirom.org/6380"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/80/6380/20 && git cherry-pick FETCH_HEAD
 echo "[1/2] Base: implement App circle sidebar https://gerrit.omnirom.org/6378"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/78/6378/16 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/78/6378/17 && git cherry-pick FETCH_HEAD
 echo "Base: App Circle sidebar (add support floating window) https://gerrit.omnirom.org/6515"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/15/6515/9 && git cherry-pick FETCH_HEAD
 cd ../..
