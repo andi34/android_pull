@@ -3,8 +3,6 @@ echo "Patching frameworks base"
 cd frameworks/base
 echo "Base: Follow 4.4 UI https://gerrit.omnirom.org/4577"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/77/4577/2 && git cherry-pick FETCH_HEAD
-echo "Framework: Add Landscape layout for ECA https://gerrit.omnirom.org/6455"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/55/6455/1 && git cherry-pick FETCH_HEAD
 echo "Base: Floating window with multitasking https://gerrit.omnirom.org/6380"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/80/6380/20 && git cherry-pick FETCH_HEAD
 echo "[1/2] Base: implement App circle sidebar https://gerrit.omnirom.org/6378"
