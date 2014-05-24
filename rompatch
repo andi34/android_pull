@@ -3,10 +3,13 @@ echo "Patching frameworks base"
 cd frameworks/base
 echo "Base: Follow 4.4 UI https://gerrit.omnirom.org/4577"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/77/4577/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "Base: Floating window with multitasking https://gerrit.omnirom.org/6380"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/80/6380/20 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "[1/2] Base: implement App circle sidebar https://gerrit.omnirom.org/6378"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/78/6378/17 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "Base: App Circle sidebar (add support floating window) https://gerrit.omnirom.org/6515"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/15/6515/9 && git cherry-pick FETCH_HEAD
 cd ../..

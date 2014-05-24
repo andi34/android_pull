@@ -5,8 +5,10 @@ cd frameworks/base
 echo "[1/2] Base: https://gerrit.omnirom.org/6323"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/23/6323/11 && git cherry-pick FETCH_HEAD
 cd  ../..
+echo "----------------------------------------"
 cd packages/apps/OmniGears
 echo "[2/2] OmniGears: https://gerrit.omnirom.org/6324"
 git fetch https://gerrit.omnirom.org/android_packages_apps_OmniGears refs/changes/24/6324/3 && git cherry-pick FETCH_HEAD
 cd ../../..
+echo "----------------------------------------"
 echo "DONE"
