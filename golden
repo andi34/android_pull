@@ -22,7 +22,7 @@ cd ../..
 echo "----------------------------------------"
 cd system/core
 echo "[3/3] STE OMX Fix https://gerrit.omnirom.org/6830"
-git fetch https://gerrit.omnirom.org/android_system_core refs/changes/30/6830/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_system_core refs/changes/30/6830/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Fix shutdown/reboot bug https://gerrit.omnirom.org/6831"
 git fetch https://gerrit.omnirom.org/android_system_core refs/changes/31/6831/1 && git cherry-pick FETCH_HEAD
