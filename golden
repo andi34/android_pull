@@ -1,10 +1,10 @@
 #!/bin/bash
 cd frameworks/native
 echo "[2/3] STE OMX Fix https://gerrit.omnirom.org/6834"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/34/6834/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/34/6834/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "native:Fix buffering on Samsung STE devices https://gerrit.omnirom.org/6827"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/27/6827/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/27/6827/3 && git cherry-pick FETCH_HEAD
 cd ..
 echo "----------------------------------------"
 cd av
@@ -32,5 +32,10 @@ cd packages/services/Telephony
 echo "Reset the audio stream volume to fix low in-call volume bug https://gerrit.omnirom.org/6832"
 git fetch https://gerrit.omnirom.org/android_packages_services_Telephony refs/changes/32/6832/3 && git cherry-pick FETCH_HEAD
 cd ../../..
+echo "----------------------------------------"
+cd build
+echo "build: Add STE target-specific config https://gerrit.omnirom.org/7753"
+git fetch https://gerrit.omnirom.org/android_build refs/changes/53/7753/1 && git cherry-pick FETCH_HEAD
+cd ..
 echo "----------------------------------------"
 echo "DONE"
