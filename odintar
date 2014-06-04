@@ -9,10 +9,18 @@
 
 
 # device name in your "out" folder
-DEVICENAME1="p3110"
+DEVICENAME1[0]="p3110"
+DEVICENAME1[1]="p3100"
+DEVICENAME1[2]="p5100"
+DEVICENAME1[3]="p5110"
+DEVICENAME1[4]="golden"
 
 # device name for the name of the zip
-DEVICENAME2="GT-P3110"
+DEVICENAME2[0]="GT-P3110"
+DEVICENAME2[1]="GT-P3100"
+DEVICENAME2[2]="GT-P5100"
+DEVICENAME2[3]="GT-P5110"
+DEVICENAME2[4]="GT-I8190"
 
 # recoveryname
 RECNAME="TWRP"
@@ -20,8 +28,15 @@ RECNAME="TWRP"
 # recovery version number
 RECVER="2.7.1.0"
 
-cd out/target/product/$DEVICENAME1
-tar -H ustar -c recovery.img > $DEVICENAME2"_"$RECNAME"_"$RECVER".tar"
-md5sum -t $DEVICENAME2"_"$RECNAME"_"$RECVER".tar" >> $DEVICENAME2"_"$RECNAME"_"$RECVER".tar"
-mv $DEVICENAME2"_"$RECNAME"_"$RECVER".tar" $DEVICENAME2"_"$RECNAME"_"$RECVER".tar.md5"
+for VAL in "${!DEVICENAME1[@]}"
+do
+
+cd out/target/product/${DEVICENAME1[$VAL]}
+tar -H ustar -c recovery.img > ${DEVICENAME2[$VAL]}"_"$RECNAME"_"$RECVER".tar"
+md5sum -t ${DEVICENAME2[$VAL]}"_"$RECNAME"_"$RECVER".tar" >> ${DEVICENAME2[$VAL]}"_"$RECNAME"_"$RECVER".tar"
+mv ${DEVICENAME2[$VAL]}"_"$RECNAME"_"$RECVER".tar" ${DEVICENAME2[$VAL]}"_"$RECNAME"_"$RECVER".tar.md5"
 cd ../../../..
+
+done
+
+echo "Done!"
