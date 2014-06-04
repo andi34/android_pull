@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "----------------------------------------"
+cd frameworks/av
+echo "Revert camera: Add required symbols for Samsung camera HAL; For lt01wifi, lt013g and lt01lte (exynos4) https://gerrit.slimroms.net/6935"
+git reset --hard HEAD~1
+cd ../..
+echo "----------------------------------------"
+echo "DONE"
