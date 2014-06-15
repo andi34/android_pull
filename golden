@@ -31,7 +31,8 @@ echo "----------------------------------------"
 cd packages/services/Telephony
 echo "Reset the audio stream volume to fix low in-call volume bug https://gerrit.omnirom.org/6832"
 git fetch https://gerrit.omnirom.org/android_packages_services_Telephony refs/changes/32/6832/4 && git cherry-pick FETCH_HEAD
-cd ../../..echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
 cd build
 echo "build: Add STE target-specific config https://gerrit.omnirom.org/7753"
 git fetch https://gerrit.omnirom.org/android_build refs/changes/53/7753/1 && git cherry-pick FETCH_HEAD
