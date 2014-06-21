@@ -13,4 +13,8 @@ echo "camera: Add required symbols for Samsung camera HAL; For lt01wifi, lt013g 
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/35/6935/2 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
+cd external/skia
+echo "Add required symbol for newer Samsung external display https://gerrit.slimroms.net/9560"
+git fetch https://gerrit.slimroms.net/SlimRoms/android_external_skia refs/changes/60/9560/1 && git cherry-pick FETCH_HEAD
+cd ../..
 echo "DONE"
