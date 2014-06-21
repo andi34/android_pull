@@ -1,15 +1,23 @@
 cd system/vold
-git fetch https://github.com/kumajaya/android_system_vold
-git cherry-pick 068646fe9be2d98f465a75ce2ccf5ddae17ea28a
-git cherry-pick 12807365b1b7f5ae9deaa073a9f98f13ab889384
+echo "Add Flash-Friendly File System (f2fs) support. http://review.cyanogenmod.org/61238"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/38/61238/5 && git cherry-pick FETCH_HEAD
+echo "Add exfat/ntfs support for modules or static mode. http://review.cyanogenmod.org/62307"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/07/62307/13 && git cherry-pick FETCH_HEAD
 cd ../..
 cd external/busybox
 git fetch https://github.com/kumajaya/android_external_busybox
-git cherry-pick f181187af0225f8edf397ef32bd525c4ea9eacb1
-git cherry-pick 552841bb59db854909782624fe7da8f1978a5c84
+"echo Always enable reboot applet"
+git cherry-pick 469b5ab94f84fc73804c91ed87f67b0011733845
+echo "Enable swap device priority"
+git cherry-pick aeadb998c5c8cf19b4ccaacc3b3d661730a7e6e8
+cd ..
+echo "e2fsprogs: blkid: Add Flash-Friendly File System (f2fs) support http://review.cyanogenmod.org/61273"
+cd e2fsprogs
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_e2fsprogs refs/changes/73/61273/1 && git cherry-pick FETCH_HEAD
 cd ../..
 cd build
+echo "LZMA compressed recovery"
 git fetch https://github.com/kumajaya/android_build
-git cherry-pick e298cb3708423ad04cba25a44b6db16f92f32477
-git cherry-pick 9d75a10fc35b49d29427e72257e3d0fc91a04215
+git cherry-pick 36decbfa3fd048a6b27e57f2259f2a1aef129e4c
 cd ..
+echo "Done!"
