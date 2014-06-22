@@ -7,8 +7,8 @@ git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/35/693
 cd ../..
 echo "----------------------------------------"
 cd external/skia
-echo "Add required symbol for newer Samsung external display https://gerrit.slimroms.net/9560"
-git fetch https://gerrit.slimroms.net/SlimRoms/android_external_skia refs/changes/60/9560/1 && git cherry-pick FETCH_HEAD
+echo "skia: add more compat symbols for Samsung libtvout.so https://gerrit.slimroms.net/9579"
+git fetch https://gerrit.slimroms.net/SlimRoms/android_external_skia refs/changes/79/9579/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "DONE"
