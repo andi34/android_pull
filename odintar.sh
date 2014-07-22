@@ -59,6 +59,7 @@ do
 
 echo "Moving to out directory..."
 cd $SAUCE
+cd out/target/product/${DEVICENAME1[$VAL]}
 
 echo "Converting..."
 tar -H ustar -c recovery.img > ${DEVICENAME2[$VAL]}"_"$RECNAME1"_"$RECVER".tar"
