@@ -8,7 +8,7 @@ cd  ../..
 echo "----------------------------------------"
 cd packages/apps/Settings
 echo "[2/3] Settings: https://gerrit.omnirom.org/4250"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/50/4250/15 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/50/4250/16 && git cherry-pick FETCH_HEAD
 cd ..
 echo "----------------------------------------"
 cd OmniGears
