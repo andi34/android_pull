@@ -11,6 +11,11 @@ echo "e2fsprogs: blkid: Add Flash-Friendly File System (f2fs) support http://rev
 cd external/e2fsprogs
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_e2fsprogs refs/changes/73/61273/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+cd ..
+cd busybox
+echo "Always enable reboot applet"
+git fetch https://github.com/kumajaya/android_external_busybox.git && git cherry-pick d7a8d8bbbc7112adc0da061c7a838f224a354604
+echo "----------------------------------------"
 cd ../..
 cd build
 echo "LZMA compressed recovery"
