@@ -2,22 +2,28 @@
 echo "Patching to compile PhilZ Touch from Source"
 cd device/samsung/p3100
 echo "Patching P3100"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/63387/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/63387/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 cd p3110
 echo "Patching P3110"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/88/63388/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/88/63388/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 cd p5100
 echo "Patching P5100"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/85/63385/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/85/63385/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 cd p5110
 echo "Patching P5110"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/86/63386/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/86/63386/2 && git cherry-pick FETCH_HEAD
 cd ../../..
+echo "----------------------------------------"
+cd system/vold
+echo "patching vold"
+echo "Add exfat/ntfs support for modules or static mode. http://review.cyanogenmod.org/62307"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/07/62307/14 && git cherry-pick FETCH_HEAD
+cd ../..
 echo "----------------------------------------"
 echo "DONE"
