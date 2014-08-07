@@ -17,7 +17,7 @@ echo "----------------------------------------"
 cd ..
 cd busybox
 echo "Always enable reboot applet"
-git fetch https://github.com/kumajaya/android_external_busybox.git && git cherry-pick d7a8d8bbbc7112adc0da061c7a838f224a354604
+git fetch https://github.com/kumajaya/android_external_busybox.git && git cherry-pick 6d2ed7af6d472c8dd7a850fa229895573bbb8e4d
 echo "----------------------------------------"
 cd ../..
 cd build
