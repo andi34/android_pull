@@ -24,6 +24,15 @@ cd system/vold
 echo "patching vold"
 echo "Add exfat/ntfs support for modules or static mode. http://review.cyanogenmod.org/62307"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_vold refs/changes/07/62307/14 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Ext4: SD card write access workaround"
+git fetch https://github.com/kumajaya/android_system_vold.git cm-11.0 && git cherry-pick bd795445b6e4f0ed2aeebfa0c2ed25fe21000ae9
 cd ../..
+echo "----------------------------------------"
+cd kernel/samsung/espresso10
+echo "add kernel EXFat"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/19/6919/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/20/6920/2 && git cherry-pick FETCH_HEAD
+cd ../../..
 echo "----------------------------------------"
 echo "DONE"
