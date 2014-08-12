@@ -7,6 +7,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/android_system_vold refs/changes/
 echo "----------------------------------------"
 echo"Add exfat/ntfs support for modules or static mode. https://gerrit.slimroms.net/#/c/6929/"
 git fetch https://gerrit.slimroms.net/SlimRoms/android_system_vold refs/changes/29/6929/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Ext4: SD card write access workaround"
+git fetch https://github.com/kumajaya/android_system_vold.git cm-11.0 && git cherry-pick bd795445b6e4f0ed2aeebfa0c2ed25fe21000ae9
 cd ../..
 echo "----------------------------------------"
 echo "DONE"
