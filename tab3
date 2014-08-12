@@ -3,7 +3,12 @@ echo "----------------------------------------"
 echo "Patching smdk4412-common"
 cd frameworks/av
 echo "camera: Add required symbols for Samsung camera HAL; For lt01wifi, lt013g and lt01lte (exynos4) https://gerrit.slimroms.net/6935"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/35/6935/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/35/6935/3 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+cd frameworks/base
+echo "Add support for using the flip switch to turn off the screen https://gerrit.slimroms.net/12321"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/21/12321/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "DONE"
