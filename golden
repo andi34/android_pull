@@ -29,7 +29,7 @@ cd ../..
 echo "----------------------------------------"
 cd packages/services/Telephony
 echo "Reset the audio stream volume to fix low in-call volume bug https://gerrit.slimroms.net/8274"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_services_Telephony refs/changes/74/8274/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_services_Telephony refs/changes/74/8274/2 && git checkout FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd build
