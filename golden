@@ -27,11 +27,6 @@ echo "init: Allow load of lpm.rc by parsing a cmdline argument https://gerrit.sl
 git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/15/13015/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
-cd packages/services/Telephony
-echo "Reset the audio stream volume to fix low in-call volume bug https://gerrit.slimroms.net/8274"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_services_Telephony refs/changes/74/8274/2 && git cherry-pick FETCH_HEAD
-cd ../../..
-echo "----------------------------------------"
 cd build
 echo "build: Add STE target-specific config https://gerrit.slimroms.net/8481"
 git fetch https://gerrit.slimroms.net/SlimRoms/android_build refs/changes/81/8481/3 && git cherry-pick FETCH_HEAD
