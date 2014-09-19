@@ -8,7 +8,7 @@ echo "Ext4: SD card write access workaround"
 git fetch https://github.com/kumajaya/android_system_vold.git cm-11.0 && git cherry-pick bd795445b6e4f0ed2aeebfa0c2ed25fe21000ae9
 echo "----------------------------------------"
 cd ../..
-cd busybox
+cd external/busybox
 echo "Always enable reboot applet"
 git fetch https://github.com/kumajaya/android_external_busybox.git && git cherry-pick 6d2ed7af6d472c8dd7a850fa229895573bbb8e4d
 echo "----------------------------------------"
