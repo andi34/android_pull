@@ -10,6 +10,9 @@ echo "----------------------------------------"
 cd av
 echo "STE Multimedia Fix https://gerrit.slimroms.net/8269"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/69/8269/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "STE-OMX-getSupportedProfileLevel-fix https://gerrit.slimroms.net/14713"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/13/14713/1 && git cherry-pick FETCH_HEAD
 cd ..
 echo "----------------------------------------"
 cd base
