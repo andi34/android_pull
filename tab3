@@ -4,11 +4,6 @@ cd device/samsung/smdk4412-common
 echo "smdk4412-common: Add support for Tab 3 8.0"
 git fetch https://gerrit.omnirom.org/android_device_samsung_smdk4412-common refs/changes/37/6437/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Add support for chromecast hack"
-git fetch https://gerrit.omnirom.org/android_device_samsung_smdk4412-common refs/changes/37/8737/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo -n "smdk4412-common: Don't build torch for devices without flash"
-git fetch https://gerrit.omnirom.org/android_device_samsung_smdk4412-common refs/changes/38/6438/4 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd frameworks/av
