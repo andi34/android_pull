@@ -1,20 +1,19 @@
 #!/bin/bash
 echo "Patching frameworks base"
 cd frameworks/base
-echo "Base: Floating window with multitasking https://gerrit.omnirom.org/6380"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/80/6380/28 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#echo "Base: Floating window with multitasking https://gerrit.omnirom.org/6380"
+#git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/80/6380/29 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "[1/2] Base: implement App circle sidebar https://gerrit.omnirom.org/6378"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/78/6378/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Base: App Circle sidebar (add support floating window) https://gerrit.omnirom.org/6515"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/15/6515/12 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "Patching vold"
 cd system/vold
 echo "Add exfat/ntfs support for modules or static mode. https://gerrit.omnirom.org/6886"
-git fetch https://gerrit.omnirom.org/android_system_vold refs/changes/86/6886/10 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_system_vold refs/changes/86/6886/11 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "Patching OmniGears"
@@ -23,10 +22,10 @@ echo "[2/2] OmniGears: Implement App circle sidebar https://gerrit.omnirom.org/6
 git fetch https://gerrit.omnirom.org/android_packages_apps_OmniGears refs/changes/79/6379/8 && git cherry-pick FETCH_HEAD
 cd ..
 echo "----------------------------------------"
-echo "Patching OmniSwitch"
-cd OmniSwitch
-echo "OmniSwitch: Allow open app as floating window https://gerrit.omnirom.org/6661"
-git fetch https://gerrit.omnirom.org/android_packages_apps_OmniSwitch refs/changes/61/6661/8 && git cherry-pick FETCH_HEAD
-cd ../../..
+#echo "Patching OmniSwitch"
+#cd OmniSwitch
+#echo "OmniSwitch: Allow open app as floating window https://gerrit.omnirom.org/6661"
+#git fetch https://gerrit.omnirom.org/android_packages_apps_OmniSwitch refs/changes/61/6661/8 && git cherry-pick FETCH_HEAD
+#cd ../../..
 echo "----------------------------------------"
 echo "DONE"
