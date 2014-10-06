@@ -10,11 +10,11 @@ git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/78/637
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
-echo "Patching vold"
-cd system/vold
-echo "Add exfat/ntfs support for modules or static mode. https://gerrit.omnirom.org/6886"
-git fetch https://gerrit.omnirom.org/android_system_vold refs/changes/86/6886/11 && git cherry-pick FETCH_HEAD
-cd ../..
+#echo "Patching vold"
+#cd system/vold
+#echo "Add exfat/ntfs support for modules or static mode. https://gerrit.omnirom.org/6886"
+#git fetch https://gerrit.omnirom.org/android_system_vold refs/changes/86/6886/11 && git cherry-pick FETCH_HEAD
+#cd ../..
 echo "----------------------------------------"
 echo "Patching OmniGears"
 cd packages/apps/OmniGears
