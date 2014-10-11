@@ -16,6 +16,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/13/147
 echo "----------------------------------------"
 echo "ACodec: don't configure software encoders/decoders https://gerrit.slimroms.net/15231"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/31/15231/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "STE-OMX Fix Streaming Video https://gerrit.slimroms.net/15290"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/90/15290/1 && git cherry-pick FETCH_HEAD
 cd ..
 echo "----------------------------------------"
 cd base
