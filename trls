@@ -1,0 +1,34 @@
+#!/bin/bash
+echo "----------------------------------------"
+cd frameworks/base
+echo "----------------------------------------"
+echo "Frameworks: TRLS [1/5] https://gerrit.slimroms.net/14940"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/40/14940/43 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+cd packages/apps/Settings
+echo "Settings: TRLS [2/5] https://gerrit.slimroms.net/14846"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/46/14846/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+cd Mms
+echo "Mms: TRLS [3/5] https://gerrit.slimroms.net/14981"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Mms refs/changes/81/14981/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+cd InCallUI
+echo "InCallUI: TRLS [4/5] https://gerrit.slimroms.net/14982"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_InCallUI refs/changes/82/14982/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+cd SlimCenter
+echo "SlimCenter: TRLS [5/5] https://gerrit.slimroms.net/14827"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_SlimCenter refs/changes/27/14827/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "DONE"
