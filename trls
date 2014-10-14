@@ -2,32 +2,38 @@
 echo "----------------------------------------"
 cd frameworks/base
 echo "----------------------------------------"
-echo "Frameworks: TRLS [1/5] https://gerrit.slimroms.net/14940"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/40/14940/43 && git cherry-pick FETCH_HEAD
+echo "Frameworks: TRLS [1/6] https://gerrit.slimroms.net/14940"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/40/14940/51 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 cd packages/apps/Settings
-echo "Settings: TRLS [2/5] https://gerrit.slimroms.net/14846"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/46/14846/7 && git cherry-pick FETCH_HEAD
+echo "Settings: TRLS [2/6] https://gerrit.slimroms.net/14846"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/46/14846/8 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 cd Mms
-echo "Mms: TRLS [3/5] https://gerrit.slimroms.net/14981"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Mms refs/changes/81/14981/4 && git cherry-pick FETCH_HEAD
+echo "Mms: TRLS [3/6] https://gerrit.slimroms.net/14981"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Mms refs/changes/81/14981/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 cd InCallUI
-echo "InCallUI: TRLS [4/5] https://gerrit.slimroms.net/14982"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_InCallUI refs/changes/82/14982/3 && git cherry-pick FETCH_HEAD
+echo "InCallUI: TRLS [4/6] https://gerrit.slimroms.net/14982"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_InCallUI refs/changes/82/14982/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 cd SlimCenter
-echo "SlimCenter: TRLS [5/5] https://gerrit.slimroms.net/14827"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_SlimCenter refs/changes/27/14827/4 && git cherry-pick FETCH_HEAD
+echo "SlimCenter: TRLS [5/6] https://gerrit.slimroms.net/14827"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_SlimCenter refs/changes/27/14827/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+cd UnifiedEmail
+echo "UnifiedEmail: TRLS [6/6] https://gerrit.slimroms.net/15353"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_UnifiedEmail refs/changes/53/15353/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
