@@ -16,7 +16,7 @@ cd ../..
 cd build
 echo "LZMA compressed recovery"
 git fetch https://github.com/kumajaya/android_build
-git cherry-pick 36decbfa3fd048a6b27e57f2259f2a1aef129e4c
+git cherry-pick e4861629ccb05e88a83ca976a6073596d253448d
 echo "----------------------------------------"
 cd ..
 echo "Done!"
