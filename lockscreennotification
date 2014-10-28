@@ -9,7 +9,7 @@ cd ../..
 echo "----------------------------------------"
 cd packages/apps/Settings
 echo "Lockscreen Notifications [2/2] https://gerrit.slimroms.net/6933"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/33/6933/30 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/33/6933/37 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "DONE"
