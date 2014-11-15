@@ -1,0 +1,90 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/p3100
+echo "P31XX Fixes..."
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/34/16634/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/16685/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/86/16686/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/82/16682/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/24/16724/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/28/16728/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/omap4-common
+echo "omap4-common: Update hwc header https://gerrit.slimroms.net/#/c/16664/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/64/16664/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: fix the build https://gerrit.slimroms.net/#/c/16670/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/70/16670/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: add camera_vendor_tags.h include https://gerrit.slimroms.net/#/c/16729/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/29/16729/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: update GPS header https://gerrit.slimroms.net/#/c/16733/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/33/16733/1 && git cherry-pick FETCH_HEAD
+
+echo "----------------------------------------"
+echo "libcorkscrew: add stub-implementation to make gralloc happy https://gerrit.slimroms.net/#/c/17024/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/24/17024/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd kernel/samsung/espresso10
+echo "Espresso10: GCC fixes etc...."
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/25/17025/2 && git checkout FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd hardware/samsung
+echo "hardware: samsung: get rid of -lpthread for omap4 devices https://gerrit.slimroms.net/#/c/16736/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/36/16736/3 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd hardware/ril
+echo "libril: allow board to provide libril https://gerrit.slimroms.net/#/c/16362/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ril refs/changes/62/16362/1 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo ""
+cd hardware/ti/omap4xxx
+echo "omap4xxx: add flag to allow custom libion https://gerrit.slimroms.net/#/c/16529/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/29/16529/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd frameworks/native
+echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/51/16651/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/54/16654/2 && git cherry-pick FETCH_HEAD
+echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/50/16650/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/17065/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Add back support for glReadPixels screenshot path. https://gerrit.slimroms.net/#/c/17023/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/1 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd external/chromium_org
+git am 1.patch
+cd ../..
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
+
