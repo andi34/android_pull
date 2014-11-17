@@ -27,7 +27,7 @@ echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/3]"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/3 && git cherry-pick FETCH_HEAD
+# git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: update fstab for L https://gerrit.slimroms.net/#/c/17405/ "
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/05/17405/1 && git cherry-pick FETCH_HEAD
@@ -48,10 +48,10 @@ echo "omap4-common: update GPS header https://gerrit.slimroms.net/#/c/16733/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/33/16733/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "libcorkscrew: add stub-implementation to make gralloc happy https://gerrit.slimroms.net/#/c/17024/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/24/17024/3 && git cherry-pick FETCH_HEAD
+# git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/24/17024/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: PVR: add re-implemented pvrsrvinit and glue [1/3] https://gerrit.slimroms.net/#/c/17230/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/17230/2 && git cherry-pick FETCH_HEAD
+# git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/17230/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -101,6 +101,13 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
+cd vendor/samsung
+echo "revert some vendor changes"
+git reset --hard HEAD~1
+git reset --hard HEAD~1
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd external/chromium_org
 git am 1.patch
 cd ../..
