@@ -5,6 +5,9 @@ cd device/samsung/p3100
 echo "P31XX: RIP out SELinux https://gerrit.slimroms.net/#/c/16633"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo "espresso10: build KEYBOARD_SEC_DOCK as module https://gerrit.slimroms.net/#/c/17805/"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/05/17805/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: Fix overlay to compile https://gerrit.slimroms.net/#/c/16634/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/34/16634/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
