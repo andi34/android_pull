@@ -50,11 +50,14 @@ echo "----------------------------------------"
 echo "omap4-common: PVR: add re-implemented pvrsrvinit and glue https://gerrit.slimroms.net/#/c/17230/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/17230/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo ""
+echo "libcorkscrew: add stub-implementation to make gralloc happy https://gerrit.slimroms.net/#/c/17024/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/24/17024/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: add camera_vendor_tags.h include https://gerrit.slimroms.net/#/c/16729"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/29/16729/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
-echo "libcorkscrew: add stub-implementation to make gralloc happy https://gerrit.slimroms.net/#/c/17024/"
+echo ""
 cd kernel/samsung/espresso10
 echo "Espresso10: disable SELinux...."
 git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/25/17025/2 && git cherry-pick FETCH_HEAD
