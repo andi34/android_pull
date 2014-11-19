@@ -55,6 +55,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/
 echo "----------------------------------------"
 echo "omap4-common: add camera_vendor_tags.h include https://gerrit.slimroms.net/#/c/16729"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/29/16729/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: define BOARD_USE_CUSTOM_HWC https://gerrit.slimroms.net/#/c/17532"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/32/17532/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -74,6 +77,9 @@ echo ""
 cd hardware/ti/omap4xxx
 echo "omap4xxx: add flag to allow custom libion https://gerrit.slimroms.net/#/c/16529/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/29/16529/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4xxx: add flag to allow custom hcw https://gerrit.slimroms.net/#/c/17528/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/28/17528/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
