@@ -9,7 +9,7 @@ echo "P31XX: Fix overlay to compile https://gerrit.slimroms.net/#/c/16634/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/34/16634/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: Add missing include for Camera wrapper https://gerrit.slimroms.net/#/c/16682/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/82/16682/1 && git cherry-pick FETCH_HEAD 
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/82/16682/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: CameraWrapper: fix compilation warnings https://gerrit.slimroms.net/#/c/16728/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/28/16728/1 && git cherry-pick FETCH_HEAD
