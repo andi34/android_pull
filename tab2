@@ -26,8 +26,8 @@ echo "----------------------------------------"
 echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16637/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/3]"
-# git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/3 && git cherry-pick FETCH_HEAD
+echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/3] https://gerrit.slimroms.net/#/c/17231/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: update fstab for L https://gerrit.slimroms.net/#/c/17405/ "
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/05/17405/1 && git cherry-pick FETCH_HEAD
@@ -118,7 +118,10 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd external/chromium_org
-git am 1.patch
+echo "cc: Avoid issuing COMMANDS_COMPLETED queries unless necessary."
+echo "Fixes crashing on PVR SGX540, as well as probably other GPUs"
+echo "(Mali 400 or 450 might have issues without this, maybe?) "
+git fetch https://github.com/MWisBest/android_external_chromium_org.git aosp-5.0 && git cherry-pick b2a7091126e87136212b956e6ea9ecab685f5dfe
 cd ../..
 echo ""
 echo "----------------------------------------"
