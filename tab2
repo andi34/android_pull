@@ -88,18 +88,18 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd frameworks/native
-echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/51/16651/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/54/16654/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/50/16650/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/17065/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+# echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/51/16651/2 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
+# echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/54/16654/2 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
+# echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/50/16650/2 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
+# echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/17065/1 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
 echo "Add back support for glReadPixels screenshot path. https://gerrit.slimroms.net/#/c/17023/"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/1 && git cherry-pick FETCH_HEAD
 cd ../..
