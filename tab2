@@ -100,8 +100,8 @@ cd frameworks/native
 # echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
 # git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/17065/1 && git cherry-pick FETCH_HEAD
 # echo "----------------------------------------"
-echo "Add back support for glReadPixels screenshot path. https://gerrit.slimroms.net/#/c/17023/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/1 && git cherry-pick FETCH_HEAD
+echo "Bring back support for glReadPixels screenshot path https://gerrit.slimroms.net/#/c/17023/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/2 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
