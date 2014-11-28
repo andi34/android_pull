@@ -103,6 +103,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25
 echo "----------------------------------------"
 echo "Bring back support for glReadPixels screenshot path https://gerrit.slimroms.net/#/c/17023/"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Support forcing all screenshots into a CPU consumer https://gerrit.slimroms.net/#/c/18642/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/42/18642/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
