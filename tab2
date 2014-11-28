@@ -14,9 +14,6 @@ echo "----------------------------------------"
 echo "P31XX: CameraWrapper: fix compilation warnings https://gerrit.slimroms.net/#/c/16728/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/28/16728/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: Update camerawrapper https://gerrit.slimroms.net/#/c/16724/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/24/16724/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: add Wifi packages https://gerrit.slimroms.net/#/c/16685/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/16685/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -114,13 +111,6 @@ cd frameworks/base
 echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo ""
-cd frameworks/base
-echo "framework: fix screenshot and rotation animation for devices with abnormal hw rotation https://gerrit.slimroms.net/#/c/18398/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/98/18398/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
