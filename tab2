@@ -118,6 +118,13 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
+cd frameworks/base
+echo "framework: fix screenshot and rotation animation for devices with abnormal hw rotation https://gerrit.slimroms.net/#/c/18398/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/98/18398/1 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
 cd  system/core
 echo "charger: allow custom charger res https://gerrit.slimroms.net/#/c/17403/"
 git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/03/17403/1 && git cherry-pick FETCH_HEAD
