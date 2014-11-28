@@ -29,11 +29,6 @@ echo "----------------------------------------"
 echo "P31XX: update fstab for L https://gerrit.slimroms.net/#/c/17405/ "
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/05/17405/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: show UI for multi user https://gerrit.slimroms.net/#/c/18638/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/38/18638/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P31XX: disable doze feature by default https://gerrit.slimroms.net/#/c/18639/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/39/18639/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -68,8 +63,6 @@ cd kernel/samsung/espresso10
 echo "Espresso10: disable SELinux...."
 git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/25/17025/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-# echo "espresso10: build KEYBOARD_SEC_DOCK as module https://gerrit.slimroms.net/#/c/17805/"
-# git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/05/17805/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -107,11 +100,11 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
-cd frameworks/base
-echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
+# cd frameworks/base
+# echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
+# cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
