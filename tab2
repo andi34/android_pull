@@ -71,8 +71,8 @@ cd kernel/samsung/espresso10
 echo "Espresso10: disable SELinux...."
 git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/25/17025/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "espresso10: build KEYBOARD_SEC_DOCK as module https://gerrit.slimroms.net/#/c/17805/"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/05/17805/1 && git cherry-pick FETCH_HEAD
+# echo "espresso10: build KEYBOARD_SEC_DOCK as module https://gerrit.slimroms.net/#/c/17805/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/05/17805/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -103,6 +103,14 @@ git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25
 echo "----------------------------------------"
 echo "Bring back support for glReadPixels screenshot path https://gerrit.slimroms.net/#/c/17023/"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/2 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd frameworks/base
+echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
