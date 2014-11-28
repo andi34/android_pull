@@ -31,6 +31,12 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes
 echo "----------------------------------------"
 echo "P31XX: update fstab for L https://gerrit.slimroms.net/#/c/17405/ "
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/05/17405/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: show UI for multi user https://gerrit.slimroms.net/#/c/18638/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/38/18638/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: disable doze feature by default https://gerrit.slimroms.net/#/c/18639/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/39/18639/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -88,13 +94,13 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd frameworks/native
-# echo "Squashed fixes for additional hwrotation (https://gerrit.slimroms.net/#/c/17525/):"
+echo "Squashed fixes for additional hwrotation (https://gerrit.slimroms.net/#/c/17525/):"
 # echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
 # echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
 # echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
 # echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
-# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25/17525/3 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25/17525/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "Bring back support for glReadPixels screenshot path https://gerrit.slimroms.net/#/c/17023/"
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/23/17023/2 && git cherry-pick FETCH_HEAD
 cd ../..
