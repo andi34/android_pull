@@ -26,9 +26,6 @@ echo "----------------------------------------"
 echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/3] https://gerrit.slimroms.net/#/c/17231/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: update fstab for L https://gerrit.slimroms.net/#/c/17405/ "
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/05/17405/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo ""
@@ -64,12 +61,6 @@ echo "Espresso10: disable SELinux...."
 git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/25/17025/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
-echo "----------------------------------------"
-echo ""
-cd hardware/samsung
-echo "hardware: samsung: get rid of -lpthread https://gerrit.slimroms.net/#/c/16736/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/36/16736/3 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
@@ -119,14 +110,6 @@ cd vendor/samsung
 echo "revert some vendor changes"
 git reset --hard HEAD~1
 git reset --hard HEAD~1
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd external/chromium_org
-echo "cc: Avoid issuing COMMANDS_COMPLETED queries unless necessary."
-echo "Fixes crashing on PVR SGX540, as well as probably other GPUs"
-echo "(Mali 400 or 450 might have issues without this, maybe?) "
-git fetch https://github.com/MWisBest/android_external_chromium_org.git aosp-5.0 && git cherry-pick b2a7091126e87136212b956e6ea9ecab685f5dfe
 cd ../..
 echo ""
 echo "----------------------------------------"
