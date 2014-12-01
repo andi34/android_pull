@@ -8,45 +8,18 @@ echo "----------------------------------------"
 echo "P31XX: Fix overlay to compile https://gerrit.slimroms.net/#/c/16634/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/34/16634/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: Add missing include for Camera wrapper https://gerrit.slimroms.net/#/c/16682/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/82/16682/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: CameraWrapper: fix compilation warnings https://gerrit.slimroms.net/#/c/16728/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/28/16728/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: add Wifi packages https://gerrit.slimroms.net/#/c/16685/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/16685/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P31XX: Update media_codecs https://gerrit.slimroms.net/#/c/16686/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/86/16686/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16637/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/3] https://gerrit.slimroms.net/#/c/17231/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/31/17231/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
-echo "omap4-common: Update GPS header https://gerrit.slimroms.net/#/c/16733/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/33/16733/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: Update hwcomposer headers https://gerrit.slimroms.net/#/c/17523/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/23/17523/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "omap4-common: Fix rild compilation error https://gerrit.slimroms.net/#/c/17522/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/22/17522/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: hwc: locally define FB_FLAGS if they aren't globally defined https://gerrit.slimroms.net/#/c/16670/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/70/16670/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: PVR: add re-implemented pvrsrvinit and glue https://gerrit.slimroms.net/#/c/17230/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/17230/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "libcorkscrew: add stub-implementation to make gralloc happy https://gerrit.slimroms.net/#/c/17024/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/24/17024/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: add camera_vendor_tags.h include https://gerrit.slimroms.net/#/c/16729"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/29/16729/2 && git cherry-pick FETCH_HEAD
