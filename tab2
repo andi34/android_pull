@@ -38,9 +38,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd hardware/ti/omap4xxx
-echo "omap4xxx: add flag to allow custom libion https://gerrit.slimroms.net/#/c/16529/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/29/16529/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "omap4xxx: add flag to allow custom hcw https://gerrit.slimroms.net/#/c/17528/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/28/17528/1 && git cherry-pick FETCH_HEAD
 cd ../../..
