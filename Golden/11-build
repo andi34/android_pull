@@ -1,0 +1,47 @@
+From 23d25fd19f5b0cf102d460f90106c5c164e3f9d9 Mon Sep 17 00:00:00 2001
+From: andi34 <skate4life@gmx.de>
+Date: Mon, 26 May 2014 20:37:20 +0200
+Subject: [PATCH] build: Add STE target-specific config
+
+Change-Id: I97823783662368b12bc091a52c954c99e92e2aea
+---
+ core/config.mk     |    3 +++
+ core/ste_target.mk |   13 +++++++++++++
+ 2 files changed, 16 insertions(+)
+ create mode 100644 core/ste_target.mk
+
+diff --git a/core/config.mk b/core/config.mk
+index 571cd0a..f675b0b 100644
+--- a/core/config.mk
++++ b/core/config.mk
+@@ -489,6 +489,9 @@ RS_PREBUILT_COMPILER_RT := prebuilts/sdk/renderscript/lib/$(TARGET_ARCH)/libcomp
+ # Rules for QCOM targets
+ include $(BUILD_SYSTEM)/qcom_target.mk
+ 
++# Rules for STE targets
++include $(BUILD_SYSTEM)/ste_target.mk
++
+ ifneq ($(SLIM_BUILD),)
+ 
+ ## We need to be sure the global selinux policies are included
+diff --git a/core/ste_target.mk b/core/ste_target.mk
+new file mode 100644
+index 0000000..6904abe
+--- /dev/null
++++ b/core/ste_target.mk
+@@ -0,0 +1,13 @@
++# Target-specific configuration
++
++ifeq ($(BOARD_USES_STE_HARDWARE),true)
++
++    COMMON_GLOBAL_CFLAGS += -DSTE_HARDWARE
++    COMMON_GLOBAL_CPPFLAGS += -DSTE_HARDWARE
++
++    ifeq ($(BOARD_USES_STE_SAMSUNG_HARDWARE),true)
++        COMMON_GLOBAL_CFLAGS += -DSTE_SAMSUNG_HARDWARE
++        COMMON_GLOBAL_CPPFLAGS += -DSTE_SAMSUNG_HARDWARE
++    endif
++
++endif
+-- 
+1.7.10.4
