@@ -44,18 +44,6 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
-cd frameworks/native
-echo "Squashed fixes for additional hwrotation (https://gerrit.slimroms.net/#/c/17525/):"
-# echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
-# echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
-# echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
-# echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25/17525/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo ""
 # cd frameworks/base
 # echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
 # git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
