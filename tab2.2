@@ -1,0 +1,86 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/p3100
+echo "P31XX: CameraWrapper: fix compilation warnings https://gerrit.slimroms.net/#/c/16728/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/28/16728/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16637/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: Fix overlay to compile https://gerrit.slimroms.net/#/c/16634/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/34/16634/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/9 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/omap4-common
+echo "omap4-common: Fix rild compilation error https://gerrit.slimroms.net/#/c/17522/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/22/17522/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: add camera_vendor_tags.h include https://gerrit.slimroms.net/#/c/16729"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/29/16729/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: define BOARD_USE_CUSTOM_HWC https://gerrit.slimroms.net/#/c/17532"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/32/17532/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd kernel/samsung/espresso10
+echo "Espresso10: Espresso10: Set SELinux to permissive"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/28/19528/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd hardware/ti/omap4xxx
+echo "omap4xxx: add flag to allow custom hcw https://gerrit.slimroms.net/#/c/17528/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_ti_omap4xxx refs/changes/28/17528/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd frameworks/native
+echo "Squashed fixes for additional hwrotation (https://gerrit.slimroms.net/#/c/17525/):"
+# echo "surfaceflinger: Reimplement hwrotation https://gerrit.slimroms.net/#/c/16651/"
+# echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.slimroms.net/#/c/16654/"
+# echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://gerrit.slimroms.net/#/c/16650/"
+# echo "surfaceflinger: Consolidate display orientation compensation hooks https://gerrit.slimroms.net/#/c/17065/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/25/17525/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+# cd frameworks/base
+# echo "input: Add workaround for broken hardware keyboard support https://gerrit.slimroms.net/#/c/17103/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/03/17103/4 && git cherry-pick FETCH_HEAD
+# echo "----------------------------------------"
+# cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+# cd  system/core
+# echo "charger: allow custom charger res https://gerrit.slimroms.net/#/c/17403/"
+# git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/03/17403/1 && git cherry-pick FETCH_HEAD
+# cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd vendor/samsung
+echo "revert some vendor changes"
+git reset --hard HEAD~1
+git reset --hard HEAD~1
+cd ../..
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
+
