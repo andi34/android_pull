@@ -1,0 +1,49 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/p3100
+echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16637/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/11 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/omap4-common
+echo "omap4-common: fix Galaxy Tab 2 compileing https://gerrit.slimroms.net/#/c/20199/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/99/20199/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "OMAP4-common: Update RIL header to v9 [2/2] https://gerrit.slimroms.net/#/c/20200/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: Update RIL header https://gerrit.slimroms.net/#/c/20202/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd kernel/samsung/espresso10
+echo "Espresso10: Espresso10: Set SELinux to permissive"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/28/19528/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+cd hardware/samsung
+echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/20201/"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/28/19528/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+cd frameworks/av
+echo "libstagefright: Make it possible to skip OMX buffer reallocation https://gerrit.slimroms.net/#/c/20203/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/03/20203/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
+
