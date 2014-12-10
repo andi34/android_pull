@@ -23,12 +23,6 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
-echo ""
-cd kernel/samsung/espresso10
-echo "Espresso10: Espresso10: Set SELinux to permissive"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/28/19528/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
 cd hardware/samsung
 echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/20201/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/01/20201/1 && git cherry-pick FETCH_HEAD
