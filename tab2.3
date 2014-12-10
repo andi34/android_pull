@@ -2,11 +2,11 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "Revert P31XX: Enable app moving support https://gerrit.slimroms.net/#/c/16637/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/37/16637/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/11 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Force old camera API https://gerrit.slimroms.net/#/c/19572/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/72/19572/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -40,6 +40,13 @@ echo "libstagefright: Make it possible to skip OMX buffer reallocation https://g
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/03/20203/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
+echo "----------------------------------------"
+cd system/core
+echo "libutils: refbase: jellybean mr1 compat https://gerrit.slimroms.net/#/c/17822/"
+git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/22/17822/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
