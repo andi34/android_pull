@@ -3,37 +3,29 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/20 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/21 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Force old camera API https://gerrit.slimroms.net/#/c/19572/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/72/19572/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P3100: temporary fix for bootanimation causing PVR crashes https://gerrit.slimroms.net/#/c/20968/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/68/20968/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "P3110: temporary fix for bootanimation causing PVR crashes https://gerrit.slimroms.net/#/c/20969/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3110 refs/changes/69/20969/1 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules https://gerrit.slimroms.net/#/c/20232"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/32/20232/5 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/32/20232/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Force old camera API https://gerrit.slimroms.net/#/c/20239/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/39/20239/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P5100: temporary fix for bootanimation causing PVR crashes https://gerrit.slimroms.net/#/c/20964/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/64/20964/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "P5110: temporary fix for bootanimation causing PVR crashes https://gerrit.slimroms.net/#/c/20965/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5110 refs/changes/65/20965/1 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -53,6 +45,9 @@ echo "----------------------------------------"
 cd hardware/samsung
 echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/20201/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/01/20201/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "ril: fix 2g/3g data on lollipop https://gerrit.slimroms.net/#/c/21057/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/57/21057/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
