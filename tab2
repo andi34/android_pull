@@ -42,8 +42,7 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 cd frameworks/av
-echo "libstagefright: Make it possible to skip OMX buffer reallocation https://gerrit.slimroms.net/#/c/20203/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/03/20203/1 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
