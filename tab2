@@ -2,9 +2,6 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/21 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Force old camera API https://gerrit.slimroms.net/#/c/19572/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/72/19572/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -20,9 +17,6 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "P51XX: Update SELinux rules https://gerrit.slimroms.net/#/c/20232"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/32/20232/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Force old camera API https://gerrit.slimroms.net/#/c/20239/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/39/20239/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
