@@ -47,8 +47,8 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 cd system/core
-echo "libutils: refbase: jellybean mr1 compat https://gerrit.slimroms.net/#/c/17822/"
-git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/22/17822/2 && git cherry-pick FETCH_HEAD
+echo "libutils: refbase: jellybean mr1 compat http://review.cyanogenmod.org/#/c/79142/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_core refs/changes/42/79142/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
