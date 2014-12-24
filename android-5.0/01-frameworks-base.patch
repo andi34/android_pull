@@ -1,0 +1,139 @@
+From fdd046c302a9911f8eeb7adfa72483f275f57c0e Mon Sep 17 00:00:00 2001
+From: Tom Giordano <tomgiordano83@gmail.com>
+Date: Sun, 24 Nov 2013 23:33:54 -0800
+Subject: [PATCH] framework: fix screenshot and rotation animation for devices
+ with abnormal hw rotation
+
+port foreward from cm10.1:
+https://github.com/CyanogenMod/android_frameworks_base/commit/ac555b9ca9a76d13a26fc9ea40980fe57258761b#diff-d6f7bba268a742c91252cc9e64e2381a
+
+Change-Id: I14b6e2403b9be345a1a591138f8a3a12ca8e4f89
+---
+ .../systemui/screenshot/GlobalScreenshot.java      | 10 +++++++-
+ .../android/server/wm/ScreenRotationAnimation.java | 28 ++++++++++++++++------
+ .../android/server/wm/WindowManagerService.java    |  8 +++++++
+ 3 files changed, 38 insertions(+), 8 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java b/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
+index 2d06c7f..24a5b7b 100644
+--- a/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
++++ b/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
+@@ -392,6 +392,8 @@ protected void onPostExecute(SaveImageInBackgroundData params) {
+ 
+     private MediaActionSound mCameraSound;
+ 
++    private final int mSfHwRotation;
++
+ 
+     /**
+      * @param context everything needs a context :(
+@@ -458,6 +460,9 @@ public boolean onTouch(View v, MotionEvent event) {
+         // Setup the Camera shutter sound
+         mCameraSound = new MediaActionSound();
+         mCameraSound.load(MediaActionSound.SHUTTER_CLICK);
++
++        // Load hardware rotation from prop
++        mSfHwRotation = android.os.SystemProperties.getInt("ro.sf.hwrotation",0) / 90;
+     }
+ 
+     /**
+@@ -501,7 +506,10 @@ void takeScreenshot(Runnable finisher, boolean statusBarVisible, boolean navBarV
+         // only in the natural orientation of the device :!)
+         mDisplay.getRealMetrics(mDisplayMetrics);
+         float[] dims = {mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels};
+-        float degrees = getDegreesForRotation(mDisplay.getRotation());
++        int rot = mDisplay.getRotation();
++        // Allow for abnormal hardware orientation
++        rot = (rot + mSfHwRotation) % 4;
++        float degrees = getDegreesForRotation(rot);
+         boolean requiresRotation = (degrees > 0);
+         if (requiresRotation) {
+             // Get the dimensions of the device in its native orientation
+diff --git a/services/core/java/com/android/server/wm/ScreenRotationAnimation.java b/services/core/java/com/android/server/wm/ScreenRotationAnimation.java
+index f79896b..734ddc4 100644
+--- a/services/core/java/com/android/server/wm/ScreenRotationAnimation.java
++++ b/services/core/java/com/android/server/wm/ScreenRotationAnimation.java
+@@ -51,6 +51,7 @@
+     BlackFrame mExitingBlackFrame;
+     BlackFrame mEnteringBlackFrame;
+     int mWidth, mHeight;
++    int mSnapshotRotation;
+ 
+     int mOriginalRotation;
+     int mOriginalWidth, mOriginalHeight;
+@@ -221,13 +222,26 @@ public ScreenRotationAnimation(Context context, DisplayContent displayContent,
+             originalWidth = displayInfo.logicalWidth;
+             originalHeight = displayInfo.logicalHeight;
+         }
+-        if (originalRotation == Surface.ROTATION_90
+-                || originalRotation == Surface.ROTATION_270) {
+-            mWidth = originalHeight;
+-            mHeight = originalWidth;
++        // Allow for abnormal hardware orientation
++        mSnapshotRotation = (4 - android.os.SystemProperties.getInt("ro.sf.hwrotation",0) / 90) % 4;
++        if (mSnapshotRotation == Surface.ROTATION_0 || mSnapshotRotation == Surface.ROTATION_180) {
++            if (originalRotation == Surface.ROTATION_90
++                 || originalRotation == Surface.ROTATION_270) {
++                mWidth = originalHeight;
++                mHeight = originalWidth;
++            } else {
++                mWidth = originalWidth;
++                mHeight = originalHeight;
++            }
+         } else {
+-            mWidth = originalWidth;
+-            mHeight = originalHeight;
++            if (originalRotation == Surface.ROTATION_90
++                || originalRotation == Surface.ROTATION_270) {
++                mWidth = originalWidth;
++                mHeight = originalHeight;
++            } else {
++                mWidth = originalHeight;
++                mHeight = originalWidth;
++            }
+         }
+ 
+         mOriginalRotation = originalRotation;
+@@ -352,7 +366,7 @@ private void setRotationInTransaction(int rotation) {
+         // Compute the transformation matrix that must be applied
+         // to the snapshot to make it stay in the same original position
+         // with the current screen rotation.
+-        int delta = deltaRotation(rotation, Surface.ROTATION_0);
++        int delta = deltaRotation(rotation, mSnapshotRotation);
+         createRotationMatrix(delta, mWidth, mHeight, mSnapshotInitialMatrix);
+ 
+         if (DEBUG_STATE) Slog.v(TAG, "**** ROTATION: " + delta);
+diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
+index 942839a..eb4b830 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -307,6 +307,8 @@
+ 
+     final private KeyguardDisableHandler mKeyguardDisableHandler;
+ 
++    private final int mSfHwRotation;
++
+     final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+         @Override
+         public void onReceive(Context context, Intent intent) {
+@@ -896,6 +898,9 @@ public void onLowPowerModeChanged(boolean enabled) {
+             SurfaceControl.closeTransaction();
+         }
+ 
++        // Load hardware rotation from prop
++        mSfHwRotation = android.os.SystemProperties.getInt("ro.sf.hwrotation",0) / 90;
++
+         showCircularDisplayMaskIfNeeded();
+         showEmulatorDisplayOverlayIfNeeded();
+     }
+@@ -6140,6 +6145,9 @@ public Bitmap screenshotApplications(IBinder appToken, int displayId, int width,
+ 
+                 // The screenshot API does not apply the current screen rotation.
+                 rot = getDefaultDisplayContentLocked().getDisplay().getRotation();
++                // Allow for abnormal hardware orientation
++                rot = (rot + mSfHwRotation) % 4;
++
+ 
+                 if (rot == Surface.ROTATION_90 || rot == Surface.ROTATION_270) {
+                     rot = (rot == Surface.ROTATION_90) ? Surface.ROTATION_270 : Surface.ROTATION_90;
+
