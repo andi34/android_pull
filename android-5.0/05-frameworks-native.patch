@@ -1,0 +1,33 @@
+From d3f87ee6bba2db4d52573dcc88637574c2b2e7c9 Mon Sep 17 00:00:00 2001
+From: Clyde Tan <bokbokan@yahoo.com>
+Date: Mon, 30 Dec 2013 08:49:51 +0800
+Subject: [PATCH] Fix boot animation rotation problem when ro.sf.hwrotation is
+ set to 90 or 270
+
+Change-Id: I7ad3c83e23ce38280818ec5283d173d50c889531
+---
+ services/surfaceflinger/DisplayDevice.cpp | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/services/surfaceflinger/DisplayDevice.cpp b/services/surfaceflinger/DisplayDevice.cpp
+index 954c8f5..717db21 100644
+--- a/services/surfaceflinger/DisplayDevice.cpp
++++ b/services/surfaceflinger/DisplayDevice.cpp
+@@ -456,7 +456,15 @@ void DisplayDevice::setProjection(int orientation,
+     if (!frame.isValid()) {
+         // the destination frame can be invalid if it has never been set,
+         // in that case we assume the whole display frame.
+-        frame = Rect(w, h);
++        char value[PROPERTY_VALUE_MAX];
++        property_get("ro.sf.hwrotation", value, "0");
++        int additionalRot = atoi(value);
++
++        if (additionalRot == 90 || additionalRot == 270) {
++            frame = Rect(h, w);
++        } else {
++            frame = Rect(w, h);
++        }
+     }
+ 
+     if (viewport.isEmpty()) {
+
