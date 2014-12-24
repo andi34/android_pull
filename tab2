@@ -14,26 +14,14 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
-echo "native: init display orientation according to panel orientation https://gerrit.omnirom.org/#/c/10633/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/33/10633/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "native: surfaceflinger: reimplement hwrotation https://gerrit.omnirom.org/#/c/10634/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/34/10634/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "native: surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://gerrit.omnirom.org/#/c/10635/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/35/10635/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "native: surfaceflinger: fix boot animation rotation problem https://gerrit.omnirom.org/#/c/10636/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/36/10636/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "native: surfaceflinger: consolidate display orientation compensation hooks  https://gerrit.omnirom.org/#/c/10637/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/37/10637/1 && git cherry-pick FETCH_HEAD
+echo "native: [1/2]: squashed commits for hwrotation https://gerrit.omnirom.org/#/c/10637/"
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/37/10637/4 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "base: fix screenshot and rotation animation for devices with abnormal hw rotation https://gerrit.omnirom.org/#/c/10632/"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/32/10632/1 && git cherry-pick FETCH_HEAD
+echo "base: [2/2]: squashed commits for hwrotation https://gerrit.omnirom.org/#/c/10965/"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/65/10965/3 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
