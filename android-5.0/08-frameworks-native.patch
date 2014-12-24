@@ -1,0 +1,42 @@
+From 73db10eb014728aabf65cc5b5eaf041be1142946 Mon Sep 17 00:00:00 2001
+From: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Date: Sat, 26 Oct 2013 03:43:03 +0100
+Subject: [PATCH] Support forcing all screenshots into a CPU consumer
+
+Looks like a full GPU path is less efficient on some GPU
+drivers that we're still using, and CPU is reliably faster...
+(there's probably a locking condition going on somewhere, this
+needs to be looked into)
+
+Change-Id: I8878796a117d65bf2324507cf8755cadce49f6dc
+---
+ libs/gui/SurfaceComposerClient.cpp | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/libs/gui/SurfaceComposerClient.cpp b/libs/gui/SurfaceComposerClient.cpp
+index 22832ee..816cf44 100644
+--- a/libs/gui/SurfaceComposerClient.cpp
++++ b/libs/gui/SurfaceComposerClient.cpp
+@@ -684,6 +684,12 @@ status_t SurfaceComposerClient::getAnimationFrameStats(FrameStats* outStats) {
+ 
+ // ----------------------------------------------------------------------------
+ 
++#ifndef FORCE_SCREENSHOT_CPU_PATH
++#define SS_CPU_CONSUMER false
++#else
++#define SS_CPU_CONSUMER true
++#endif
++
+ status_t ScreenshotClient::capture(
+         const sp<IBinder>& display,
+         const sp<IGraphicBufferProducer>& producer,
+@@ -693,7 +699,7 @@ status_t ScreenshotClient::capture(
+     if (s == NULL) return NO_INIT;
+     return s->captureScreen(display, producer, sourceCrop,
+             reqWidth, reqHeight, minLayerZ, maxLayerZ, useIdentityTransform,
+-            ISurfaceComposer::eRotateNone, false);
++            ISurfaceComposer::eRotateNone, SS_CPU_CONSUMER);
+ }
+ 
+ ScreenshotClient::ScreenshotClient()
+
