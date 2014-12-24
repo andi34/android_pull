@@ -47,8 +47,8 @@ cd ../../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/samsung
-echo "hardware_samsung: RIL: update xmm626x and fix mobile data (gateway)https://gerrit.omnirom.org/#/c/10648/"
-git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/48/10648/6 && git cherry-pick FETCH_HEAD
+echo "ril: fix 2g/3g data on lollipop https://gerrit.slimroms.net/#/c/21057/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/57/21057/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
