@@ -4,12 +4,18 @@ echo ""
 cd device/samsung/omap4-common
 echo "omap4-common: Update RIL header https://gerrit.omnirom.org/#/c/10443/"
 git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/43/10443/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: fix Galaxy Tab 2 compileing  https://gerrit.omnirom.org/#/c/11075/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/75/11075/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Revert omap4-common: Force using GCC4.7 for kernel compilation https://gerrit.omnirom.org/#/c/11076/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/76/11076/1 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/10 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/21 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -22,6 +28,24 @@ echo "----------------------------------------"
 cd frameworks/base
 echo "base: [2/2]: squashed commits for hwrotation https://gerrit.omnirom.org/#/c/10965/"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/65/10965/3 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/av
+echo "libstagefright: Make it possible to skip OMX buffer reallocation https://gerrit.omnirom.org/#/c/10674/"
+git fetch https://gerrit.omnirom.org/android_frameworks_av refs/changes/74/10674/1 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/opt/net/wifi
+echo "opt: net: wifi: allow building without wi-fi HAL https://gerrit.omnirom.org/#/c/11024/"
+git fetch https://gerrit.omnirom.org/android_frameworks_opt_net_wifi refs/changes/24/11024/2 && git cherry-pick FETCH_HEAD
+cd ../../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd hardware/samsung
+echo "hardware_samsung: RIL: update xmm626x and fix mobile data (gateway)https://gerrit.omnirom.org/#/c/10648/"
+git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/48/10648/6 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
