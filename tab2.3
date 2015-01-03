@@ -2,7 +2,8 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "Nothing to do..."
+echo "wifi: don't build wifi HAL"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/27/21827/4 && git cherry-pick FETCH_HEAD
 cho "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -12,7 +13,8 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "Nothing to do..."
+echo "wifi: don't build wifi HAL"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/28/21828/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -66,6 +68,12 @@ git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/opt/net/wifi
+echo "opt: net: wifi: allow building without wi-fi HAL https://gerrit.slimroms.net/#/c/21501/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_opt_net_wifi refs/changes/01/21501/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
