@@ -2,13 +2,8 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "P31XX: Update SELinux rules https://gerrit.slimroms.net/#/c/16633"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/33/16633/21 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "drafts"
-git fetch ssh://Android-Andi@gerrit.slimroms.net:29418/SlimRoms/device_samsung_p3100 refs/changes/22/21122/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@gerrit.slimroms.net:29418/SlimRoms/device_samsung_p3100 refs/changes/23/21123/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+echo "Nothing to do..."
+cho "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
@@ -17,8 +12,7 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "P51XX: Update SELinux rules https://gerrit.slimroms.net/#/c/20232"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/32/20232/6 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -29,38 +23,34 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
-echo "omap4-common: fix Galaxy Tab 2 compileing https://gerrit.slimroms.net/#/c/20199/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/99/20199/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "OMAP4-common: Update RIL header to v9 [2/2] https://gerrit.slimroms.net/#/c/20200/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: Update RIL header https://gerrit.slimroms.net/#/c/20202/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/1 && git cherry-pick FETCH_HEAD
+echo "omap4-common: enable Jellybean refbase symbols for camera https://gerrit.slimroms.net/#/c/22482/1"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/82/22482/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: Force v1 Camera API https://gerrit.slimroms.net/#/c/21730/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/21730/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/21730/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "OMAP4-common: Update RIL header to v9 [2/2] https://gerrit.slimroms.net/#/c/20200/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: Update RIL header https://gerrit.slimroms.net/#/c/20202/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4: add custom ril class https://gerrit.slimroms.net/#/c/22483/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/83/22483/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd hardware/samsung
-echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/20201/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/01/20201/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "ril: fix 2g/3g data on lollipop https://gerrit.slimroms.net/#/c/21057/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/57/21057/1 && git cherry-pick FETCH_HEAD
+echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/18408/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/08/18408/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
-cd frameworks/av
-echo "libstagefright: Make it possible to skip OMX buffer reallocation https://gerrit.slimroms.net/#/c/20203/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/03/20203/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
 cd system/core
 echo "libutils: refbase: jellybean mr1 compat https://gerrit.slimroms.net/#/c/17822/"
-git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/22/17822/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/22/17822/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
