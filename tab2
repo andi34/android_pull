@@ -2,12 +2,7 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "Force old camera API https://gerrit.slimroms.net/#/c/19572/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/72/19572/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "drafts"
-git fetch ssh://Android-Andi@gerrit.slimroms.net:29418/SlimRoms/device_samsung_p3100 refs/changes/22/21122/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@gerrit.slimroms.net:29418/SlimRoms/device_samsung_p3100 refs/changes/23/21123/2 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -17,8 +12,7 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "Force old camera API https://gerrit.slimroms.net/#/c/20239/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/39/20239/1 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -29,26 +23,23 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
-echo "omap4-common: Update RIL header https://gerrit.slimroms.net/#/c/20202/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/1 && git cherry-pick FETCH_HEAD
+echo "omap4: add custom ril class review.cyanogenmod.org/#/c/83695/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/95/83695/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd hardware/samsung
 echo "----------------------------------------"
-echo "ril: fix 2g/3g data on lollipop https://gerrit.slimroms.net/#/c/21057/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/57/21057/1 && git cherry-pick FETCH_HEAD
+echo "libril: Merge xmm6262 and xmm6260 to single lib. review.cyanogenmod.org/#/c/82277/2"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_samsung refs/changes/77/82277/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "libril: move samsung specific into seperate table http://review.cyanogenmod.org/82329"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_samsung refs/changes/29/82329/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 cd frameworks/av
 echo "Nothing to do..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-cd system/core
-echo "libutils: refbase: jellybean mr1 compat http://review.cyanogenmod.org/#/c/79142/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_core refs/changes/42/79142/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
