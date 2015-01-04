@@ -32,20 +32,23 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
 echo "----------------------------------------"
+echo "build: Avoid poisoning the host binaries with bad ABIs https://gerrit.slimroms.net/#/c/22556/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/56/22556/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "omap4-common: enable Jellybean refbase symbols for camera https://gerrit.slimroms.net/#/c/22482/1"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/82/22482/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/82/22482/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: Force v1 Camera API https://gerrit.slimroms.net/#/c/21730/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/21730/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/21730/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "OMAP4-common: Update RIL header to v9 [2/2] https://gerrit.slimroms.net/#/c/20200/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: Update RIL header https://gerrit.slimroms.net/#/c/20202/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/02/20202/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4: add custom ril class https://gerrit.slimroms.net/#/c/22483/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/83/22483/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/83/22483/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
