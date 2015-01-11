@@ -23,19 +23,13 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
-echo "omap4: add custom ril class review.cyanogenmod.org/#/c/83695/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/95/83695/1 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd hardware/samsung
 echo "----------------------------------------"
-echo "libril: Merge xmm6262 and xmm6260 to single lib. review.cyanogenmod.org/#/c/82277/2"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_samsung refs/changes/77/82277/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "libril: move samsung specific into seperate table http://review.cyanogenmod.org/82329"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_samsung refs/changes/29/82329/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+echo "Nothing for now..."
 cd ../..
 echo "----------------------------------------"
 cd frameworks/av
