@@ -32,9 +32,6 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
 echo "----------------------------------------"
-echo "build: Avoid poisoning the host binaries with bad ABIs https://gerrit.slimroms.net/#/c/22556/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/56/22556/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "omap4-common: enable Jellybean refbase symbols for camera https://gerrit.slimroms.net/#/c/22482/1"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/82/22482/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -49,6 +46,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/
 echo "----------------------------------------"
 echo "omap4: add custom ril class https://gerrit.slimroms.net/#/c/22483/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/83/22483/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "omap4-common: Fix RIL case statement https://gerrit.slimroms.net/#/c/22586/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/86/22586/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -65,8 +65,8 @@ echo "----------------------------------------"
 echo "macloader: Add SEMCO3RD and WISOL for BCM4354. https://gerrit.slimroms.net/#/c/22489/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/89/22489/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "lights: Clean up light priorities and dedupe code https://gerrit.slimroms.net/#/c/22490/"
-git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/90/22490/1 && git cherry-pick FETCH_HEAD
+echo "libril: use ip address as gateway in ppp network. https://gerrit.slimroms.net/#/c/22781/"
+git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/81/22781/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
