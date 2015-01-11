@@ -2,7 +2,8 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "Nothing to do..."
+echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -12,7 +13,8 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "Nothing to do..."
+echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -36,6 +38,13 @@ cd frameworks/av
 echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd bionic
+echo "Revert Revert Reenable support for non-PIE executables http://review.cyanogenmod.org/#/c/79136/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
