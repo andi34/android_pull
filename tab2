@@ -71,7 +71,7 @@ echo "----------------------------------------"
 echo "bootatnimation stuff"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/10639/4 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/40/10640/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/10639/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/10639/5 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
