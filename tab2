@@ -51,7 +51,7 @@ git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/73/11
 git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/67/11467/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/74/11274/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
+cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
