@@ -14,8 +14,8 @@ echo "----------------------------------------"
 echo "omap4-common: enable Jellybean refbase symbols for camera"
 git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/94/11194/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-#echo "Revert omap4-common: Force using GCC4.7 for kernel compilation https://gerrit.omnirom.org/#/c/11076/"
-#git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/76/11076/1 && git cherry-pick FETCH_HEAD
+echo "Revert omap4-common: Force using GCC4.7 for kernel compilation https://gerrit.omnirom.org/#/c/11076/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/76/11076/3 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
