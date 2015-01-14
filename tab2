@@ -88,12 +88,7 @@ cd ../../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/opt/telephony
-echo "RIL stuff"
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/02/11302/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/03/11303/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/04/11304/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/05/11305/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/06/11306/2 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
