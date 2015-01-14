@@ -76,8 +76,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/av
-echo "libstagefright: Make it possible to skip OMX buffer reallocation (2) https://gerrit.omnirom.org/#/c/11466/"
-git fetch https://gerrit.omnirom.org/android_frameworks_av refs/changes/66/11466/1 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
