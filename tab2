@@ -97,7 +97,7 @@ echo "libstagefright: Make it possible to skip OMX buffer reallocation (2) https
 git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/59/22859/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "libstagefright: fix ScreenRecord abort issue. https://gerrit.slimroms.net/#/c/22570/"
-ggit fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/70/22570/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/70/22570/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
