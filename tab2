@@ -32,12 +32,6 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
 echo "----------------------------------------"
-echo "omap4-common: enable Jellybean refbase symbols for camera https://gerrit.slimroms.net/#/c/22482/1"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/82/22482/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: Force v1 Camera API https://gerrit.slimroms.net/#/c/21730/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/30/21730/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "OMAP4-common: Update RIL header to v9 [2/2] https://gerrit.slimroms.net/#/c/20200/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/changes/00/20200/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -72,8 +66,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd system/core
-echo "libutils: refbase: jellybean mr1 compat https://gerrit.slimroms.net/#/c/17822/"
-git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/22/17822/4 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
@@ -93,11 +86,7 @@ cd ../../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/av
-echo "libstagefright: Make it possible to skip OMX buffer reallocation (2) https://gerrit.slimroms.net/#/c/22859/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/59/22859/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "libstagefright: fix ScreenRecord abort issue. https://gerrit.slimroms.net/#/c/22570/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_av refs/changes/70/22570/4 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
