@@ -35,8 +35,7 @@ echo "Nothing for now..."
 cd ../..
 echo "----------------------------------------"
 cd frameworks/av
-echo "libstagefright: Make it possible to skip OMX buffer reallocation (2) review.cyanogenmod.org/#/c/84730/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/30/84730/2 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
