@@ -8,9 +8,6 @@ cho "----------------------------------------"
 echo "P31XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22498/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/98/22498/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "sepolicy: allow pvrsrvinit to talk to the GPU"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/67/22667/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
@@ -24,9 +21,6 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22499/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/99/22499/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "sepolicy: allow pvrsrvinit to talk to the GPU"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/68/22668/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
