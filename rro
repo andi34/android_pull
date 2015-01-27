@@ -2,45 +2,45 @@
 echo ""
 echo "----------------------------------------"
 cd frameworks/base
-echo "Revert androidfw: Use the last package to create idmap."
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/59/23859/1 && git cherry-pick FETCH_HEAD
+echo "RRO tests: adapt tests to split apks"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/33/23633/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Revert androidfw: Init the items which are not present in the idmap as 0xffffffff."
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/57/23857/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/57/23857/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Revert base: Fix the problems for runtime overlay."
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/58/23858/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/58/23858/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "RRO tests: adapt tests to split apks"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/33/23633/4 && git cherry-pick FETCH_HEAD
+echo "Revert androidfw: Use the last package to create idmap."
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/59/23859/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "RRO tests: fix potential NPE"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/34/23634/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/34/23634/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "RRO idmap: pad with 0xffffffff, not 0x00000000"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/60/23860/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "RRO: reintroduce lost ResTable insert of assets"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/61/23861/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/60/23860/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "RRO: prevent duplicate system overlays"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/35/23635/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/35/23635/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "RRO: reintroduce lost ResTable insert of assets"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/61/23861/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Exposing hard coded resources for type 2 overlay access [1/6]"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/67/23967/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/67/23967/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Missed color code for exposed resources [repick][1/1]"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/68/23968/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/68/23968/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Layers : We don't need to change the volume panel background."
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/74/24074/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_base refs/changes/74/24074/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Settings
 echo "Exposing hard coded resources for type 2 overlay access [2/6]"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/69/23969/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/69/23969/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -61,13 +61,13 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Dialer
 echo "Exposing hard coded resources for type 2 overlay access [5/6]"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/72/23972/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/72/23972/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "revert an uneeded color code exposure in the dialer"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/75/24075/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/75/24075/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "revert to stock  color for the staus bar"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/76/24076/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Dialer refs/changes/76/24076/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
