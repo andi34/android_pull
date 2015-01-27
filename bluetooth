@@ -17,7 +17,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Settings
 echo "[3/3]Settings: add <Accept all files> option for incoming files via Bluetooth"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/22/24122/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/22/24122/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
