@@ -4,9 +4,12 @@ echo "----------------------------------------"
 cd device/samsung/p3100
 echo "wifi: don't build wifi HAL"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/27/21827/5 && git cherry-pick FETCH_HEAD
-cho "----------------------------------------"
+echo "----------------------------------------"
 echo "P31XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22498/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/98/22498/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "SEPolicy: remove redundant seclabel https://gerrit.slimroms.net/#/c/24385/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/24385/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -21,6 +24,9 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22499/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/99/22499/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "SEPolicy: remove redundant seclabel https://gerrit.slimroms.net/#/c/24384/"
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/84/24384/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -69,6 +75,13 @@ cd system/core
 echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/inputmethods/LatinIME
+echo "LatinIME: fix potential NPE https://gerrit.slimroms.net/#/c/24381/"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_inputmethods_LatinIME refs/changes/81/24381/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bionic
