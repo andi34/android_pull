@@ -77,6 +77,13 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd packages/apps/SlimLauncher
+echo "Read the icon preferences before updating it's size https://gerrit.slimroms.net/#/c/24157/"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_SlimLauncher refs/changes/57/24157/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd packages/inputmethods/LatinIME
 echo "LatinIME: fix potential NPE https://gerrit.slimroms.net/#/c/24381/"
 git fetch https://gerrit.slimroms.net/SlimRoms/packages_inputmethods_LatinIME refs/changes/81/24381/1 && git cherry-pick FETCH_HEAD
