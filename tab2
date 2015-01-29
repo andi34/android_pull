@@ -89,6 +89,15 @@ cd frameworks/av
 echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/native
+echo "Fix for landscape thumbnail images on GLES11RenderEngine https://gerrit.slimroms.net/#/c/24265/"
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/24265/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd frameworks/opt/telephony
 echo "Allow custom rilclass"
 git pull https://gerrit.slimroms.net/SlimRoms/frameworks_opt_telephony refs/changes/67/22567/1
