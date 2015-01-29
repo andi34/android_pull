@@ -2,72 +2,64 @@
 echo ""
 echo ""
 cd device/samsung/omap4-common
-echo "omap4-common: Fix RIL case statement"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/99/11299/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "omap4-common: Get rid of TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/71/10671/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: Update RIL header"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/43/10443/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "omap4-common: enable Jellybean refbase symbols for camera"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/94/11194/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Revert omap4-common: Force using GCC4.7 for kernel compilation https://gerrit.omnirom.org/#/c/11076/"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/76/11076/3 && git cherry-pick FETCH_HEAD
+echo "libpower: Make it friendly to overclocked CPU https://gerrit.omnirom.org/#/c/11077/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/77/11077/3 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "no wifi hal"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/27/21827/5 && git cherry-pick FETCH_HEAD
+echo "P31XX: allow OC https://gerrit.omnirom.org/#/c/11223/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/22/11222/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/19/11319/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/19/11319/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "no wifi hal"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/27/21827/5 && git cherry-pick FETCH_HEAD
+echo "P51XX: allow OC https://gerrit.omnirom.org/#/c/11223/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/23/11223/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd kernel/samsung/espresso10
+echo "Overclocking stuff"
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/16/11216/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/17/11217/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/18/11218/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/19/11219/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/20/11220/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/21/11221/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/samsung
-echo "Ril fixes"
-git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/73/11273/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/67/11467/1 && git cherry-pick FETCH_HEAD
+echo "libril: move samsung specific into seperate table https://gerrit.omnirom.org/#/c/11274/"
 git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/74/11274/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
-echo "commits for hwrotation"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/33/10633/4 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/34/10634/6 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/35/10635/6 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/36/10636/6 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/37/10637/9 && git cherry-pick FETCH_HEAD
+echo "Fix for landscape thumbnail images on GLES11RenderEngine https://gerrit.omnirom.org/#/c/11692/"
+git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/92/11692/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "commits for hwrotation"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/32/10632/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "bootatnimation stuff"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/10639/4 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/40/10640/3 && git cherry-pick FETCH_HEAD
@@ -80,15 +72,15 @@ echo "nothing to do..."
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/opt/net/wifi
-echo "opt: net: wifi: allow building without wi-fi HAL https://gerrit.omnirom.org/#/c/11024/"
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_net_wifi refs/changes/24/11024/2 && git cherry-pick FETCH_HEAD
-cd ../../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd frameworks/opt/telephony
 echo "nothing to do..."
 cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd vendor/omni
+echo "vendor: add date and time by default for HOMEMADE builds  https://gerrit.omnirom.org/#/c/11379/"
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/79/11379/6 && git cherry-pick FETCH_HEAD
+cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
