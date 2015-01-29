@@ -74,7 +74,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/InCallUI
 echo "Exposing hard coded resources for type 2 overlay access [6/6]"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_InCallUI refs/changes/73/23973/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_InCallUI refs/changes/73/23973/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
