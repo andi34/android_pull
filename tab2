@@ -40,7 +40,7 @@ echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "Some unmerged stuff..."
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/26/86926/1 && git cherry-pick FETCH_HEAD
+echo "all merged"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
