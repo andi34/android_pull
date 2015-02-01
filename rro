@@ -4,7 +4,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Settings
 echo "RRO2 Layers: show an Interface-Themes entry if Layers app is installed https://gerrit.slimroms.net/#/c/24494/"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/93/24493/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/93/24493/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
