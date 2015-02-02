@@ -52,6 +52,14 @@ git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_omap4-common refs/
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
+cd kernel/samsung/espresso10
+echo "Enforcing time"
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/07/24507/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+echo "----------------------------------------"
 cd hardware/samsung
 echo "xmm626x: Update libril to v9 [1/2] https://gerrit.slimroms.net/#/c/18408/"
 git fetch https://gerrit.slimroms.net/SlimRoms/hardware_samsung refs/changes/08/18408/3 && git cherry-pick FETCH_HEAD
