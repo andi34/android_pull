@@ -9,7 +9,7 @@ echo "P31XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22498/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/98/22498/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "SEPolicy: rework and fixes https://gerrit.slimroms.net/#/c/24385/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/24385/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/24385/13 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -26,7 +26,7 @@ echo "P51XX: enable non-PIE support https://gerrit.slimroms.net/#/c/22499/"
 git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/99/22499/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "SEPolicy: rework and fixes https://gerrit.slimroms.net/#/c/24384/"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p5100 refs/changes/84/24384/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/85/24385/13 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -53,8 +53,10 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Enforcing time"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/07/24507/1 && git cherry-pick FETCH_HEAD
+#echo "Enforcing time"
+#git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/07/24507/1 && git cherry-pick FETCH_HEAD
+echo "mmc: card: Skip secure erase on MoviNAND; causes unrecoverable corruption."
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/84/24584/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -83,13 +85,6 @@ cd system/core
 echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd packages/apps/SlimLauncher
-echo "Read the icon preferences before updating it's size https://gerrit.slimroms.net/#/c/24157/"
-git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_SlimLauncher refs/changes/57/24157/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/inputmethods/LatinIME
