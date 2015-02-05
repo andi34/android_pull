@@ -55,8 +55,7 @@ echo "----------------------------------------"
 cd kernel/samsung/espresso10
 #echo "Enforcing time"
 #git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/07/24507/1 && git cherry-pick FETCH_HEAD
-echo "mmc: card: Skip secure erase on MoviNAND; causes unrecoverable corruption."
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/84/24584/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/84/24684/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
