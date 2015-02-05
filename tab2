@@ -10,7 +10,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
@@ -23,7 +23,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/19/11319/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
@@ -35,6 +35,8 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
+echo "MAG2GA FIX"
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/87/11887/2 && git cherry-pick FETCH_HEAD
 echo "Overclocking stuff"
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/16/11216/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/17/11217/1 && git cherry-pick FETCH_HEAD
@@ -54,16 +56,12 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
-echo "Fix for landscape thumbnail images on GLES11RenderEngine https://gerrit.omnirom.org/#/c/11692/"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/92/11692/1 && git cherry-pick FETCH_HEAD
+echo "nothing"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "bootatnimation stuff"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/10639/4 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/40/10640/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/41/10641/5 && git cherry-pick FETCH_HEAD
+echo"nothing"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -87,5 +85,3 @@ echo ""
 echo "Done!"
 echo "----------------------------------------"
 echo "----------------------------------------"
-
-
