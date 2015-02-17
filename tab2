@@ -3,9 +3,11 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "Some unmerged stuff..."
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/16 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/18 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/88787/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/41/88941/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
@@ -19,9 +21,11 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "Some unmerged stuff..."
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/16 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/18 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/92/88792/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/73/88973/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
@@ -42,8 +46,8 @@ echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "Some unmerged stuff..."
-#echo "enforcing time"
-#git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
+echo "enforcing time"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
 echo "remove GCC 4.8 fixes"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/86/88786/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
