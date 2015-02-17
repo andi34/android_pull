@@ -92,6 +92,16 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Settings
+echo "Settings: readd advanced settings https://gerrit.slimroms.net/#/c/18755/"
+git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/55/18755/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd bionic
 echo "bionic: conditionally revert requirement of PIE binaries https://gerrit.slimroms.net/#/c/21765/"
 git fetch https://gerrit.slimroms.net/SlimRoms/android_bionic refs/changes/65/21765/1 && git cherry-pick FETCH_HEAD
