@@ -80,7 +80,8 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd system/core
-echo "Nothing to do..."
+echo "Change permission to keep root when installing OTA rom updates https://gerrit.slimroms.net/#/c/21705/"
+git fetch https://gerrit.slimroms.net/SlimRoms/android_system_core refs/changes/05/21705/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
