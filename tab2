@@ -3,7 +3,7 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "Some unmerged stuff..."
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/18 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/19 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/88787/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -21,7 +21,7 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "Some unmerged stuff..."
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/18 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/19 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/92/88792/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
