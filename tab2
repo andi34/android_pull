@@ -92,9 +92,6 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd packages/apps/Settings
 echo "Settings: readd advanced settings https://gerrit.slimroms.net/#/c/18755/"
 git fetch https://gerrit.slimroms.net/SlimRoms/packages_apps_Settings refs/changes/55/18755/5 && git cherry-pick FETCH_HEAD
@@ -124,7 +121,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
 echo "Fix for landscape thumbnail images on GLES11RenderEngine https://gerrit.slimroms.net/#/c/24265/"
-git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/24265/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.slimroms.net/SlimRoms/frameworks_native refs/changes/65/24265/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
