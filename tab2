@@ -66,6 +66,13 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd vendor/cm
+echo "Private stuff..."
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_vendor_cm refs/changes/32/89632/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd bionic
 echo "Revert Revert Reenable support for non-PIE executables http://review.cyanogenmod.org/#/c/79136/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/3 && git cherry-pick FETCH_HEAD
