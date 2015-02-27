@@ -51,7 +51,7 @@ echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/30/89630/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "enforcing time"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
+# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
