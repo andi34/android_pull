@@ -95,9 +95,6 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "telephony: SignalStrengh: Don't calculate a LTE snr if the srq is invalid https://gerrit.omnirom.org/#/c/12241/"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/41/12241/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "lowmemorykiller: Fix high min-free values https://gerrit.omnirom.org/#/c/12257/"
 git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/57/12257/1 && git cherry-pick FETCH_HEAD
 cd ../..
