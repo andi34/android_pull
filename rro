@@ -1,0 +1,69 @@
+#!/bin/bash
+echo ""
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/base
+echo "FRAMEWORKS"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/93/11693/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/68/11868/8 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Settings
+echo "SETTINGS"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/76/11676/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/30/12230/2 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Contacts
+echo "CONTACTS"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Contacts refs/changes/05/11705/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Contacts refs/changes/35/12235/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/ContactsCommon
+echo "CONTACTS COMMON"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_packages_apps_ContactsCommon refs/changes/75/11675/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_packages_apps_ContactsCommon refs/changes/34/12234/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Dialer
+echo "DIALER"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Dialer refs/changes/74/11674/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_packages_apps_Dialer refs/changes/33/12233/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/InCallUI
+echo "INCALLUI"
+echo "Exposing hard coded resources for type 2 overlay access/"
+git fetch https://gerrit.omnirom.org/android_packages_apps_InCallUI refs/changes/73/11673/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Layers 2.1 - Layers Cleanup/Fixes"
+git fetch https://gerrit.omnirom.org/android_packages_apps_InCallUI refs/changes/32/12232/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
