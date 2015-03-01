@@ -95,8 +95,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "lowmemorykiller: Fix high min-free values https://gerrit.omnirom.org/#/c/12257/"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/57/12257/1 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
