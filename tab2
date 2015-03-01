@@ -10,7 +10,16 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/6 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P31XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12265/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/65/12265/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P3100: enable stk functionality https://gerrit.omnirom.org/#/c/12268/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/68/12268/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P3100: Use 480x320 bootanimation "
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/69/12269/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
@@ -21,9 +30,26 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd device/samsung/p3110
+echo "----------------------------------------"
+echo "P3110: Use 480x320 bootanimation "
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3110 refs/changes/70/12270/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/6 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P51XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12266/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/66/12266/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P5100: enable stk functionality https://gerrit.omnirom.org/#/c/12267/"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/67/12267/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "P5100: Use 480x320 bootanimation "
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/71/12271/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
@@ -34,11 +60,17 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd device/samsung/p5110
+echo "----------------------------------------"
+echo "P5110: Use 480x320 bootanimation "
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5110 refs/changes/72/12272/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Unmerged FIX"
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/29/12029/1 && git cherry-pick FETCH_HEAD
-echo "enforcing time"
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
+# echo "enforcing time"
+# git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
 echo "Overclocking stuff"
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/16/11216/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/17/11217/1 && git cherry-pick FETCH_HEAD
@@ -63,7 +95,11 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "nothing"
+echo "telephony: SignalStrengh: Don't calculate a LTE snr if the srq is invalid https://gerrit.omnirom.org/#/c/12241/"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/41/12241/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "lowmemorykiller: Fix high min-free values https://gerrit.omnirom.org/#/c/12257/"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/57/12257/1 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
