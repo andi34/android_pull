@@ -15,9 +15,6 @@ echo "----------------------------------------"
 echo "P31XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12265/"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/65/12265/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P3100: enable stk functionality https://gerrit.omnirom.org/#/c/12268/"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/68/12268/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P3100: Use 480x320 bootanimation "
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/69/12269/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -44,9 +41,6 @@ git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/1
 echo "----------------------------------------"
 echo "P51XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12266/"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/66/12266/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P5100: enable stk functionality https://gerrit.omnirom.org/#/c/12267/"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/67/12267/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P5100: Use 480x320 bootanimation "
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/71/12271/1 && git cherry-pick FETCH_HEAD
