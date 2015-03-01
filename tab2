@@ -84,7 +84,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/samsung
 echo "libril: move samsung specific into seperate table https://gerrit.omnirom.org/#/c/11274/"
-git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/74/11274/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/74/11274/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
