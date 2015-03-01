@@ -9,6 +9,10 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/47/89547/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/31/90131/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/90/90190/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -26,6 +30,10 @@ echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/92/88792/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/26/89626/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/90132/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/89/90189/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
