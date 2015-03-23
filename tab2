@@ -12,12 +12,6 @@ cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12265/"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/65/12265/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P3100: Use 480x320 bootanimation "
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/69/12269/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -29,8 +23,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "P3110: Use 480x320 bootanimation "
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3110 refs/changes/70/12270/1 && git cherry-pick FETCH_HEAD
+echo "nothing to commit"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -38,12 +31,6 @@ echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P51XX: Get rid of ctrl_interface=/data/misc/wifi/sockets https://gerrit.omnirom.org/#/c/12266/"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/66/12266/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P5100: Use 480x320 bootanimation "
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/71/12271/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
@@ -56,8 +43,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "P5110: Use 480x320 bootanimation "
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5110 refs/changes/72/12272/1 && git cherry-pick FETCH_HEAD
+echo "nothing to commit"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -77,8 +63,7 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/samsung
-echo "libril: move samsung specific into seperate table https://gerrit.omnirom.org/#/c/11274/"
-git fetch https://gerrit.omnirom.org/android_hardware_samsung refs/changes/74/11274/5 && git cherry-pick FETCH_HEAD
+echo "nothing to commit"
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
