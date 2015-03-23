@@ -12,6 +12,9 @@ cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo "lzma compressed recovery ramdisk"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/75/12775/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -31,6 +34,9 @@ echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "lzma compressed recovery ramdisk"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/97/12797/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
