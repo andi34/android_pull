@@ -5,14 +5,6 @@ cd device/samsung/p3100
 echo "Some unmerged stuff..."
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/21 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/88787/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/47/89547/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/31/90131/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/90/90190/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -27,14 +19,6 @@ cd device/samsung/p5100
 echo "Some unmerged stuff..."
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/21 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/92/88792/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/26/89626/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/90132/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/89/90189/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -47,7 +31,8 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
-echo "nothing to do..."
+echo "Disable usage of cursor layers. http://review.cyanogenmod.org/#/c/93544/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/44/93544/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -74,16 +59,23 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd frameworks/base
+echo "inputservice: Allow disabling the usage of cursor layers http://review.cyanogenmod.org/#/c/93296/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/96/93296/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd vendor/cm
-echo "Private stuff..."
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_vendor_cm refs/changes/32/89632/1 && git cherry-pick FETCH_HEAD
+echo "Vendor: add hour and minute for zip-nameing"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bionic
-echo "Revert Revert Reenable support for non-PIE executables http://review.cyanogenmod.org/#/c/79136/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/36/79136/3 && git cherry-pick FETCH_HEAD
+echo "Revert Revert Reenable support for non-PIE executables http://review.cyanogenmod.org/#/c/92943/"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/43/92943/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
