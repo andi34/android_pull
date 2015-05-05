@@ -80,14 +80,8 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "framework: fix screenshot and rotation animation for devices with abnormal hw rotation https://review.slimroms.eu/#/c/159/"
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/59/159/7 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "inputservice: Allow disabling the usage of cursor layer https://review.slimroms.eu/#/c/170/6"
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/70/170/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "framworks: add reboot confirmation dialog for tablets https://review.slimroms.eu/#/c/2509"
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/09/2509/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/09/2509/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
