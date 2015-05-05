@@ -1,0 +1,34 @@
+#!/bin/bash
+echo ""
+echo "Picking latest translations..."
+echo "----------------------------------------"
+cd frameworks/base
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/04/2504/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/09/2509/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+cd packages/apps/Camera2
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Camera2 refs/changes/05/2505/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd packages/apps/Settings
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/03/2503/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/06/2506/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd packages/apps/SlimLauncher
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_SlimLauncher refs/changes/07/2507/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd packages/providers/MediaProvider
+git fetch https://review.slimroms.eu/SlimRoms/packages_providers_MediaProvider refs/changes/08/2508/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "Done!"
+echo "Latest translations cherry-picked!"
+
