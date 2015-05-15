@@ -56,8 +56,27 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
+cd kernel/samsung/espresso10
 echo "Some unmerged stuff..."
-git pull ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/27/96427/1
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/18/96418/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/19/96419/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/20/96420/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/21/96421/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/22/96422/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/23/96423/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/96424/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/25/96425/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/26/96426/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/27/96427/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "enforcing time"
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
