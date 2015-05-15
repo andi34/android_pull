@@ -5,6 +5,9 @@ cd device/samsung/p3100
 echo "Some unmerged stuff..."
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/21 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo "lzma ramdisk"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/27/96227/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -19,6 +22,8 @@ cd device/samsung/p5100
 echo "Some unmerged stuff..."
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/15/87215/21 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo "lzma ramdisk"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/28/96228/3 && git cherry-pick FETCH_HEAD
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -34,17 +39,12 @@ cd device/samsung/omap4-common
 echo "Disable usage of cursor layers. http://review.cyanogenmod.org/#/c/93544/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/44/93544/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "omap4-common: update RIL header to v10 http://review.cyanogenmod.org/#/c/93661/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/61/93661/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "Some unmerged stuff..."
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/29/89629/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/30/89630/1 && git cherry-pick FETCH_HEAD
+git pull ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/27/96427/1
 echo "----------------------------------------"
 echo "enforcing time"
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
@@ -83,6 +83,20 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd build
+echo "Force bsdiff for recovery_from_boot.p if not using GZIP"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/90/98390/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd bootable/recovery
+echo "sr: Fix log text color"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_bootable_recovery refs/changes/26/94426/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+cho "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
