@@ -73,11 +73,6 @@ echo "bionic: conditionally revert requirement of PIE binaries"
 git fetch https://review.slimroms.eu/SlimRoms/android_bionic refs/changes/20/2720/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
-cd build
-echo "Fix BOARD_CUSTOM_BOOTIMG_MK"
-git fetch https://review.slimroms.eu/SlimRoms/android_build refs/changes/92/3292/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
