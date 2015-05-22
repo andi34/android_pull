@@ -11,25 +11,25 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/av
 echo "STE Multimedia Fix"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/77/3177/3 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/77/3177/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "av: Support for PRE_KITKAT and MR0 audio blobs"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/78/3178/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/78/3178/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "STE-OMX Fix Streaming Video"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/79/3179/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/79/3179/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "STE-OMX-getSupportedProfileLevel-fix"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/80/3180/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/80/3180/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Fix in-call audio"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/81/3181/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/81/3181/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Disable setting of no voip audio param"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/82/3182/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/82/3182/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "av: Skip S/W codec configuration"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/83/3183/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/83/3183/3 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
