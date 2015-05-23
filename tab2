@@ -8,19 +8,16 @@ echo "----------------------------------------"
 echo "lzma ramdisk"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/27/96227/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Remove density from PRODUCT_AAPT_CONFIG"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/05/98505/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "show battery capacity in charging animation"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/06/98506/1 && git cherry-pick FETCH_HEAD
+echo "rework overlay"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/72/98972/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "Some unmerged stuff..."
-echo "nothing"
+echo "rework overlay"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/02/99002/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -31,19 +28,16 @@ echo "----------------------------------------"
 echo "lzma ramdisk"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/28/96228/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Remove density from PRODUCT_AAPT_CONFIG"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/07/98507/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "show battery capacity in charging animation"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/08/98508/1 && git cherry-pick FETCH_HEAD
+echo "rework overlay"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/16/99016/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "Some unmerged stuff..."
-echo "nothing"
+echo "rework overlay"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/18/99018/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -103,6 +97,13 @@ echo "----------------------------------------"
 cd vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd vendor/samsung
+echo "don't use manta gps blobs!"
+git reset --hard HEAD^
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
