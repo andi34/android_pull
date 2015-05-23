@@ -2,14 +2,8 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "P31XX: show battery capacity in charging animation"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/76/2776/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: enable non-PIE support"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/79/2779/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Use LZMA compression for recovery's ramdisk"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/51/2751/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/79/2779/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -19,14 +13,8 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "P51XX: show battery capacity in charging animation"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/77/2777/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P51XX: enable non-PIE support"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/78/2778/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Use LZMA compression for recovery's ramdisk"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/57/2757/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/78/2778/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -49,15 +37,14 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Bunch of Updates"
-git pull https://review.slimroms.eu/SlimRoms/kernel_samsung_espresso10 refs/changes/75/2775/1
+echo "Nothing to do"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
 echo "framworks: add reboot confirmation dialog for tablets https://review.slimroms.eu/#/c/2509"
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/09/2509/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/09/2509/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
