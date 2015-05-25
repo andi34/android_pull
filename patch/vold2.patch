@@ -1,0 +1,233 @@
+From 7d2aea61d318d64f6577ae92d5d48a066a7e72c4 Mon Sep 17 00:00:00 2001
+From: xiaolu <server@163.com>
+Date: Tue, 8 Apr 2014 23:02:36 +0800
+Subject: [PATCH] Add exfat/ntfs support for modules or static mode.
+
+if you cannot write to partitions, it could be you miss SE permissions
+add mountOpts for exfat&ntfs mount, for example in fstab.xxx:
+"/devices/msm_sdcc.3/mmc_host/mmc2 auto auto context=u:object_r:sdcard_external:s0 voldmanaged=extSdCard:auto"
+
+Change-Id: I3d460174da140ae3b099ceed0922f8287dd80676
+---
+ Android.mk |  8 ++++++++
+ Exfat.cpp  | 36 +++++++++++++++++++++++++++++++++---
+ Exfat.h    |  2 +-
+ Ntfs.cpp   | 35 +++++++++++++++++++++++++++++++++--
+ Ntfs.h     |  2 +-
+ Volume.cpp |  4 ++--
+ 6 files changed, 78 insertions(+), 9 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index 8c9d3d6..e199fdc 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -20,6 +20,14 @@ ifeq ($(BOARD_VOLD_CRYPTFS_MIGRATE), true)
+ common_cflags += -DCRYPTFS_MIGRATE
+ endif
+ 
++ifneq ($(KERNEL_EXFAT_MODULE_NAME),)
++  common_cflags += -DEXFAT_MODULE_NAME=\"$(KERNEL_EXFAT_MODULE_NAME)\"
++endif
++
++ifneq ($(KERNEL_NTFS_MODULE_NAME),)
++  common_cflags += -DNTFS_MODULE_NAME=\"$(KERNEL_NTFS_MODULE_NAME)\"
++endif
++
+ common_cflags += -Werror
+ 
+ common_src_files := \
+diff --git a/Exfat.cpp b/Exfat.cpp
+index 236ec8c..7068e4e 100644
+--- a/Exfat.cpp
++++ b/Exfat.cpp
+@@ -48,10 +48,10 @@ static char EXFAT_MOUNT[] = HELPER_PATH "mount.exfat";
+ 
+ int Exfat::doMount(const char *fsPath, const char *mountPoint,
+                  bool ro, bool remount, bool executable,
+-                 int ownerUid, int ownerGid, int permMask) {
++                 int ownerUid, int ownerGid, int permMask, const char *mountOpts) {
+ 
+     int rc = -1;
+-    char mountData[255];
++    char mountData[1024];
+     const char *args[6];
+     int status;
+ 
+@@ -60,12 +60,18 @@ int Exfat::doMount(const char *fsPath, const char *mountPoint,
+         return rc;
+     }
+ 
++#ifndef EXFAT_MODULE_NAME
+     sprintf(mountData,
+             "noatime,nodev,nosuid,dirsync,uid=%d,gid=%d,fmask=%o,dmask=%o,%s,%s",
+             ownerUid, ownerGid, permMask, permMask,
+             (executable ? "exec" : "noexec"),
+             (ro ? "ro" : "rw"));
+ 
++    if (mountOpts) {
++        strlcat(mountData, ",", sizeof(mountData));
++        strlcat(mountData, mountOpts, sizeof(mountData));
++    }
++
+     args[0] = EXFAT_MOUNT;
+     args[1] = "-o";
+     args[2] = mountData;
+@@ -77,12 +83,36 @@ int Exfat::doMount(const char *fsPath, const char *mountPoint,
+ 
+     rc = android_fork_execvp(ARRAY_SIZE(args), (char **)args, &status, false,
+             true);
++#else
++    unsigned long flags;
++
++    flags = MS_NOATIME | MS_NODEV | MS_NOSUID | MS_DIRSYNC;
++
++    flags |= (executable ? 0 : MS_NOEXEC);
++    flags |= (ro ? MS_RDONLY : 0);
++    flags |= (remount ? MS_REMOUNT : 0);
++
++    sprintf(mountData,
++            "uid=%d,gid=%d,fmask=%o,dmask=%o",
++            ownerUid, ownerGid, permMask, permMask);
++
++    if (mountOpts) {
++        strlcat(mountData, ",", sizeof(mountData));
++        strlcat(mountData, mountOpts, sizeof(mountData));
++    }
+ 
++    rc = mount(fsPath, mountPoint, EXFAT_MODULE_NAME, flags, mountData);
++#endif
+     if (rc && errno == EROFS) {
+         SLOGE("%s appears to be a read only filesystem - retrying mount RO", fsPath);
+-        strcat(mountData, ",ro");
++#ifndef EXFAT_MODULE_NAME
++        strlcat(mountData, ",ro", sizeof(mountData));
+         rc = android_fork_execvp(ARRAY_SIZE(args), (char **)args, &status, false,
+             true);
++#else
++        flags |= MS_RDONLY;
++        rc = mount(fsPath, mountPoint, EXFAT_MODULE_NAME, flags, mountData);
++#endif
+     }
+ 
+     return rc;
+diff --git a/Exfat.h b/Exfat.h
+index 94c1d05..4726759 100644
+--- a/Exfat.h
++++ b/Exfat.h
+@@ -22,7 +22,7 @@
+ class Exfat {
+ public:
+     static int doMount(const char *fsPath, const char *mountPoint, bool ro, bool remount,
+-            bool executable, int ownerUid, int ownerGid, int permMask);
++            bool executable, int ownerUid, int ownerGid, int permMask, const char *mountOpts = NULL);
+     static int check(const char *fsPath);
+     static int format(const char *fsPath);
+ };
+diff --git a/Ntfs.cpp b/Ntfs.cpp
+index ebcb6fd..ff9e05f 100644
+--- a/Ntfs.cpp
++++ b/Ntfs.cpp
+@@ -92,9 +92,9 @@ int Ntfs::check(const char *fsPath) {
+ 
+ int Ntfs::doMount(const char *fsPath, const char *mountPoint,
+                  bool ro, bool remount, bool executable,
+-                 int ownerUid, int ownerGid, int permMask, bool createLost) {
++                 int ownerUid, int ownerGid, int permMask, bool createLost, const char *mountOpts) {
+     int rc;
+-    char mountData[255];
++    char mountData[1024];
+     const char *args[6];
+     int status;
+ 
+@@ -112,6 +112,7 @@ int Ntfs::doMount(const char *fsPath, const char *mountPoint,
+         permMask = 0;
+     }
+ 
++#ifndef NTFS_MODULE_NAME
+     sprintf(mountData,
+             "utf8,uid=%d,gid=%d,fmask=%o,dmask=%o,"
+ 	    "shortname=mixed,nodev,nosuid,dirsync",
+@@ -123,6 +124,10 @@ int Ntfs::doMount(const char *fsPath, const char *mountPoint,
+         strcat(mountData, ",ro");
+     if (remount)
+         strcat(mountData, ",remount");
++    if (mountOpts) {
++        strlcat(mountData, ",", sizeof(mountData));
++        strlcat(mountData, mountOpts, sizeof(mountData));
++    }
+ 
+     SLOGD("Mounting ntfs with options:%s\n", mountData);
+ 
+@@ -136,11 +141,37 @@ int Ntfs::doMount(const char *fsPath, const char *mountPoint,
+     rc = android_fork_execvp(ARRAY_SIZE(args), (char **)args, &status, false,
+             true);
+ 
++#else
++    unsigned long flags;
++
++    flags = MS_NOATIME | MS_NODEV | MS_NOSUID | MS_DIRSYNC;
++
++    flags |= (executable ? 0 : MS_NOEXEC);
++    flags |= (ro ? MS_RDONLY : 0);
++    flags |= (remount ? MS_REMOUNT : 0);
++
++    sprintf(mountData,
++            "uid=%d,gid=%d,fmask=%o,dmask=%o",
++            ownerUid, ownerGid, permMask, permMask);
++
++    if (mountOpts) {
++        strlcat(mountData, ",", sizeof(mountData));
++        strlcat(mountData, mountOpts, sizeof(mountData));
++    }
++
++    rc = mount(fsPath, mountPoint, NTFS_MODULE_NAME, flags, mountData);
++#endif
++
+     if (rc && errno == EROFS) {
+         SLOGE("%s appears to be a read only filesystem - retrying mount RO", fsPath);
++#ifndef NTFS_MODULE_NAME
+         strcat(mountData, ",ro");
+         rc = android_fork_execvp(ARRAY_SIZE(args), (char **)args, &status, false,
+             true);
++#else
++        flags |= MS_RDONLY;
++        rc = mount(fsPath, mountPoint, NTFS_MODULE_NAME, flags, mountData);
++#endif
+ 
+     }
+ 
+diff --git a/Ntfs.h b/Ntfs.h
+index 92a8a64..f33a3f0 100644
+--- a/Ntfs.h
++++ b/Ntfs.h
+@@ -26,7 +26,7 @@ class Ntfs {
+     static int doMount(const char *fsPath, const char *mountPoint,
+                        bool ro, bool remount, bool executable,
+                        int ownerUid, int ownerGid, int permMask,
+-                       bool createLost);
++                       bool createLost, const char *mountOpts = NULL);
+     static int format(const char *fsPath, bool wipe);
+ };
+ 
+diff --git a/Volume.cpp b/Volume.cpp
+index c6fb130..56cff62 100644
+--- a/Volume.cpp
++++ b/Volume.cpp
+@@ -525,7 +525,7 @@ int Volume::mountVol() {
+             } else if (strcmp(fstype, "ntfs") == 0) {
+ 
+                 if (Ntfs::doMount(devicePath, getMountpoint(), false, false, false,
+-                            AID_MEDIA_RW, AID_MEDIA_RW, 0007, true)) {
++                            AID_MEDIA_RW, AID_MEDIA_RW, 0007, true, mOpts)) {
+                     SLOGE("%s failed to mount via NTFS (%s)\n", devicePath, strerror(errno));
+                     continue;
+                 }
+@@ -557,7 +557,7 @@ int Volume::mountVol() {
+                 }
+ 
+                 if (Exfat::doMount(devicePath, getMountpoint(), false, false, false,
+-                        AID_MEDIA_RW, AID_MEDIA_RW, 0007)) {
++                        AID_MEDIA_RW, AID_MEDIA_RW, 0007, mOpts)) {
+                     SLOGE("%s failed to mount via EXFAT (%s)\n", devicePath, strerror(errno));
+                     continue;
+                 }
