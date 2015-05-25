@@ -1,0 +1,38 @@
+From bd795445b6e4f0ed2aeebfa0c2ed25fe21000ae9 Mon Sep 17 00:00:00 2001
+From: Ketut Putu Kumajaya <ketut.kumajaya@gmail.com>
+Date: Mon, 14 Apr 2014 22:37:04 +0700
+Subject: [PATCH] Ext4: SD card write access workaround
+
+Traverse the entire hierarchy and chown to media_rw is better but slow
+
+Change-Id: I6c402b5e787f7f715de2ac2ef884af3f5700ebef
+---
+ Ext4.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Ext4.cpp b/Ext4.cpp
+index 7981f7e..fbc8b02 100644
+--- a/Ext4.cpp
++++ b/Ext4.cpp
+@@ -39,6 +39,8 @@
+ 
+ #include <logwrap/logwrap.h>
+ 
++#include <private/android_filesystem_config.h>
++
+ #include "Ext4.h"
+ #include "VoldUtil.h"
+ 
+@@ -71,6 +73,12 @@ int Ext4::doMount(const char *fsPath, const char *mountPoint, bool ro, bool remo
+ 
+     rc = mount(fsPath, mountPoint, "ext4", flags, data);
+ 
++    if (sdcard && rc == 0) {
++        // Write access workaround
++        chown(mountPoint, AID_MEDIA_RW, AID_MEDIA_RW);
++        chmod(mountPoint, 0755);
++    }
++
+     if (rc && errno == EROFS) {
+         SLOGE("%s appears to be a read only filesystem - retrying mount RO", fsPath);
+         flags |= MS_RDONLY;
