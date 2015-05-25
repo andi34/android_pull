@@ -13,10 +13,10 @@ echo "Always enable reboot applet"
 git fetch https://github.com/kumajaya/android_external_busybox.git && git cherry-pick 6d2ed7af6d472c8dd7a850fa229895573bbb8e4d
 echo "----------------------------------------"
 cd ../..
-cd build
-echo "LZMA compressed recovery"
-git fetch https://github.com/kumajaya/android_build
-git cherry-pick e4861629ccb05e88a83ca976a6073596d253448d
-echo "----------------------------------------"
-cd ..
+#cd build
+#echo "LZMA compressed recovery"
+#git fetch https://github.com/kumajaya/android_build
+#git cherry-pick e4861629ccb05e88a83ca976a6073596d253448d
+#echo "----------------------------------------"
+#cd ..
 echo "Done!"
