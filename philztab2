@@ -27,9 +27,9 @@ cd ../..
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
 echo "add kernel EXFat"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/19/6919/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/20/6920/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/29/12729/1 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/andi34/android_kernel_samsung_espresso10.git cm-11.0-f2fs
+git cherry-pick b6bdaf717982716a634c535e4a50444052fe9272
+git cherry-pick e405c4854666534fe435af5152d214c245a2069c
 cd ../../..
 echo "----------------------------------------"
 echo "DONE"
