@@ -5,6 +5,7 @@ echo "Patching P3100"
 git fetch https://github.com/andi34/android_device_samsung_p3100.git cm-11.0-phil
 git cherry-pick 9051041795025c8e7d9c6a57f36c0daea96379f6
 git cherry-pick 5ae9598663c9476c7f025ca53c1660f8770e4688
+git cherry-pick 92bedef6e3e242cba6769250dec7266390f78e1c
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd ..
@@ -13,6 +14,7 @@ echo "Patching P5100"
 git fetch https://github.com/andi34/android_device_samsung_p5100.git cm-11.0-phil
 git cherry-pick dd36c87d5bae68a76e181e7a0cdf1b40ad919e58
 git cherry-pick e8f70cd03f52549faa14bdb5dde670564c895b12
+git cherry-pick 89ba7b26f7912ff332cd442eaf0b389854464a3a
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -30,6 +32,8 @@ echo "add kernel EXFat"
 git fetch https://github.com/andi34/android_kernel_samsung_espresso10.git cm-11.0-f2fs
 git cherry-pick b6bdaf717982716a634c535e4a50444052fe9272
 git cherry-pick e405c4854666534fe435af5152d214c245a2069c
+git fetch https://github.com/CyanogenMod/android_kernel_samsung_espresso10.git cm-12.1
+git cherry-pick 4ce50feea7f4fc539ce91bea453c348879686035
 cd ../../..
 echo "----------------------------------------"
 echo "DONE"
