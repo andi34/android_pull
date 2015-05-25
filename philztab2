@@ -2,22 +2,18 @@
 echo "Patching to compile PhilZ Touch from Source"
 cd device/samsung/p3100
 echo "Patching P3100"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/87/63387/5 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/andi34/android_device_samsung_p3100.git cm-11.0-phil
+git cherry-pick 9051041795025c8e7d9c6a57f36c0daea96379f6
+git cherry-pick 5ae9598663c9476c7f025ca53c1660f8770e4688
 echo "----------------------------------------"
-cd ..
-cd p3110
-echo "Patching P3110"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/88/63388/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 cd p5100
 echo "Patching P5100"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/85/63385/4 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/andi34/android_device_samsung_p5100.git cm-11.0-phil
+git cherry-pick dd36c87d5bae68a76e181e7a0cdf1b40ad919e58
+git cherry-pick e8f70cd03f52549faa14bdb5dde670564c895b12
 echo "----------------------------------------"
-cd ..
-cd p5110
-echo "Patching P5110"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/86/63386/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd system/vold
