@@ -18,7 +18,7 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd packages/apps/Settings
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Mms refs/changes/33/4433/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/34/4434/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
