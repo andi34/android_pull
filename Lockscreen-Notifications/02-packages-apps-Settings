@@ -1,0 +1,1189 @@
+From ef1166b3536c04a3bceaae19edf1dd984af7991b Mon Sep 17 00:00:00 2001
+From: Griffin Millender <griffinn.millender@gmail.com>
+Date: Sat, 14 Jun 2014 22:03:38 -0500
+Subject: [PATCH] Lockscreen Notifications [2/2]
+
+My try on making notifications easily accessable from lockscreen.
+Credits to ChameleonOS, I got the notification listener permission and some small other stuff from their ActiveDisplay implementation.
+
+Lockscreen Notifications allow you to manage all your notifications directly on the lockscreen.
+
+Features:
+- Pocket mode turn screen on when phone is pulled out of pocket and turn it off when phone gets back in pocket
+- Hide low priority notifications
+- Hide non-clearable notifications
+- Allow dismissing even non-clearable notifications from lockscreen
+- Just turn screen on when there's currently a notification pending
+- Toggle between expanded and normal notification view by longpressing
+- Wake on new notification
+- Configure notification count displayed at once
+- Privacy Mode: Hide notifications content on secure lockscreen.
+- Blacklist apps - thanks to ChameleonOS for the original implementation and @Der-Schubi for bringing it to lockscreen notifications
+- Show all/dismiss all button, does not dismiss on going notifications, they must be swiped away
+
+Conflicts: EDIT 18 Oct 2014: no more conflicts with the latest patcheset
+
+Oct 21 2014: Update for Settings reorganization
+
+Oct 26 2014: Fix NPE with FaceUnlock
+
+Nov 04 2014: Fix conflicts with new translations
+
+Change-Id: Iea8d2c70feba1fbd44f04fbf2b1d6aa748620be4
+---
+ res/layout/ad_excluded_app_item.xml                |  58 +++++
+ res/values-fr/slim_strings.xml                     |  24 ++
+ res/values-it/slim_strings.xml                     |  24 ++
+ res/values/slim_arrays.xml                         |  48 ++++
+ res/values/slim_strings.xml                        |  24 +-
+ res/xml/security_settings_biometric_weak.xml       |  57 +++++
+ res/xml/security_settings_chooser.xml              |  57 +++++
+ res/xml/security_settings_lockscreen.xml           |  57 +++++
+ res/xml/security_settings_password.xml             |  56 +++++
+ res/xml/security_settings_pattern.xml              |  56 +++++
+ res/xml/security_settings_pin.xml                  |  56 +++++
+ src/com/android/settings/Lockscreen.java           | 166 +++++++++++++
+ .../slim/AppMultiSelectListPreference.java         | 264 +++++++++++++++++++++
+ 13 files changed, 946 insertions(+), 1 deletion(-)
+ create mode 100644 res/layout/ad_excluded_app_item.xml
+ create mode 100644 src/com/android/settings/slim/AppMultiSelectListPreference.java
+
+diff --git a/res/layout/ad_excluded_app_item.xml b/res/layout/ad_excluded_app_item.xml
+new file mode 100644
+index 0000000..7c4364e
+--- /dev/null
++++ b/res/layout/ad_excluded_app_item.xml
+@@ -0,0 +1,58 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/*
++** Copyright 2008, The Android Open Source Project
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:minHeight="?android:attr/listPreferredItemHeight"
++    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
++    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
++    android:paddingTop="8dip"
++    android:paddingBottom="8dip"
++    android:orientation="horizontal" >
++
++    <ImageView
++        android:id="@+id/app_icon"
++        android:layout_width="@android:dimen/app_icon_size"
++        android:layout_height="@android:dimen/app_icon_size"
++        android:layout_marginEnd="8dip"
++        android:layout_gravity="center_vertical"
++        android:scaleType="centerInside"
++        android:contentDescription="@null" />
++
++    <TextView
++        android:id="@+id/app_name"
++        android:layout_width="0dip"
++        android:layout_height="wrap_content"
++        android:layout_weight="1"
++        android:layout_gravity="center_vertical"
++        android:singleLine="true"
++        android:ellipsize="marquee"
++        android:textAppearance="?android:attr/textAppearanceMedium"
++        android:textAlignment="viewStart" />
++
++    <CheckBox android:id="@android:id/checkbox"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginStart="8dip"
++        android:layout_gravity="center_vertical"
++        android:clickable="false"
++        android:focusable="false" />
++
++</LinearLayout>
+diff --git a/res/values-fr/slim_strings.xml b/res/values-fr/slim_strings.xml
+index 5a671aa..197b6b6 100644
+--- a/res/values-fr/slim_strings.xml
++++ b/res/values-fr/slim_strings.xml
+@@ -1071,4 +1071,28 @@ contrôle additionnel. \'Retirer\' supprime la ligne sélectionnée.
+   <string name="screen_off_gesture_settings_title">Gestes écran éteint</string>
+   <string name="proximity_wake_title">Empêcher un réveil involontaire</string>
+   <string name="proximity_wake_summary">Vérifier le capteur de proximité avant d\'allumer l\'écran</string>
++
++  <!-- Lockscreen Notifications -->
++  <string name="lockscreen_notifications">Notifications rapides</string>
++  <string name="lockscreen_notifications_summary">Affiche les notifications en attente sur l\'écran de verrouillage.</string>
++  <string name="pocket_mode">Mode poche</string>
++  <string name="pocket_mode_modes_alwayson">Toujours activé</string>
++  <string name="pocket_mode_modes_alwayson_summary">L\'écran s\'allume lorsque l\'appareil est sorti d\'une poche, et s\'éteint si placé dans une poche.</string>
++  <string name="pocket_mode_modes_unreadnotificationsonly">Notif. non-lue(s) seulement</string>
++  <string name="pocket_mode_modes_unreadnotificationsonly_summary">L\'écran s\'allume lorsque l\'appareil est sorti d\'une poche avec la présence de notifications non-lues.</string>
++  <string name="pocket_mode_modes_disabled">Désactivé</string>
++  <string name="wake_on_notification">Réveil lors d\'une notification</string>
++  <string name="wake_on_notification_summary">Allume l\'écran de l\'appareil lorsqu\'une notification est reçue.</string>
++  <string name="notifications_height">Nombre de notifications</string>
++  <string name="notifications_height_summary">Nombre maximum de notifications affichées.</string>
++  <string name="lockscreen_notifications_color">Fond des notifications</string>
++  <string name="lockscreen_notifications_color_summary">Couleur du fond des notifications.</string>
++  <string name="lockscreen_notifications_type">Notifications à afficher</string>
++  <string name="lockscreen_notification_types_nonclearable">Persistantes</string>
++  <string name="lockscreen_notification_types_lowpriority">À basse priorité</string>
++  <string name="lockscreen_notifications_excluded_apps_title">Applications exclues</string>
++  <string name="lockscreen_notifications_excluded_apps_summary">Les notifications des applications exclues ne seront pas affichées sur l\'écran de verrouillage.</string>
++  <string name="privacy_mode">Mode sécurisé</string>
++  <string name="privacy_mode_summary">Désactive l\'affichage et la suppression des notifications. Seuls les icônes de celles-ci seront visibles.</string>
++
+ </resources>
+diff --git a/res/values-it/slim_strings.xml b/res/values-it/slim_strings.xml
+index 8a2b15e..74bd327 100644
+--- a/res/values-it/slim_strings.xml
++++ b/res/values-it/slim_strings.xml
+@@ -959,6 +959,7 @@ aggiungere ulteriori punti di controllo. \'Rimuovi\' elimina la riga selezionata
+     Questo settaggio è reimpostato dopo un riavvio.</string>
+   <string name="adb_over_network_warning">ATTENZIONE: Quando ADB su rete è attivo, il tuo telefono è aperto ad intrusioni tramite tutte le reti connesse, incluse quella GSM!
+     \n\nUsa questa funzione solo su reti sicure.\n\nVuoi veramente attivare questa funzione?</string>
++
+   <string name="usb_mass_storage_title">Archivio di massa</string>
+   <string name="usb_mass_storage_summary">Attiva archivio di massa USB</string>
+   <string name="pie_control_title">SlimPIE</string>
+@@ -1077,4 +1078,27 @@ aggiungere ulteriori punti di controllo. \'Rimuovi\' elimina la riga selezionata
+   <string name="screen_off_gesture_settings_title">Gestures a schermo spento</string>
+   <string name="proximity_wake_title">Previeni risveglio accidentale</string>
+   <string name="proximity_wake_summary">Controlla il sensore di prossimità prima di risvegliare lo schermo</string>
++
++    <!-- Lockscreen Notifications -->
++    <string name="lockscreen_notifications">Notifiche lockscreen</string>
++    <string name="lockscreen_notifications_summary">Mostra notifiche pendenti nella lockscreen</string>
++    <string name="pocket_mode">Modalità pocket</string>
++    <string name="pocket_mode_modes_alwayson">Sempre attiva</string>
++    <string name="pocket_mode_modes_alwayson_summary">Accende lo schermo e visualizza tutte le notifiche quando il dispositivo viene tolto dalla tasca. Spegne lo schermo quando il dispositivo viene rimesso in tasca.</string>
++    <string name="pocket_mode_modes_unreadnotificationsonly">Solo notifiche non lette</string>
++    <string name="pocket_mode_modes_unreadnotificationsonly_summary">Accende lo schermo e visualizza solo le notifiche non lette quando il dispositivo viene tolto dalla tasca. Spegne lo schermo quando il dispositivo viene rimesso in tasca.</string>
++    <string name="pocket_mode_modes_disabled">Disattivata</string>
++    <string name="wake_on_notification">Risveglio automatico</string>
++    <string name="wake_on_notification_summary">Risveglia il dispositivo quando arriva una notifica</string>
++    <string name="notifications_height">Limitatore notifiche</string>
++    <string name="notifications_height_summary">Numero di notifiche visualizzate di volta in volta</string>
++    <string name="lockscreen_notifications_color">Colore sfondo notifiche</string>
++    <string name="lockscreen_notifications_color_summary">Colore delle notifiche nella lockscreen</string>
++    <string name="lockscreen_notifications_type">Notifiche aggiuntive da visualizzare</string>
++    <string name="lockscreen_notification_types_nonclearable">Permanenti</string>
++    <string name="lockscreen_notification_types_lowpriority">Bassa priorità</string>
++    <string name="lockscreen_notifications_excluded_apps_title">Apps escluse</string>
++    <string name="lockscreen_notifications_excluded_apps_summary">Le apps escluse non mostreranno notifiche nella lockscreen</string>
++    <string name="privacy_mode">Modalità privacy</string>
++    <string name="privacy_mode_summary">Impedisce l\'espansione e l\'eliminazione delle notifiche e visualizza la sola icona per salvaguardare la privacy.</string>
+ </resources>
+diff --git a/res/values/slim_arrays.xml b/res/values/slim_arrays.xml
+index e59e446..ec7877d 100644
+--- a/res/values/slim_arrays.xml
++++ b/res/values/slim_arrays.xml
+@@ -1373,4 +1373,52 @@
+         <item>10000</item>
+     </string-array>
+ 
++    <string-array name="notifications_height_entries" translatable="false">
++        <item>1</item>
++        <item>2</item>
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++        <item>6</item>
++        <item>7</item>
++        <item>8</item>
++        <item>9</item>
++        <item>10</item>
++    </string-array>
++
++    <string-array name="notifications_height_values" translatable="false">
++        <item>1</item>
++        <item>2</item>
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++        <item>6</item>
++        <item>7</item>
++        <item>8</item>
++        <item>9</item>
++        <item>10</item>
++    </string-array>
++
++    <string-array name="lockscreen_notification_types">
++        <item>@string/lockscreen_notification_types_nonclearable</item>
++        <item>@string/lockscreen_notification_types_lowpriority</item>
++    </string-array>
++
++    <string-array name="lockscreen_notification_types_values" translatable="false">
++        <item>1</item>
++        <item>2</item>
++    </string-array>
++
++    <string-array name="pocket_mode_modes">
++        <item>@string/pocket_mode_modes_alwayson</item>
++        <item>@string/pocket_mode_modes_unreadnotificationsonly</item>
++        <item>@string/pocket_mode_modes_disabled</item>
++    </string-array>
++
++    <string-array name="pocket_mode_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++    </string-array>
++
+ </resources>
+diff --git a/res/values/slim_strings.xml b/res/values/slim_strings.xml
+index cf26f96..5801cc3 100644
+--- a/res/values/slim_strings.xml
++++ b/res/values/slim_strings.xml
+@@ -1220,7 +1220,6 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+     <string name="noti_reminder_interval_3dot5s">3.5 second</string>
+     <string name="noti_reminder_interval_4s">4 seconds</string>
+ 
+-
+     <!-- Recent panel -->
+     <string name="recent_panel_category">Recent apps panel</string>
+     <string name="recent_panel_scale_title">Size</string>
+@@ -1290,4 +1289,27 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+     <string name="proximity_wake_title">Prevent accidental wake-up</string>
+     <string name="proximity_wake_summary">Check the proximity sensor prior to waking up screen</string>
+ 
++    <!-- Lockscreen Notifications -->
++    <string name="lockscreen_notifications">Lockscreen notifications</string>
++    <string name="lockscreen_notifications_summary">Show pending notifications on lockscreen</string>
++    <string name="pocket_mode">Pocket mode</string>
++    <string name="pocket_mode_modes_alwayson">Always On</string>
++    <string name="pocket_mode_modes_alwayson_summary">Your screen is turned on to show all notifications when device is pulled out of pocket, and is turned off if it gets back into pocket.</string>
++    <string name="pocket_mode_modes_unreadnotificationsonly">Unread notifications only</string>
++    <string name="pocket_mode_modes_unreadnotificationsonly_summary">Your screen is turned on when device is pulled out of pocket with unread notifications, and is turned off if it gets back into pocket.</string>
++    <string name="pocket_mode_modes_disabled">Disabled</string>
++    <string name="wake_on_notification">Wake on notification</string>
++    <string name="wake_on_notification_summary">Wake device when a new notification is received</string>
++    <string name="notifications_height">Notification count</string>
++    <string name="notifications_height_summary">Number of notifications displayed at once</string>
++    <string name="lockscreen_notifications_color">Notification background color</string>
++    <string name="lockscreen_notifications_color_summary">Color of the lockscreen notifications</string>
++    <string name="lockscreen_notifications_type">Notification types to display</string>
++    <string name="lockscreen_notification_types_nonclearable">Non clearable</string>
++    <string name="lockscreen_notification_types_lowpriority">Low Priority</string>
++    <string name="lockscreen_notifications_excluded_apps_title">Excluded Applications</string>
++    <string name="lockscreen_notifications_excluded_apps_summary">Excluded applications will not show notifications on lockscreen</string>
++    <string name="privacy_mode">Privacy mode</string>
++    <string name="privacy_mode_summary">Disables notifications from being shown and dismissed. This way, you just see the icons of your notifications.</string>
++
+ </resources>
+diff --git a/res/xml/security_settings_biometric_weak.xml b/res/xml/security_settings_biometric_weak.xml
+index 948a0fe..9a944ae 100644
+--- a/res/xml/security_settings_biometric_weak.xml
++++ b/res/xml/security_settings_biometric_weak.xml
+@@ -110,4 +110,61 @@
+             android:title="@string/owner_info_settings_title"
+             android:summary="@string/owner_info_settings_summary"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:persistent="false"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_chooser.xml b/res/xml/security_settings_chooser.xml
+index f3da7f5..829c78c 100644
+--- a/res/xml/security_settings_chooser.xml
++++ b/res/xml/security_settings_chooser.xml
+@@ -77,4 +77,61 @@
+             android:title="@string/owner_info_settings_title"
+             android:summary="@string/owner_info_settings_summary"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:persistent="false"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_lockscreen.xml b/res/xml/security_settings_lockscreen.xml
+index 25a1716..e6359ab 100644
+--- a/res/xml/security_settings_lockscreen.xml
++++ b/res/xml/security_settings_lockscreen.xml
+@@ -25,4 +25,61 @@
+             android:summary="@string/unlock_set_unlock_mode_off"
+             android:persistent="false"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:persistent="false"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_password.xml b/res/xml/security_settings_password.xml
+index 9a29321..831b50d 100644
+--- a/res/xml/security_settings_password.xml
++++ b/res/xml/security_settings_password.xml
+@@ -108,4 +108,60 @@
+             android:title="@string/owner_info_settings_title"
+             android:summary="@string/owner_info_settings_summary"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_pattern.xml b/res/xml/security_settings_pattern.xml
+index ecf6c4e..cb86216 100644
+--- a/res/xml/security_settings_pattern.xml
++++ b/res/xml/security_settings_pattern.xml
+@@ -107,4 +107,60 @@
+             android:title="@string/owner_info_settings_title"
+             android:summary="@string/owner_info_settings_summary"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/res/xml/security_settings_pin.xml b/res/xml/security_settings_pin.xml
+index 41a4ebc..7910450 100644
+--- a/res/xml/security_settings_pin.xml
++++ b/res/xml/security_settings_pin.xml
+@@ -115,4 +115,60 @@
+             android:title="@string/owner_info_settings_title"
+             android:summary="@string/owner_info_settings_summary"/>
+ 
++    <PreferenceCategory
++        android:key="lockscreen_notifications_category"
++        android:title="@string/lockscreen_notifications">
++
++        <CheckBoxPreference
++            android:key="lockscreen_notifications"
++            android:title="@string/lockscreen_notifications"
++            android:summary="@string/lockscreen_notifications_summary" />
++
++        <ListPreference
++            android:title="@string/pocket_mode"
++            android:key="lockscreen_notifications_pocket_mode"
++            android:entries="@array/pocket_mode_modes"
++            android:entryValues="@array/pocket_mode_values"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/wake_on_notification"
++            android:summary="@string/wake_on_notification_summary"
++            android:key="lockscreen_notifications_wake_on_notification"
++            android:dependency="lockscreen_notifications" />
++
++        <CheckBoxPreference
++            android:title="@string/privacy_mode"
++            android:summary="@string/privacy_mode_summary"
++            android:key="lockscreen_notifications_privacy_mode"
++            android:dependency="lockscreen_notifications" />
++
++        <MultiSelectListPreference
++            android:title="@string/lockscreen_notifications_type"
++            android:key="lockscreen_notifications_type"
++            android:entries="@array/lockscreen_notification_types"
++            android:entryValues="@array/lockscreen_notification_types_values"
++            android:dependency="lockscreen_notifications" />
++
++        <ListPreference
++            android:title="@string/notifications_height"
++            android:summary="@string/notifications_height_summary"
++            android:key="lockscreen_notifications_height"
++            android:entries="@array/notifications_height_entries"
++            android:entryValues="@array/notifications_height_values"
++            android:dependency="lockscreen_notifications" />
++
++        <!--<net.margaritov.preference.colorpicker.ColorPickerPreference
++            android:title="@string/lockscreen_notifications_color"
++            android:key="lockscreen_notifications_color"
++            android:defaultValue="0x555555" />-->
++
++        <com.android.settings.slim.AppMultiSelectListPreference
++            android:key="lockscreen_notifications_excluded_apps"
++            android:title="@string/lockscreen_notifications_excluded_apps_title"
++            android_summary="@string/lockscreen_notifications_excluded_apps_summary"
++            android:dependency="lockscreen_notifications" />
++
++    </PreferenceCategory>
++
+ </PreferenceScreen>
+diff --git a/src/com/android/settings/Lockscreen.java b/src/com/android/settings/Lockscreen.java
+index 8331b52..c446508 100644
+--- a/src/com/android/settings/Lockscreen.java
++++ b/src/com/android/settings/Lockscreen.java
+@@ -36,6 +36,7 @@ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.preference.CheckBoxPreference;
+ import android.preference.ListPreference;
++import android.preference.MultiSelectListPreference;
+ import android.preference.Preference;
+ import android.preference.Preference.OnPreferenceChangeListener;
+ import android.preference.PreferenceGroup;
+@@ -43,6 +44,7 @@ import android.preference.PreferenceScreen;
+ import android.provider.Settings;
+ import android.security.KeyStore;
+ import android.telephony.TelephonyManager;
++import android.text.TextUtils;
+ import android.util.Log;
+ 
+ import com.android.internal.telephony.util.BlacklistUtils;
+@@ -50,8 +52,15 @@ import com.android.internal.util.slim.DeviceUtils;
+ import com.android.internal.widget.LockPatternUtils;
+ import com.android.settings.R;
+ 
++import net.margaritov.preference.colorpicker.ColorPickerPreference;
++
++import com.android.settings.slim.AppMultiSelectListPreference;
++
++import java.util.Arrays;
+ import java.util.ArrayList;
++import java.util.HashSet;
+ import java.util.List;
++import java.util.Set;
+ 
+ import com.android.settings.ChooseLockSettingsHelper;
+ import com.android.settings.RestrictedSettingsFragment;
+@@ -84,6 +93,15 @@ public class Lockscreen extends RestrictedSettingsFragment
+     private static final String LOCK_BEFORE_UNLOCK = "lock_before_unlock";
+     private static final String MENU_UNLOCK_PREF = "menu_unlock";
+ 
++    private static final String LOCKSCREEN_NOTIFICATIONS = "lockscreen_notifications";
++    private static final String LOCKSCREEN_NOTIFICATIONS_POCKET_MODE = "lockscreen_notifications_pocket_mode";
++    private static final String LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION ="lockscreen_notifications_wake_on_notification";
++    private static final String LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE = "lockscreen_notifications_privacy_mode";
++    private static final String LOCKSCREEN_NOTIFICATIONS_HEIGHT = "lockscreen_notifications_height";
++    private static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
++    private static final String LOCKSCREEN_NOTIFICATIONS_TYPE = "lockscreen_notifications_type";
++    private static final String LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS ="lockscreen_notifications_excluded_apps";
++
+     private static final int SET_OR_CHANGE_LOCK_METHOD_REQUEST = 123;
+     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_IMPROVE_REQUEST = 124;
+     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_LIVELINESS_OFF = 125;
+@@ -119,6 +137,15 @@ public class Lockscreen extends RestrictedSettingsFragment
+     private ListPreference mLockscreenRotation;
+     private CheckBoxPreference mBatteryStatus;
+ 
++    private CheckBoxPreference mLockscreenNotifications;
++    private ListPreference mLockscreenNotificationsPocketMode;
++    private CheckBoxPreference mLockscreenNotificationsWakeOnNotification;
++    private CheckBoxPreference mLockscreenNotificationsPrivacyMode;
++    private ListPreference mLockscreenNotificationsHeight;
++    private MultiSelectListPreference mLockscreenNotificationsType;
++    private ColorPickerPreference mLockscreenNotificationsColor;
++    private AppMultiSelectListPreference mLockscreenNotificationsExcludedApps;
++
+     private Preference mLockInterface;
+     private Preference mLockTargets;
+     private Preference mShakeEvents;
+@@ -158,6 +185,18 @@ public class Lockscreen extends RestrictedSettingsFragment
+         mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
+     }
+ 
++    private void setPreferenceSummary(
++             Preference preference, String defaultSummary, int value) {
++         if (value == -2) {
++             preference.setSummary(defaultSummary + " (" + getResources().getString(
++                     R.string.default_string) + ")");
++         } else {
++             String hexColor = String.format("#%08x", (0xffffffff & value));
++             preference.setSummary(defaultSummary + " (" + hexColor + ")");
++         }
++    }
++
++
+     private PreferenceScreen createPreferenceHierarchy() {
+         PreferenceScreen root = getPreferenceScreen();
+         if (root != null) {
+@@ -294,6 +333,57 @@ public class Lockscreen extends RestrictedSettingsFragment
+             mLockBeforeUnlock.setOnPreferenceChangeListener(this);
+         }
+ 
++        // LockScreen Notifications
++	mLockscreenNotifications = (CheckBoxPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS);
++        mLockscreenNotifications.setChecked(Settings.System.getIntForUser(getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS, 0, UserHandle.USER_CURRENT) == 1);
++        mLockscreenNotifications.setOnPreferenceChangeListener(this);
++        int pocketModeValue = Settings.System.getIntForUser(getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS_POCKET_MODE, 2, UserHandle.USER_CURRENT);
++        mLockscreenNotificationsPocketMode = (ListPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_POCKET_MODE);
++        if (mLockscreenNotificationsPocketMode != null) {
++            mLockscreenNotificationsPocketMode.setValue(String.valueOf(pocketModeValue));
++            updateLockscreenNotificationsPocketModeSummary(pocketModeValue);
++            mLockscreenNotificationsPocketMode.setOnPreferenceChangeListener(this);
++        }
++        mLockscreenNotificationsWakeOnNotification = (CheckBoxPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION);
++        mLockscreenNotificationsWakeOnNotification.setChecked(Settings.System.getIntForUser(
++                getContentResolver(), Settings.System.LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION,
++                0, UserHandle.USER_CURRENT) == 1);
++        mLockscreenNotificationsWakeOnNotification.setOnPreferenceChangeListener(this);
++        mLockscreenNotificationsPrivacyMode = (CheckBoxPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE);
++        mLockscreenNotificationsPrivacyMode.setChecked(Settings.System.getIntForUser(
++                getContentResolver(), Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE,
++                0, UserHandle.USER_CURRENT) == 1);
++        mLockscreenNotificationsPrivacyMode.setOnPreferenceChangeListener(this);
++        int lockscreenNotificationsHeight = Settings.System.getIntForUser(getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS_HEIGHT, 0, UserHandle.USER_CURRENT);
++        mLockscreenNotificationsHeight = (ListPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_HEIGHT);
++        mLockscreenNotificationsHeight.setValue(String.valueOf(lockscreenNotificationsHeight));
++        mLockscreenNotificationsHeight.setOnPreferenceChangeListener(this);
++        mLockscreenNotificationsType = (MultiSelectListPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_TYPE);
++        mLockscreenNotificationsType.setOnPreferenceChangeListener(this);
++        mLockscreenNotificationsColor = (ColorPickerPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_COLOR);
++        if (mLockscreenNotificationsColor != null) {
++            mLockscreenNotificationsColor.setOnPreferenceChangeListener(this);
++            int notifColor = Settings.System.getIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_COLOR, -2, UserHandle.USER_CURRENT);
++            setPreferenceSummary(mLockscreenNotificationsColor, getResources().getString(
++                    R.string.lockscreen_notifications_color_summary), notifColor);
++        }
++        mLockscreenNotificationsExcludedApps = (AppMultiSelectListPreference) root.findPreference(
++                LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS);
++        Set<String> excludedApps = getExcludedApps();
++        if (excludedApps != null) mLockscreenNotificationsExcludedApps.setValues(excludedApps);
++        mLockscreenNotificationsExcludedApps.setOnPreferenceChangeListener(this);
++
+         // Link to widget settings showing summary about the actual status
+         // and remove them on low memory devices
+         mEnableKeyguardWidgets = root.findPreference(KEY_ENABLE_WIDGETS);
+@@ -668,10 +758,69 @@ public class Lockscreen extends RestrictedSettingsFragment
+             Settings.System.putIntForUser(getContentResolver(),
+                     Settings.System.MENU_UNLOCK_SCREEN,
+                     ((Boolean) value) ? 1 : 0, UserHandle.USER_CURRENT);
++	} else if (preference == mLockscreenNotifications) {
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS,
++                    ((Boolean) value) ? 1 : 0, UserHandle.USER_CURRENT);
++        } else if (preference == mLockscreenNotificationsPocketMode) {
++            int userVal = Integer.valueOf((String) value);
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_POCKET_MODE,
++                    userVal, UserHandle.USER_CURRENT);
++            updateLockscreenNotificationsPocketModeSummary(userVal);
++        } else if (preference == mLockscreenNotificationsWakeOnNotification) {
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION,
++                    ((Boolean) value) ? 1 : 0, UserHandle.USER_CURRENT);
++        } else if (preference == mLockscreenNotificationsPrivacyMode) {
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE,
++                    ((Boolean) value) ? 1 : 0, UserHandle.USER_CURRENT);
++        } else if (preference == mLockscreenNotificationsHeight) {
++            int userVal = Integer.valueOf((String) value);
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_HEIGHT,
++                    userVal, UserHandle.USER_CURRENT);
++        } else if (preference == mLockscreenNotificationsType) {
++            HashSet<String> h = (HashSet) value;
++            String[] array = h.toArray(new String[h.size()]);
++            Settings.System.putStringForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_TYPE,
++                    Arrays.toString(array), UserHandle.USER_CURRENT);
++        } else if (preference == mLockscreenNotificationsColor) {
++            int val = Integer.valueOf(String.valueOf(value));
++            Settings.System.putIntForUser(getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_COLOR, val, UserHandle.USER_CURRENT);
++            setPreferenceSummary(preference, getResources().getString(
++                    R.string.lockscreen_notifications_color_summary), val);
++        } else if (preference == mLockscreenNotificationsExcludedApps) {
++            storeExcludedApps((Set<String>) value);
+         }
+         return true;
+     }
+ 
++    private Set<String> getExcludedApps() {
++        String excluded = Settings.System.getStringForUser(getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS, UserHandle.USER_CURRENT);
++
++        if (TextUtils.isEmpty(excluded)) return null;
++
++        return new HashSet<String>(Arrays.asList(excluded.split("\\|")));
++    }
++
++    private void storeExcludedApps(Set<String> values) {
++        StringBuilder builder = new StringBuilder();
++        String delimiter = "";
++        for (String value : values) {
++            builder.append(delimiter);
++            builder.append(value);
++            delimiter = "|";
++        }
++        Settings.System.putStringForUser(getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS,
++                builder.toString(), UserHandle.USER_CURRENT);
++    }
++
+     public void startBiometricWeakImprove(){
+         Intent intent = new Intent();
+         intent.setClassName("com.android.facelock", "com.android.facelock.AddToSetup");
+@@ -684,6 +833,23 @@ public class Lockscreen extends RestrictedSettingsFragment
+         newFragment.show(getFragmentManager(), "dialog " + id);
+     }
+ 
++    private void updateLockscreenNotificationsPocketModeSummary(int value) {
++        int resId;
++        if (value == 0) {
++            // Pocket mode always on
++            mLockscreenNotificationsPocketMode.setSummary(getResources().getString(R.string.pocket_mode_modes_alwayson_summary));
++        } else {
++        switch (value) {
++            case 1:
++                resId = R.string.pocket_mode_modes_unreadnotificationsonly_summary;
++                break;
++            default:
++                resId = R.string.pocket_mode_modes_disabled;
++                break;
++            }
++        mLockscreenNotificationsPocketMode.setSummary(getResources().getString(resId));
++        }
++    }
+ 
+     public static class MyAlertDialogFragment extends DialogFragment {
+ 
+diff --git a/src/com/android/settings/slim/AppMultiSelectListPreference.java b/src/com/android/settings/slim/AppMultiSelectListPreference.java
+new file mode 100644
+index 0000000..0997b23
+--- /dev/null
++++ b/src/com/android/settings/slim/AppMultiSelectListPreference.java
+@@ -0,0 +1,264 @@
++/*
++ * Copyright (C) 2013 The ChameleonOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package com.android.settings.slim;
++
++import android.app.AlertDialog;
++import android.content.Context;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageManager;
++import android.content.res.TypedArray;
++import android.os.Bundle;
++import android.preference.DialogPreference;
++import android.util.AttributeSet;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.AdapterView;
++import android.widget.ArrayAdapter;
++import android.widget.CheckBox;
++import android.widget.ImageView;
++import android.widget.ListView;
++import android.widget.TextView;
++import com.android.settings.R;
++
++import java.text.Collator;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.Comparator;
++import java.util.HashSet;
++import java.util.List;
++import java.util.Set;
++
++/**
++ * A preference that lists installed applications, with icons, as a multi choice list.
++ *
++ * @author Clark Scheff
++ */
++public class AppMultiSelectListPreference extends DialogPreference {
++    private final List<MyApplicationInfo> mPackageInfoList = new ArrayList<MyApplicationInfo>();
++    private CharSequence[] mEntries;
++    private CharSequence[] mEntryValues;
++    private Set<String> mValues = new HashSet<String>();
++    private Set<String> mNewValues = new HashSet<String>();
++    private boolean mPreferenceChanged;
++
++    public AppMultiSelectListPreference(Context context) {
++        this(context, null);
++    }
++
++    public AppMultiSelectListPreference(Context context, AttributeSet attrs) {
++        super(context, attrs);
++        List<ApplicationInfo> pkgs = context.getPackageManager()
++                .getInstalledApplications(PackageManager.PERMISSION_GRANTED);
++        for (int i=0; i<pkgs.size(); i++) {
++            ApplicationInfo ai = pkgs.get(i);
++            if(context.getPackageManager().getLaunchIntentForPackage(ai.packageName) == null) {
++                continue;
++            }
++            MyApplicationInfo info = new MyApplicationInfo();
++            info.info = ai;
++            info.label = info.info.loadLabel(getContext().getPackageManager()).toString();
++            mPackageInfoList.add(info);
++        }
++
++        List<CharSequence> entries = new ArrayList<CharSequence>();
++        List<CharSequence> entryValues = new ArrayList<CharSequence>();
++        Collections.sort(mPackageInfoList, sDisplayNameComparator);
++        for (MyApplicationInfo info : mPackageInfoList) {
++            entries.add(info.label);
++            entryValues.add(info.info.packageName);
++        }
++        MyApplicationInfo info = new MyApplicationInfo();
++        mEntries = new CharSequence[entries.size()];
++        mEntryValues = new CharSequence[entries.size()];
++        entries.toArray(mEntries);
++        entryValues.toArray(mEntryValues);
++    }
++
++    /**
++     * Sets the value of the key. This should contain entries in
++     * {@link #getEntryValues()}.
++     *
++     * @param values The values to set for the key.
++     */
++    public void setValues(Set<String> values) {
++        mValues.clear();
++        mValues.addAll(values);
++
++        persistStringSet(values);
++    }
++
++    /**
++     * Retrieves the current value of the key.
++     */
++    public Set<String> getValues() {
++        return mValues;
++    }
++
++    /**
++     * Returns the index of the given value (in the entry values array).
++     *
++     * @param value The value whose index should be returned.
++     * @return The index of the value, or -1 if not found.
++     */
++    public int findIndexOfValue(String value) {
++        if (value != null && mEntryValues != null) {
++            for (int i = mEntryValues.length - 1; i >= 0; i--) {
++                if (mEntryValues[i].equals(value)) {
++                    return i;
++                }
++            }
++        }
++        return -1;
++    }
++
++    @Override
++    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
++        super.onPrepareDialogBuilder(builder);
++        builder.setAdapter(new AppListAdapter(getContext()), null);
++        mNewValues.clear();
++        mNewValues.addAll(mValues);
++    }
++
++    @Override
++    protected void showDialog(Bundle state) {
++        super.showDialog(state);
++        final AlertDialog dialog = (AlertDialog) getDialog();
++        final ListView listView = dialog.getListView();
++        listView.setItemsCanFocus(false);
++        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
++        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
++            @Override
++            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
++                final AppViewHolder holder = (AppViewHolder) view.getTag();
++                final boolean isChecked = !holder.checkBox.isChecked();
++                holder.checkBox.setChecked(isChecked);
++                if (isChecked) {
++                    mPreferenceChanged |= mNewValues.add(mEntryValues[position].toString());
++                } else {
++                    mPreferenceChanged |= mNewValues.remove(mEntryValues[position].toString());
++                }
++            }
++        });
++    }
++
++    @Override
++    protected void onDialogClosed(boolean positiveResult) {
++        super.onDialogClosed(positiveResult);
++
++        if (positiveResult && mPreferenceChanged) {
++            final Set<String> values = mNewValues;
++            if (callChangeListener(values)) {
++                setValues(values);
++            }
++        }
++        mPreferenceChanged = false;
++    }
++
++    @Override
++    protected Object onGetDefaultValue(TypedArray a, int index) {
++        final CharSequence[] defaultValues = a.getTextArray(index);
++        final int valueCount = defaultValues.length;
++        final Set<String> result = new HashSet<String>();
++
++        for (int i = 0; i < valueCount; i++) {
++            result.add(defaultValues[i].toString());
++        }
++
++        return result;
++    }
++
++    @Override
++    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
++        setValues(restoreValue ? getPersistedStringSet(mValues) : (Set<String>) defaultValue);
++    }
++
++    class MyApplicationInfo {
++        ApplicationInfo info;
++        CharSequence label;
++    }
++
++    public class AppListAdapter extends ArrayAdapter<MyApplicationInfo> {
++        private final LayoutInflater mInflater;
++
++        public AppListAdapter(Context context) {
++            super(context, 0);
++            mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++            addAll(mPackageInfoList);
++        }
++
++        @Override
++        public View getView(int position, View convertView, ViewGroup parent) {
++            // A ViewHolder keeps references to children views to avoid unnecessary calls
++            // to findViewById() on each row.
++            AppViewHolder holder = AppViewHolder.createOrRecycle(mInflater, convertView);
++            convertView = holder.rootView;
++            MyApplicationInfo info = getItem(position);
++            holder.appName.setText(info.label);
++            if (info.info != null) {
++                holder.appIcon.setImageDrawable(info.info.loadIcon(getContext().getPackageManager()));
++            } else {
++                holder.appIcon.setImageDrawable(null);
++            }
++            holder.checkBox.setChecked(mNewValues.contains(mEntryValues[position].toString()));
++            return convertView;
++        }
++
++        @Override
++        public MyApplicationInfo getItem(int position) {
++            return mPackageInfoList.get(position);
++        }
++    }
++
++    public static class AppViewHolder {
++        public View rootView;
++        public TextView appName;
++        public ImageView appIcon;
++        public CheckBox checkBox;
++
++        public static AppViewHolder createOrRecycle(LayoutInflater inflater, View convertView) {
++            if (convertView == null) {
++                convertView = inflater.inflate(R.layout.ad_excluded_app_item, null);
++
++                // Creates a ViewHolder and store references to the two children views
++                // we want to bind data to.
++                AppViewHolder holder = new AppViewHolder();
++                holder.rootView = convertView;
++                holder.appName = (TextView) convertView.findViewById(R.id.app_name);
++                holder.appIcon = (ImageView) convertView.findViewById(R.id.app_icon);
++                holder.checkBox = (CheckBox) convertView.findViewById(android.R.id.checkbox);
++                convertView.setTag(holder);
++                return holder;
++            } else {
++                // Get the ViewHolder back to get fast access to the TextView
++                // and the ImageView.
++                return (AppViewHolder)convertView.getTag();
++            }
++        }
++    }
++
++    private final static Comparator<MyApplicationInfo> sDisplayNameComparator
++            = new Comparator<MyApplicationInfo>() {
++        public final int
++        compare(MyApplicationInfo a, MyApplicationInfo b) {
++            return collator.compare(a.label, b.label);
++        }
++
++        private final Collator collator = Collator.getInstance();
++    };
++}
++
++
+-- 
+1.9.1
+
