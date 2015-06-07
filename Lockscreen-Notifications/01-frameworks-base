@@ -1,0 +1,2123 @@
+From 439e2307983a48f978116a45e734277ac55c34ff Mon Sep 17 00:00:00 2001
+From: David96 <xd_e-mail@gmx.de>
+Date: Sat, 1 Feb 2014 17:56:38 +0100
+Subject: [PATCH] Lockscreen Notifications [1/2]
+
+My try on making notifications easily accessable from lockscreen.
+Credits to ChameleonOS, I got the notification listener permission and some small other stuff from their ActiveDisplay implementation.
+
+Lockscreen Notifications allow you to manage all your notifications directly on the lockscreen.
+
+Features:
+- Pocket mode turn screen on when phone is pulled out of pocket and turn it off when phone gets back in pocket
+- Hide low priority notifications
+- Hide non-clearable notifications
+- Allow dismissing even non-clearable notifications from lockscreen
+- Just turn screen on when there's currently a notification pending
+- Toggle between expanded and normal notification view by longpressing
+- Wake on new notification
+- Configure notification count displayed at once
+- Privacy Mode: Hide notifications content on secure lockscreen.
+- Blacklist apps - thanks to ChameleonOS for the original implementation and @Der-Schubi for bringing it to lockscreen notifications
+- Show all/dismiss all button, does not dismiss on going notifications, they must be swiped away
+
+Overlay setting:
+dynamic width is disabled by default, to enable it for a specific device, add
+<bool name="config_lnDynamicWidth">true</bool>
+to yourdevicetree/overlay/frameworks/base/packages/Keyguard/res/values/config.xml
+
+PS3: Disabled by default
+PS4: Removed many whitespaces
+
+Change-Id: Ife8cbe1ef86691c391de061964bf4d14be03a59f
+Signed-off-by: kecinzer <kecinzer@gmail.com>
+
+Conflicts:
+	core/java/android/provider/Settings.java
+	core/java/com/android/internal/statusbar/IStatusBar.aidl
+	packages/Keyguard/src/com/android/keyguard/KeyguardViewManager.java
+	packages/Keyguard/src/com/android/keyguard/KeyguardViewMediator.java
+	packages/SystemUI/res/layout-sw600dp/navigation_bar.xml
+	packages/SystemUI/res/layout/navigation_bar.xml
+	packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
+	packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+	packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java
+
+Change-Id: Ife8cbe1ef86691c391de061964bf4d14be03a59f
+---
+ core/java/android/provider/Settings.java           |  66 ++
+ .../android/internal/policy/IKeyguardService.aidl  |   1 +
+ .../com/android/internal/statusbar/IStatusBar.aidl |  20 +-
+ .../internal/statusbar/IStatusBarService.aidl      |  17 +-
+ core/res/AndroidManifest.xml                       |   5 +
+ packages/Keyguard/AndroidManifest.xml              |  10 +
+ .../res/layout-land/keyguard_host_view.xml         |  21 +
+ .../res/layout-port/keyguard_host_view.xml         |  21 +
+ .../res/layout-sw600dp-port/keyguard_host_view.xml |  21 +
+ packages/Keyguard/res/values/config.xml            |   2 +
+ packages/Keyguard/res/values/slim_dimens.xml       |  12 +
+ .../src/com/android/keyguard/KeyguardService.java  |   4 +
+ .../com/android/keyguard/KeyguardViewManager.java  |  70 ++
+ .../com/android/keyguard/KeyguardViewMediator.java |  18 +-
+ .../com/android/keyguard/NotificationHostView.java | 701 +++++++++++++++++++++
+ .../android/keyguard/NotificationViewManager.java  | 353 +++++++++++
+ .../src/com/android/keyguard/PagedView.java        |   1 +
+ .../SystemUI/res/layout-sw600dp/navigation_bar.xml |  18 +
+ packages/SystemUI/res/layout/navigation_bar.xml    |  18 +
+ .../android/systemui/statusbar/BaseStatusBar.java  |   2 +
+ .../android/systemui/statusbar/CommandQueue.java   |   5 +
+ .../statusbar/phone/KeyguardTouchDelegate.java     |  14 +
+ .../statusbar/phone/NavigationBarTransitions.java  |   2 +
+ .../statusbar/phone/NavigationBarView.java         |  67 +-
+ .../systemui/statusbar/phone/PhoneStatusBar.java   |   4 +
+ .../impl/keyguard/KeyguardServiceWrapper.java      |   4 +
+ .../android/server/NotificationManagerService.java |  12 +-
+ .../android/server/StatusBarManagerService.java    |   8 +-
+ 28 files changed, 1471 insertions(+), 26 deletions(-)
+ create mode 100644 packages/Keyguard/src/com/android/keyguard/NotificationHostView.java
+ create mode 100644 packages/Keyguard/src/com/android/keyguard/NotificationViewManager.java
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 81ef5ef..ca67960 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -3747,6 +3747,67 @@ public final class Settings {
+         public static final String LOCKSCREEN_ROTATION_ENABLED = "lockscreen_rotation_enabled";
+ 
+         /**
++         * Enables/disables lockscreen notifications
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS = "lockscreen_notifications";
++
++        /**
++         * Notification types to display on lockscreen
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_TYPE = "lockscreen_notifications_type";
++
++        /**
++         * Turn screen on when device is pulled out of pocket
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_POCKET_MODE =
++                "lockscreen_notifications_pocket_mode";
++
++        /**
++         * Wakes the device when a new notifications is received
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION =
++                "lockscreen_notifications_wake_on_notification";
++
++        /**
++         * Privacy Mode Option
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE =
++                "lockscreen_notifications_privacy_mode";
++
++        /**
++         * Sets the count of notifications shown at once
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_HEIGHT =
++                "lockscreen_notifications_height";
++
++        /**
++         * Changes the offset of the notifications to the top of the screen
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP =
++                "lockscreen_notifications_offset_top";
++
++        /**
++         * A list of packages to exclude from being displayed as lockscreen notifications.
++         * This should be a string of packages separated by |
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS =
++                "lockscreen_notifications_excluded_apps";
++
++        /**
++         * Set a custom notification background color
++         * @hide
++         */
++        public static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
++
++        /**
+           * Always show the battery status on the lockscreen
+           * @hide
+           */
+@@ -7815,6 +7876,11 @@ public final class Settings {
+          * @param name to look up in the table
+          * @return the corresponding value, or null if not present
+          */
++
++        /**
++         * Screenshot toggle delay
++         * @hide
++         */
+         public static String getString(ContentResolver resolver, String name) {
+             return getStringForUser(resolver, name, UserHandle.myUserId());
+         }
+diff --git a/core/java/com/android/internal/policy/IKeyguardService.aidl b/core/java/com/android/internal/policy/IKeyguardService.aidl
+index 85e41fa..0c5d63e 100644
+--- a/core/java/com/android/internal/policy/IKeyguardService.aidl
++++ b/core/java/com/android/internal/policy/IKeyguardService.aidl
+@@ -44,6 +44,7 @@ interface IKeyguardService {
+     oneway void showAssistant();
+     oneway void showCustomIntent(inout Intent intent);
+     oneway void dispatch(in MotionEvent event);
++    oneway void dispatchButtonClick(int buttonId);
+     oneway void launchCamera();
+     oneway void onBootCompleted();
+ }
+diff --git a/core/java/com/android/internal/statusbar/IStatusBar.aidl b/core/java/com/android/internal/statusbar/IStatusBar.aidl
+index cbb73c9..06b004b 100644
+--- a/core/java/com/android/internal/statusbar/IStatusBar.aidl
++++ b/core/java/com/android/internal/statusbar/IStatusBar.aidl
+@@ -1,19 +1,19 @@
+ /**
+  * Copyright (c) 2007, The Android Open Source Project
+  *
+- * Licensed under the Apache License, Version 2.0 (the "License"); 
+- * you may not use this file except in compliance with the License. 
+- * You may obtain a copy of the License at 
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
+  *
+- *     http://www.apache.org/licenses/LICENSE-2.0 
++ *     http://www.apache.org/licenses/LICENSE-2.0
+  *
+- * Unless required by applicable law or agreed to in writing, software 
+- * distributed under the License is distributed on an "AS IS" BASIS, 
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+- * See the License for the specific language governing permissions and 
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
+- 
++
+ package com.android.internal.statusbar;
+ 
+ import com.android.internal.statusbar.StatusBarIcon;
+@@ -50,5 +50,5 @@ oneway interface IStatusBar
+     void toggleScreenshot();
+     void toggleLastApp();
+     void toggleKillApp();
++    void setButtonDrawable(int buttonId, int iconId);
+ }
+-
+diff --git a/core/java/com/android/internal/statusbar/IStatusBarService.aidl b/core/java/com/android/internal/statusbar/IStatusBarService.aidl
+index ec46f04..3b9d59d 100644
+--- a/core/java/com/android/internal/statusbar/IStatusBarService.aidl
++++ b/core/java/com/android/internal/statusbar/IStatusBarService.aidl
+@@ -1,16 +1,16 @@
+ /**
+  * Copyright (c) 2007, The Android Open Source Project
+  *
+- * Licensed under the Apache License, Version 2.0 (the "License"); 
+- * you may not use this file except in compliance with the License. 
+- * You may obtain a copy of the License at 
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
+  *
+- *     http://www.apache.org/licenses/LICENSE-2.0 
++ *     http://www.apache.org/licenses/LICENSE-2.0
+  *
+- * Unless required by applicable law or agreed to in writing, software 
+- * distributed under the License is distributed on an "AS IS" BASIS, 
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+- * See the License for the specific language governing permissions and 
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
+ 
+@@ -34,6 +34,7 @@ interface IStatusBarService
+     void setImeWindowStatus(in IBinder token, int vis, int backDisposition);
+     void expandSettingsPanel();
+     void setCurrentUser(int newUserId);
++    void setButtonDrawable(int buttonId, int iconId);
+ 
+     // ---- Methods below are for use by the status bar policy services ----
+     // You need the STATUS_BAR_SERVICE permission
+diff --git a/core/res/AndroidManifest.xml b/core/res/AndroidManifest.xml
+index 1c2cd20..5d3f171 100644
+--- a/core/res/AndroidManifest.xml
++++ b/core/res/AndroidManifest.xml
+@@ -362,6 +362,11 @@
+         android:label="@string/permlab_receiveWapPush"
+         android:description="@string/permdesc_receiveWapPush" />
+ 
++    <!-- Internal permission protecting access to internal notification listener
++        @hide -->
++    <permission android:name="android.permission.SYSTEM_NOTIFICATION_LISTENER"
++        android:protectionLevel="signature|system" />
++
+     <!-- =============================================================== -->
+     <!-- Permissions for accessing social info (contacts and social) -->
+     <!-- =============================================================== -->
+diff --git a/packages/Keyguard/AndroidManifest.xml b/packages/Keyguard/AndroidManifest.xml
+index 66d1e75..8e18c02 100644
+--- a/packages/Keyguard/AndroidManifest.xml
++++ b/packages/Keyguard/AndroidManifest.xml
+@@ -39,6 +39,7 @@
+     <uses-permission android:name="android.permission.CHANGE_COMPONENT_ENABLED_STATE" />
+     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+     <uses-permission android:name="android.permission.ACCESS_KEYGUARD_SECURE_STORAGE" />
++    <uses-permission android:name="android.permission.SYSTEM_NOTIFICATION_LISTENER" />
+ 
+     <application android:label="@string/app_name"
+         android:process="com.android.systemui"
+@@ -49,4 +50,13 @@
+             android:exported="true" />
+ 
+     </application>
++
++    <service android:name="com.android.keyguard.NotificationListenerWrapper"
++             android:label="@string/app_name"
++             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
++        <intent-filter>
++            <action android:name="android.service.notification.NotificationListenerService" />
++        </intent-filter>
++    </service>
++
+ </manifest>
+diff --git a/packages/Keyguard/res/layout-land/keyguard_host_view.xml b/packages/Keyguard/res/layout-land/keyguard_host_view.xml
+index 226415d..0b3ae90 100644
+--- a/packages/Keyguard/res/layout-land/keyguard_host_view.xml
++++ b/packages/Keyguard/res/layout-land/keyguard_host_view.xml
+@@ -27,6 +27,27 @@
+     android:layout_height="match_parent"
+     android:orientation="horizontal">
+ 
++    <com.android.keyguard.NotificationHostView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:id="@+id/notification_host_view" >
++
++        <view class="com.android.keyguard.NotificationHostView$TouchModalScrollView"
++            android:fillViewport="false"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:id="@+id/scrollview" >
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="vertical"
++                android:animateLayoutChanges="true"
++                android:id="@+id/linearlayout" />
++        </view>
++
++    </com.android.keyguard.NotificationHostView>
++
+     <com.android.keyguard.MultiPaneChallengeLayout
+         android:id="@+id/multi_pane_challenge"
+         android:layout_width="match_parent"
+diff --git a/packages/Keyguard/res/layout-port/keyguard_host_view.xml b/packages/Keyguard/res/layout-port/keyguard_host_view.xml
+index b0b92ba..71a26b7 100644
+--- a/packages/Keyguard/res/layout-port/keyguard_host_view.xml
++++ b/packages/Keyguard/res/layout-port/keyguard_host_view.xml
+@@ -28,6 +28,27 @@
+     android:gravity="center_horizontal"
+     android:orientation="vertical">
+ 
++    <com.android.keyguard.NotificationHostView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:id="@+id/notification_host_view" >
++
++        <view class="com.android.keyguard.NotificationHostView$TouchModalScrollView"
++            android:fillViewport="false"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:id="@+id/scrollview" >
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="vertical"
++                android:animateLayoutChanges="true"
++                android:id="@+id/linearlayout" />
++        </view>
++
++    </com.android.keyguard.NotificationHostView>
++
+     <com.android.keyguard.SlidingChallengeLayout
+         android:id="@+id/sliding_layout"
+         android:layout_width="match_parent"
+diff --git a/packages/Keyguard/res/layout-sw600dp-port/keyguard_host_view.xml b/packages/Keyguard/res/layout-sw600dp-port/keyguard_host_view.xml
+index 58abfe3..f365d5e 100644
+--- a/packages/Keyguard/res/layout-sw600dp-port/keyguard_host_view.xml
++++ b/packages/Keyguard/res/layout-sw600dp-port/keyguard_host_view.xml
+@@ -27,6 +27,27 @@
+     android:layout_height="match_parent"
+     android:orientation="horizontal">
+ 
++    <com.android.keyguard.NotificationHostView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:id="@+id/notification_host_view" >
++
++        <view class="com.android.keyguard.NotificationHostView$TouchModalScrollView"
++            android:fillViewport="false"
++            android:layout_width="match_parent"
++            android:layout_height="210dp"
++            android:id="@+id/scrollview" >
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="vertical"
++                android:animateLayoutChanges="true"
++                android:id="@+id/linearlayout" />
++        </view>
++
++    </com.android.keyguard.NotificationHostView>
++
+     <com.android.keyguard.MultiPaneChallengeLayout
+         android:id="@+id/multi_pane_challenge"
+         android:layout_width="match_parent"
+diff --git a/packages/Keyguard/res/values/config.xml b/packages/Keyguard/res/values/config.xml
+index de17c4b..845c28d 100644
+--- a/packages/Keyguard/res/values/config.xml
++++ b/packages/Keyguard/res/values/config.xml
+@@ -29,4 +29,6 @@
+     <!-- Allow the menu hard key to be disabled in LockScreen on some devices [DO NOT TRANSLATE] -->
+     <bool name="config_disableMenuKeyInLockScreen">false</bool>
+ 
++    <!-- Disable Lockscreen Notifications dynamic width by default -->
++    <bool name="config_lnDynamicWidth">false</bool>
+ </resources>
+diff --git a/packages/Keyguard/res/values/slim_dimens.xml b/packages/Keyguard/res/values/slim_dimens.xml
+index 09089e4..1f5b644 100644
+--- a/packages/Keyguard/res/values/slim_dimens.xml
++++ b/packages/Keyguard/res/values/slim_dimens.xml
+@@ -7,4 +7,16 @@
+     <!-- Additional inset used for targets with icons loaded from files -->
+     <item type="dimen" name="lockscreen_target_icon_file_inset">2dp</item>
+ 
++    <!-- Height of a small notification in the status bar -->
++    <dimen name="notification_min_height">64dp</dimen>
++
++    <!-- Height of a large notification in the status bar -->
++    <dimen name="notification_max_height">256dp</dimen>
++
++    <!-- Height of a small notification in the status bar plus glow, padding, etc -->
++    <dimen name="notification_row_min_height">70dp</dimen>
++
++    <!-- Height of a large notification in the status bar plus glow, padding, etc -->
++    <dimen name="notification_row_max_height">260dp</dimen>
++
+ </resources>
+diff --git a/packages/Keyguard/src/com/android/keyguard/KeyguardService.java b/packages/Keyguard/src/com/android/keyguard/KeyguardService.java
+index f8b5d16..2ea2ece 100644
+--- a/packages/Keyguard/src/com/android/keyguard/KeyguardService.java
++++ b/packages/Keyguard/src/com/android/keyguard/KeyguardService.java
+@@ -141,6 +141,10 @@ public class KeyguardService extends Service {
+             checkPermission();
+             mKeyguardViewMediator.dispatch(event);
+         }
++        public void dispatchButtonClick(int buttonId) {
++            checkPermission();
++            mKeyguardViewMediator.dispatchButtonClick(buttonId);
++        }
+         public void launchCamera() {
+             checkPermission();
+             mKeyguardViewMediator.launchCamera();
+diff --git a/packages/Keyguard/src/com/android/keyguard/KeyguardViewManager.java b/packages/Keyguard/src/com/android/keyguard/KeyguardViewManager.java
+index acb936b..b544eca 100644
+--- a/packages/Keyguard/src/com/android/keyguard/KeyguardViewManager.java
++++ b/packages/Keyguard/src/com/android/keyguard/KeyguardViewManager.java
+@@ -27,11 +27,15 @@ import com.android.internal.widget.LockPatternUtils;
+ import android.app.Activity;
+ import android.app.ActivityManager;
+ import android.appwidget.AppWidgetManager;
++import android.content.BroadcastReceiver;
++import android.content.ContentResolver;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.pm.ActivityInfo;
+ import android.content.res.Configuration;
+ import android.content.res.Resources;
++import android.graphics.BitmapFactory;
++import android.database.ContentObserver;
+ import android.graphics.Canvas;
+ import android.graphics.ColorFilter;
+ import android.graphics.PixelFormat;
+@@ -39,6 +43,7 @@ import android.graphics.PorterDuff;
+ import android.graphics.Rect;
+ import android.graphics.drawable.Drawable;
+ import android.os.Bundle;
++import android.os.Handler;
+ import android.os.IBinder;
+ import android.os.Parcelable;
+ import android.os.RemoteException;
+@@ -92,6 +97,11 @@ public class KeyguardViewManager {
+     private boolean mScreenOn = false;
+     private LockPatternUtils mLockPatternUtils;
+ 
++    private boolean mUnlockKeyDown = false;
++    private NotificationHostView mNotificationView;
++    private NotificationViewManager mNotificationViewManager;
++    private boolean mLockscreenNotifications = false;
++
+     private KeyguardUpdateMonitorCallback mBackgroundChanger = new KeyguardUpdateMonitorCallback() {
+         @Override
+         public void onSetBackground(Bitmap bmp) {
+@@ -105,6 +115,34 @@ public class KeyguardViewManager {
+         void onShown(IBinder windowToken);
+     };
+ 
++    class SettingsObserver extends ContentObserver {
++        SettingsObserver(Handler handler) {
++            super(handler);
++        }
++
++        void observe() {
++            ContentResolver resolver = mContext.getContentResolver();
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS), false, this);
++        }
++
++        @Override
++        public void onChange(boolean selfChange) {
++            updateSettings();
++        }
++    }
++
++    private void updateSettings() {
++        mLockscreenNotifications = Settings.System.getInt(mContext.getContentResolver(),
++                Settings.System.LOCKSCREEN_NOTIFICATIONS, mLockscreenNotifications ? 1 : 0) == 1;
++        if(mLockscreenNotifications && mNotificationViewManager == null) {
++            mNotificationViewManager = new NotificationViewManager(mContext, this);
++        } else if(!mLockscreenNotifications && mNotificationViewManager != null) {
++            mNotificationViewManager.unregisterListeners();
++            mNotificationViewManager = null;
++        }
++    }
++
+     /**
+      * @param context Used to create views.
+      * @param viewManager Keyguard will be attached to this.
+@@ -118,6 +156,11 @@ public class KeyguardViewManager {
+         mViewManager = viewManager;
+         mViewMediatorCallback = callback;
+         mLockPatternUtils = lockPatternUtils;
++
++        SettingsObserver observer = new SettingsObserver(new Handler());
++        observer.observe();
++
++        updateSettings();
+     }
+ 
+     /**
+@@ -390,6 +433,7 @@ public class KeyguardViewManager {
+         if (v != null) {
+             mKeyguardHost.removeView(v);
+         }
++
+         final LayoutInflater inflater = LayoutInflater.from(mContext);
+         View view = inflater.inflate(R.layout.keyguard_host_view, mKeyguardHost, true);
+         mKeyguardView = (KeyguardHostView) view.findViewById(R.id.keyguard_host_view);
+@@ -398,10 +442,21 @@ public class KeyguardViewManager {
+         mKeyguardView.initializeSwitchingUserState(options != null &&
+                 options.getBoolean(IS_SWITCHING_USER));
+ 
++        if (mLockscreenNotifications) {
++            mNotificationView = (NotificationHostView)
++                    mKeyguardView.findViewById(R.id.notification_host_view);
++            mNotificationViewManager.setHostView(mNotificationView);
++            mNotificationViewManager.onScreenTurnedOff();
++            mNotificationView.addNotifications();
++        }
++
+         // HACK
+         // The keyguard view will have set up window flags in onFinishInflate before we set
+         // the view mediator callback. Make sure it knows the correct IME state.
+         if (mViewMediatorCallback != null) {
++            if (mLockscreenNotifications)
++                mNotificationView.setViewMediator(mViewMediatorCallback);
++
+             KeyguardPasswordView kpv = (KeyguardPasswordView) mKeyguardView.findViewById(
+                     R.id.keyguard_password_view);
+ 
+@@ -512,6 +567,9 @@ public class KeyguardViewManager {
+         if (mKeyguardView != null) {
+             mKeyguardView.onScreenTurnedOff();
+         }
++        if (mLockscreenNotifications) {
++            mNotificationViewManager.onScreenTurnedOff();
++        }
+     }
+ 
+     public synchronized void onScreenTurnedOn(final IKeyguardShowCallback callback) {
+@@ -564,6 +622,10 @@ public class KeyguardViewManager {
+                 Slog.w(TAG, "Exception calling onShown():", e);
+             }
+         }
++
++        if (mLockscreenNotifications) {
++            mNotificationViewManager.onScreenTurnedOn();
++        }
+     }
+ 
+     public synchronized void verifyUnlock() {
+@@ -578,6 +640,10 @@ public class KeyguardViewManager {
+     public synchronized void hide() {
+         if (DEBUG) Log.d(TAG, "hide()");
+ 
++        if (mLockscreenNotifications) {
++            mNotificationViewManager.onDismiss();
++        }
++
+         if (mKeyguardHost != null) {
+             mKeyguardHost.setVisibility(View.GONE);
+ 
+@@ -642,6 +708,10 @@ public class KeyguardViewManager {
+         }
+     }
+ 
++    public void dispatchButtonClick(int buttonId) {
++        mNotificationView.onButtonClick(buttonId);
++    }
++
+     public void launchCamera() {
+         if (mKeyguardView != null) {
+             mKeyguardView.launchCamera();
+diff --git a/packages/Keyguard/src/com/android/keyguard/KeyguardViewMediator.java b/packages/Keyguard/src/com/android/keyguard/KeyguardViewMediator.java
+index 34445a8..3fa4aa7 100644
+--- a/packages/Keyguard/src/com/android/keyguard/KeyguardViewMediator.java
++++ b/packages/Keyguard/src/com/android/keyguard/KeyguardViewMediator.java
+@@ -129,6 +129,7 @@ public class KeyguardViewMediator {
+     private static final int LAUNCH_CAMERA = 16;
+     private static final int DISMISS = 17;
+     private static final int START_CUSTOM_INTENT = 18;
++    private static final int DISPATCH_BUTTON_CLICK_EVENT = 19;
+ 
+     /**
+      * The default amount of time we stay awake (used for all key input)
+@@ -624,7 +625,9 @@ public class KeyguardViewMediator {
+                 }
+             } else if (mShowing) {
+                 notifyScreenOffLocked();
+-                resetStateLocked(null);
++                // It doesn't make sense to me to reset the
++                // lockscreen when screen is turned off on lockscreen
++                // resetStateLocked(null);
+             } else if (why == WindowManagerPolicy.OFF_BECAUSE_OF_TIMEOUT
+                    || (why == WindowManagerPolicy.OFF_BECAUSE_OF_USER && !lockImmediately)) {
+                 doKeyguardLaterLocked();
+@@ -1128,6 +1131,9 @@ public class KeyguardViewMediator {
+                 case DISPATCH_EVENT:
+                     handleDispatchEvent((MotionEvent) msg.obj);
+                     break;
++                case DISPATCH_BUTTON_CLICK_EVENT:
++                    handleDispatchButtonClickEvent(msg.arg1);
++                    break;
+                 case LAUNCH_CAMERA:
+                     handleLaunchCamera();
+                     break;
+@@ -1178,6 +1184,10 @@ public class KeyguardViewMediator {
+         mKeyguardViewManager.dispatch(event);
+     }
+ 
++    protected void handleDispatchButtonClickEvent(int buttonId) {
++        mKeyguardViewManager.dispatchButtonClick(buttonId);
++    }
++
+     private void sendUserPresentBroadcast() {
+         final UserHandle currentUser = new UserHandle(mLockPatternUtils.getCurrentUser());
+         mContext.sendBroadcastAsUser(USER_PRESENT_INTENT, currentUser);
+@@ -1438,6 +1448,12 @@ public class KeyguardViewMediator {
+         mHandler.sendMessage(msg);
+     }
+ 
++    public void dispatchButtonClick(int buttonId) {
++        Message msg = mHandler.obtainMessage(DISPATCH_BUTTON_CLICK_EVENT);
++        msg.arg1 = buttonId;
++        mHandler.sendMessage(msg);
++    }
++
+     public void launchCamera() {
+         Message msg = mHandler.obtainMessage(LAUNCH_CAMERA);
+         mHandler.sendMessage(msg);
+diff --git a/packages/Keyguard/src/com/android/keyguard/NotificationHostView.java b/packages/Keyguard/src/com/android/keyguard/NotificationHostView.java
+new file mode 100644
+index 0000000..1a06aaa
+--- /dev/null
++++ b/packages/Keyguard/src/com/android/keyguard/NotificationHostView.java
+@@ -0,0 +1,701 @@
++/*
++ * Copyright (C) 2013 Team AOSPAL
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.keyguard;
++
++import android.animation.ArgbEvaluator;
++import android.animation.ObjectAnimator;
++import android.app.ActivityManagerNative;
++import android.app.INotificationManager;
++import android.app.Notification;
++import android.app.Notification.Action;
++import android.app.PendingIntent;
++import android.app.PendingIntent.CanceledException;
++import android.content.Context;
++import android.content.Intent;
++import android.graphics.Color;
++import android.graphics.Point;
++import android.graphics.Rect;
++import android.graphics.drawable.ColorDrawable;
++import android.os.Handler;
++import android.os.Looper;
++import android.os.Message;
++import android.os.RemoteException;
++import android.os.ServiceManager;
++import android.service.notification.StatusBarNotification;
++import android.util.AttributeSet;
++import android.util.Log;
++import android.view.MotionEvent;
++import android.view.VelocityTracker;
++import android.view.View;
++import android.view.ViewGroup;
++import android.view.ViewPropertyAnimator;
++import android.view.WindowManager;
++import android.widget.FrameLayout;
++import android.widget.LinearLayout;
++import android.widget.RemoteViews;
++import android.widget.ScrollView;
++
++import com.android.internal.statusbar.IStatusBarService;
++import com.android.keyguard.KeyguardViewMediator.ViewMediatorCallback;
++
++import java.util.ArrayDeque;
++import java.util.HashMap;
++import java.util.Queue;
++
++public class NotificationHostView extends FrameLayout {
++    private static final String TAG = "Keyguard:NotificationView";
++    private static final int MSG_NOTIFICATION_ADD = 0;
++    private static final int MSG_NOTIFICATION_REMOVE = 1;
++
++    private static final float SWIPE = 0.2f;
++    private static final int ANIMATION_MAX_DURATION = 300;
++    private static final int PPMS = 2;
++    private static final int MAX_ALPHA = 150;
++
++    //Here we store dimissed notifications so we don't add them again in onFinishInflate
++    private static HashMap<String, StatusBarNotification> mDismissedNotifications =
++            new HashMap<String, StatusBarNotification>();
++
++    private Queue<NotificationView> mNotificationsToAdd = new ArrayDeque<NotificationView>();
++    private Queue<NotificationView> mNotificationsToRemove = new ArrayDeque<NotificationView>();
++    private HashMap<String, NotificationView> mNotifications =
++            new HashMap<String, NotificationView>();
++    private INotificationManager mNotificationManager;
++    private WindowManager mWindowManager;
++    private int mNotificationMinHeight, mNotificationMinRowHeight;
++    private int mDisplayWidth, mDisplayHeight;
++    private int mShownNotifications = 0;
++    private boolean mDynamicWidth;
++
++    private ViewMediatorCallback mViewMediatorCallback;
++    private LinearLayout mNotifView;
++    private TouchModalScrollView mScrollView;
++
++    private Handler mHandler = new Handler(Looper.getMainLooper()) {
++        @Override
++        public void handleMessage(Message msg) {
++            switch (msg.what) {
++                case MSG_NOTIFICATION_ADD:
++                    handleAddNotification(msg.arg1 == 1, msg.arg2 == 1);
++                    break;
++                case MSG_NOTIFICATION_REMOVE:
++                    handleRemoveNotification(msg.arg1 == 1);
++                    break;
++            }
++        }
++    };
++
++    public NotificationView getViewByPoint(int x, int y) {
++        y += mScrollView.getScrollY();
++        for (NotificationView nv : mNotifications.values()) {
++            Rect hitRect = new Rect();
++            nv.getChildAt(0).getHitRect(hitRect);
++            hitRect.top = nv.getTop();
++            hitRect.bottom = nv.getBottom();
++            if (hitRect.contains(x, y))
++                return nv;
++        }
++        return null;
++    }
++
++    public static class TouchModalScrollView extends ScrollView {
++        private NotificationHostView hostView;
++        private boolean touchAllowed = false;
++
++        public TouchModalScrollView(Context context, AttributeSet attrs) {
++            super(context, attrs);
++        }
++
++        public void setHostView(NotificationHostView view) {
++            hostView = view;
++        }
++
++        @Override
++        public boolean dispatchTouchEvent(MotionEvent event) {
++            if (event.getAction() == MotionEvent.ACTION_DOWN) {
++                NotificationView v = hostView.getViewByPoint((int)event.getX(), (int)event.getY());
++                touchAllowed = (v != null);
++            }
++            if (touchAllowed) {
++                return super.dispatchTouchEvent(event);
++            }
++            return false;
++        }
++    }
++
++    private class NotificationView extends FrameLayout {
++        private static final int CLICK_THRESHOLD = 10;
++
++        private StatusBarNotification statusBarNotification;
++        private Runnable onAnimationEnd;
++        private VelocityTracker velocityTracker;
++        private int animations = 0;
++        private boolean swipeGesture = false;
++        private boolean pointerDown = false;
++        private boolean bigContentView;
++        private float initialX;
++        private float delta;
++        private boolean shown = false;
++        private boolean longpress = false;
++
++        public NotificationView(Context context, StatusBarNotification sbn) {
++            super(context);
++            statusBarNotification = sbn;
++        }
++
++        public ViewPropertyAnimator animateChild() {
++            final ViewPropertyAnimator animation = getChildAt(0).animate();
++            animation.withEndAction(new Runnable() {
++               public void run() {
++                   animations--;
++                   if (animations == 0 && onAnimationEnd != null){
++                       onAnimationEnd.run();
++                       onAnimationEnd = null;
++                   }
++               }
++            });
++            animation.withStartAction(new Runnable() {
++                public void run() {
++                    animations++;
++                }
++            });
++            return animation;
++        }
++
++        private void startIntent() {
++            try {
++                ActivityManagerNative.getDefault().dismissKeyguardOnNextActivity();
++            } catch (RemoteException ex) {
++                Log.e(TAG, "failed to dimiss keyguard!");
++            }
++        }
++
++        @Override
++        public boolean dispatchTouchEvent(MotionEvent event) {
++            View v = getChildAt(0);
++            mViewMediatorCallback.userActivity();
++            if (!NotificationViewManager.privacyModeEnabled(mContext)) {
++                switch (event.getAction()) {
++                    case MotionEvent.ACTION_DOWN:
++                        initialX = event.getX();
++                        delta = initialX - v.getX();
++                        pointerDown = true;
++                        velocityTracker = VelocityTracker.obtain();
++                        break;
++                    case MotionEvent.ACTION_MOVE:
++                        if (v.getWidth() > 0) {
++                            velocityTracker.addMovement(event);
++                            float x = (event.getX() - delta);
++                            float xr = x - (mDisplayWidth - v.getWidth());
++                            if (canBeDismissed() && x < mDisplayWidth - v.getWidth()) {
++                                v.setAlpha(1f + (xr / (v.getWidth() * (SWIPE * 2))));
++                            }
++                            if (canBeDismissed() && (mShownNotifications == 0 || (shown && mShownNotifications == 1)))
++                                NotificationHostView.this.setBackgroundColor(Color.argb(MAX_ALPHA -
++                                        (int)(Math.abs(xr) / v.getWidth() * MAX_ALPHA), 0, 0, 0));
++                            if (swipeGesture  || Math.abs(event.getX() - initialX) > CLICK_THRESHOLD) {
++                                swipeGesture = true;
++                                v.cancelPendingInputEvents();
++                                mScrollView.requestDisallowInterceptTouchEvent(true);
++                                v.setTranslationX((!canBeDismissed() && x < 0) ? -4 * (float)Math.sqrt(-x) : x);
++                            }
++                        }
++                        break;
++                    case MotionEvent.ACTION_UP:
++                        if (!swipeGesture && !longpress) {
++                            startIntent();
++                        } else if (v != null) {
++                            boolean dismiss = getVelocity() < 0 &&
++                                    v.getX() - (mDisplayWidth - v.getWidth())< -SWIPE * mDisplayWidth &&
++                                    canBeDismissed();
++                            boolean show = (v.getX() < (SWIPE * mDisplayWidth)) ||
++                                    (v.getX() < ((1 - SWIPE) * mDisplayWidth) && getVelocity() < 0);
++                            if (dismiss) {
++                                removeNotification(statusBarNotification);
++                            } else if (show) {
++                                showNotification(this);
++                            } else {
++                                hideNotification(this);
++                            }
++                        }
++                        velocityTracker.recycle();
++                        swipeGesture = false;
++                        pointerDown = false;
++                        longpress = false;
++                        break;
++                }
++            }
++            return super.dispatchTouchEvent(event);
++        }
++
++        public void runOnAnimationEnd(Runnable r) {
++            if (animations > 0 || swipeGesture) onAnimationEnd = r;
++            else r.run();
++        }
++
++        public boolean canBeDismissed() {
++            return (NotificationViewManager.config.dismissAll
++                    || statusBarNotification.isClearable());
++        }
++
++        public float getVelocity() {
++            // 1 = pixel per millisecond
++            if (pointerDown) velocityTracker.computeCurrentVelocity(1);
++            return pointerDown ? velocityTracker.getXVelocity() : PPMS;
++        }
++    }
++
++    public NotificationHostView(Context context, AttributeSet attributes) {
++        super(context, attributes);
++
++        mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
++        mNotificationMinHeight = mContext.getResources()
++                .getDimensionPixelSize(R.dimen.notification_min_height);
++        mNotificationMinRowHeight = mContext.getResources()
++                .getDimensionPixelSize(R.dimen.notification_row_min_height);
++        mNotificationManager = INotificationManager.Stub.asInterface(
++                ServiceManager.getService(Context.NOTIFICATION_SERVICE));
++        mDynamicWidth = getResources().getBoolean(R.bool.config_lnDynamicWidth);
++    }
++
++    @Override
++    public void onFinishInflate() {
++        if (NotificationViewManager.config != null) {
++            mNotifications.clear();
++            mNotificationsToAdd.clear();
++            mNotificationsToRemove.clear();
++            mShownNotifications = 0;
++            setOnTouchListener(new OnTouchListener() {
++                @Override
++                public boolean onTouch(View v, MotionEvent ev) {
++                    if (mShownNotifications > 0) {
++                        hideAllNotifications();
++                    }
++                    return false;
++                }
++            });
++            Point p = new Point();
++            mWindowManager.getDefaultDisplay().getSize(p);
++            mDisplayWidth = p.x;
++            mDisplayHeight = p.y;
++            mNotifView = (LinearLayout) findViewById(R.id.linearlayout);
++            mScrollView = (TouchModalScrollView) findViewById(R.id.scrollview);
++            mScrollView.setHostView(this);
++            mScrollView.setY(mDisplayHeight * NotificationViewManager.config.offsetTop);
++            int maxHeight = Math.round(mDisplayHeight - mDisplayHeight
++                    * NotificationViewManager.config.offsetTop);
++            mScrollView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
++                    Math.min(maxHeight, NotificationViewManager.config.notificationsHeight
++                    * mNotificationMinRowHeight)));
++        }
++    }
++
++    public void addNotifications() {
++        if (NotificationViewManager.NotificationListener != null) {
++            try {
++                StatusBarNotification[] sbns = mNotificationManager
++                        .getActiveNotificationsFromListener(
++                        NotificationViewManager.NotificationListener);
++                StatusBarNotification dismissedSbn;
++                for (StatusBarNotification sbn : sbns) {
++                    if ((dismissedSbn = mDismissedNotifications.get(describeNotification(sbn)))
++                            == null || dismissedSbn.getPostTime() != sbn.getPostTime())
++                        addNotification(sbn);
++                }
++                setButtonDrawable();
++                bringToFront();
++            } catch (RemoteException e) {
++                Log.e(TAG, "Failed to get active notifications!");
++            }
++        }
++    }
++
++    public void setViewMediator(ViewMediatorCallback viewMediator) {
++        mViewMediatorCallback = viewMediator;
++    }
++
++    public boolean addNotification(StatusBarNotification sbn) {
++        return addNotification(sbn, false, false);
++    }
++
++    public boolean addNotification(StatusBarNotification sbn,
++            boolean showNotification, boolean forceBigContentView) {
++        if ((!NotificationViewManager.config.hideLowPriority
++                || sbn.getNotification().priority > Notification.PRIORITY_LOW)
++                && NotificationViewManager.NotificationListener.isValidNotification(sbn)
++                && (!NotificationViewManager.config.hideNonClearable || sbn.isClearable())) {
++            mNotificationsToAdd.add(new NotificationView(mContext, sbn));
++            Message msg = new Message();
++            msg.arg1 = showNotification ? 1 : 0;
++            msg.arg2 = forceBigContentView ? 1 : 0;
++            msg.what = MSG_NOTIFICATION_ADD;
++            mHandler.sendMessage(msg);
++            return true;
++        }
++        return false;
++    }
++
++    private void setBackgroundRecursive(ViewGroup g) {
++        for (int i = 0; i < g.getChildCount(); i++) {
++            View v = g.getChildAt(i);
++            if (v instanceof ViewGroup) {
++                setBackgroundRecursive((ViewGroup)v);
++                v.setBackground(null);
++            }
++        }
++    }
++    View.OnLayoutChangeListener mLayoutListener = new View.OnLayoutChangeListener() {
++        public void onLayoutChange(View v, int left, int top, int right, int bottom,
++                int oldLeft, int oldTop, int oldRight, int oldBottom) {
++            NotificationView nv = (NotificationView) v;
++            if (nv.shown) {
++                nv.getChildAt(0).setX(mDisplayWidth - nv.getChildAt(0).getWidth());
++            }
++            v.removeOnLayoutChangeListener(this);
++        }
++    };
++
++    private void startIntent(PendingIntent pi) {
++        if (pi != null) {
++            try {
++                Intent intent = pi.getIntent();
++                intent.setFlags(
++                    intent.getFlags()
++                    | Intent.FLAG_ACTIVITY_NEW_TASK
++                    | Intent.FLAG_ACTIVITY_SINGLE_TOP
++                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
++                pi.send();
++            } catch (CanceledException ex) {
++                Log.e(TAG, "intent canceled!");
++            }
++          }
++    }
++
++    private void handleAddNotification(
++            final boolean showNotification, boolean forceBigContentView) {
++        final NotificationView nv = mNotificationsToAdd.poll();
++        Log.d(TAG, "Add: " + describeNotification(nv.statusBarNotification));
++        final StatusBarNotification sbn = nv.statusBarNotification;
++        mDismissedNotifications.remove(describeNotification(sbn));
++
++        if (sbn.getNotification().contentView == null) {
++            if (sbn.getNotification().bigContentView == null) {
++                return;
++            }
++            forceBigContentView = true;
++        }
++        final NotificationView oldView = mNotifications.get(describeNotification(sbn));
++        final boolean reposted = oldView != null;
++        if (reposted && oldView.bigContentView) forceBigContentView = true;
++        boolean bigContentView = sbn.getNotification().bigContentView != null
++                && ((reposted && oldView.bigContentView));
++        nv.bigContentView = bigContentView && forceBigContentView;
++        RemoteViews rv = nv.bigContentView ?
++                sbn.getNotification().bigContentView : sbn.getNotification().contentView;
++        final View remoteView = rv.apply(mContext, null);
++        remoteView.setLayoutParams(new LayoutParams(mDynamicWidth ?
++                LayoutParams.WRAP_CONTENT : LayoutParams.MATCH_PARENT,
++                LayoutParams.WRAP_CONTENT));
++        remoteView.setX(mDisplayWidth - mNotificationMinHeight);
++        setBackgroundRecursive((ViewGroup)remoteView);
++        remoteView.setBackgroundColor(NotificationViewManager.config.notificationColor);
++        remoteView.setAlpha(1f);
++        final boolean enableBc = bigContentView && sbn.getNotification().contentView != null;
++        final boolean bc = !forceBigContentView;
++        final NotificationView notifView = reposted ? oldView : nv;
++        remoteView.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                startIntent(sbn.getNotification().contentIntent);
++            }
++        });
++        remoteView.setOnLongClickListener(new View.OnLongClickListener() {
++            @Override
++            public boolean onLongClick(View v) {
++                if (notifView.shown) {
++                    notifView.bigContentView = bc;
++                    addNotification(sbn, false, bc);
++                }
++                notifView.longpress = true;
++                return true;
++            }
++        });
++
++        if (reposted){
++            // The notification already exists, so it was just changed.
++            // Remove the old view and add the new one
++            Runnable replaceView = new Runnable() {
++                public void run() {
++                    oldView.removeAllViews();
++                    oldView.addView(remoteView);
++                    oldView.addOnLayoutChangeListener(mLayoutListener);
++                    oldView.statusBarNotification = sbn;
++                }
++            };
++            if (showNotification && !oldView.shown && showNotification
++                    && !oldView.pointerDown) showNotification(sbn);
++            oldView.runOnAnimationEnd(replaceView);
++            oldView.bigContentView = nv.bigContentView;
++            return;
++        }
++
++        nv.addView(remoteView);
++        nv.setPadding(0, 0, 0, mNotificationMinRowHeight - mNotificationMinHeight);
++
++        mNotifView.addView(nv);
++        mNotifications.put(describeNotification(sbn), nv);
++        mNotifView.bringToFront();
++        if(showNotification) {
++            // showNotification uses v.getWidth but until the layout is done, this just returns 0.
++            // by using mHandler.post, we wait until getWidth returns the real width
++            if (mDynamicWidth) {
++                mHandler.post(new Runnable() {
++                    public void run() {
++                        showNotification(nv);
++                    }
++                });
++            } else {
++                showNotification(nv);
++            }
++        }
++        setButtonDrawable();
++    }
++
++    public void removeNotification(final StatusBarNotification sbn) {
++        removeNotification(sbn, true);
++    }
++
++    public void removeNotification(final StatusBarNotification sbn, boolean dismiss) {
++        mNotificationsToRemove.add(mNotifications.get(describeNotification(sbn)));
++        Message msg = new Message();
++        msg.what = MSG_NOTIFICATION_REMOVE;
++        msg.arg1 = dismiss ? 1 : 0;
++        mHandler.sendMessage(msg);
++    }
++
++    private void handleRemoveNotification(final boolean dismiss) {
++        final NotificationView v = mNotificationsToRemove.poll();
++        final StatusBarNotification sbn = v.statusBarNotification;
++        if (mNotifications.containsKey(describeNotification(sbn)) && sbn != null) {
++            Log.d(TAG, "Remove: " + describeNotification(v.statusBarNotification));
++            if (v.shown) {
++                if (mShownNotifications > 0) mShownNotifications--;
++                if (mShownNotifications == 0) {
++                    animateBackgroundColor(0);
++                }
++            }
++            if (!sbn.isClearable()) {
++                mDismissedNotifications.put(describeNotification(sbn), sbn);
++            }
++            int duration =  getDurationFromDistance(v.getChildAt(0), v.shown ?
++                    -mDisplayWidth : mDisplayWidth, 0);
++            v.animateChild().setDuration(duration).alpha(0).start();
++            mNotifications.remove(describeNotification(sbn));
++            v.onAnimationEnd = new Runnable() {
++                public void run() {
++                    if (dismiss) {
++                        dismiss(sbn);
++                    }
++                    mNotifView.removeView(v);
++                    mNotifView.requestLayout();
++                }
++            };
++            animateTranslation(v, v.shown ? -mDisplayWidth : mDisplayWidth, 0, duration);
++            setButtonDrawable();
++        }
++    }
++
++    public void onButtonClick(int buttonId) {
++        if (mShownNotifications == mNotifications.size())
++            dismissAll();
++        else
++            showAllNotifications();
++    }
++
++    private void dismissAll() {
++        for (NotificationView nv : mNotifications.values()) {
++            if (nv.canBeDismissed() && nv.statusBarNotification.isClearable()) {
++                removeNotification(nv.statusBarNotification);
++            }
++        }
++    }
++
++    private void dismiss(StatusBarNotification sbn) {
++        if (sbn.isClearable()) {
++            INotificationManager nm = INotificationManager.Stub.asInterface(
++                    ServiceManager.getService(Context.NOTIFICATION_SERVICE));
++            try {
++                nm.cancelNotificationFromListener(NotificationViewManager.NotificationListener,
++                        sbn.getPackageName(), sbn.getTag(), sbn.getId());
++            } catch (RemoteException ex) {
++                Log.e(TAG, "Failed to cancel notification: " + sbn.getPackageName());
++            }
++        }
++    }
++
++    public void showNotification(StatusBarNotification sbn) {
++        showNotification(mNotifications.get(describeNotification(sbn)));
++    }
++
++    private void showNotification(NotificationView nv) {
++        if (!NotificationViewManager.privacyModeEnabled(mContext)) {
++            View v = nv.getChildAt(0);
++            int targetX = mDynamicWidth ? (mDisplayWidth - v.getWidth()) : 0;
++            boolean useRealVelocity = !(Math.copySign(1, nv.getVelocity())
++                    == Math.copySign(1, v.getX()));
++            int duration = useRealVelocity ? getDurationFromDistance(
++                    v, targetX, 0, Math.abs(nv.getVelocity())) : ANIMATION_MAX_DURATION;
++            nv.animateChild().setDuration(duration).alpha(1);
++            animateTranslation(nv, targetX, 0, duration);
++            if (mShownNotifications == 0 ||
++                    (mShownNotifications == 1 && nv.shown)) {
++                animateBackgroundColor(Color.argb(MAX_ALPHA, 0, 0, 0));
++            }
++            if (!nv.shown) {
++                nv.shown = true;
++                mShownNotifications++;
++            }
++        }
++        setButtonDrawable();
++        bringToFront();
++    }
++
++    private void hideNotification(NotificationView nv) {
++        View v = nv.getChildAt(0);
++        int targetX = Math.round(mDisplayWidth - mNotificationMinHeight);
++        int duration = getDurationFromDistance(v, targetX,
++                (int)v.getY(), Math.abs(nv.getVelocity()));
++        if (mShownNotifications > 0 && nv.shown) mShownNotifications--;
++        if (mShownNotifications == 0) animateBackgroundColor(0);
++        animateTranslation(nv, targetX, 0, duration);
++        nv.shown = false;
++        nv.bigContentView = false;
++        final StatusBarNotification sbn = nv.statusBarNotification;
++        addNotification(sbn, false, false);
++        setButtonDrawable();
++    }
++
++    public void showAllNotifications() {
++        for (NotificationView nv : mNotifications.values()) {
++            showNotification (nv);
++        }
++        mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
++    }
++
++    public void hideAllNotifications() {
++        for (NotificationView nv : mNotifications.values()) {
++            if (nv.shown)
++                hideNotification (nv);
++        }
++    }
++
++    private void setButtonDrawable() {
++        IStatusBarService statusBar = null;
++        try {
++            statusBar = IStatusBarService.Stub.asInterface(
++                    ServiceManager.getService(Context.STATUS_BAR_SERVICE));
++        } catch (Exception ex) {
++            Log.w(TAG, "Failed to get statusbar service!");
++            return;
++        }
++        if (statusBar != null) {
++            try {
++                if (mNotifications.size() == 0) {
++                    statusBar.setButtonDrawable(0, 0);
++                } else if (mShownNotifications == mNotifications.size()) {
++                    statusBar.setButtonDrawable(0, 2);
++                } else {
++                    statusBar.setButtonDrawable(0, 1);
++                }
++            } catch (Exception ex) {
++                Log.e(TAG, "Failed to set button drawable!");
++            }
++        }
++    }
++
++    private void animateBackgroundColor(final int targetColor) {
++        if (!(getBackground() instanceof ColorDrawable)) {
++            setBackgroundColor(0x0);
++        }
++        final ObjectAnimator colorFade = ObjectAnimator.ofObject(
++                this, "backgroundColor", new ArgbEvaluator(),
++                ((ColorDrawable)getBackground()).getColor(), targetColor);
++        colorFade.setDuration(ANIMATION_MAX_DURATION);
++        Runnable r = new Runnable() {
++            public void run() {
++                colorFade.start();
++            }
++        };
++        if (Looper.myLooper() == mHandler.getLooper()) {
++            r.run();
++        } else {
++            mHandler.post(r);
++        }
++    }
++
++    private void animateTranslation(final NotificationView v,
++            final float targetX, final float targetY, final int duration) {
++        ViewPropertyAnimator vpa = v.animateChild();
++        vpa.setDuration(Math.min(duration, ANIMATION_MAX_DURATION)).translationX(targetX);
++        vpa.setDuration(Math.min(duration, ANIMATION_MAX_DURATION)).translationY(targetY);
++    }
++
++    public int getNotificationCount() {
++        return mNotifications.size();
++    }
++
++    public boolean containsNotification(StatusBarNotification sbn) {
++        return mNotifications.containsKey(describeNotification(sbn));
++    }
++
++    public Notification getNotification(StatusBarNotification sbn) {
++        if (containsNotification(sbn))
++            return mNotifications.get(describeNotification(sbn))
++                    .statusBarNotification.getNotification();
++        else
++            return null;
++    }
++
++    private String describeNotification(StatusBarNotification sbn) {
++        return sbn.getPackageName() + sbn.getId();
++    }
++
++    private int getDurationFromDistance (View v, int targetX, int targetY) {
++        return getDurationFromDistance (v, targetX, targetY, PPMS);
++    }
++
++    private int getDurationFromDistance (View v, int targetX, int targetY, float ppms) {
++        int distance = 0;
++        float x = v.getX();
++        float y = v.getY();
++        if (targetY == y) distance = Math.abs(Math.round(x) - targetX);
++        else if (targetX == x) distance = Math.abs(Math.round(y - targetY));
++        else distance = (int) Math.abs(Math.round(Math.sqrt((x - targetX)
++                * (x * targetX)+(y - targetY)*(y - targetY))));
++        return Math.round(distance / ppms);
++    }
++
++    public void bringToFront() {
++        mNotifView.bringToFront();
++        super.bringToFront();
++    }
++
++    public void setVisibility (int v) {
++        super.setVisibility(v);
++        bringToFront();
++    }
++}
+diff --git a/packages/Keyguard/src/com/android/keyguard/NotificationViewManager.java b/packages/Keyguard/src/com/android/keyguard/NotificationViewManager.java
+new file mode 100644
+index 0000000..d6e1a0a
+--- /dev/null
++++ b/packages/Keyguard/src/com/android/keyguard/NotificationViewManager.java
+@@ -0,0 +1,353 @@
++/*
++ * Copyright (C) 2013 Team AOSPAL
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.keyguard;
++
++import android.app.INotificationManager;
++import android.content.ComponentName;
++import android.content.ContentResolver;
++import android.content.Context;
++import android.database.ContentObserver;
++import android.hardware.Sensor;
++import android.hardware.SensorEvent;
++import android.hardware.SensorEventListener;
++import android.hardware.SensorManager;
++import android.os.Handler;
++import android.os.PowerManager;
++import android.os.RemoteException;
++import android.os.ServiceManager;
++import android.os.SystemClock;
++import android.os.UserHandle;
++import android.provider.Settings;
++import android.service.notification.INotificationListener;
++import android.service.notification.StatusBarNotification;
++import android.text.TextUtils;
++import android.util.Log;
++
++import java.util.Arrays;
++import java.util.HashSet;
++import java.util.Set;
++
++import com.android.internal.widget.LockPatternUtils;
++
++public class NotificationViewManager {
++    private final static String TAG = "Keyguard:NotificationViewManager";
++
++    private final static int MIN_TIME_COVERED = 5000;
++    private static final int ANIMATION_MAX_DURATION = 300;
++
++    public static NotificationListenerWrapper NotificationListener = null;
++    private static ProximityListener ProximityListener = null;
++    private static Sensor ProximitySensor = null;
++
++    private boolean mWokenByPocketMode = false;
++    private boolean mIsScreenOn = false;
++    private long mTimeCovered = 0;
++
++    private Context mContext;
++    private KeyguardViewManager mKeyguardViewManager;
++    private INotificationManager mNotificationManager;
++    private PowerManager mPowerManager;
++    private NotificationHostView mHostView;
++
++    private static LockPatternUtils mLockPatternUtils;
++
++
++    private Set<String> mExcludedApps = new HashSet<String>();
++
++    public static Configuration config;
++
++    class Configuration extends ContentObserver {
++        //User configurable values, set defaults here
++        public boolean showAlways = false;
++        public boolean pocketMode = false;
++        public boolean hideLowPriority = false;
++        public boolean hideNonClearable = false;
++        public boolean dismissAll = true;
++        public boolean wakeOnNotification = false;
++        public boolean privacyMode = true;
++        public int notificationsHeight = 4;
++        public float offsetTop = 0.3f;
++        public int notificationColor = 0x55555555;
++
++        public Configuration(Handler handler) {
++            super(handler);
++            updateSettings();
++        }
++
++        void observe() {
++            ContentResolver resolver = mContext.getContentResolver();
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_POCKET_MODE), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_HEIGHT), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_COLOR), false, this);
++            resolver.registerContentObserver(Settings.System.getUriFor(
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_TYPE), false, this);
++        }
++
++        @Override
++        public void onChange(boolean selfChange) {
++            updateSettings();
++        }
++
++        private void updateSettings() {
++
++            int pocketModeVal = Settings.System.getIntForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_POCKET_MODE, 2, UserHandle.USER_CURRENT);
++            if (pocketModeVal == 0) {
++                pocketMode = true;
++                showAlways = true;
++            } else if (pocketModeVal == 1) {
++                pocketMode = true;
++                showAlways = false;
++            } else {
++                pocketMode = false;
++                showAlways = false;
++            }
++            wakeOnNotification = Settings.System.getIntForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_WAKE_ON_NOTIFICATION,
++                    wakeOnNotification ? 1 : 0, UserHandle.USER_CURRENT) == 1;
++
++            privacyMode = Settings.System.getIntForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE,
++                    privacyMode ? 1 : 0, UserHandle.USER_CURRENT) == 1;
++
++            notificationsHeight = Settings.System.getIntForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_HEIGHT,
++                    notificationsHeight, UserHandle.USER_CURRENT);
++            offsetTop = Settings.System.getFloatForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_OFFSET_TOP,
++                    offsetTop, UserHandle.USER_CURRENT);
++            String excludedApps = Settings.System.getStringForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_EXCLUDED_APPS,
++                    UserHandle.USER_CURRENT);
++            //notificationColor = Settings.System.getInt(mContext.getContentResolver(),
++              //      Settings.System.LOCKSCREEN_NOTIFICATIONS_COLOR, notificationColor);
++
++            String types = Settings.System.getStringForUser(mContext.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_TYPE, UserHandle.USER_CURRENT);
++            if (types != null) {
++                if (types.contains("1")) {
++                    hideNonClearable = false;
++                } else {
++                    hideNonClearable = true;
++                }
++                if (types.contains("2")) {
++                    hideLowPriority = false;
++                } else {
++                    hideLowPriority = true;
++                }
++            }
++
++            createExcludedAppsSet(excludedApps);
++        }
++    }
++
++    public static final boolean privacyModeEnabled(Context context) {
++        boolean securityBypassed = Settings.Secure.getIntForUser(context.getContentResolver(),
++                    Settings.Secure.LOCK_TEMP_SECURE_MODE, 0, UserHandle.USER_CURRENT) == 0;
++        boolean shakeSecureEnabled = Settings.Secure.getIntForUser(context.getContentResolver(),
++                    Settings.Secure.LOCK_SHAKE_TEMP_SECURE, 0, UserHandle.USER_CURRENT) == 1;
++        boolean privacyModeEnabled = Settings.System.getIntForUser(context.getContentResolver(),
++                    Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE, 1, UserHandle.USER_CURRENT) == 1;
++
++        if (mLockPatternUtils.isSecure() && shakeSecureEnabled && securityBypassed) {
++            return false;
++        } else if (mLockPatternUtils.isSecure() && privacyModeEnabled){
++            return true;
++        } else {
++            return false;
++        }
++    }
++
++    private class ProximityListener implements SensorEventListener {
++        public void onSensorChanged(SensorEvent event) {
++            if (event.sensor.equals(ProximitySensor)) {
++                if (!mIsScreenOn) {
++                    if (event.values[0] >= ProximitySensor.getMaximumRange()) {
++                        if (config.pocketMode && mTimeCovered != 0 && (config.showAlways
++                                || mHostView.getNotificationCount() > 0)
++                                && System.currentTimeMillis() - mTimeCovered > MIN_TIME_COVERED
++                                && Settings.System.getInt(mContext.getContentResolver(),
++                                Settings.System.QUIET_HOURS_DIM, 0) != 2) {
++                            wakeDevice();
++                            mWokenByPocketMode = true;
++                            mHostView.showAllNotifications();
++                        }
++                        mTimeCovered = 0;
++                    } else if (mTimeCovered == 0) {
++                        mTimeCovered = System.currentTimeMillis();
++                    }
++                } else if (config.pocketMode && mWokenByPocketMode &&
++                        mKeyguardViewManager.isShowing() && event.values[0] < 0.2f){
++                    mPowerManager.goToSleep(SystemClock.uptimeMillis());
++                    mTimeCovered = System.currentTimeMillis();
++                    mWokenByPocketMode = false;
++                }
++            }
++        }
++        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
++    }
++
++    public class NotificationListenerWrapper extends INotificationListener.Stub {
++        @Override
++        public void onNotificationPosted(final StatusBarNotification sbn) {
++            boolean screenOffAndNotCovered = !mIsScreenOn && mTimeCovered == 0;
++            boolean showNotification = !mHostView.containsNotification(sbn) ||
++                    mHostView.getNotification(sbn).when != sbn.getNotification().when;
++            boolean added = mHostView.addNotification(sbn,
++                    (screenOffAndNotCovered || mIsScreenOn) && showNotification, false);
++            if ( added && config.wakeOnNotification && screenOffAndNotCovered
++                        && showNotification && mTimeCovered == 0) {
++                wakeDevice();
++            }
++        }
++        @Override
++        public void onNotificationRemoved(final StatusBarNotification sbn) {
++            mHostView.removeNotification(sbn, false);
++        }
++
++        public boolean isValidNotification(final StatusBarNotification sbn) {
++            return (!mExcludedApps.contains(sbn.getPackageName()));
++        }
++
++    }
++
++    public NotificationViewManager(Context context, KeyguardViewManager viewManager) {
++        mContext = context;
++
++        mKeyguardViewManager = viewManager;
++        mNotificationManager = INotificationManager.Stub.asInterface(
++                ServiceManager.getService(Context.NOTIFICATION_SERVICE));
++
++        mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
++
++        mLockPatternUtils = new LockPatternUtils(mContext);
++
++        config = new Configuration(new Handler());
++        config.observe();
++    }
++
++    public void unregisterListeners() {
++        unregisterNotificationListener();
++        unregisterProximityListener();
++    }
++
++    public void registerListeners() {
++        registerProximityListener();
++        registerNotificationListener();
++    }
++
++    private void registerProximityListener() {
++        if (ProximityListener == null && (config.pocketMode || config.wakeOnNotification)) {
++            SensorManager sensorManager = (SensorManager)
++                    mContext.getSystemService(Context.SENSOR_SERVICE);
++            ProximityListener = new ProximityListener();
++            ProximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
++            sensorManager.registerListener(ProximityListener,
++                    ProximitySensor, SensorManager.SENSOR_DELAY_UI);
++        }
++    }
++
++    private void registerNotificationListener() {
++        if (NotificationListener == null) {
++            NotificationListener = new NotificationListenerWrapper();
++            ComponentName cn = new ComponentName(mContext, getClass().getName());
++            try {
++                mNotificationManager.registerListener(
++                        NotificationListener, cn, UserHandle.USER_ALL);
++            } catch (RemoteException ex) {
++                Log.e(TAG, "Could not register notification listener: " + ex.toString());
++            }
++        }
++    }
++
++    private void unregisterProximityListener() {
++        if (ProximityListener != null) {
++            SensorManager sensorManager = (SensorManager)
++                    mContext.getSystemService(Context.SENSOR_SERVICE);
++            sensorManager.unregisterListener(ProximityListener);
++            ProximityListener = null;
++        }
++    }
++
++    private void unregisterNotificationListener() {
++        if (NotificationListener != null) {
++            try {
++                mNotificationManager.unregisterListener(NotificationListener, UserHandle.USER_ALL);
++            } catch (RemoteException e) {
++                Log.e(TAG, "Failed to unregister NotificationListener!");
++            }
++            NotificationListener = null;
++        }
++    }
++
++    public void setHostView (NotificationHostView hostView) {
++        mHostView = hostView;
++    }
++
++    private void wakeDevice() {
++        mPowerManager.wakeUp(SystemClock.uptimeMillis());
++    }
++
++    public void onScreenTurnedOff() {
++        mIsScreenOn = false;
++        mWokenByPocketMode = false;
++        if (mHostView != null) mHostView.hideAllNotifications();
++        if (NotificationListener == null) {
++            registerListeners();
++        }
++    }
++
++    public void onScreenTurnedOn() {
++        mIsScreenOn = true;
++        mTimeCovered = 0;
++        if (mHostView != null) mHostView.bringToFront();
++    }
++
++    public void onDismiss() {
++        mWokenByPocketMode = false;
++        // We don't want the notification and proximity listeners run the whole time,
++        // we just need them when screen is off or keyguard is shown.
++        // Wait for eventual animations to finish
++        new Handler().postDelayed(new Runnable() {
++            public void run() {
++                unregisterListeners();
++            }
++        }, ANIMATION_MAX_DURATION);
++    }
++
++    /**
++     * Create the set of excluded apps given a string of packages delimited with '|'.
++     * @param excludedApps
++     */
++    private void createExcludedAppsSet(String excludedApps) {
++        if (TextUtils.isEmpty(excludedApps))
++            return;
++        String[] appsToExclude = excludedApps.split("\\|");
++        mExcludedApps = new HashSet<String>(Arrays.asList(appsToExclude));
++    }
++}
+diff --git a/packages/Keyguard/src/com/android/keyguard/PagedView.java b/packages/Keyguard/src/com/android/keyguard/PagedView.java
+index 53c17a5..fe57ad4 100644
+--- a/packages/Keyguard/src/com/android/keyguard/PagedView.java
++++ b/packages/Keyguard/src/com/android/keyguard/PagedView.java
+@@ -490,6 +490,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
+ 
+     protected void pageBeginMoving() {
+         if (DEBUG_WARP) Log.v(TAG, "pageBeginMoving(" + mIsPageMoving + ")");
++
+         if (!mIsPageMoving) {
+             mIsPageMoving = true;
+             if (isWarping()) {
+diff --git a/packages/SystemUI/res/layout-sw600dp/navigation_bar.xml b/packages/SystemUI/res/layout-sw600dp/navigation_bar.xml
+index 7e62f23..f92ae6f 100644
+--- a/packages/SystemUI/res/layout-sw600dp/navigation_bar.xml
++++ b/packages/SystemUI/res/layout-sw600dp/navigation_bar.xml
+@@ -160,6 +160,15 @@
+         </LinearLayout>
+ 
+         <com.android.systemui.statusbar.policy.KeyButtonView
++            android:layout_width="80dp"
++            android:id="@+id/show_notifs"
++            android:layout_height="match_parent"
++            android:layout_gravity="center_vertical|left"
++            android:scaleType="center"
++            android:visibility="gone"
++            />
++
++        <com.android.systemui.statusbar.policy.KeyButtonView
+             android:layout_width="128dp"
+             android:id="@+id/search_light"
+             android:layout_height="match_parent"
+@@ -307,6 +316,15 @@
+         </LinearLayout>
+ 
+         <com.android.systemui.statusbar.policy.KeyButtonView
++            android:layout_width="80dp"
++            android:id="@+id/show_notifs"
++            android:layout_height="match_parent"
++            android:layout_gravity="center_vertical|left"
++            android:scaleType="center"
++            android:visibility="gone"
++            />
++
++        <com.android.systemui.statusbar.policy.KeyButtonView
+             android:layout_width="162dp"
+             android:id="@+id/search_light"
+             android:layout_height="match_parent"
+diff --git a/packages/SystemUI/res/layout/navigation_bar.xml b/packages/SystemUI/res/layout/navigation_bar.xml
+index 63e35e6..b403933 100644
+--- a/packages/SystemUI/res/layout/navigation_bar.xml
++++ b/packages/SystemUI/res/layout/navigation_bar.xml
+@@ -170,6 +170,15 @@
+ 
+             <com.android.systemui.statusbar.policy.KeyButtonView
+                 android:layout_width="80dp"
++                android:id="@+id/show_notifs"
++                android:layout_height="match_parent"
++                android:layout_gravity="center_vertical|left"
++                android:scaleType="center"
++                android:visibility="gone"
++                />
++
++            <com.android.systemui.statusbar.policy.KeyButtonView
++                android:layout_width="80dp"
+                 android:id="@+id/search_light"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="center"
+@@ -331,6 +340,15 @@
+         </LinearLayout>
+ 
+         <com.android.systemui.statusbar.policy.KeyButtonView
++            android:layout_width="80dp"
++            android:id="@+id/show_notifs"
++            android:layout_height="match_parent"
++            android:layout_gravity="center_vertical|left"
++            android:scaleType="center"
++            android:visibility="gone"
++            />
++
++        <com.android.systemui.statusbar.policy.KeyButtonView
+             android:id="@+id/search_light"
+             android:layout_height="80dp"
+             android:layout_width="match_parent"
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
+index 23539aa..10aad64 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/BaseStatusBar.java
+@@ -620,6 +620,8 @@ public abstract class BaseStatusBar extends SystemUI implements
+                 newMask, lock ? 1 : 0, null).sendToTarget();
+     }
+ 
++    public void setButtonDrawable(int buttonId, int iconId) {}
++
+     protected abstract WindowManager.LayoutParams getSearchLayoutParams(
+             LayoutParams layoutParams);
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java b/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+index 515f7ed..b911e3a 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/CommandQueue.java
+@@ -120,6 +120,7 @@ public class CommandQueue extends IStatusBar.Stub {
+         public void toggleScreenshot();
+         public void toggleLastApp();
+         public void toggleKillApp();
++        public void setButtonDrawable(int buttonId, int iconId);
+     }
+ 
+     public CommandQueue(Callbacks callbacks, StatusBarIconList list) {
+@@ -135,6 +136,10 @@ public class CommandQueue extends IStatusBar.Stub {
+         }
+     }
+ 
++    public void setButtonDrawable(int buttonId, int iconId) {
++        mCallbacks.setButtonDrawable(buttonId, iconId);
++    }
++
+     public void removeIcon(int index) {
+         synchronized (mList) {
+             int what = MSG_ICON | index;
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/KeyguardTouchDelegate.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/KeyguardTouchDelegate.java
+index c1646ba..dab6cbb 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/KeyguardTouchDelegate.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/KeyguardTouchDelegate.java
+@@ -114,6 +114,20 @@ public class KeyguardTouchDelegate {
+         return false;
+     }
+ 
++    public void dispatchButtonClick(int buttonId) {
++        final IKeyguardService service = mService;
++        if (service != null) {
++            try {
++                service.dispatchButtonClick(buttonId);
++            } catch (RemoteException e) {
++                // What to do?
++                Slog.e(TAG, "RemoteException sending event to keyguard!", e);
++            }
++        } else {
++            Slog.w(TAG, "dispatchButtonClick(buttonId): NO SERVICE!");
++        }
++    }
++
+     public boolean isInputRestricted() {
+         final IKeyguardService service = mService;
+         if (service != null) {
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarTransitions.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarTransitions.java
+index c7e37db..d464c31 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarTransitions.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarTransitions.java
+@@ -102,6 +102,7 @@ public final class NavigationBarTransitions extends BarTransitions {
+ 
+         setKeyButtonViewQuiescentAlpha(mView.getSearchLight(), KEYGUARD_QUIESCENT_ALPHA, animate);
+         setKeyButtonViewQuiescentAlpha(mView.getCameraButton(), KEYGUARD_QUIESCENT_ALPHA, animate);
++        setKeyButtonViewQuiescentAlpha(mView.getNotifsButton(), KEYGUARD_QUIESCENT_ALPHA, animate);
+ 
+         applyBackButtonQuiescentAlpha(mode, animate);
+ 
+@@ -158,6 +159,7 @@ public final class NavigationBarTransitions extends BarTransitions {
+     public void setContentVisible(boolean visible) {
+         final float alpha = visible ? 1 : 0;
+         fadeContent(mView.getCameraButton(), alpha);
++        fadeContent(mView.getNotifsButton(), alpha);
+         fadeContent(mView.getSearchLight(), alpha);
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java
+index b220fa3..093b880 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/NavigationBarView.java
+@@ -36,6 +36,8 @@ import android.graphics.Point;
+ import android.graphics.Rect;
+ import android.graphics.drawable.BitmapDrawable;
+ import android.graphics.drawable.Drawable;
++import android.graphics.drawable.Drawable;
++import android.net.Uri;
+ import android.os.Handler;
+ import android.os.Message;
+ import android.os.RemoteException;
+@@ -57,6 +59,7 @@ import android.widget.FrameLayout;
+ import android.widget.ImageView;
+ import android.widget.LinearLayout;
+ 
++import com.android.internal.widget.LockPatternUtils;
+ import com.android.internal.util.slim.ButtonConfig;
+ import com.android.internal.util.slim.ButtonsConstants;
+ import com.android.internal.util.slim.ButtonsHelper;
+@@ -133,6 +136,10 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+     private ArrayList<ButtonConfig> mButtonsConfig;
+     private List<Integer> mButtonIdList;
+ 
++    boolean mWasNotifsButtonVisible = false;
++
++    private static LockPatternUtils mLockPatternUtils;
++
+     // workaround for LayoutTransitions leaving the nav buttons in a weird state (bug 5549288)
+     final static boolean WORKAROUND_INVALID_LAYOUT = true;
+     final static int MSG_CHECK_INVALID_LAYOUT = 8686;
+@@ -209,10 +216,10 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+ 
+     private final OnTouchListener mCameraTouchListener = new OnTouchListener() {
+         @Override
+-        public boolean onTouch(View cameraButtonView, MotionEvent event) {
++        public boolean onTouch(View view, MotionEvent event) {
+             switch (event.getAction()) {
+                 case MotionEvent.ACTION_DOWN:
+-                    // disable search gesture while interacting with camera
++                    // disable search gesture while interacting with additional navbar button
+                     mDelegateHelper.setDisabled(true);
+                     mBarTransitions.setContentVisible(false);
+                     break;
+@@ -226,6 +233,13 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+         }
+     };
+ 
++    private final OnClickListener mNavBarClickListener = new OnClickListener() {
++        @Override
++        public void onClick(View v) {
++            KeyguardTouchDelegate.getInstance(getContext()).dispatchButtonClick(0);
++        }
++    };
++
+     private class H extends Handler {
+         public void handleMessage(Message m) {
+             switch (m.what) {
+@@ -263,6 +277,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+ 
+         mBarTransitions = new NavigationBarTransitions(this);
+ 
++        mLockPatternUtils = new LockPatternUtils(context);
++
+         disableCameraByUser();
+         mCameraDisabledByDpm = isCameraDisabledByDpm();
+         watchForDevicePolicyChanges();
+@@ -372,6 +388,24 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+         return mCurrentView.findViewById(R.id.camera_button);
+     }
+ 
++    // used for lockscreen notifications
++    public View getNotifsButton() {
++        return mCurrentView.findViewById(R.id.show_notifs);
++    }
++
++    public void updateResources() {
++        for (int i = 0; i < mRotatedViews.length; i++) {
++            ViewGroup container = (ViewGroup) mRotatedViews[i];
++            if (container != null) {
++                updateKeyButtonViewResources(container);
++            }
++        }
++    }
++
++    private void updateKeyButtonViewResources(ViewGroup container) {
++        // TODO: fix this for AOKP
++    }
++
+     @Override
+     public void setLayoutDirection(int layoutDirection) {
+         updateSettings();
+@@ -714,7 +748,19 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+         setDisabledFlags(mDisabledFlags, true);
+     }
+ 
+-    @Override
++    public void setButtonDrawable(int buttonId, final int iconId) {
++        final ImageView iv = (ImageView)getNotifsButton();
++        mHandler.post(new Runnable() {
++            public void run() {
++                iv.setImageResource((iconId == 1) ?
++                        R.drawable.search_light_land : R.drawable.ic_notify_clear_normal);
++                mWasNotifsButtonVisible = iconId != 0
++                        && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
++                setVisibleOrGone(getNotifsButton(), mWasNotifsButtonVisible);
++            }
++        });
++    }
++
+     public void setDisabledFlags(int disabledFlags) {
+         setDisabledFlags(disabledFlags, false);
+     }
+@@ -782,6 +828,17 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+                     && !mCameraDisabledByUser);
+         }
+ 
++        final boolean showSearch = disableHome && !disableSearch;
++        final boolean showCamera = showSearch && !mCameraDisabledByDpm;
++        final boolean showNotifs = showSearch &&
++                Settings.System.getInt(mContext.getContentResolver(),
++                        Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1 &&
++                !mLockPatternUtils.isSecure();
++
++        setVisibleOrGone(getSearchLight(), showSearch);
++        setVisibleOrGone(getCameraButton(), showCamera);
++        setVisibleOrGone(getNotifsButton(), showNotifs && mWasNotifsButtonVisible);
++
+         mBarTransitions.applyBackButtonQuiescentAlpha(mBarTransitions.getMode(), true /*animate*/);
+ 
+         handleIMENavigation(mIMENavigation, true);
+@@ -963,12 +1020,16 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
+         boolean hasCamera = false;
+         for (int i = 0; i < mRotatedViews.length; i++) {
+             final View cameraButton = mRotatedViews[i].findViewById(R.id.camera_button);
++            final View notifsButton = mRotatedViews[i].findViewById(R.id.show_notifs);
+             final View searchLight = mRotatedViews[i].findViewById(R.id.search_light);
+             if (cameraButton != null) {
+                 hasCamera = true;
+                 cameraButton.setOnTouchListener(onTouchListener);
+                 cameraButton.setOnClickListener(onClickListener);
+             }
++            if (notifsButton != null) {
++                notifsButton.setOnClickListener(mNavBarClickListener);
++            }
+             if (searchLight != null) {
+                 searchLight.setOnClickListener(onClickListener);
+             }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
+index 83f757a..4094637 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
+@@ -4278,6 +4278,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
+         if (false) Log.v(TAG, "updateResources");
+     }
+ 
++    @Override
++    public void setButtonDrawable(int buttonId, int iconId) {
++        mNavigationBarView.setButtonDrawable(buttonId, iconId);
++    }
+     //
+     // tracing
+     //
+diff --git a/policy/src/com/android/internal/policy/impl/keyguard/KeyguardServiceWrapper.java b/policy/src/com/android/internal/policy/impl/keyguard/KeyguardServiceWrapper.java
+index 7a65893..0efe9d4 100644
+--- a/policy/src/com/android/internal/policy/impl/keyguard/KeyguardServiceWrapper.java
++++ b/policy/src/com/android/internal/policy/impl/keyguard/KeyguardServiceWrapper.java
+@@ -205,6 +205,10 @@ public class KeyguardServiceWrapper implements IKeyguardService {
+         // Not used by PhoneWindowManager.  See code in {@link NavigationBarView}
+     }
+ 
++    public void dispatchButtonClick(int buttonId) {
++        // Not used by PhoneWindowManager.  See code in {@link NavigationBarView}
++    }
++
+     public void launchCamera() {
+         // Not used by PhoneWindowManager.  See code in {@link NavigationBarView}
+     }
+diff --git a/services/java/com/android/server/NotificationManagerService.java b/services/java/com/android/server/NotificationManagerService.java
+index 26967e8..7e73c75 100644
+--- a/services/java/com/android/server/NotificationManagerService.java
++++ b/services/java/com/android/server/NotificationManagerService.java
+@@ -649,8 +649,11 @@ public class NotificationManagerService extends INotificationManager.Stub
+         for (NotificationListenerInfo info : toRemove) {
+             final ComponentName component = info.component;
+             final int oldUser = info.userid;
+-            Slog.v(TAG, "disabling notification listener for user " + oldUser + ": " + component);
+-            unregisterListenerService(component, info.userid);
++            if (!info.isSystem) {
++                Slog.v(TAG, "disabling notification listener for user "
++                        + oldUser + ": " + component);
++                unregisterListenerService(component, info.userid);
++            }
+         }
+ 
+         final int N = toAdd.size();
+@@ -671,7 +674,10 @@ public class NotificationManagerService extends INotificationManager.Stub
+     @Override
+     public void registerListener(final INotificationListener listener,
+             final ComponentName component, final int userid) {
+-        checkCallerIsSystem();
++        final int permission = mContext.checkCallingPermission(
++                android.Manifest.permission.SYSTEM_NOTIFICATION_LISTENER);
++        if (permission == PackageManager.PERMISSION_DENIED)
++            checkCallerIsSystem();
+ 
+         synchronized (mNotificationList) {
+             try {
+diff --git a/services/java/com/android/server/StatusBarManagerService.java b/services/java/com/android/server/StatusBarManagerService.java
+index 656f1b7..a158cdd 100644
+--- a/services/java/com/android/server/StatusBarManagerService.java
++++ b/services/java/com/android/server/StatusBarManagerService.java
+@@ -189,6 +189,12 @@ public class StatusBarManagerService extends IStatusBarService.Stub
+         }
+     }
+ 
++    public void setButtonDrawable(int buttonId, int iconId) {
++        try {
++            mBar.setButtonDrawable(buttonId, iconId);
++        } catch (RemoteException ex) {
++        }
++    }
+     public void setIcon(String slot, String iconPackage, int iconId, int iconLevel,
+             String contentDescription) {
+         enforceStatusBar();
+@@ -261,7 +267,7 @@ public class StatusBarManagerService extends IStatusBarService.Stub
+         }
+     }
+ 
+-    /** 
++    /**
+      * Hide or show the on-screen Menu key. Only call this from the window manager, typically in
+      * response to a window with FLAG_NEEDS_MENU_KEY set.
+      */
+-- 
+1.9.1
+
