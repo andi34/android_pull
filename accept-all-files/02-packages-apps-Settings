@@ -1,0 +1,95 @@
+From 520eb1674eae42f32c113f664af8b575e5abebe9 Mon Sep 17 00:00:00 2001
+From: Hamster Tian <th0928@126.com>
+Date: Wed, 30 Apr 2014 16:11:31 +0200
+Subject: [PATCH] [2/3]Settings: add "Accept all files" option for incoming
+ files via Bluetooth
+
+  Vanilla Android requires the incoming file from Bluetooth to be certain mime-types.
+  The mime-types allowed are defined in
+packages/apps/Bluetooth/src/com/android/bluetooth/opp/Constants.java
+  But sometimes we need to accept files that is not in the list,such as RAR archives
+or APK packages.
+  This patch makes "Accept all files" an option in Settings -> Bluetooth -> (Menu),
+and then saves users' choice to Settings Provider database.
+  This will meet users' demand as well as keep the phone from unsafe files
+when users don't need to accept the files out of the mime-type whitelist.
+
+Change-Id: I5f04d3ccb45bd5c6525b746855bd19ccc8501d32
+---
+ res/values/slim_strings.xml                             |  3 +++
+ .../android/settings/bluetooth/BluetoothSettings.java   | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/res/values/slim_strings.xml b/res/values/slim_strings.xml
+index cf26f96..d68cdcb 100644
+--- a/res/values/slim_strings.xml
++++ b/res/values/slim_strings.xml
+@@ -1286,6 +1286,9 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+     <!-- Device specific settings -->
+     <string name="screen_off_gesture_settings_title">Screen off gestures</string>
+ 
++    <!-- Bluetooth accept all Filestypes -->
++    <string name="bluetooth_accept_all_files">Accept all file types</string>
++
+     <!-- Proximity wake -->
+     <string name="proximity_wake_title">Prevent accidental wake-up</string>
+     <string name="proximity_wake_summary">Check the proximity sensor prior to waking up screen</string>
+diff --git a/src/com/android/settings/bluetooth/BluetoothSettings.java b/src/com/android/settings/bluetooth/BluetoothSettings.java
+index 529ee79..4ec1b2e 100755
+--- a/src/com/android/settings/bluetooth/BluetoothSettings.java
++++ b/src/com/android/settings/bluetooth/BluetoothSettings.java
+@@ -32,6 +32,7 @@ import android.preference.PreferenceActivity;
+ import android.preference.PreferenceCategory;
+ import android.preference.PreferenceGroup;
+ import android.preference.PreferenceScreen;
++import android.provider.Settings;
+ import android.util.Log;
+ import android.view.Gravity;
+ import android.view.Menu;
+@@ -54,6 +55,7 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment {
+     private static final int MENU_ID_RENAME_DEVICE = Menu.FIRST + 1;
+     private static final int MENU_ID_VISIBILITY_TIMEOUT = Menu.FIRST + 2;
+     private static final int MENU_ID_SHOW_RECEIVED = Menu.FIRST + 3;
++    private static final int MENU_ID_ACCEPT_ALL_FILES = Menu.FIRST + 4;
+ 
+     /* Private intent to show the list of received files */
+     private static final String BTOPP_ACTION_OPEN_RECEIVED_FILES =
+@@ -175,6 +177,10 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment {
+         boolean isDiscovering = mLocalAdapter.isDiscovering();
+         int textId = isDiscovering ? R.string.bluetooth_searching_for_devices :
+             R.string.bluetooth_search_for_devices;
++
++        boolean acceptAllFilesIsEnabled = Settings.System.getInt(getContentResolver(),
++                Settings.System.BLUETOOTH_ACCEPT_ALL_FILES, 0) == 1;
++
+         menu.add(Menu.NONE, MENU_ID_SCAN, 0, textId)
+                 .setEnabled(bluetoothIsEnabled && !isDiscovering)
+                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+@@ -186,6 +192,10 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment {
+                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+         menu.add(Menu.NONE, MENU_ID_SHOW_RECEIVED, 0, R.string.bluetooth_show_received_files)
+                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
++        menu.add(Menu.NONE, MENU_ID_ACCEPT_ALL_FILES, 0, R.string.bluetooth_accept_all_files)
++                .setCheckable(true)
++                .setChecked(acceptAllFilesIsEnabled)
++                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+         super.onCreateOptionsMenu(menu, inflater);
+     }
+ 
+@@ -212,6 +222,13 @@ public final class BluetoothSettings extends DeviceListPreferenceFragment {
+                 Intent intent = new Intent(BTOPP_ACTION_OPEN_RECEIVED_FILES);
+                 getActivity().sendBroadcast(intent);
+                 return true;
++
++            case MENU_ID_ACCEPT_ALL_FILES:
++                item.setChecked(!item.isChecked());
++                Settings.System.putInt(getContentResolver(),
++                        Settings.System.BLUETOOTH_ACCEPT_ALL_FILES,
++                        item.isChecked() ? 1 : 0);
++                return true;
+         }
+         return super.onOptionsItemSelected(item);
+     }
+-- 
+1.9.1
+
