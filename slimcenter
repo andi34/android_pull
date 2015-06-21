@@ -1,0 +1,22 @@
+#!/bin/bash
+cd frameworks/base
+echo "Add class for identifying slim build type and version. "
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/47/147/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+cd packages/apps/Settings
+echo "Settings: re-add SlimCenter (3/3)"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/18/4718/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd packages/apps/SlimCenter
+echo "SlimCenter: add support for SlimLP (2/3)"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_SlimCenter refs/changes/03/4703/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
