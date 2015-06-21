@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "S L I M   G L O B A L   M E N U"
+cd packages/apps/Settings
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/81/681/10 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd frameworks/base
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/18/218/14 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
