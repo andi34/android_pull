@@ -1,0 +1,20 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "C H A M B E R   O F   S E C R E T S"
+echo ""
+echo "https://review.slimroms.eu/#/q/topic:chamber"
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Settings
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/46/3746/11 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd frameworks/base
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/47/3747/20 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
