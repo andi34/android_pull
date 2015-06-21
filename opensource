@@ -12,6 +12,18 @@ git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 re
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/57/5157/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
+cd device/samsung/p3110
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3110 refs/changes/37/5337/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5100
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p5100 refs/changes/39/5339/2 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5110
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p5110 refs/changes/38/5338/1 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
 echo "DONE"
 echo "----------------------------------------"
 echo "----------------------------------------"
