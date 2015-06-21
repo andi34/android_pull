@@ -62,6 +62,15 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd bootable/recovery
+git pull https://review.slimroms.eu/SlimRoms/bootable_recovery refs/changes/36/5336/1
+echo "----------------------------------------"
+echo "new Stock TWRP UI"
+git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/15 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 echo "----------------------------------------"
