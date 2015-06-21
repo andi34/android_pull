@@ -1,0 +1,38 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "E X P A N D E D   D E S K T O P"
+echo "https://review.slimroms.eu/#/q/topic:expanded_desktop+status:open"
+echo "https://review.slimroms.eu/#/q/topic:expanded-desktop+status:open"
+echo "----------------------------------------"
+cd packages/apps/Settings
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/81/181/9 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/70/3370/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/71/3371/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/72/3372/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/73/3373/9 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/32/4232/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd frameworks/base
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/67/3367/7 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/82/182/12 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/68/3368/8 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/69/3369/8 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/30/4230/10 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/66/4266/7 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
