@@ -8,17 +8,12 @@ echo "----------------------------------------"
 echo "lzma ramdisk"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/27/96227/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "rework overlay"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/72/98972/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "rework overlay"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/02/99002/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+echo "nothing for now..."
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
@@ -123,8 +118,7 @@ cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bootable/recovery
-echo "sr: Fix log text color"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_bootable_recovery refs/changes/26/94426/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now"
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
