@@ -1,0 +1,18 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "Display cursor buttons in navigation bar while typing"
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/apps/Settings
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/12/4812/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd frameworks/base
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/11/4811/5 && git cherry-pick FETCH_HEAD
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
