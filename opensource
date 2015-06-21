@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "----------------------------------------"
+cd vendor/samsung
+git cherry-pick b4cbce19f5e51b6036cbb63ab8ac27ed1a05ed13
+cd ../..
+echo "----------------------------------------"
+cd device/samsung/p3100
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/53/5153/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/54/5154/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/55/5155/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/56/5156/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/57/5157/2 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
+echo "----------------------------------------"
