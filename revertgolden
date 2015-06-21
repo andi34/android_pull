@@ -1,0 +1,63 @@
+#!/bin/bash
+echo ""
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/av
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/base
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/native
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+git reset --hard HEAD^
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/services/Telecomm
+git reset --hard HEAD^
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd packages/services/Telephony
+git reset --hard HEAD^
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/opt/net/wifi
+git reset --hard HEAD^
+cd ../../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/opt/telephony
+git reset --hard HEAD^
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd system/core
+git reset --hard HEAD^
+git reset --hard HEAD^
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
