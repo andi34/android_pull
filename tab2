@@ -23,16 +23,12 @@ echo "----------------------------------------"
 echo "lzma ramdisk"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/28/96228/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "rework overlay"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/16/99016/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "rework overlay"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/18/99018/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
