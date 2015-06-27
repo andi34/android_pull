@@ -59,6 +59,17 @@ git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/chan
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/20/11220/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/21/11221/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo " some stuff to test"
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/72/13972/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/73/13973/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/74/13974/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/75/13975/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/76/13976/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/77/13977/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/78/13978/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/79/13979/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_kernel_samsung_espresso10 refs/changes/80/13980/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
