@@ -12,9 +12,6 @@ cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "P31XX: Disable usage of cursor layers."
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/91/13091/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -34,9 +31,6 @@ echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/17/11317/7 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P51XX: Disable usage of cursor layers."
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/92/13092/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
@@ -80,8 +74,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "inputservice: Allow disabling the usage of cursor layers"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/90/13090/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
