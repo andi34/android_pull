@@ -4,7 +4,7 @@ echo " S L I M R O M S   C R O W D I N  -  T R A N S L A T I O N"
 echo "Picking latest translations..."
 echo "----------------------------------------"
 cd frameworks/base
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/28/5528/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/20/6620/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
@@ -15,34 +15,34 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Dialer
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Dialer refs/changes/29/5529/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Dialer refs/changes/21/6621/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/InCallUI
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_InCallUI refs/changes/30/5530/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_InCallUI refs/changes/22/6622/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Mms
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Mms refs/changes/31/5531/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Mms refs/changes/23/6623/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd packages/apps/Settings
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/32/5532/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/24/6624/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd packages/apps/SlimLauncher
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_SlimLauncher refs/changes/33/5533/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_SlimLauncher refs/changes/25/6625/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd packages/services/Telecomm
-git fetch https://review.slimroms.eu/SlimRoms/packages_services_Telecomm refs/changes/34/5534/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_services_Telecomm refs/changes/26/6626/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -52,7 +52,7 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd packages/providers/DownloadProvider
-git fetch https://review.slimroms.eu/SlimRoms/packages_providers_DownloadProvider refs/changes/35/5535/1 && git cherry-pick FETCH_HEAD
+echo "nothing"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
