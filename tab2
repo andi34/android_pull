@@ -12,6 +12,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "P31XX: Update SELinux rules"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/58/14158/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
@@ -31,6 +32,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "P51XX: Update SELinux rules"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/59/14159/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
