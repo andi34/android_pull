@@ -61,18 +61,6 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd bootable/recovery
-git pull https://review.slimroms.eu/SlimRoms/bootable_recovery refs/changes/75/6475/1
-echo "----------------------------------------"
-echo "new Stock TWRP UI"
-git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/19 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Use landscape_hdpi for landscape_mdpi devices"
-git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/bootable_recovery refs/changes/40/5340/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
 echo ""
 echo "Done!"
 echo "----------------------------------------"
