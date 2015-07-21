@@ -9,6 +9,13 @@ git fetch https://review.slimroms.eu/SlimRoms/android_bionic refs/changes/20/272
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd build
+echo "Build: slim up sounds and update (2/2)"
+git fetch https://review.slimroms.eu/SlimRoms/android_build refs/changes/51/551/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd frameworks/av
 echo "STE Multimedia Fix"
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/frameworks_av refs/changes/77/3177/5 && git cherry-pick FETCH_HEAD
