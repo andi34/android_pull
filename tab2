@@ -75,6 +75,13 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd build
+echo "Build: slim up sounds and update (2/2)"
+git fetch https://review.slimroms.eu/SlimRoms/android_build refs/changes/51/551/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 echo "----------------------------------------"
