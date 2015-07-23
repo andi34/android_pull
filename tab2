@@ -38,8 +38,7 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/omap4-common
 echo "----------------------------------------"
-echo "selinux"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_omap4-common refs/changes/51/6651/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
