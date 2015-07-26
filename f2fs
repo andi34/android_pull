@@ -1,0 +1,93 @@
+#!/bin/bash
+echo ""
+echo " S A M S U N G  G A L A X Y  T A B  2"
+echo "       F 2 F S  S u p p o r t        "
+echo ""
+echo "http://review.cyanogenmod.org/#/q/topic:espresso-f2fs"
+echo "----------------------------------------"
+cd device/samsung/p3100
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/05/104205/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/06/104206/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p3110
+echo "Nothing to do..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5100
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/07/104207/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/08/104208/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5110
+echo "Nothing to do..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/omap4-common
+echo "----------------------------------------"
+echo "Nothing to do..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd kernel/samsung/espresso10
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/09/104209/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/10/104210/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/11/104211/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/12/104212/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/13/104213/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/14/104214/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/15/104215/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/16/104216/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/17/104217/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/18/104218/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/19/104219/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/20/104220/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/21/104221/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/22/104222/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/23/104223/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/104224/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/25/104225/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/26/104226/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/27/104227/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/28/104228/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/29/104229/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
