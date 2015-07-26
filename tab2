@@ -3,8 +3,12 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
+echo "Update SELinux Policies [2/2]"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/31/104231/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
@@ -13,8 +17,12 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "----------------------------------------"
+echo "Update SELinux Policies [2/2]"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104232/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
@@ -26,6 +34,9 @@ echo ""
 cd device/samsung/omap4-common
 echo "Disable usage of cursor layers. http://review.cyanogenmod.org/#/c/93544/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/44/93544/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Update SELinux Policies [1/2]"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/30/104230/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
