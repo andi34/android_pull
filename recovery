@@ -6,7 +6,7 @@ cd bootable/recovery
 git pull https://review.slimroms.eu/SlimRoms/bootable_recovery refs/changes/27/6727/1
 echo "----------------------------------------"
 echo "new Stock TWRP UI"
-git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/22 && git cherry-pick FETCH_HEAD
+git pull https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/23
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
