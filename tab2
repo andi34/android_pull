@@ -11,6 +11,9 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
+echo "stop cpboot-daemon for wifi-only device"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/58/14258/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/58/14158/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -31,6 +34,9 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
+echo "stop cpboot-daemon for wifi-only device"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/62/14262/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P51XX: Update SELinux rules"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/59/14159/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
