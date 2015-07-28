@@ -16,8 +16,7 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "i am wifi-only"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/25/104525/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -36,8 +35,7 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "i am wifi-only"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/28/104528/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
