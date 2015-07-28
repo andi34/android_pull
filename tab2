@@ -3,6 +3,9 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
+echo "stop cpboot-daemon for wifi-only device"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/68/100368/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "Update SELinux Policies [2/2]"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/31/104231/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -12,10 +15,16 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "nothing for now..."
+echo "----------------------------------------"
+echo "i am wifi-only"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/25/104525/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
+echo "----------------------------------------"
+echo "stop cpboot-daemon for wifi-only device"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104532/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Update SELinux Policies [2/2]"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104232/2 && git cherry-pick FETCH_HEAD
@@ -26,7 +35,9 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "nothing for now..."
+echo "----------------------------------------"
+echo "i am wifi-only"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/28/104528/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -43,7 +54,7 @@ echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "enforcing time"
+echo "nothing..."
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
