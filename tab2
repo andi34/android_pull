@@ -87,7 +87,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/av
-echo "nothing to do..."
+git fetch https://gerrit.omnirom.org/android_frameworks_av refs/changes/10/13310/3 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
