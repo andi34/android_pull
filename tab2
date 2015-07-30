@@ -3,9 +3,6 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
-echo "stop cpboot-daemon for wifi-only device"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/68/100368/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Update SELinux Policies [2/2]"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/31/104231/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -16,14 +13,11 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/96/104796/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "----------------------------------------"
-echo "stop cpboot-daemon for wifi-only device"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104532/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Update SELinux Policies [2/2]"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104232/2 && git cherry-pick FETCH_HEAD
@@ -35,7 +29,7 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/97/104797/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
