@@ -2,9 +2,6 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "stop cpboot-daemon for wifi-only device"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/22/6822/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Pegasusq default governor for performance profile"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/67/6467/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -17,14 +14,11 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "Nothing to do..."
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3110 refs/changes/62/6962/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "stop cpboot-daemon for wifi-only device"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/23/6823/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "Pegasusq default governor for performance profile"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/66/6466/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -37,7 +31,7 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "Nothing to do..."
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5110 refs/changes/63/6963/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
