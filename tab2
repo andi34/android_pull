@@ -2,9 +2,6 @@
 echo ""
 echo ""
 cd device/samsung/omap4-common
-echo "omap4-common: Update SELinux Policies [1/2]"
-git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/71/12771/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "libpower: Make it friendly to overclocked CPU https://gerrit.omnirom.org/#/c/11077/"
 git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/77/11077/3 && git cherry-pick FETCH_HEAD
 cd ../../..
@@ -13,9 +10,6 @@ echo "----------------------------------------"
 cd device/samsung/p3100
 echo "stop cpboot-daemon for wifi-only device"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/58/14258/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P31XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/58/14158/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/18/11318/1 && git cherry-pick FETCH_HEAD
@@ -28,7 +22,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "nothing to commit"
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -36,9 +30,6 @@ echo "----------------------------------------"
 cd device/samsung/p5100
 echo "stop cpboot-daemon for wifi-only device"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/62/14262/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P51XX: Update SELinux rules"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/59/14159/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "non-PIE support"
 git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/20/11320/1 && git cherry-pick FETCH_HEAD
@@ -51,7 +42,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "nothing to commit"
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -71,13 +62,13 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/samsung
-echo "nothing to commit"
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
-echo "nothing"
+echo "nothing for now..."
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -92,7 +83,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/opt/telephony
-echo "nothing to do..."
+echo "nothing for now..."
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
