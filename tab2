@@ -5,16 +5,13 @@ cd device/samsung/p3100
 echo "Pegasusq default governor for performance profile"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/67/6467/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "selinux"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/47/6647/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P31XX: enable non-PIE support"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/79/2779/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3110 refs/changes/62/6962/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -22,16 +19,13 @@ cd device/samsung/p5100
 echo "Pegasusq default governor for performance profile"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/66/6466/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "selinux"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/50/6650/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "P51XX: enable non-PIE support"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/78/2778/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5110 refs/changes/63/6963/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
