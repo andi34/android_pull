@@ -22,7 +22,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "ro.carrier needs to be defined earlier"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3110 refs/changes/03/14303/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -42,7 +43,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "ro.carrier needs to be defined earlier "
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5110 refs/changes/04/14304/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
