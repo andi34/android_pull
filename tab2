@@ -3,6 +3,9 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
+echo "stop cpboot-daemon for wifi-only device"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/68/100368/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "P31XX: enable non-PIE support review.cyanogenmod.org/#/c/84785/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/85/84785/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -10,11 +13,15 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "ro.carrier needs to be defined earlier"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/27/105027/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
+echo "----------------------------------------"
+echo "stop cpboot-daemon for wifi-only device"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/32/104532/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P51XX: enable non-PIE support review.cyanogenmod.org/#/c/84786/"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/86/84786/2 && git cherry-pick FETCH_HEAD
@@ -23,7 +30,8 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "ro.carrier needs to be defined earlier"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/28/105028/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
