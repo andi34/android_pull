@@ -3,7 +3,6 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bootable/recovery
-git pull https://review.slimroms.eu/SlimRoms/bootable_recovery refs/changes/27/6727/1
 echo "----------------------------------------"
 echo "new Stock TWRP UI"
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/bootable_recovery refs/changes/32/7032/2 && git cherry-pick FETCH_HEAD
