@@ -52,6 +52,8 @@ echo "----------------------------------------"
 cd kernel/samsung/espresso10
 # echo "enforcing time"
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
+echo "safety first"
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/41/14341/2 && git cherry-pick FETCH_HEAD
 echo "Overclocking stuff"
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/16/11216/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/17/11217/1 && git cherry-pick FETCH_HEAD
