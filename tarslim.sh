@@ -50,7 +50,7 @@ cd $SAUCE/out/target/product/${DEVICENAME1[$VAL]}
 echo "Converting Rom to a odinflashable *.tar.md5 ..."
 tar -H ustar -c boot.img recovery.img system.img > ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar"
 md5sum -t ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar" >> ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar"
-cp ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar" ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar.md5"
+mv ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar" ${DEVICENAME2[$VAL]}"_"$ROMNAME"_"$ROMDATE".tar.md5"
 
 echo "Moving back to source directory..."
 cd $SAUCE
