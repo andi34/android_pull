@@ -45,7 +45,8 @@ echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "nothing..."
+echo "Security"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/95/105495/1 && git cherry-pick FETCH_HEAD
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
