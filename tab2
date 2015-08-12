@@ -34,7 +34,17 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "espresso-common: stop cpboot-daemon for wifi-only device"
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/06/7306/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: more SELinux rules "
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: enable non-PIE support"
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/08/7308/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "DeviceSettings: Overhaul"
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
