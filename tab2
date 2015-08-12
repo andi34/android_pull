@@ -2,43 +2,37 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "stop cpboot-daemon for wifi-only device"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/22/6822/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Pegasusq default governor for performance profile"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/67/6467/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P31XX: enable non-PIE support"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3100 refs/changes/79/2779/3 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
+echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "ro.carrier needs to be defined earlier"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p3110 refs/changes/18/7018/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
+echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "stop cpboot-daemon for wifi-only device"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/23/6823/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Pegasusq default governor for performance profile"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/66/6466/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "P51XX: enable non-PIE support"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5100 refs/changes/78/2778/3 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
+echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
-echo "ro.carrier needs to be defined earlier"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_p5110 refs/changes/19/7019/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
-echo ""
+echo "----------------------------------------"
 cd device/samsung/omap4-common
+echo "----------------------------------------"
+echo "nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/espresso-common
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
