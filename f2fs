@@ -7,9 +7,7 @@ echo "http://review.cyanogenmod.org/#/q/topic:espresso-f2fs"
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/05/104205/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/06/104206/2 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -20,9 +18,7 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/07/104207/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/08/104208/2 && git cherry-pick FETCH_HEAD
+echo "Nothing to do..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -35,6 +31,15 @@ echo ""
 cd device/samsung/omap4-common
 echo "----------------------------------------"
 echo "Nothing to do..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/espresso-common
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/28/105828/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/29/105829/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
