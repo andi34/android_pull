@@ -25,12 +25,6 @@ echo "Nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
-echo ""
-cd device/samsung/omap4-common
-echo "Disable usage of cursor layers. http://review.cyanogenmod.org/#/c/93544/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/44/93544/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
