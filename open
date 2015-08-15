@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "----------------------------------------"
 cd vendor/samsung
-git cherry-pick b4cbce19f5e51b6036cbb63ab8ac27ed1a05ed13
+echo "nothing to do..."
 cd ../..
 echo "----------------------------------------"
 cd device/samsung/p3100
