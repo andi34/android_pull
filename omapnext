@@ -1,0 +1,63 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/omap4-common
+echo "omap4-common: good bye Samsung Galaxy Tab 2"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/58/106158/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd device/samsung/espresso-common
+echo "espresso-common: Use dlmalloc"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/47/106147/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Remove deprecated egl.cfg"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/49/106149/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: Update SELinux Policies"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/46/106146/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: Enable Dex pre-optimization"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/52/106152/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: add global CFLAGS and CPPFLAGS from omap4-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/53/106153/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: define BOARD_VENDOR"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/54/106154/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: import libpower from omap4-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/55/106155/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: remove deprecated defines "
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/106156/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: update gps.xml"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/57/106157/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Squashed commit of switching to omap4-next"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/48/106148/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd kernel/samsung/espresso10
+echo "----------------------------------------"
+echo "ion: fix struct ion_allocation_data definiton"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd hardware/ti/omap4
+echo "----------------------------------------"
+echo "camera: add support for espresso"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/45/106145/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
