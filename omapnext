@@ -10,22 +10,22 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
 echo "espresso-common: Update SELinux Policies"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/46/106146/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/46/106146/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4: add custom ril class"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/50/106150/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/50/106150/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "omap4-common: samsung is using 5 qan elements"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/51/106151/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/51/106151/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: import libpower from omap4-common"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/55/106155/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/55/106155/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: remove deprecated defines "
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/106156/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/106156/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Squashed commit of switching to omap4-next"
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/48/106148/6 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/48/106148/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: update gps.xml"
 git fetch http://review.cyanogenmod.org/CyanogenMod/CyanogenMod/android_device_samsung_espresso-common refs/changes/57/106157/3 && git cherry-pick FETCH_HEAD
