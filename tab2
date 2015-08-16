@@ -28,11 +28,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
-echo "stop cpboot-daemon for wifi-only device"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/23/105823/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "enable non-PIE support review.cyanogenmod.org/#/c/84785/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/25/105825/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now"
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -56,8 +52,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/base
-echo "inputservice: Allow disabling the usage of cursor layers http://review.cyanogenmod.org/#/c/93296/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/96/93296/3 && git cherry-pick FETCH_HEAD
+echo "nothing for now"
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
@@ -77,8 +72,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bionic
-echo "Revert Revert Reenable support for non-PIE executables http://review.cyanogenmod.org/#/c/92943/"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_bionic refs/changes/43/92943/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now"
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
