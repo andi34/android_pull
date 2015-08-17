@@ -34,14 +34,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "espresso-common: stop cpboot-daemon for wifi-only device"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/06/7306/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "espresso-common: more SELinux rules "
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "espresso-common: enable non-PIE support"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/08/7308/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
@@ -71,13 +65,6 @@ cd packages/apps/Settings
 #git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/21/2721/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd bionic
-echo "bionic: conditionally revert requirement of PIE binaries"
-git fetch https://review.slimroms.eu/SlimRoms/android_bionic refs/changes/20/2720/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd build
