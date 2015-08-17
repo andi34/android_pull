@@ -7,12 +7,12 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd packages/apps/Settings
-git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/81/681/14 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/81/681/16 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd frameworks/base
-git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/18/218/18 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.eu/SlimRoms/frameworks_base refs/changes/18/218/20 && git cherry-pick FETCH_HEAD
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
