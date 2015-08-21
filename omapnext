@@ -1,0 +1,64 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/p3100
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/00/106800/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/p3110
+
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/p5100
+
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/p5110
+
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/omap4-common
+echo "----------------------------------------"
+
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/espresso-common
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/82/7682/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/83/7683/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/84/7684/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/85/7685/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/86/7686/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/87/7687/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/88/7688/4 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/89/7689/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd hardware/ti/omap4
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/45/106145/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd kernel/samsung/espresso10
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/3 && git cherry-pick FETCH_HEAD
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
