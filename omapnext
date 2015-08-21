@@ -2,7 +2,7 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/00/106800/3 && git cherry-pick FETCH_HEAD
+
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -27,7 +27,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/omap4-common
 echo "----------------------------------------"
-
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_omap4-common refs/changes/90/7690/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -47,14 +47,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/ti/omap4
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/45/106145/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/hardware_ti_omap4 refs/changes/91/7691/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd kernel/samsung/espresso10
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/3 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
