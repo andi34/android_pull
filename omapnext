@@ -2,25 +2,25 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3100 refs/changes/19/7719/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
-
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p3110 refs/changes/18/7718/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
-
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p5100 refs/changes/16/7716/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
-
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_p5110 refs/changes/17/7717/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -41,6 +41,8 @@ git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/87/7687/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/88/7688/4 && git cherry-pick FETCH_HEAD
 git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/89/7689/3 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/20/7720/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@review.slimroms.eu:29418/SlimRoms/device_samsung_espresso-common refs/changes/21/7721/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
