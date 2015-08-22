@@ -61,7 +61,6 @@ echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/64/107064/1 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/87/107087/1 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/88/107088/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/90/107090/1 && git cherry-pick FETCH_HEAD
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/3 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
