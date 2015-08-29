@@ -2,25 +2,21 @@
 echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/00/106800/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/01/106801/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/02/106802/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/03/106803/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -40,11 +36,6 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espre
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/106156/6 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/48/106148/11 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/30/106530/4 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/04/106704/4 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/06/106706/3 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/43/107043/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/44/107044/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/45/107045/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -58,9 +49,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/64/107064/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/87/107087/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/88/107088/1 && git cherry-pick FETCH_HEAD
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/3 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
