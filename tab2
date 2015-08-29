@@ -73,6 +73,13 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd system/vold
+echo "cryptfs: Don't assume a device capable of hw crypto has encrypted with it https://review.slimroms.eu/#/c/7845/"
+git fetch https://review.slimroms.eu/SlimRoms/android_system_vold refs/changes/45/7845/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 echo "----------------------------------------"
