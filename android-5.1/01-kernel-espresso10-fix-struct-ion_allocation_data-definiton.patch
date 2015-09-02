@@ -1,0 +1,27 @@
+From 3cb1eb7607c70af2d2fefb0650486c8b11fc33c8 Mon Sep 17 00:00:00 2001
+From: Ziyan <jaraidaniel@gmail.com>
+Date: Sat, 15 Aug 2015 12:56:03 +0200
+Subject: [PATCH] ion: fix struct ion_allocation_data definiton
+
+The extra (unused) heap_mask member changes the struct size,
+which breaks the open-source libion_ti library.
+
+Since it's unused, let's remove it from the kernel.
+
+Change-Id: I6a61433c73998ba0388c7953f1518d3630233a34
+---
+ include/linux/ion.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/include/linux/ion.h b/include/linux/ion.h
+index 53b469a..7978f37 100644
+--- a/include/linux/ion.h
++++ b/include/linux/ion.h
+@@ -266,7 +266,6 @@ struct ion_handle *ion_import_fd(struct ion_client *client, int fd);
+ struct ion_allocation_data {
+ 	size_t len;
+ 	size_t align;
+-        unsigned int heap_mask;
+ 	unsigned int flags;
+ 	struct ion_handle *handle;
+ };
