@@ -50,7 +50,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Nothing to do"
+git pull ssh://andi34@review.slimroms.eu:29418/SlimRoms/kernel_samsung_espresso10 refs/changes/98/8098/1
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
