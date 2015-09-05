@@ -28,8 +28,11 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
+echo "Revert P31xx: Preload libjhead in init"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/60/108660/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "enable KSM"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/63/108463/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/63/108463/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 # echo "espresso-common: Enable Dex pre-optimization"
 # MIGHT BREAK XPOSED !
