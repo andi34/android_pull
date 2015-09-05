@@ -80,6 +80,11 @@ echo "----------------------------------------"
 cd build
 # echo "Force bsdiff for recovery_from_boot.p if not using GZIP"
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/90/98390/1 && git cherry-pick FETCH_HEAD
+echo "add back bootzip"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/78/107678/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Set metadata on bootzip"
+git fetch https://review.slimroms.eu/SlimRoms/android_build refs/changes/19/7219/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
