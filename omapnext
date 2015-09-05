@@ -28,7 +28,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/52/106152/6 && git cherry-pick FETCH_HEAD
+echo "enable KSM"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/63/108463/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+# echo "espresso-common: Enable Dex pre-optimization"
+# MIGHT BREAK XPOSED !
+# git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/52/106152/6 && git cherry-pick FETCH_HEAD
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
