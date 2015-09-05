@@ -34,8 +34,14 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "espresso-common: more SELinux rules "
-#git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/1 && git cherry-pick FETCH_HEAD
+echo "Revert P31xx: Preload libjhead in init"
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/37/8137/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: enable KSM (Kernel Samepage Merging)"
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/40/8140/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+# echo "espresso-common: more SELinux rules "
+# git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
