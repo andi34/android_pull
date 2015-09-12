@@ -34,14 +34,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "Revert P31xx: Preload libjhead in init"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/37/8137/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "espresso-common: enable KSM (Kernel Samepage Merging)"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/40/8140/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-# echo "espresso-common: more SELinux rules "
-# git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/1 && git cherry-pick FETCH_HEAD
+echo "espresso-common: more SELinux rules "
+git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
@@ -56,7 +50,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-git pull ssh://andi34@review.slimroms.eu:29418/SlimRoms/kernel_samsung_espresso10 refs/changes/98/8098/1
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -79,9 +73,15 @@ echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd bootable/recovery
+git pull ssh://andi34@review.slimroms.eu:29418/SlimRoms/bootable_recovery refs/changes/64/8164/1
+git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd system/vold
-echo "cryptfs: Don't assume a device capable of hw crypto has encrypted with it https://review.slimroms.eu/#/c/7845/"
-git fetch https://review.slimroms.eu/SlimRoms/android_system_vold refs/changes/45/7845/1 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
