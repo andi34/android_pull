@@ -2,8 +2,7 @@
 echo ""
 echo ""
 cd device/samsung/espresso-common
-echo "espresso-common: enable KSM (Kernel Samepage Merging)"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/61/14661/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -34,8 +33,7 @@ cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Massive update"
-git pull https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/58/14658/3
+echo "Nothing for now"
 # echo "enforcing time"
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
 # echo "Overclocking stuff"
