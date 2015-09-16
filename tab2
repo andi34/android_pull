@@ -35,10 +35,10 @@ echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: more SELinux rules "
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/6 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
-git fetch https://review.slimroms.eu/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -50,7 +50,29 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "nothing for now..."
+echo "Let's cleanup our source a little bit"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/39/8639/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/40/8640/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/41/8641/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/42/8642/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/43/8643/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/44/8644/7 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/45/8645/5 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/46/8646/5 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/47/8647/5 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/48/8648/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/8711/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/22/8722/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/25/8725/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/33/8733/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/44/8744/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/45/8745/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Net: Initialize link state at boot"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/8712/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "ARM: backtrace: avoid crash on large invalid fp value"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/8713/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -74,7 +96,7 @@ cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bootable/recovery
-git pull ssh://andi34@review.slimroms.eu:29418/SlimRoms/bootable_recovery refs/changes/64/8164/1
+git pull https://review.slimroms.org/SlimRoms/bootable_recovery refs/changes/64/8164/1
 git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
