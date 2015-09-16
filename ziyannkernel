@@ -1,0 +1,23 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "      W O R K  I N  P R O G R E S S     "
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo ""
+cd device/samsung/espresso-common
+echo "espresso-common: use PVR module"
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/63/8763/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p3110
+echo "use our new WIP Kernel"
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3110 refs/changes/64/8764/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "DONE"
+echo "----------------------------------------"
