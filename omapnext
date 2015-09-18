@@ -3,15 +3,24 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
+echo "espresso-common: commonize bluetooth configuration"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/62/109362/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
+echo "p3110: remove ril defines for wifi-only model"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/77/109377/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
+echo "----------------------------------------"
+echo "espresso-common: commonize bluetooth configuration"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/63/109363/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -28,11 +37,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "Revert P31xx: Preload libjhead in init"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/60/108660/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "enable KSM"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/63/108463/2 && git cherry-pick FETCH_HEAD
+echo "espresso-common: commonize bluetooth configuration"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/61/109361/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 # echo "espresso-common: Enable Dex pre-optimization"
 # MIGHT BREAK XPOSED !
@@ -49,7 +55,6 @@ echo "----------------------------------------"
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/33/106133/3 && git cherry-pick FETCH_HEAD
-git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/27/108427/1
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
