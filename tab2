@@ -3,8 +3,7 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
-echo "espresso-common: commonize bluetooth configuration"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3100 refs/changes/93/8893/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -17,8 +16,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "----------------------------------------"
-echo "espresso-common: commonize bluetooth configuration"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p5100 refs/changes/94/8894/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -44,8 +42,7 @@ echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "espresso-common: commonize bluetooth configuration"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/95/8895/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -57,28 +54,6 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd kernel/samsung/espresso10
-echo "Let's cleanup our source a little bit"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/39/8639/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/40/8640/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/41/8641/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/42/8642/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/43/8643/4 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/44/8644/7 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/45/8645/5 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/46/8646/5 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/47/8647/5 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/48/8648/4 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/8711/3 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/22/8722/3 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/25/8725/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/33/8733/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/44/8744/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/45/8745/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/97/8797/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/00/8800/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/98/8798/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/99/8799/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/01/8801/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Net: Initialize link state at boot"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/8712/1 && git cherry-pick FETCH_HEAD
