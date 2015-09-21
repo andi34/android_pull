@@ -1,0 +1,24 @@
+From 453c50028d866d2c23c3e97e3f3f38ba61558a5c Mon Sep 17 00:00:00 2001
+From: Stefan Berger <s.berger81@gmail.com>
+Date: Thu, 2 Oct 2014 23:43:30 +0200
+Subject: [PATCH] Fix modemNetworkMode to not return LTE
+
+Change-Id: I35708d9c1b38b5d10de065bef7667ae512784232
+---
+ src/com/android/phone/MobileNetworkSettings.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/com/android/phone/MobileNetworkSettings.java b/src/com/android/phone/MobileNetworkSettings.java
+index c0a7ca7..a27c51a 100644
+--- a/src/com/android/phone/MobileNetworkSettings.java
++++ b/src/com/android/phone/MobileNetworkSettings.java
+@@ -656,7 +656,8 @@ private void handleGetPreferredNetworkTypeResponse(Message msg) {
+                                     "modemNetworkMode != settingsNetworkMode");
+                         }
+ 
+-                        settingsNetworkMode = modemNetworkMode;
++			// SamsungU8500RIL falsely reports LTE here, so we instead update modemNetworkMode
++			modemNetworkMode = settingsNetworkMode;
+ 
+                         if (DBG) { log("handleGetPreferredNetworkTypeResponse: if 2: " +
+                                 "settingsNetworkMode = " + settingsNetworkMode);
