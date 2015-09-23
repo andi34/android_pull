@@ -53,6 +53,23 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd hardware/ti/omap4
+echo "----------------------------------------"
+echo "C++11 fixes "
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/78/8378/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Add super-verbose debug mode"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/75/8375/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Miscellaneous: shut up warnings and a few fixes"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/76/8376/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Add support for tuna"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/77/8377/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "Net: Initialize link state at boot"
