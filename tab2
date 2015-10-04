@@ -54,8 +54,7 @@ cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/ti/omap4
-echo "omap4: skip OMX buffer reallocation"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/76/14676/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
