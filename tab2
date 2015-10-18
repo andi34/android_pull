@@ -83,6 +83,15 @@ echo "----------------------------------------"
 echo "ARM: backtrace: avoid crash on large invalid fp value"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/8713/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
+echo "vfs: new internal helper: mnt_has_parent(mnt)"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/26/10326/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "vfs: more mnt_parent cleanups"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/27/10327/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "mnt: Prevent pivot_root from creating a loop in the mount tree"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/28/10328/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
