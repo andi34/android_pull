@@ -114,7 +114,7 @@ cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bootable/recovery
-git pull https://review.slimroms.org/SlimRoms/bootable_recovery refs/changes/64/8164/1
+git pull https://review.slimroms.org/SlimRoms/bootable_recovery refs/changes/25/10325/1
 git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
