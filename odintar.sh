@@ -32,25 +32,25 @@ DEVICENAME2[3]="GT-P5110"
 RECNAME1="TWRP"
 
 # recovery version number
-RECVER="2.8.7.0"
+RECVER="2.8.7.3"
 
 # Move the *.tar.md5 and recovery.img?
 MOVE=y
 
 # path to move the *.tar.md5 
 #(*.img and *.zip will also get moved if MOVE=y)
-STORAGE=/var/www/html/SlimLP
+STORAGE=~/android/roms/recovery
 
 # Create a flashable zip?
 FLASHZIP=y
 
 # Place your pre-flashable-zip in this path. Nameing of the zip: DEVICENAME1-RECNAME1.zip
-ZIPBASE=~/recovery_base
+ZIPBASE=~/android/roms/recovery_base
 
 # Your build source code directory path.
 # If your source code directory is on an external HDD it should look like: 
 # //media/your PC username/the name of your storage device/path/to/your/source/code/folder
-SAUCE=~/lp5.1
+SAUCE=~/android/lp5.1
 
 
 #---------------------Convert & Move Code----------------#
@@ -65,7 +65,7 @@ cd $SAUCE
 
 breakfast ${DEVICENAME1[$VAL]}
 
-make -j10 recoveryimage
+make -j8 recoveryimage
 
 echo "Moving to out directory ( ${DEVICENAME2[$VAL]} ) ..."
 cd $SAUCE/out/target/product/${DEVICENAME1[$VAL]}
@@ -77,13 +77,14 @@ mv ${DEVICENAME2[$VAL]}"_"$RECNAME1"_"$RECVER".tar" ${DEVICENAME2[$VAL]}"_"$RECN
 
 if [ $MOVE = "y" ]; then
 echo "Moveing odin flashable *.tar.md5...."
-#mkdir -p $STORAGE/${DEVICENAME1[$VAL]}
+mkdir -p $STORAGE/${DEVICENAME1[$VAL]}
 mv *".tar.md5" $STORAGE/${DEVICENAME1[$VAL]}/
 cp "recovery.img" $STORAGE/${DEVICENAME1[$VAL]}/${DEVICENAME2[$VAL]}"_"$RECNAME1"_"$RECVER".img"
 fi
 
 if [ $FLASHZIP = "y" ]; then
 echo "Makeing flashable zip..."
+mkdir -p $STORAGE/${DEVICENAME1[$VAL]}
 cp $ZIPBASE/${DEVICENAME1[$VAL]}"-"$RECNAME1".zip" $STORAGE/${DEVICENAME1[$VAL]}/${DEVICENAME2[$VAL]}"_"$RECNAME1"_"$RECVER".zip"
 zip -g $STORAGE/${DEVICENAME1[$VAL]}/${DEVICENAME2[$VAL]}"_"$RECNAME1"_"$RECVER".zip" "recovery.img"
 fi
