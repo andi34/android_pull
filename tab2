@@ -1,0 +1,125 @@
+#!/bin/bash
+echo ""
+echo "----------------------------------------"
+cd device/samsung/p3100
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p3110
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5100
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd device/samsung/p5110
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/espresso-common
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo ""
+cd kernel/samsung/espresso10
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+cd hardware/samsung
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd hardware/ti/omap4
+echo "----------------------------------------"
+echo "domx: pass ANDROID_API_CFLAGS"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/12/113712/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "domx: Fix GetParameter crashing with OMX_IndexParamConsumerUsageBits"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/13/113713/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/av
+echo "----------------------------------------"
+echo "Nothing to do..."
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/base
+echo "----------------------------------------"
+echo "framework: fix screenshot and rotation animation for devices with abnormal hw rotation"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/33/114833/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd frameworks/native
+echo "----------------------------------------"
+echo "surfaceflinger: Reimplement hwrotation"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/34/114834/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/35/114835/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/36/114836/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "surfaceflinger: Consolidate display orientation compensation hooks"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_native refs/changes/37/114837/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd bionic
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd build
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd bootable/recovery
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd vendor/cm
+echo "----------------------------------------"
+echo "Vendor: add hour and minute for zip-nameing"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+echo "----------------------------------------"
+echo "----------------------------------------"
