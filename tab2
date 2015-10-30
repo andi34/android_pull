@@ -3,39 +3,55 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/03/114603/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/04/114604/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/05/114605/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/06/114606/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
-echo "nothing for now"
+echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/01/114601/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "set minfree overlay for less aggressive behaviour"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/02/114602/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: more SELinux rules "
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/07/114607/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "Nothing for now..."
+echo "BFQ"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/02/110002/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/03/110003/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/04/110004/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/05/110005/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/14/110014/2 && git cherry-pick FETCH_HEAD
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
