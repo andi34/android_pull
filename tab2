@@ -41,13 +41,16 @@ echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: more SELinux rules "
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/6 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "echo swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/29/10329/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: set minfree overlay for less aggressive behaviour"
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/67/10467/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -73,14 +76,19 @@ echo "----------------------------------------"
 echo "ARM: backtrace: avoid crash on large invalid fp value"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/8713/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "vfs: new internal helper: mnt_has_parent(mnt)"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/26/10326/1 && git cherry-pick FETCH_HEAD
+echo "BFQ"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/10/10810/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "vfs: more mnt_parent cleanups"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/27/10327/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/10811/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "mnt: Prevent pivot_root from creating a loop in the mount tree"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/28/10328/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/10812/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/10813/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/14/10814/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "enforced time"
+git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/15/10815/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -104,7 +112,6 @@ cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd bootable/recovery
-git pull https://review.slimroms.org/SlimRoms/bootable_recovery refs/changes/25/10325/1
 git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../..
