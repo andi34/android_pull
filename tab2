@@ -48,11 +48,17 @@ cd kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "BFQ"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/02/110002/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/03/110003/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/04/110004/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/05/110005/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/14/110014/2 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/87441/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "enforcing time"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/116024/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -100,7 +106,7 @@ echo "add back bootzip"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/78/107678/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Set metadata on bootzip"
-git fetch https://review.slimroms.eu/SlimRoms/android_build refs/changes/19/7219/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/19/7219/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ..
 echo "----------------------------------------"
