@@ -50,7 +50,11 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/ti/omap4
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "camera: fix build for MM https://review.slimroms.org/#/c/10457"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/57/10457/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "camera: fix build after Miscellaneous: shut up warnings and a few fixes https://review.slimroms.org/#/c/12323"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/23/12323/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
