@@ -86,24 +86,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
 echo "----------------------------------------"
-echo "Revert egl: Remove old tuna BGRA vs RGBA workaround. https://review.slimroms.org/#/c/11450"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/50/11450/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Bring back support for glReadPixels screenshot path https://review.slimroms.org/#/c/11451"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/51/11451/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "libEGL: allow devices to workaround Google bug 10194508 https://review.slimroms.org/#/c/11452"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/52/11452/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Support forcing all screenshots into a CPU consumer https://review.slimroms.org/#/c/11453"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/53/11453/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "RenderEngine: remove warning using EGL_IMG_context_priority https://review.slimroms.org/#/c/11454"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/54/11454/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Fix for landscape thumbnail images on GLES11RenderEngine https://review.slimroms.org/#/c/11457"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/57/11457/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "surfaceflinger: Reimplement hwrotation https://review.slimroms.org/#/c/11461"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/61/11461/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -162,4 +144,3 @@ echo ""
 echo "Done!"
 echo "----------------------------------------"
 echo "----------------------------------------"
-
