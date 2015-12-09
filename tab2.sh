@@ -108,6 +108,26 @@ echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd frameworks/opt/telephony
+echo "----------------------------------------"
+echo "Squashed support for RIL subclass https://review.slimroms.org/#/c/12144"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/44/12144/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "RIL: forward port support for mQANElements https://review.slimroms.org/#/c/12145"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/45/12145/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "RIL: Make mQANElements configurable by property https://review.slimroms.org/#/c/12146"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/46/12146/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Telephony: Allow more RIL methods to be overridden https://review.slimroms.org/#/c/12147"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/47/12147/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Set default subscriptions when single SIM is available https://review.slimroms.org/#/c/12148"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/48/12148/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd packages/apps/Settings
 echo "----------------------------------------"
 echo "nothing for now..."
