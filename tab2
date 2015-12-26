@@ -3,12 +3,18 @@ echo ""
 echo "----------------------------------------"
 cd device/samsung/p3100
 echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/88/125388/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/03/114603/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p3110
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/91/125391/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/04/114604/1 && git cherry-pick FETCH_HEAD
@@ -17,12 +23,18 @@ cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5100
 echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/89/125389/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/05/114605/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd device/samsung/p5110
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/90/125390/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/06/114606/1 && git cherry-pick FETCH_HEAD
@@ -32,6 +44,13 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/87/125387/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: use common proprietary-files"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/44/125444/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/01/114601/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
