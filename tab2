@@ -76,9 +76,9 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espre
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/14/110014/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "enforcing time"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/116024/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+#echo "enforcing time"
+#git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/116024/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 cd hardware/samsung
