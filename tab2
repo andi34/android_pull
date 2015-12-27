@@ -2,32 +2,41 @@
 echo ""
 echo ""
 cd device/samsung/espresso-common
-echo "Nothing for now..."
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/82/16082/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3100
-echo "nothing for now..."
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/83/16083/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p3110
-echo "nothing for now..."
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p3110 refs/changes/85/16085/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5100
-echo "nothing for now..."
+echo "----------------------------------------"
+echo "move some more parts to espresso-common"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/84/16084/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd device/samsung/p5110
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "move some more parts to espresso-common"
+git fetch https://gerrit.omnirom.org/android_device_samsung_p5110 refs/changes/86/16086/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
