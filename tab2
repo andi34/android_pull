@@ -66,11 +66,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/ti/omap4
 echo "----------------------------------------"
-echo "libcorkscrew: only build for Lollipop and newer"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/56/16156/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "pvrsrvinit: define the libraries to link against in LOCAL_LDFLAGS"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/57/16157/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now"
 echo "----------------------------------------"
 cd ../../../
 echo "----------------------------------------"
