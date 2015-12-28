@@ -64,6 +64,14 @@ echo "----------------------------------------"
 cd ../../../
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd device/samsung/espresso-common
+echo "----------------------------------------"
+echo "omap4-common: goodbye Tab2 Family"
+git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/01/16201/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd hardware/ti/omap4
 echo "----------------------------------------"
 echo "nothing for now"
