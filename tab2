@@ -35,31 +35,31 @@ echo "----------------------------------------"
 cd device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: switch to omap4-next"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/64/16164/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/64/16164/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: import libpower from omap4-common "
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/65/16165/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/65/16165/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "libpower: Make it friendly to overclocked CPU"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/66/16166/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/66/16166/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: remove USE_CAMERA_STUB define"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/67/16167/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/67/16167/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: remove common omap4 defines"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/68/16168/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/68/16168/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "P31XX: PVR: add re-implemented pvrsrvinit and glue [2/2]"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/69/16169/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/69/16169/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: remove obsolete pvrsrvctl service"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/70/16170/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/70/16170/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: move libril & add custom ril class"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/71/16171/6 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/71/16171/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: import gps header from omap4-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/72/16172/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/72/16172/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../../
 echo "----------------------------------------"
