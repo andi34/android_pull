@@ -61,8 +61,8 @@ echo "----------------------------------------"
 echo "espresso-common: import gps header from omap4-common"
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/72/16172/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Revert P31xx: Preload libjhead in init"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/12/16212/1 && git cherry-pick FETCH_HEAD
+echo "Revert Preload libjhead in init"
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/12/16212/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
