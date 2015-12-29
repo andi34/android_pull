@@ -5,7 +5,7 @@ echo "ion: fix struct ion_allocation_data definiton"
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/73/16173/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd ../../../
+cd ../../..
 # echo "----------------------------------------"
 # echo "Revert bcmdhd: Restore previous 1.28.19.4 (RC2_1130) driver"
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/95/8195/1 && git cherry-pick FETCH_HEAD
@@ -61,10 +61,10 @@ echo "----------------------------------------"
 echo "espresso-common: import gps header from omap4-common"
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/72/16172/7 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../../
+cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/espresso-common
+cd device/samsung/omap4-common
 echo "----------------------------------------"
 echo "omap4-common: goodbye Tab2 Family"
 git fetch https://gerrit.omnirom.org/android_device_samsung_omap4-common refs/changes/01/16201/1 && git cherry-pick FETCH_HEAD
@@ -76,6 +76,6 @@ cd hardware/ti/omap4
 echo "----------------------------------------"
 echo "nothing for now"
 echo "----------------------------------------"
-cd ../../../
+cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
