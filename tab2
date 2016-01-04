@@ -57,8 +57,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick f0d2f2c531eb8d19a8a914ba1711b2027e8e1a36
-git cherry-pick 16d53136d251fd721e5b315774f1a7db72ee62cc
+git cherry-pick 87832844edf6f671ffc351460b8a14b9e9fe4ab6
+git cherry-pick 4ee5bca7a4956b392ae21d8d0b65de184651e79a
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
