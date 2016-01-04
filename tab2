@@ -1,0 +1,57 @@
+#!/bin/bash
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/espresso-common
+echo "----------------------------------------"
+echo "espresso-common: switch to omap4-next"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/15/126515/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: import libpower from omap4-common "
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/16/126516/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "libpower: Make it friendly to overclocked CPU"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/17/126517/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: remove common omap4 defines"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/18/126518/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: PVR: add re-implemented pvrsrvinit and glue [2/2]"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/19/126519/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: remove obsolete pvrsrvctl service"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/20/126520/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: move libril defines"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/21/126521/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Update RIL Header to v9"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/22/126522/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "espresso-common: import gps header from omap4-common"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/23/126523/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Revert Preload libjhead in init"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/24/126524/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "fix SGX Modules build"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/25/126525/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd device/samsung/omap4-common
+echo "----------------------------------------"
+echo "omap4-common: goodbye Tab2 Family"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/11/126511/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd hardware/ti/omap4
+echo "----------------------------------------"
+echo "fix compiling on KitKat"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/00/126500/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../../..
+echo "----------------------------------------"
+echo "----------------------------------------"
