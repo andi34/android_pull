@@ -62,3 +62,10 @@ git cherry-pick 4ee5bca7a4956b392ae21d8d0b65de184651e79a
 cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd vendor/cm
+echo "Vendor: add hour and minute for zip-nameing"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
