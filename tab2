@@ -47,14 +47,6 @@ echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd hardware/ti/omap4
-echo "----------------------------------------"
-echo "fix compiling on KitKat"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/00/126500/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
 git cherry-pick 87832844edf6f671ffc351460b8a14b9e9fe4ab6
