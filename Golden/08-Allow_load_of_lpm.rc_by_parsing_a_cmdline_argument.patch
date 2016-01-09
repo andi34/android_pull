@@ -1,4 +1,4 @@
-From a710ee1196e59c7caa46136a25bef5bc5a3360e3 Mon Sep 17 00:00:00 2001
+From a50b2b0b2791d52b7281e8a157b68e22c51d89eb Mon Sep 17 00:00:00 2001
 From: OliverG96 <oliverarafo@gmail.com>
 Date: Sat, 7 Dec 2013 13:58:26 +0000
 Subject: [PATCH] init: Allow load of lpm.rc by parsing a cmdline argument
@@ -10,9 +10,9 @@ Where lpm_boot is the argument to read, and 1 the value of it when kernel says w
 
 Change-Id: I2b073a0968d65ba9e3bf6b397280241c1fb0c0f9
 ---
- init/Android.mk | 4 +++-
- init/init.c     | 8 +++++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ init/Android.mk |  4 +++-
+ init/init.c     | 13 ++++++++++++-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/init/Android.mk b/init/Android.mk
 index de32d1d..854533e 100644
@@ -30,10 +30,22 @@ index de32d1d..854533e 100644
  $(foreach system_core_init_define,$(SYSTEM_CORE_INIT_DEFINES), \
    $(if $($(system_core_init_define)), \
 diff --git a/init/init.c b/init/init.c
-index 99e72b5..b986526 100755
+index 99e72b5..c6f771b 100755
 --- a/init/init.c
 +++ b/init/init.c
-@@ -107,6 +107,8 @@ static const char *ENV[32];
+@@ -78,6 +78,11 @@ static int   bootchart_count;
+ #define BOARD_CHARGING_CMDLINE_VALUE "true"
+ #endif
+ 
++#ifndef BOARD_LPM_BOOT_ARGUMENT_NAME
++#define BOARD_LPM_BOOT_ARGUMENT_NAME "lpm_boot"
++#define BOARD_LPM_BOOT_ARGUMENT_VALUE "1"
++#endif
++
+ static char console[32];
+ static char bootmode[32];
+ static char hardware[32];
+@@ -107,6 +112,8 @@ static const char *ENV[32];
  
  static unsigned emmc_boot = 0;
  
@@ -42,7 +54,7 @@ index 99e72b5..b986526 100755
  static unsigned charging_mode = 0;
  
  static const char *expand_environment(const char *val)
-@@ -814,6 +816,10 @@ static void import_kernel_nv(char *name, int for_emulator)
+@@ -814,6 +821,10 @@ static void import_kernel_nv(char *name, int for_emulator)
              emmc_boot = 1;
          }
  #endif
@@ -53,7 +65,7 @@ index 99e72b5..b986526 100755
      } else if (!strcmp(name,BOARD_CHARGING_CMDLINE_NAME)) {
          strlcpy(battchg_pause, value, sizeof(battchg_pause));
      } else if (!strncmp(name, "androidboot.", 12) && name_len > 12) {
-@@ -1059,7 +1065,7 @@ int audit_callback(void *data, security_class_t cls, char *buf, size_t len)
+@@ -1059,7 +1070,7 @@ int audit_callback(void *data, security_class_t cls, char *buf, size_t len)
  static int charging_mode_booting(void)
  {
  #ifndef BOARD_CHARGING_MODE_BOOTING_LPM
