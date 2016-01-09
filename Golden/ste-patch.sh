@@ -32,7 +32,6 @@ git fetch https://review.slimroms.org/SlimRoms/android_system_core refs/changes/
 cd $SAUCE
 
 cd $SAUCE/build
-git am $PATCHPATH/
 git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/43/12943/1 && git cherry-pick FETCH_HEAD
 cd ..
 
