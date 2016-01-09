@@ -46,6 +46,8 @@ echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
 echo "----------------------------------------"
+. pick.sh
+echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/03/127403/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "BFQ"
