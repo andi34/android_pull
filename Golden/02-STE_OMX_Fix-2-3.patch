@@ -1,44 +1,46 @@
-From d4ca3598321dbdfafd83bbce2fee7b6640c2939f Mon Sep 17 00:00:00 2001
+From 351b6c0117d5263224d81a3ab94f859e2d027ed5 Mon Sep 17 00:00:00 2001
 From: Tesla-MADAL93 <mattia.dalleva1993@gmail.com>
 Date: Fri, 7 Mar 2014 16:29:31 +0100
 Subject: [PATCH] [2/3] STE OMX Fix
 
 Fix Camera, Camcorder and Torch on STE Devices
 
-Change-Id: Ia6e54c6382640979e22c6d7e76e2792f49b65d0a
-Signed-off-by: Josue Rivera <prbassplayer@gmail.com>
+ PS2: removed whitespaces and tabspaces
+ PS5: Conflicts: include/binder/Parcel.h
+
+Change-Id: Ibb6be5289670774a541381bbffc514744e20fdcb
 ---
- include/binder/MemoryBase.h                |    3 +
- include/binder/Parcel.h                    |   31 +++++-
- include/gui/BufferQueue.h                  |    3 +
- include/gui/ConsumerBase.h                 |    5 +-
- include/gui/GLConsumer.h                   |   36 +++++++
- include/gui/IGraphicBufferConsumer.h       |    4 +
- include/gui/IGraphicBufferProducer.h       |    5 +
- include/media/openmax/OMX_IVCommon.h       |    3 +
- include/ui/Fence.h                         |    4 +
- include/ui/GraphicBuffer.h                 |   10 +-
- include/ui/PixelFormat.h                   |    7 ++
- include/ui/Region.h                        |   24 +++++
- libs/binder/MemoryBase.cpp                 |   19 ++++
- libs/binder/Parcel.cpp                     |   14 +++
- libs/gui/Android.mk                        |    5 +
- libs/gui/ConsumerBase.cpp                  |    2 +-
- libs/gui/GLConsumer.cpp                    |  156 +++++++++++++++++++++++++++-
- libs/ui/PixelFormat.cpp                    |    4 +
- opengl/include/EGL/eglext.h                |    2 +
- opengl/libs/EGL/eglApi.cpp                 |    4 +
- opengl/libs/EGL/egl_entries.in             |    2 +
- services/surfaceflinger/DisplayDevice.cpp  |   18 +++-
- services/surfaceflinger/DisplayDevice.h    |    2 +
- services/surfaceflinger/SurfaceFlinger.cpp |    9 ++
+ include/binder/MemoryBase.h                |   3 +
+ include/binder/Parcel.h                    |  31 +++++-
+ include/gui/BufferQueue.h                  |   3 +
+ include/gui/ConsumerBase.h                 |   5 +-
+ include/gui/GLConsumer.h                   |  36 +++++++
+ include/gui/IGraphicBufferConsumer.h       |   4 +
+ include/gui/IGraphicBufferProducer.h       |   5 +
+ include/media/openmax/OMX_IVCommon.h       |   3 +
+ include/ui/Fence.h                         |   4 +
+ include/ui/GraphicBuffer.h                 |  10 +-
+ include/ui/PixelFormat.h                   |   7 ++
+ include/ui/Region.h                        |  24 +++++
+ libs/binder/MemoryBase.cpp                 |  19 ++++
+ libs/binder/Parcel.cpp                     |  14 +++
+ libs/gui/Android.mk                        |   5 +
+ libs/gui/ConsumerBase.cpp                  |   2 +-
+ libs/gui/GLConsumer.cpp                    | 156 ++++++++++++++++++++++++++++-
+ libs/ui/PixelFormat.cpp                    |   4 +
+ opengl/include/EGL/eglext.h                |   2 +
+ opengl/libs/EGL/eglApi.cpp                 |   4 +
+ opengl/libs/EGL/egl_entries.in             |   2 +
+ services/surfaceflinger/DisplayDevice.cpp  |  18 +++-
+ services/surfaceflinger/DisplayDevice.h    |   2 +
+ services/surfaceflinger/SurfaceFlinger.cpp |   9 ++
  24 files changed, 363 insertions(+), 9 deletions(-)
 
 diff --git a/include/binder/MemoryBase.h b/include/binder/MemoryBase.h
 index 463e26d..5bf104b 100644
 --- a/include/binder/MemoryBase.h
 +++ b/include/binder/MemoryBase.h
-@@ -38,6 +38,9 @@ protected:
+@@ -38,6 +38,9 @@ class MemoryBase : public BnMemory
      size_t getSize() const { return mSize; }
      ssize_t getOffset() const { return mOffset; }
      const sp<IMemoryHeap>& getHeap() const { return mHeap; }
@@ -66,7 +68,7 @@ index 98f20de..f6b000e 100644
  class IBinder;
  class IPCThreadState;
  class ProcessState;
-@@ -104,8 +108,13 @@ public:
+@@ -104,8 +108,13 @@ class Parcel {
      status_t            writeInt32Array(size_t len, const int32_t *val);
      status_t            writeByteArray(size_t len, const uint8_t *val);
  
@@ -80,7 +82,7 @@ index 98f20de..f6b000e 100644
  
      template<typename T>
      status_t            write(const LightFlattenable<T>& val);
-@@ -160,9 +169,12 @@ public:
+@@ -160,9 +169,12 @@ class Parcel {
      const char16_t*     readString16Inplace(size_t* outLen) const;
      sp<IBinder>         readStrongBinder() const;
      wp<IBinder>         readWeakBinder() const;
@@ -94,7 +96,7 @@ index 98f20de..f6b000e 100644
  
      template<typename T>
      status_t            read(LightFlattenable<T>& val) const;
-@@ -275,11 +287,18 @@ private:
+@@ -275,11 +287,18 @@ class Parcel {
          virtual status_t unflatten(void const* buffer, size_t size, int const* fds, size_t count) = 0;
      };
  
@@ -113,7 +115,7 @@ index 98f20de..f6b000e 100644
  
      public:
          virtual size_t getFlattenedSize() const {
-@@ -292,7 +311,11 @@ private:
+@@ -292,7 +311,11 @@ class Parcel {
              return val.flatten(buffer, size, fds, count);
          }
          virtual status_t unflatten(void const* buffer, size_t size, int const* fds, size_t count) {
@@ -125,7 +127,7 @@ index 98f20de..f6b000e 100644
          }
      };
      status_t write(const FlattenableHelperInterface& val);
-@@ -314,11 +337,13 @@ public:
+@@ -314,11 +337,13 @@ class Parcel {
  
  // ---------------------------------------------------------------------------
  
@@ -171,7 +173,7 @@ diff --git a/include/gui/ConsumerBase.h b/include/gui/ConsumerBase.h
 index fb21185..74e315c 100644
 --- a/include/gui/ConsumerBase.h
 +++ b/include/gui/ConsumerBase.h
-@@ -164,7 +164,10 @@ protected:
+@@ -164,7 +164,10 @@ class ConsumerBase : public virtual RefBase,
              const sp<GraphicBuffer> graphicBuffer,
              EGLDisplay display, EGLSyncKHR eglFence);
  
@@ -199,7 +201,7 @@ index a5fdfb9..05623cd 100644
  namespace android {
  // ----------------------------------------------------------------------------
  
-@@ -85,6 +90,11 @@ public:
+@@ -85,6 +90,11 @@ class GLConsumer : public ConsumerBase {
              uint32_t tex, uint32_t texureTarget = TEXTURE_EXTERNAL,
              bool useFenceSync = true, bool isControlledByApp = false);
  
@@ -211,7 +213,7 @@ index a5fdfb9..05623cd 100644
      // updateTexImage acquires the most recently queued buffer, and sets the
      // image contents of the target texture to it.
      //
-@@ -245,6 +255,11 @@ protected:
+@@ -245,6 +255,11 @@ class GLConsumer : public ConsumerBase {
              const sp<GraphicBuffer> graphicBuffer,
              EGLDisplay display, EGLSyncKHR eglFence);
  
@@ -223,7 +225,7 @@ index a5fdfb9..05623cd 100644
      status_t releaseBufferLocked(int slot,
              const sp<GraphicBuffer> graphicBuffer, EGLSyncKHR eglFence) {
          return releaseBufferLocked(slot, graphicBuffer, mEglDisplay, eglFence);
-@@ -275,6 +290,11 @@ private:
+@@ -275,6 +290,11 @@ class GLConsumer : public ConsumerBase {
      EGLImageKHR createImage(EGLDisplay dpy,
              const sp<GraphicBuffer>& graphicBuffer, const Rect& crop);
  
@@ -235,7 +237,7 @@ index a5fdfb9..05623cd 100644
      // freeBufferLocked frees up the given buffer slot.  If the slot has been
      // initialized this will release the reference to the GraphicBuffer in that
      // slot and destroy the EGLImage in that slot.  Otherwise it has no effect.
-@@ -426,6 +446,22 @@ private:
+@@ -426,6 +446,22 @@ class GLConsumer : public ConsumerBase {
      // reset mCurrentTexture to INVALID_BUFFER_SLOT.
      int mCurrentTexture;
  
@@ -279,7 +281,7 @@ diff --git a/include/gui/IGraphicBufferProducer.h b/include/gui/IGraphicBufferPr
 index a221cba..a07ec46 100644
 --- a/include/gui/IGraphicBufferProducer.h
 +++ b/include/gui/IGraphicBufferProducer.h
-@@ -105,8 +105,13 @@ public:
+@@ -105,8 +105,13 @@ class IGraphicBufferProducer : public IInterface
      // and height of the window and current transform applied to buffers,
      // respectively.
  
@@ -445,7 +447,7 @@ index 5c82330..105c5df 100644
  }; // namespace android
  
 diff --git a/libs/binder/Parcel.cpp b/libs/binder/Parcel.cpp
-index db9e0a1..382ea99 100644
+index b4e1f95..0346842 100644
 --- a/libs/binder/Parcel.cpp
 +++ b/libs/binder/Parcel.cpp
 @@ -819,6 +819,13 @@ status_t Parcel::writeBlob(size_t len, WritableBlob* outBlob)
@@ -462,7 +464,7 @@ index db9e0a1..382ea99 100644
  status_t Parcel::write(const FlattenableHelperInterface& val)
  {
      status_t err;
-@@ -1197,6 +1204,13 @@ status_t Parcel::readBlob(size_t len, ReadableBlob* outBlob) const
+@@ -1201,6 +1208,13 @@ status_t Parcel::readBlob(size_t len, ReadableBlob* outBlob) const
      return NO_ERROR;
  }
  
@@ -477,16 +479,16 @@ index db9e0a1..382ea99 100644
  {
      // size
 diff --git a/libs/gui/Android.mk b/libs/gui/Android.mk
-index 6c1ed01..3fee46d 100644
+index 6c1ed01..dc50bef 100644
 --- a/libs/gui/Android.mk
 +++ b/libs/gui/Android.mk
 @@ -39,6 +39,11 @@ LOCAL_SHARED_LIBRARIES := \
-        libutils \
-        liblog
+ 	libutils \
+ 	liblog
  
 +ifeq ($(BOARD_USES_STE_HARDWARE),true)
-+LOCAL_SHARED_LIBRARIES += \
-+       libhardware
++	LOCAL_SHARED_LIBRARIES += \
++	libhardware
 +endif
 +
  # Executed only on QCOM BSPs
@@ -500,7 +502,7 @@ index c4ec857..790b393 100644
  }
  
  void ConsumerBase::abandonLocked() {
--       CB_LOGV("abandonLocked");
+-	CB_LOGV("abandonLocked");
 +    CB_LOGV("abandonLocked");
      for (int i =0; i < BufferQueue::NUM_BUFFER_SLOTS; i++) {
          freeBufferLocked(i);
@@ -765,7 +767,7 @@ index 3b2984a..9736c5a 100644
  #if KHRONOS_SUPPORT_INT64 /* EGLuint64KHR requires 64-bit uint support */
  #ifndef EGL_KHR_stream
 diff --git a/opengl/libs/EGL/eglApi.cpp b/opengl/libs/EGL/eglApi.cpp
-index 0cc5265..da0da26 100644
+index 54abb45..fe5e3c2 100644
 --- a/opengl/libs/EGL/eglApi.cpp
 +++ b/opengl/libs/EGL/eglApi.cpp
 @@ -139,11 +139,13 @@ static const extention_map_t sExtensionMap[] = {
@@ -782,7 +784,7 @@ index 0cc5265..da0da26 100644
  
      // EGL_KHR_wait_sync
      { "eglWaitSyncKHR",
-@@ -1551,6 +1553,7 @@ EGLBoolean eglPresentationTimeANDROID(EGLDisplay dpy, EGLSurface surface,
+@@ -1559,6 +1561,7 @@ EGLBoolean eglPresentationTimeANDROID(EGLDisplay dpy, EGLSurface surface,
  // ----------------------------------------------------------------------------
  // NVIDIA extensions
  // ----------------------------------------------------------------------------
@@ -790,12 +792,11 @@ index 0cc5265..da0da26 100644
  EGLuint64NV eglGetSystemTimeFrequencyNV()
  {
      clearError();
-@@ -1586,3 +1589,4 @@ EGLuint64NV eglGetSystemTimeNV()
+@@ -1594,3 +1597,4 @@ EGLuint64NV eglGetSystemTimeNV()
  
      return setErrorQuiet(EGL_BAD_DISPLAY, 0);
  }
 +#endif
-\ No newline at end of file
 diff --git a/opengl/libs/EGL/egl_entries.in b/opengl/libs/EGL/egl_entries.in
 index 70d0e52..1dedd7c 100644
 --- a/opengl/libs/EGL/egl_entries.in
@@ -812,7 +813,7 @@ index 70d0e52..1dedd7c 100644
  /* IMG extensions */
  
 diff --git a/services/surfaceflinger/DisplayDevice.cpp b/services/surfaceflinger/DisplayDevice.cpp
-index f56a1c5..6b1ba1e 100755
+index f56a1c5..855e281 100755
 --- a/services/surfaceflinger/DisplayDevice.cpp
 +++ b/services/surfaceflinger/DisplayDevice.cpp
 @@ -26,6 +26,9 @@
@@ -830,7 +831,7 @@ index f56a1c5..6b1ba1e 100755
        mOrientation()
  {
 +#ifdef STE_HARDWARE
-+     ANativeWindow* const window = new FramebufferNativeWindow();
++    ANativeWindow* const window = new FramebufferNativeWindow();
 +#else
      mNativeWindow = new Surface(producer, false);
      ANativeWindow* const window = mNativeWindow.get();
@@ -864,7 +865,7 @@ diff --git a/services/surfaceflinger/DisplayDevice.h b/services/surfaceflinger/D
 index 24ca033..170f392 100644
 --- a/services/surfaceflinger/DisplayDevice.h
 +++ b/services/surfaceflinger/DisplayDevice.h
-@@ -171,7 +171,9 @@ private:
+@@ -171,7 +171,9 @@ class DisplayDevice : public LightRefBase<DisplayDevice>
      wp<IBinder> mDisplayToken;
  
      // ANativeWindow this display is rendering into
@@ -908,5 +909,3 @@ index 7172e0e..929dae2 100644
          return NO_ERROR;
      }
  
--- 
-1.7.10.4

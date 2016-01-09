@@ -1,4 +1,4 @@
-From f436f826667104623f2ea4f5027fcb32072de397 Mon Sep 17 00:00:00 2001
+From 3af46c41ddc60ba466b53b36a57ccf9f5c366739 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
 Date: Fri, 10 Oct 2014 16:25:16 -0500
 Subject: [PATCH] STE-OMX Fix Streaming Video
@@ -7,14 +7,14 @@ Subject: [PATCH] STE-OMX Fix Streaming Video
 
 Change-Id: I8cafed3e425d822e710d97971b2501ee75bbd069
 ---
- media/libstagefright/ACodec.cpp |    4 ++++
+ media/libstagefright/ACodec.cpp | 4 ++++
  1 file changed, 4 insertions(+)
 
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index 13a6106..2e5a782 100755
+index 2cc3da6..58da001 100755
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
-@@ -483,11 +483,15 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
+@@ -484,11 +484,15 @@ status_t ACodec::allocateBuffersOnPort(OMX_U32 portIndex) {
  
      status_t err;
      if (mNativeWindow != NULL && portIndex == kPortIndexOutput) {
@@ -30,5 +30,3 @@ index 13a6106..2e5a782 100755
      } else {
          OMX_PARAM_PORTDEFINITIONTYPE def;
          InitOMXParams(&def);
--- 
-1.7.10.4

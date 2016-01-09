@@ -1,7 +1,7 @@
-From 764eb5916c956f273fa25abdf68810832031b05e Mon Sep 17 00:00:00 2001
+From cb013d79a715e50d72259ac1786f48df2160f869 Mon Sep 17 00:00:00 2001
 From: C457 <android.c357@gmail.com>
 Date: Thu, 27 Mar 2014 09:40:20 -0500
-Subject: [PATCH] native:Fix buffering on STE devices
+Subject: [PATCH] native:Fix buffering on Samsung STE devices
 
 @marcin1147
 
@@ -9,21 +9,21 @@ We need to define the number of framebuffers this
 way we eliminate any rip or screen tearing that
 might occur.
 
-Change-Id: Iea7c1ed1fe5a3ae7bcc8cb13b29037d11949bc80
+Change-Id: I01e29fc05969ab11c6790433a6ccb7fa7ce4658b
 ---
- include/ui/FramebufferNativeWindow.h |    8 ++++++++
- libs/ui/FramebufferNativeWindow.cpp  |    8 ++++++++
+ include/ui/FramebufferNativeWindow.h | 8 ++++++++
+ libs/ui/FramebufferNativeWindow.cpp  | 8 ++++++++
  2 files changed, 16 insertions(+)
 
 diff --git a/include/ui/FramebufferNativeWindow.h b/include/ui/FramebufferNativeWindow.h
-index 02f3c8b..5b2f7b3 100644
+index 02f3c8b..99df840 100644
 --- a/include/ui/FramebufferNativeWindow.h
 +++ b/include/ui/FramebufferNativeWindow.h
 @@ -28,8 +28,12 @@
  #include <ui/ANativeObjectBase.h>
  #include <ui/Rect.h>
  
-+#ifdef STE_HARDWARE
++#ifdef STE_SAMSUNG_HARDWARE
 +#define NUM_FRAME_BUFFERS 3
 +#else
  #define MIN_NUM_FRAME_BUFFERS  2
@@ -32,11 +32,11 @@ index 02f3c8b..5b2f7b3 100644
  
  #ifdef SAMSUNG_HDMI_SUPPORT
  #include "SecHdmiClient.h"
-@@ -85,7 +89,11 @@ private:
+@@ -85,7 +89,11 @@ class FramebufferNativeWindow
      framebuffer_device_t* fbDev;
      alloc_device_t* grDev;
  
-+#ifdef STE_HARDWARE
++#ifdef STE_SAMSUNG_HARDWARE
 +    sp<NativeBuffer> buffers[NUM_FRAME_BUFFERS];
 +#else
      sp<NativeBuffer> buffers[MAX_NUM_FRAME_BUFFERS];
@@ -45,14 +45,14 @@ index 02f3c8b..5b2f7b3 100644
      
      mutable Mutex mutex;
 diff --git a/libs/ui/FramebufferNativeWindow.cpp b/libs/ui/FramebufferNativeWindow.cpp
-index 12c77b8..63c078e 100644
+index 12c77b8..5dfc3e0 100644
 --- a/libs/ui/FramebufferNativeWindow.cpp
 +++ b/libs/ui/FramebufferNativeWindow.cpp
 @@ -98,12 +98,16 @@ FramebufferNativeWindow::FramebufferNativeWindow()
          mUpdateOnDemand = (fbDev->setUpdateRect != 0);
          
          // initialize the buffer FIFO
-+#ifdef STE_HARDWARE
++#ifdef STE_SAMSUNG_HARDWARE
 +        mNumBuffers = NUM_FRAME_BUFFERS;
 +#else
          if(fbDev->numFramebuffers >= MIN_NUM_FRAME_BUFFERS &&
@@ -69,7 +69,7 @@ index 12c77b8..63c078e 100644
          self->mBufferHead = 0;
  
      // wait for a free non-front buffer
-+#ifdef STE_HARDWARE
++#ifdef STE_SAMSUNG_HARDWARE
 +    while (self->mNumFreeBuffers < NUM_FRAME_BUFFERS) {
 +#else
      while (self->mNumFreeBuffers < 2) {
@@ -77,5 +77,3 @@ index 12c77b8..63c078e 100644
          self->mCondition.wait(self->mutex);
      }
      ALOG_ASSERT(self->buffers[index] != self->front);
--- 
-1.7.10.4

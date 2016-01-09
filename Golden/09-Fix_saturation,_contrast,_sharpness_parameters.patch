@@ -1,4 +1,4 @@
-From edb13cf2c3aa08ef43074c45ec6162a8c8b5f8e9 Mon Sep 17 00:00:00 2001
+From 895a31c933f96425519437c766e4d0081883da77 Mon Sep 17 00:00:00 2001
 From: Ethan Chen <intervigil@gmail.com>
 Date: Wed, 5 Feb 2014 23:02:17 -0800
 Subject: [PATCH] Camera: Fix saturation, contrast, sharpness parameters
@@ -8,15 +8,15 @@ Subject: [PATCH] Camera: Fix saturation, contrast, sharpness parameters
 
 Change-Id: I2db310ea3a1da351414ce15c90f4444721146f36
 ---
- src/com/android/camera/CameraSettings.java |    6 +++---
- src/com/android/camera/PhotoModule.java    |    6 +++---
+ src/com/android/camera/CameraSettings.java | 6 +++---
+ src/com/android/camera/PhotoModule.java    | 6 +++---
  2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/src/com/android/camera/CameraSettings.java b/src/com/android/camera/CameraSettings.java
-index d245ded..0027556 100644
+index cbd9458..9b34fb5 100644
 --- a/src/com/android/camera/CameraSettings.java
 +++ b/src/com/android/camera/CameraSettings.java
-@@ -392,17 +392,17 @@ public class CameraSettings {
+@@ -394,17 +394,17 @@ private void initAdditionalPreferences(PreferenceGroup group){
          }
  
          if (contrast != null && !CameraUtil.isSupported(mParameters, "contrast") &&
@@ -38,10 +38,10 @@ index d245ded..0027556 100644
          }
  
 diff --git a/src/com/android/camera/PhotoModule.java b/src/com/android/camera/PhotoModule.java
-index 5f7cebf..4712f29 100644
+index 009a15b..39134e0 100644
 --- a/src/com/android/camera/PhotoModule.java
 +++ b/src/com/android/camera/PhotoModule.java
-@@ -2268,7 +2268,7 @@ public class PhotoModule
+@@ -2274,7 +2274,7 @@ private void updateAdditionalCameraParametersPreference() {
          }
          //Set Saturation
          if (CameraUtil.isSupported(mParameters, "saturation") &&
@@ -50,7 +50,7 @@ index 5f7cebf..4712f29 100644
              String saturationStr = mPreferences.getString(
                      CameraSettings.KEY_SATURATION,
                      mActivity.getString(R.string.pref_camera_saturation_default));
-@@ -2280,7 +2280,7 @@ public class PhotoModule
+@@ -2286,7 +2286,7 @@ private void updateAdditionalCameraParametersPreference() {
          }
          // Set contrast parameter.
          if (CameraUtil.isSupported(mParameters, "contrast") &&
@@ -59,7 +59,7 @@ index 5f7cebf..4712f29 100644
              String contrastStr = mPreferences.getString(
                      CameraSettings.KEY_CONTRAST,
                      mActivity.getString(R.string.pref_camera_contrast_default));
-@@ -2292,7 +2292,7 @@ public class PhotoModule
+@@ -2298,7 +2298,7 @@ private void updateAdditionalCameraParametersPreference() {
          }
          // Set sharpness parameter
          if (CameraUtil.isSupported(mParameters, "sharpness") &&
@@ -68,5 +68,3 @@ index 5f7cebf..4712f29 100644
              String sharpnessStr = mPreferences.getString(
                      CameraSettings.KEY_SHARPNESS,
                      mActivity.getString(R.string.pref_camera_sharpness_default));
--- 
-1.7.10.4

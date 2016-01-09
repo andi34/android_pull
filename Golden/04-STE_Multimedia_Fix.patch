@@ -1,21 +1,24 @@
-From 527031035b3b8fc0d813c28556ae82663e29ffc7 Mon Sep 17 00:00:00 2001
+From 82421e514a8e379e720395856a4f4e3d84908d24 Mon Sep 17 00:00:00 2001
 From: Tesla-MADAL93 <mattia.dalleva1993@gmail.com>
 Date: Fri, 7 Mar 2014 16:18:36 +0100
 Subject: [PATCH] STE Multimedia Fix
 
-Change-Id: I3fe7b51aea0be1b76a760395dbe75081c4be9d80
+ PS2: removed whitespaces
+ PS3: removed tabspace
+
+Change-Id: I36b15fdd9295998e306db4ac04e14c02c6c6bf91
 ---
- camera/CameraParameters.cpp                        |   21 +++
- include/camera/CameraParameters.h                  |   21 +++
- include/media/stagefright/ColorConverter.h         |    5 +
- include/media/stagefright/MediaDefs.h              |    3 +
- include/media/stagefright/OMXCodec.h               |    7 +
- media/libstagefright/ACodec.cpp                    |    4 +
- media/libstagefright/CameraSource.cpp              |   15 ++
- media/libstagefright/MediaDefs.cpp                 |    3 +
- media/libstagefright/OMXCodec.cpp                  |   50 +++++++
- .../colorconversion/ColorConverter.cpp             |  145 ++++++++++++++++++++
- 10 files changed, 274 insertions(+)
+ camera/CameraParameters.cpp                        |  21 +++
+ include/camera/CameraParameters.h                  |  21 +++
+ include/media/stagefright/ColorConverter.h         |   5 +
+ include/media/stagefright/MediaDefs.h              |   4 +-
+ include/media/stagefright/OMXCodec.h               |   7 +
+ media/libstagefright/ACodec.cpp                    |   4 +
+ media/libstagefright/CameraSource.cpp              |  15 +++
+ media/libstagefright/MediaDefs.cpp                 |   4 +-
+ media/libstagefright/OMXCodec.cpp                  |  47 +++++++
+ .../colorconversion/ColorConverter.cpp             | 145 +++++++++++++++++++++
+ 10 files changed, 271 insertions(+), 2 deletions(-)
 
 diff --git a/camera/CameraParameters.cpp b/camera/CameraParameters.cpp
 index 75ec676..09fc72b 100644
@@ -67,7 +70,7 @@ diff --git a/include/camera/CameraParameters.h b/include/camera/CameraParameters
 index 2758989..863949b 100644
 --- a/include/camera/CameraParameters.h
 +++ b/include/camera/CameraParameters.h
-@@ -829,6 +829,13 @@ public:
+@@ -829,6 +829,13 @@ class CameraParameters
      static const char SCENE_MODE_SPORTS[];
      static const char SCENE_MODE_PARTY[];
      static const char SCENE_MODE_CANDLELIGHT[];
@@ -81,7 +84,7 @@ index 2758989..863949b 100644
  #ifdef QCOM_HARDWARE
      static const char SCENE_MODE_BACKLIGHT[];
      static const char SCENE_MODE_FLOWERS[];
-@@ -853,6 +860,14 @@ public:
+@@ -853,6 +860,14 @@ class CameraParameters
  #ifdef QCOM_HARDWARE
      static const char PIXEL_FORMAT_YUV420SP_ADRENO[]; // ADRENO
  #endif
@@ -96,7 +99,7 @@ index 2758989..863949b 100644
      static const char PIXEL_FORMAT_YUV422I[]; // YUY2
      static const char PIXEL_FORMAT_YUV420P[]; // YV12
      static const char PIXEL_FORMAT_RGB565[];
-@@ -1083,6 +1098,12 @@ public:
+@@ -1083,6 +1098,12 @@ class CameraParameters
      void getSupportedHfrSizes(Vector<Size> &sizes) const;
  #endif
  
@@ -113,7 +116,7 @@ diff --git a/include/media/stagefright/ColorConverter.h b/include/media/stagefri
 index 85ba920..014fc7a 100644
 --- a/include/media/stagefright/ColorConverter.h
 +++ b/include/media/stagefright/ColorConverter.h
-@@ -73,6 +73,11 @@ private:
+@@ -73,6 +73,11 @@ struct ColorConverter {
      status_t convertQCOMYUV420SemiPlanar(
              const BitmapParams &src, const BitmapParams &dst);
  
@@ -126,10 +129,10 @@ index 85ba920..014fc7a 100644
              const BitmapParams &src, const BitmapParams &dst);
  
 diff --git a/include/media/stagefright/MediaDefs.h b/include/media/stagefright/MediaDefs.h
-index 79efd74..210b2f4 100644
+index 79efd74..7e243d6 100644
 --- a/include/media/stagefright/MediaDefs.h
 +++ b/include/media/stagefright/MediaDefs.h
-@@ -27,6 +27,9 @@ extern const char *MEDIA_MIMETYPE_VIDEO_VP9;
+@@ -27,9 +27,11 @@ extern const char *MEDIA_MIMETYPE_VIDEO_VP9;
  extern const char *MEDIA_MIMETYPE_VIDEO_AVC;
  extern const char *MEDIA_MIMETYPE_VIDEO_MPEG4;
  extern const char *MEDIA_MIMETYPE_VIDEO_H263;
@@ -138,7 +141,10 @@ index 79efd74..210b2f4 100644
 +#endif
  extern const char *MEDIA_MIMETYPE_VIDEO_MPEG2;
  extern const char *MEDIA_MIMETYPE_VIDEO_RAW;
- 
+-
+ extern const char *MEDIA_MIMETYPE_AUDIO_AMR_NB;
+ extern const char *MEDIA_MIMETYPE_AUDIO_AMR_WB;
+ #ifdef QCOM_HARDWARE
 diff --git a/include/media/stagefright/OMXCodec.h b/include/media/stagefright/OMXCodec.h
 index 46b73a7..e6d393c 100644
 --- a/include/media/stagefright/OMXCodec.h
@@ -165,10 +171,10 @@ index 46b73a7..e6d393c 100644
  
      struct CodecNameAndQuirks {
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index 13a6106..21d1f6f 100755
+index 2907e5d..2cc3da6 100755
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
-@@ -597,8 +597,12 @@ status_t ACodec::configureOutputBuffersFromNativeWindow(
+@@ -600,8 +600,12 @@ status_t ACodec::configureOutputBuffersFromNativeWindow(
              mNativeWindow.get(),
              def.format.video.nFrameWidth,
              def.format.video.nFrameHeight,
@@ -222,10 +228,10 @@ index b97cd07..45e35e4 100644
  
  #ifdef QCOM_HARDWARE
 diff --git a/media/libstagefright/MediaDefs.cpp b/media/libstagefright/MediaDefs.cpp
-index 4913c1e..ab06ac7 100644
+index 4913c1e..0ff2ef5 100644
 --- a/media/libstagefright/MediaDefs.cpp
 +++ b/media/libstagefright/MediaDefs.cpp
-@@ -25,6 +25,9 @@ const char *MEDIA_MIMETYPE_VIDEO_VP9 = "video/x-vnd.on2.vp9";
+@@ -25,9 +25,11 @@ const char *MEDIA_MIMETYPE_VIDEO_VP9 = "video/x-vnd.on2.vp9";
  const char *MEDIA_MIMETYPE_VIDEO_AVC = "video/avc";
  const char *MEDIA_MIMETYPE_VIDEO_MPEG4 = "video/mp4v-es";
  const char *MEDIA_MIMETYPE_VIDEO_H263 = "video/3gpp";
@@ -234,9 +240,12 @@ index 4913c1e..ab06ac7 100644
 +#endif
  const char *MEDIA_MIMETYPE_VIDEO_MPEG2 = "video/mpeg2";
  const char *MEDIA_MIMETYPE_VIDEO_RAW = "video/raw";
- 
+-
+ const char *MEDIA_MIMETYPE_AUDIO_AMR_NB = "audio/3gpp";
+ const char *MEDIA_MIMETYPE_AUDIO_AMR_WB = "audio/amr-wb";
+ const char *MEDIA_MIMETYPE_AUDIO_MPEG = "audio/mpeg";
 diff --git a/media/libstagefright/OMXCodec.cpp b/media/libstagefright/OMXCodec.cpp
-index e061586..89e5f12 100644
+index 0f9deb5..eb6bdce 100644
 --- a/media/libstagefright/OMXCodec.cpp
 +++ b/media/libstagefright/OMXCodec.cpp
 @@ -252,6 +252,20 @@ static int CompareSoftwareCodecsFirst(
@@ -260,29 +269,192 @@ index e061586..89e5f12 100644
  // static
  void OMXCodec::findMatchingCodecs(
          const char *mime,
-@@ -378,6 +392,7 @@ uint32_t OMXCodec::getComponentQuirks(
-     }
- #endif // DOLBY_UDC
- #endif
-+
- #ifdef OMAP_ENHANCEMENT
-     if (list->codecHasQuirk(
-                 index, "avoid-memcopy-input-recording-frames")) {
-@@ -389,6 +404,14 @@ uint32_t OMXCodec::getComponentQuirks(
+@@ -388,6 +402,12 @@ uint32_t OMXCodec::getComponentQuirks(
+       quirks |= kInputBufferSizesAreBogus;
      }
  #endif
- 
 +#ifdef STE_HARDWARE
 +    if (list->codecHasQuirk(
 +                index, "requires-store-metadata-before-idle")) {
 +      quirks |= kRequiresStoreMetaDataBeforeIdle;
 +    }
 +#endif
-+
-+
+ 
  #ifdef QCOM_HARDWARE
      quirks |= ExtendedCodec::getComponentQuirks(list,index);
-...skipping...
+@@ -1018,6 +1038,10 @@ static size_t getFrameSize(
+         case OMX_COLOR_FormatYUV420Planar:
+         case OMX_COLOR_FormatYUV420SemiPlanar:
+         case OMX_TI_COLOR_FormatYUV420PackedSemiPlanar:
++#ifdef STE_HARDWARE
++        case OMX_STE_COLOR_FormatYUV420PackedSemiPlanarMB:
++#endif
++
+         /*
+         * FIXME: For the Opaque color format, the frame size does not
+         * need to be (w*h*3)/2. It just needs to
+@@ -1856,6 +1880,10 @@ void OMXCodec::setComponentRole(
+             "video_decoder.mpeg4", "video_encoder.mpeg4" },
+         { MEDIA_MIMETYPE_VIDEO_H263,
+             "video_decoder.h263", "video_encoder.h263" },
++#ifdef STE_HARDWARE
++        { MEDIA_MIMETYPE_VIDEO_VC1,
++            "video_decoder.vc1", "video_encoder.vc1" },
++#endif
+         { MEDIA_MIMETYPE_VIDEO_VP8,
+             "video_decoder.vp8", "video_encoder.vp8" },
+         { MEDIA_MIMETYPE_VIDEO_VP9,
+@@ -1948,6 +1976,16 @@ status_t OMXCodec::init() {
+     CHECK_EQ((int)mState, (int)LOADED);
+ 
+     status_t err;
++#ifdef STE_HARDWARE
++    if ((mQuirks & kRequiresStoreMetaDataBeforeIdle)
++        && (mFlags & kStoreMetaDataInVideoBuffers)) {
++        err = mOMX->storeMetaDataInBuffers(mNode, kPortIndexInput, OMX_TRUE);
++        if (err != OK) {
++            ALOGE("Storing meta data in video buffers is not supported");
++            return err;
++        }
++    }
++#endif
+     if (!(mQuirks & kRequiresLoadedToIdleAfterAllocation)) {
+         err = mOMX->sendCommand(mNode, OMX_CommandStateSet, OMX_StateIdle);
+         CHECK_EQ(err, (status_t)OK);
+@@ -2009,7 +2047,12 @@ status_t OMXCodec::allocateBuffersOnPort(OMX_U32 portIndex) {
+     }
+ 
+     status_t err = OK;
++#ifdef STE_HARDWARE
++    if (!(mQuirks & kRequiresStoreMetaDataBeforeIdle)
++            && (mFlags & kStoreMetaDataInVideoBuffers)
++#else
+     if ((mFlags & kStoreMetaDataInVideoBuffers)
++#endif
+             && portIndex == kPortIndexInput) {
+         err = mOMX->storeMetaDataInBuffers(mNode, kPortIndexInput, OMX_TRUE);
+         if (err != OK) {
+@@ -2213,7 +2256,11 @@ status_t OMXCodec::allocateOutputBuffersFromNativeWindow() {
+             mNativeWindow.get(),
+             def.format.video.nFrameWidth,
+             def.format.video.nFrameHeight,
++#ifdef STE_HARDWARE
++            OmxToHALFormat(def.format.video.eColorFormat));
++#else
+             def.format.video.eColorFormat);
++#endif
+ #else
+     OMX_COLOR_FORMATTYPE eColorFormat;
+ 
+diff --git a/media/libstagefright/colorconversion/ColorConverter.cpp b/media/libstagefright/colorconversion/ColorConverter.cpp
+index 597167f..a85ad72 100644
+--- a/media/libstagefright/colorconversion/ColorConverter.cpp
++++ b/media/libstagefright/colorconversion/ColorConverter.cpp
+@@ -47,6 +47,9 @@ bool ColorConverter::isValid() const {
+         case OMX_QCOM_COLOR_FormatYVU420SemiPlanar:
+         case OMX_COLOR_FormatYUV420SemiPlanar:
+         case OMX_TI_COLOR_FormatYUV420PackedSemiPlanar:
++#ifdef STE_HARDWARE
++        case OMX_STE_COLOR_FormatYUV420PackedSemiPlanarMB:
++#endif
+             return true;
+ 
+         default:
+@@ -122,6 +125,12 @@ status_t ColorConverter::convert(
+             err = convertTIYUV420PackedSemiPlanar(src, dst);
+             break;
+ 
++#ifdef STE_HARDWARE
++        case OMX_STE_COLOR_FormatYUV420PackedSemiPlanarMB:
++            err = convertSTEYUV420PackedSemiPlanarMB(src, dst);
++            break;
++#endif
++
+         default:
+         {
+             CHECK(!"Should not be here. Unknown color conversion.");
+@@ -506,6 +515,142 @@ status_t ColorConverter::convertTIYUV420PackedSemiPlanar(
+     return OK;
+ }
+ 
++#ifdef STE_HARDWARE
++status_t ColorConverter::convertSTEYUV420PackedSemiPlanarMB(
++        const BitmapParams &src, const BitmapParams &dst) {
++
++    if (!((dst.mWidth & 1) == 0
++            && src.mCropLeft == 0
++            && src.mCropTop == 0
++            && src.cropWidth() == dst.cropWidth()
++            && src.cropHeight() == dst.cropHeight())) {
++        return ERROR_UNSUPPORTED;
++    }
++
++    OMX_U32 mx = src.mWidth / 16;
++    OMX_U32 my = src.mHeight / 16;
++    OMX_U32 lx, ly;
++    OMX_U32 *pChroma, *pLuma = (OMX_U32 *)src.mBits;
++
++    pChroma = (OMX_U32 *)src.mBits + mx * my * 64;
++    for (ly = 0; ly < my; ly++) {
++        for (lx = 0; lx < mx; lx++) {
++            OMX_U32 col, row, lumaWord, chromaWord1 = 0, rgbWord, i;
++            OMX_U8 y[4], cb[4], cr[4], r[4], g[4], b[4];
++            OMX_U32 *dstBuf, *locBuf;
++            OMX_U32 *pBurstLuma = 0, *pBurstChroma = 0;
++            OMX_U32 *pWordLuma = 0, *pWordChroma = 0;
++            OMX_U8 nbOfBlock;
++
++            dstBuf = ((OMX_U32 *)dst.mBits) + (ly * 16) * dst.mWidth / 2;
++            dstBuf += (lx * 16) / 2;
++
++            pBurstLuma = pLuma;
++            pBurstChroma = pChroma;
++
++            for (col = 0; col < 2; col++) {
++                // conversion of a macroblock
++                for (nbOfBlock = 0; nbOfBlock < 2; nbOfBlock++) {
++                    locBuf = dstBuf + 4 * col + 2 * nbOfBlock;
++                    OMX_U32 dstRowOrigo = ly * 16 * dst.mWidth;
++
++                    switch (nbOfBlock) {
++                    case 0:
++                        pWordLuma = pBurstLuma;
++                        pWordChroma = pBurstChroma;
++                        break;
++                    case 1:
++                        pWordLuma = pBurstLuma + 1;
++                        pWordChroma = pBurstChroma + 1;
++                        break;
++                    }
++                    for (row = 0; row < 16; row++) {
++                        // Check for cropping on the y axis
++                        if (ly * 16 + row >= dst.mHeight) {
++                            break;
++                        }
++
++                        lumaWord = *pWordLuma;
++                        pWordLuma += 2;
++                        if (row % 2 == 0) {
++                            chromaWord1 = *pWordChroma;
++                            pWordChroma += 2;
++                        }
++
++                        y[3] = ((lumaWord >> 24) & 0xff);
++                        y[2] = ((lumaWord >> 16) & 0xff);
++                        y[1] = ((lumaWord >>  8) & 0xff);
++                        y[0] = ((lumaWord >>  0) & 0xff);
++
++                        cb[0] = cb[1] = ((chromaWord1 >>  0) & 0xff);
++                        cb[2] = cb[3] = ((chromaWord1 >> 16) & 0xff);
++                        cr[0] = cr[1] = ((chromaWord1 >>  8) & 0xff);
++                        cr[2] = cr[3] = ((chromaWord1 >> 24) & 0xff);
++
++                        for (i = 0; i < 4; i++) {
++                            int32_t rW,gW,bW;
++
++                            rW = 298 * y[i] + 408 * cr[i] - 57059;
++                            gW = 298 * y[i] - 100 * cb[i] - 208 * cr[i] + 34713;
++                            bW = 298 * y[i] + 516 * cb[i] - 70887;
 +
 +                            if (rW < 0) {
 +                                r[i] = 0;
@@ -344,5 +516,3 @@ index e061586..89e5f12 100644
  uint8_t *ColorConverter::initClip() {
      static const signed kClipMin = -278;
      static const signed kClipMax = 535;
--- 
-1.7.10.4

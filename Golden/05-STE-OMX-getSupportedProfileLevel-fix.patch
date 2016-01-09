@@ -1,4 +1,4 @@
-From cbd2a28ff0712fecc63c63a8b276b205b6d1c63f Mon Sep 17 00:00:00 2001
+From 918943743877159534af258ffd2e43fc93cbbd88 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
 Date: Fri, 19 Sep 2014 15:39:44 -0500
 Subject: [PATCH] STE-OMX-getSupportedProfileLevel-fix
@@ -14,11 +14,11 @@ the FC at the end of video recording...
 PS5: fix a DERP, PS6: formatting & Whitespace
 Change-Id: I9dc7ee39fec411b2e362cba173dd03f05b985be3
 ---
- media/libstagefright/OMXClient.cpp |   20 ++++++++++++++++++++
+ media/libstagefright/OMXClient.cpp | 20 ++++++++++++++++++++
  1 file changed, 20 insertions(+)
 
 diff --git a/media/libstagefright/OMXClient.cpp b/media/libstagefright/OMXClient.cpp
-index 9f9352d..f4b2459 100644
+index 9f9352d..12d08c9 100644
 --- a/media/libstagefright/OMXClient.cpp
 +++ b/media/libstagefright/OMXClient.cpp
 @@ -25,6 +25,10 @@
@@ -55,5 +55,3 @@ index 9f9352d..f4b2459 100644
      return getOMX(node)->getParameter(node, index, params, size);
  }
  
--- 
-1.7.10.4
