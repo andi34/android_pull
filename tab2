@@ -29,8 +29,11 @@ echo "----------------------------------------"
 echo ""
 cd device/samsung/espresso-common
 echo "----------------------------------------"
-echo "Revert Use LZMA compression for recovery's ramdisk"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/91/126591/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/98/127398/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/99/127399/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/00/127400/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/01/127401/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/02/127402/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "set minfree overlay for less aggressive behaviour"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/02/114602/1 && git cherry-pick FETCH_HEAD
@@ -42,6 +45,8 @@ cd ../../..
 echo "----------------------------------------"
 echo ""
 cd kernel/samsung/espresso10
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/03/127403/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "BFQ"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/02/110002/2 && git cherry-pick FETCH_HEAD
