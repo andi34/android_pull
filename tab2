@@ -1,87 +1,72 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/cm-12.1
+
+# Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd device/samsung/p3100
+cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-cd device/samsung/p3110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-cd device/samsung/p5100
+cd $SAUCE/device/samsung/p3110
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-cd device/samsung/p5110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/espresso-common
+cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/p5110
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso-common
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
-cd kernel/samsung/espresso10
+cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-cd hardware/samsung
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd hardware/ti/omap4
+cd $SAUCE/hardware/samsung
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/av
-echo "----------------------------------------"
-echo "Nothing to do..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/base
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/native
+cd $SAUCE/frameworks/av
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd bionic
+cd $SAUCE/frameworks/base
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ..
+echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+echo "----------------------------------------"
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd build
+cd $SAUCE/bionic
+echo "----------------------------------------"
+echo "Nothing for now..."
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/build
 echo "----------------------------------------"
 echo "Add back mka bootzip"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/47/125247/1 && git cherry-pick FETCH_HEAD
@@ -89,26 +74,21 @@ echo "----------------------------------------"
 echo "Set metadata on bootzip"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/48/125248/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd bootable/recovery
+cd $SAUCE/bootable/recovery
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd vendor/cm
+cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
