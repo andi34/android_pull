@@ -1,48 +1,37 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/android-5.1
+
+# Let's apply all commits!
 echo ""
 echo ""
-cd device/samsung/espresso-common
+cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
-echo "move some more parts to espresso-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso-common refs/changes/82/16082/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/p3100
+cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
-echo "move some more parts to espresso-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3100 refs/changes/83/16083/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/p3110
+cd $SAUCE/device/samsung/p3110
 echo "----------------------------------------"
-echo "move some more parts to espresso-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p3110 refs/changes/85/16085/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/p5100
+cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
-echo "move some more parts to espresso-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5100 refs/changes/84/16084/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/p5110
+cd $SAUCE/device/samsung/p5110
 echo "----------------------------------------"
-echo "move some more parts to espresso-common"
-git fetch https://gerrit.omnirom.org/android_device_samsung_p5110 refs/changes/86/16086/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd kernel/samsung/espresso10
-# echo "Nothing for now"
+cd $SAUCE/kernel/samsung/espresso10
+echo "----------------------------------------"
 # echo "enforcing time"
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
 echo "Overclocking stuff"
@@ -53,55 +42,52 @@ git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/chan
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/39/14339/2 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/40/14340/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/hardware/samsung
 echo "----------------------------------------"
-cd hardware/samsung
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-cd hardware/ti/omap4
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-cd frameworks/native
 echo "nothing for now..."
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/base
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
 echo "nothing for now..."
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/av
+cd $SAUCE/frameworks/av
+echo "----------------------------------------"
 echo "nothing for now..."
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/opt/telephony
+cd $SAUCE/frameworks/opt/telephony
+echo "----------------------------------------"
 echo "nothing for now..."
-cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd vendor/omni
+cd $SAUCE/vendor/omni
+echo "----------------------------------------"
 echo "vendor: add date and time by default for HOMEMADE builds  https://gerrit.omnirom.org/#/c/11379/"
 git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/79/11379/6 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd build
+cd $SAUCE/build
+echo "----------------------------------------"
 "add back make bootzip"
 git fetch https://gerrit.omnirom.org/android_build refs/changes/63/14663/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_build refs/changes/64/14664/1 && git cherry-pick FETCH_HEAD
-cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
