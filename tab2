@@ -1,44 +1,38 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/lp5.1
+
+# Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd device/samsung/p3100
+cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3100 refs/changes/30/10330/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/p3110
+cd $SAUCE/device/samsung/p3110
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3110 refs/changes/31/10331/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/p5100
+cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_p5100 refs/changes/32/10332/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/p5110
+cd $SAUCE/device/samsung/p5110
 echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_p5110 refs/changes/33/10333/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/omap4-common
+cd $SAUCE/device/samsung/omap4-common
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/espresso-common
+cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: more SELinux rules "
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/7 && git cherry-pick FETCH_HEAD
@@ -52,23 +46,17 @@ echo "----------------------------------------"
 echo "espresso-common: set minfree overlay for less aggressive behaviour"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/67/10467/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd hardware/samsung
+cd $SAUCE/hardware/samsung
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd hardware/ti/omap4
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd kernel/samsung/espresso10
+cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "Net: Initialize link state at boot"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/8712/1 && git cherry-pick FETCH_HEAD
@@ -90,40 +78,30 @@ echo "----------------------------------------"
 echo "enforced time"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/15/10815/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/base
+cd $SAUCE/frameworks/base
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-cd packages/apps/Settings
+cd $SAUCE/packages/apps/Settings
 #echo "Settings: readd advanced settings https://review.slimroms.eu/#/c/2721/"
 #git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/21/2721/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd build
+cd $SAUCE/build
 echo "nothing..."
 echo "----------------------------------------"
-cd ..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd bootable/recovery
+cd $SAUCE/bootable/recovery
 git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd system/vold
+cd $SAUCE/system/vold
 echo "nothing..."
-echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
