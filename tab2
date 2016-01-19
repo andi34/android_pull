@@ -62,7 +62,7 @@ echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/hardware/samsung
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 echo "sgxfreq: limit frequency to default on boot"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/00/129000/1 && git cherry-pick FETCH_HEAD
