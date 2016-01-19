@@ -7,24 +7,21 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
-echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3100 refs/changes/30/10330/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3110
-echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p3110 refs/changes/31/10331/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
-echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p5100 refs/changes/32/10332/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5110
-echo "swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_p5110 refs/changes/33/10333/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/omap4-common
@@ -39,9 +36,6 @@ git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common re
 echo "----------------------------------------"
 echo "DeviceSettings: Overhaul"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "echo swap from PRODUCT_PROPERTY_OVERRIDES to ADDITIONAL_BUILD_PROPERTIES"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/29/10329/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "espresso-common: set minfree overlay for less aggressive behaviour"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/67/10467/1 && git cherry-pick FETCH_HEAD
