@@ -36,6 +36,7 @@ echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/47/130447/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/37/130437/2 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/38/130438/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/23/130623/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "set minfree overlay for less aggressive behaviour"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/02/114602/1 && git cherry-pick FETCH_HEAD
