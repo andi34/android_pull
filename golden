@@ -1,15 +1,18 @@
 #!/bin/bash
-echo ""
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/lp5.1
+
+# Let's apply all commits!
 echo ""
 echo "----------------------------------------"
+cd $SAUCE/bionic
 echo "----------------------------------------"
-cd bionic
 echo "Revert Revert Reenable support for non-PIE executables https://review.slimroms.eu/#/c/2720"
 git fetch https://review.slimroms.org/SlimRoms/android_bionic refs/changes/20/2720/1 && git cherry-pick FETCH_HEAD
-cd ..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/av
+cd $SAUCE/frameworks/av
+echo "----------------------------------------"
 echo "STE Multimedia Fix"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/77/3177/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -30,11 +33,11 @@ git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/cha
 echo "----------------------------------------"
 echo "av: Skip S/W codec configuration"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/83/3183/3 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/base
-echo "Don't set AGPS server (needed for GPS blob to work) https://review.slimroms.eu/#/c/3044"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+echo "Don't set AGPS server (needed for GPS blob to work)"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/44/3044/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "base: Allow media_rw (gid 1023) full SD card access"
@@ -42,10 +45,10 @@ git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/c
 echo "----------------------------------------"
 echo "libhwui: Set fall-back layer size for zero-size requested layers"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/93/3093/1 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/native
+cd $SAUCE/frameworks/native
+echo "----------------------------------------"
 echo "STE OMX Fix Fix Camera, Camcorder and Torch on STE Devices"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/84/3184/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -63,43 +66,50 @@ git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs
 echo "----------------------------------------"
 echo "Fix missing statements in second GLConsumer constructor"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/89/3189/1 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/services/Telecomm
+cd $SAUCE/packages/services/Telecomm
+echo "----------------------------------------"
 echo "Telecomm: Fix low in-call volume"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/packages_services_Telecomm refs/changes/91/3091/2 && git cherry-pick FETCH_HEAD
-cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/services/Telephony
+cd $SAUCE/packages/services/Telephony
+echo "----------------------------------------"
 echo "Fix modemNetworkMode to not return LTE"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/packages_services_Telephony refs/changes/55/3055/2 && git cherry-pick FETCH_HEAD
-cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/opt/net/wifi
-echo "Check WifiState on screen off before starting background scan https://review.slimroms.eu/#/c/3046"
+cd $SAUCE/frameworks/opt/net/wifi
+echo "----------------------------------------"
+echo "Check WifiState on screen off before starting background scan"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_net_wifi refs/changes/46/3046/1 && git cherry-pick FETCH_HEAD
-cd ../../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/opt/telephony
+cd $SAUCE/frameworks/opt/telephony
+echo "----------------------------------------"
 echo "PPP: Use client IP address as default gateway"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_opt_telephony refs/changes/90/3090/1 && git cherry-pick FETCH_HEAD
-cd ../../..
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd system/core
-echo "STE OMX Fix https://review.slimroms.eu/#/c/3056"
+cd $SAUCE/system/core
+echo "----------------------------------------"
+echo "STE OMX Fix"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/android_system_core refs/changes/56/3056/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "Add support for MR0 audio blobs https://review.slimroms.eu/#/c/3057"
+echo "Add support for MR0 audio blobs"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/android_system_core refs/changes/57/3057/1 && git cherry-pick FETCH_HEAD
-cd ../..
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/bootable/recovery
+echo "----------------------------------------"
+echo "WIP Theme - commit got updated and merged on 6.0 source, but let's use the old for now"
+echo "until we brought up a working twrp tree for 6.0"
+git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
+cd $SAUCE
 echo "Done!"
 echo "----------------------------------------"
 echo "----------------------------------------"
