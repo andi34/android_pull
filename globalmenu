@@ -1,4 +1,10 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/lp5.1
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
 echo "----------------------------------------"
 echo "S L I M   G L O B A L   M E N U"
 echo ""
@@ -6,15 +12,18 @@ echo "https://review.slimroms.eu/#/q/topic:GlobalMenu"
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/Settings
+cd $SAUCE/packages/apps/Settings
+echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/packages_apps_Settings refs/changes/81/681/16 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-cd frameworks/base
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/18/218/24 && git cherry-pick FETCH_HEAD
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE
 echo "DONE"
 echo "----------------------------------------"
+echo "----------------------------------------"
+
