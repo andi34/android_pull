@@ -43,10 +43,6 @@ echo ""
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/91/130791/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/49/130449/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/50/130450/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/51/130451/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/52/130452/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
