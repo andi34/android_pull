@@ -8,34 +8,28 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p3100 refs/changes/39/130439/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p3100 refs/changes/40/130440/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3110
 echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p3110 refs/changes/41/130441/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p3110 refs/changes/42/130442/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p5100 refs/changes/43/130443/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p5100 refs/changes/44/130444/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5110
 echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p5110 refs/changes/45/130445/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_p5110 refs/changes/46/130446/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/47/130447/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/37/130437/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/38/130438/2 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso-common refs/changes/23/130623/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "set minfree overlay for less aggressive behaviour"
@@ -63,8 +57,6 @@ echo "----------------------------------------"
 # echo "----------------------------------------"
 #echo "enforcing time"
 #git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/116024/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/39/130339/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/40/130340/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/130341/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/42/130342/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/43/130343/1 && git cherry-pick FETCH_HEAD
