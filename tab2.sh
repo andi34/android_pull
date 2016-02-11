@@ -43,7 +43,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/56/16856/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../../..
 echo "----------------------------------------"
@@ -71,7 +71,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd frameworks/native
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/48/16848/3 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 cd ../..
 echo "----------------------------------------"
