@@ -58,19 +58,19 @@ echo "----------------------------------------"
 echo "ARM: backtrace: avoid crash on large invalid fp value"
 git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/8713/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "BFQ"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/10/10810/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/10811/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/10812/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/10813/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/14/10814/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "enforced time"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/15/10815/1 && git cherry-pick FETCH_HEAD
+#echo "BFQ"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/10/10810/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/10811/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/10812/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/10813/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/14/10814/1 && git cherry-pick FETCH_HEAD
+#echo "----------------------------------------"
+#echo "enforced time"
+#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/15/10815/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
