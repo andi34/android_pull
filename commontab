@@ -73,6 +73,11 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espre
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/94/133894/1 && git cherry-pick FETCH_HEAD
 # p31xx hwrotatio=0 needs the following
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/95/133895/1 && git cherry-pick FETCH_HEAD
+cd $SAUCE/vendor/samsung
+echo "----------------------------------------"
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
+git cherry-pick 45e6d9993e8df2a1be9ad1bd9521d6e2371bfaa5
+git cherry-pick 6829cef00cda1c8aa10e4524d59b40e2a2733b83
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "Done!"
