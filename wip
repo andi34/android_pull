@@ -1,0 +1,40 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/cm-13.0
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso refs/changes/02/133902/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso refs/changes/03/133903/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso refs/changes/04/133904/2 && git cherry-pick FETCH_HEAD
+echo "sensor debugging"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/96/133896/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso3g
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/07/133907/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/08/133908/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/09/133909/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/10/133910/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+cd $SAUCE/kernel/samsung/espresso10
+echo "----------------------------------------"
+# p31xx hwrotatio=0 needs the following
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/95/133895/1 && git cherry-pick FETCH_HEAD
+cd $SAUCE/vendor/samsung
+echo "----------------------------------------"
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
+git cherry-pick d55e473a1b232deec5d0daeadf5b4856051c1449
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"
