@@ -34,6 +34,8 @@ echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/86/133886/1 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/66/133766/2 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/67/133767/2 && git cherry-pick FETCH_HEAD
+echo "sensor debugging"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/96/133896/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
