@@ -78,8 +78,8 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espre
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
-git cherry-pick 45e6d9993e8df2a1be9ad1bd9521d6e2371bfaa5
-git cherry-pick 6829cef00cda1c8aa10e4524d59b40e2a2733b83
+git cherry-pick dc4529660342f65d4c9968c4f05913eb0bb88d61
+git cherry-pick 132ee94600d846625f16ad5bad0ddd1085d5daab
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "Done!"
