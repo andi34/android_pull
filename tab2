@@ -25,6 +25,12 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso
+echo "----------------------------------------"
+echo "sensor debugging"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/96/133896/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "sensor debugging"
@@ -37,7 +43,7 @@ echo "----------------------------------------"
 echo ""
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/32/133732/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
