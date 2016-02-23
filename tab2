@@ -27,7 +27,9 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/66/132666/2 && git cherry-pick FETCH_HEAD
+echo "sensor debugging"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/96/133896/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "snapcam"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/05/130605/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
