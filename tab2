@@ -85,11 +85,6 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/packages/apps/Trebuchet
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_packages_apps_Trebuchet refs/changes/80/133980/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/build
 echo "----------------------------------------"
 echo "Add back mka bootzip"
