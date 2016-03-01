@@ -1,7 +1,11 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/cm-13.0
+
+# Let's apply all commits!
+echo ""
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/espresso-common
+cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: switch to omap4-next"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/15/126515/1 && git cherry-pick FETCH_HEAD
@@ -36,28 +40,35 @@ echo "----------------------------------------"
 echo "fix SGX Modules build"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/25/126525/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/omap4-common
+cd $SAUCE/device/samsung/omap4-common
 echo "----------------------------------------"
 echo "omap4-common: goodbye Tab2 Family"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/11/126511/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd vendor/samsung
+cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick 87832844edf6f671ffc351460b8a14b9e9fe4ab6
-git cherry-pick 4ee5bca7a4956b392ae21d8d0b65de184651e79a
-cd ../..
+git cherry-pick 0f179cbb2ce2091584889ac2cbf81f92addd234e
+git cherry-pick cce5eaf3246bf2ad2f1290032a56f9d73aedeacd
+git cherry-pick 7ae9246a732024c16709c62ff54d4aadb054756e
+git cherry-pick 4d3fc8d67a58264964e724253d82f378fd8d33ad
+git cherry-pick 50594252f12c955f65b10e012f20adbab1c88a83
+git cherry-pick 5d74a3464ccada5c2cc7d6d98a821e4cf0f2879a
+git cherry-pick 3e8a109064e57e510f97c361b17ea26023e99276
+git cherry-pick 44e1d0ede53c19f551b868f8c5febd9f023a719c
+git cherry-pick 13f2224bec90b3a8df1ef8c85a858c6af4214244
+git cherry-pick cfe9d50f16e778c2054a6ba175435a91fcff6294
+git cherry-pick 871449cd9c9cb163118781f5cc45b16395028dc5
+git cherry-pick 092dc6c13c089a846c4880358a2979bbcdd56d26
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd vendor/cm
+cd $SAUCE/vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../..
+echo ""
+echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
