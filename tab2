@@ -5,6 +5,26 @@ SAUCE=~/android/cm-11.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/p3100
+echo "----------------------------------------"
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/p3110
+echo "----------------------------------------"
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/p5100
+echo "----------------------------------------"
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/p5110
+echo "----------------------------------------"
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "espresso-common: switch to omap4-next"
@@ -45,6 +65,12 @@ cd $SAUCE/device/samsung/omap4-common
 echo "----------------------------------------"
 echo "omap4-common: goodbye Tab2 Family"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/11/126511/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/kernel/samsung/espresso10
+echo "----------------------------------------"
+echo "a bunch of kernel changes..."
+git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/39/134639/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
