@@ -44,7 +44,7 @@ echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "a bunch of kernel changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/39/134639/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/63/134763/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
