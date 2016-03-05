@@ -48,6 +48,11 @@ git cherry-pick 32ffee6f4c3fd64827f2c50275b6fb453507fc75
 git cherry-pick 9134f9b48b07828f27220dba69f1963b3d4206f8
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/vendor/omni
+echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/61/17261/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 cd $SAUCE
