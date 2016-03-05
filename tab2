@@ -29,10 +29,15 @@ echo "multiple updates"
 git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/75/134675/1
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/98/135098/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "a bunch of common changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/134656/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/99/135099/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/omap4-common
@@ -44,7 +49,7 @@ echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "a bunch of kernel changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/63/134763/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/97/135097/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
