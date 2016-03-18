@@ -6,36 +6,39 @@ SAUCE=~/android/lp5.1
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/bionic
+git fetch https://github.com/andi34/SlimRoms_bionic.git lp5.1-ste
 echo "----------------------------------------"
 echo "Revert Revert Reenable support for non-PIE executables https://review.slimroms.eu/#/c/2720"
-git fetch https://review.slimroms.org/SlimRoms/android_bionic refs/changes/20/2720/1 && git cherry-pick FETCH_HEAD
+git cherry-pick 40a452646bee655a82dcbdf5e496384b0d1d9a27
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
+git fetch https://github.com/andi34/SlimRoms_frameworks_av.git lp5.1-ste
 echo "----------------------------------------"
 echo "STE Multimedia Fix"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/77/3177/5 && git cherry-pick FETCH_HEAD
+git cherry-pick 43885f21460415d4f1000f2e59c7fc10ca108a57
 echo "----------------------------------------"
 echo "av: Support for PRE_KITKAT and MR0 audio blobs"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/78/3178/3 && git cherry-pick FETCH_HEAD
+git cherry-pick 58f872785207374c5cf06f84452eb8c38efcf599
 echo "----------------------------------------"
 echo "STE-OMX Fix Streaming Video"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/79/3179/3 && git cherry-pick FETCH_HEAD
+git cherry-pick 6afd4b577a49bd148148ea218ab659e562592144
 echo "----------------------------------------"
 echo "STE-OMX-getSupportedProfileLevel-fix"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/80/3180/3 && git cherry-pick FETCH_HEAD
+git cherry-pick aa3202d11521eee1dac0274b04d8fe28af1fdeba
 echo "----------------------------------------"
 echo "Fix in-call audio"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/81/3181/3 && git cherry-pick FETCH_HEAD
+git cherry-pick aa020982112485280a1bf52346eabf8bdc351325
 echo "----------------------------------------"
 echo "Disable setting of no voip audio param"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/82/3182/3 && git cherry-pick FETCH_HEAD
+git cherry-pick 1065a992cb49f97a090205b7cefb6c3893c06144
 echo "----------------------------------------"
 echo "av: Skip S/W codec configuration"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_av refs/changes/83/3183/3 && git cherry-pick FETCH_HEAD
+git cherry-pick 1cb2a6ecb073429dde70ab41e1f45bed8498e944
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
+git fetch https://github.com/andi34/SlimRoms_frameworks_base.git lp5.1-ste
 echo "----------------------------------------"
 echo "Don't set AGPS server (needed for GPS blob to work)"
 git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/44/3044/2 && git cherry-pick FETCH_HEAD
@@ -48,57 +51,63 @@ git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/c
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
+git fetch https://github.com/andi34/SlimRoms_frameworks_native.git lp5.1-ste
 echo "----------------------------------------"
 echo "STE OMX Fix Fix Camera, Camcorder and Torch on STE Devices"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/84/3184/1 && git cherry-pick FETCH_HEAD
+git cherry-pick b5bf1556249010dfce3fa8d3e31f4a3bea516a3c
 echo "----------------------------------------"
 echo "STE OMX Fix video playback"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/85/3185/1 && git cherry-pick FETCH_HEAD
+git cherry-pick 5500f19fbde8d9f27751ca088e18d14e054a484f
 echo "----------------------------------------"
 echo "native:Fix buffering on Samsung STE devices"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/86/3186/1 && git cherry-pick FETCH_HEAD
+git cherry-pick 21990ec87bfa4c55048e8e45c585ea91e85eb206
 echo "----------------------------------------"
 echo "native: graphicbuffer fixup"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/87/3187/1 && git cherry-pick FETCH_HEAD
+git cherry-pick df21f7f2388a048396c2e34735a68780c77421b6
 echo "----------------------------------------"
 echo "native: Try to fix video playback"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/88/3188/1 && git cherry-pick FETCH_HEAD
+git cherry-pick 316191428bd95313347b77c95e7a00dbafa2ddb0
 echo "----------------------------------------"
 echo "Fix missing statements in second GLConsumer constructor"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_native refs/changes/89/3189/1 && git cherry-pick FETCH_HEAD
+git cherry-pick a79da68750c69e86045e3fd130d34994ff609c96
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/packages/services/Telecomm
+git fetch https://github.com/andi34/SlimRoms_packages_services_Telecomm.git lp5.1-ste
 echo "----------------------------------------"
 echo "Telecomm: Fix low in-call volume"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/packages_services_Telecomm refs/changes/91/3091/2 && git cherry-pick FETCH_HEAD
+git cherry-pick a624ccdeef87932ff9f67700aac6382608085f6f
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/packages/services/Telephony
+git fetch https://github.com/andi34/SlimRoms_packages_services_Telephony.git lp5.1-ste
 echo "----------------------------------------"
 echo "Fix modemNetworkMode to not return LTE"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/packages_services_Telephony refs/changes/55/3055/2 && git cherry-pick FETCH_HEAD
+git cherry-pick 6aaa92cc5c4483548745d3c8c159850b097a48f2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/opt/net/wifi
+git fetch https://github.com/andi34/SlimRoms_frameworks_opt_net_wifi.git lp5.1-ste
 echo "----------------------------------------"
 echo "Check WifiState on screen off before starting background scan"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_net_wifi refs/changes/46/3046/1 && git cherry-pick FETCH_HEAD
+git cherry-pick d559da3fb97451b7aa969ac9f3c7b58a3b4ce12e
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/opt/telephony
+git fetch https://github.com/andi34/SlimRoms_frameworks_opt_telephony.git lp5.1-ste
 echo "----------------------------------------"
 echo "PPP: Use client IP address as default gateway"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_opt_telephony refs/changes/90/3090/1 && git cherry-pick FETCH_HEAD
+git cherry-pick 18587639e5decfc0a69c55b01b3e376c73a65f5b
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/system/core
+git fetch https://github.com/andi34/SlimRoms_system_core.git lp5.1-ste
 echo "----------------------------------------"
 echo "STE OMX Fix"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/android_system_core refs/changes/56/3056/1 && git cherry-pick FETCH_HEAD
+git cherry-pick e77819b454d378fe14056ca6029c4820f2cee86c
 echo "----------------------------------------"
 echo "Add support for MR0 audio blobs"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/android_system_core refs/changes/57/3057/1 && git cherry-pick FETCH_HEAD
+git cherry-pick faa59dd5388d65491a9dc5724313d7a6292572bb
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/bootable/recovery
