@@ -8,13 +8,13 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
 echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/61/134661/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/61/134661/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3110
 echo "----------------------------------------"
 echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/66/134666/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/66/134666/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5100
@@ -37,7 +37,7 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
 echo "a bunch of common changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/99/135099/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/134656/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/omap4-common
