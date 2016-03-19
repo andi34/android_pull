@@ -49,7 +49,8 @@ echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "a bunch of kernel changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/97/135097/1
+# need to be rebased - some conflicts will happen on espresso board commonisation
+# git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/97/135097/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
