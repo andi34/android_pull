@@ -41,13 +41,13 @@ cd $SAUCE/frameworks/base
 git fetch https://github.com/andi34/SlimRoms_frameworks_base.git lp5.1-ste
 echo "----------------------------------------"
 echo "Don't set AGPS server (needed for GPS blob to work)"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/44/3044/2 && git cherry-pick FETCH_HEAD
+60e67b6a4082b8c0aee878cdd1145ad19a3f7593
 echo "----------------------------------------"
 echo "base: Allow media_rw (gid 1023) full SD card access"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/92/3092/1 && git cherry-pick FETCH_HEAD
+32e6c7c51442eb2104851382648ca952e00f17b4
 echo "----------------------------------------"
 echo "libhwui: Set fall-back layer size for zero-size requested layers"
-git fetch ssh://andi34@review.slimroms.org:29418/SlimRoms/frameworks_base refs/changes/93/3093/1 && git cherry-pick FETCH_HEAD
+0240e1c3bc698fef3896dde2d68093b11c4b8494
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
