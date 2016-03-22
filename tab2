@@ -5,27 +5,15 @@ SAUCE=~/android/android-5.1
 # Let's apply all commits!
 echo ""
 echo ""
-cd $SAUCE/device/samsung/espresso-common
-echo "----------------------------------------"
-echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3100
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3110
-echo "----------------------------------------"
-echo "nothing for now..."
+echo "espresso: set hwrotation on init for espresso and espressowifi variants"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/85/133985/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5100
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5110
+cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
@@ -35,12 +23,14 @@ echo "----------------------------------------"
 # echo "enforcing time"
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
 echo "Overclocking stuff"
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/35/14335/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/36/14336/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/37/14337/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/38/14338/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/39/14339/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/40/14340/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/35/14335/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/36/14336/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/37/14337/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/38/14338/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/39/14339/3 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/40/14340/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
