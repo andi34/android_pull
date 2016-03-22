@@ -40,7 +40,11 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/68/17468/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/69/17469/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/70/17470/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
