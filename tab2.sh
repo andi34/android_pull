@@ -22,7 +22,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/82/17482/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/83/17483/2 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/84/17484/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
@@ -71,8 +70,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-6.0
-echo "espresso-common: revert gralloc: Recognize GRALLOC_USAGE_CURSOR as a valid usage flag."
-git cherry-pick 19659ccd57ed8ce23d1e7e43b2d4f3d8356153c6
 echo "----------------------------------------"
 echo "espresso-common: remove the unused libQmageDecoder library"
 git cherry-pick 4e04ab19a3b7888b3a00842868e6c4931b4301bd
