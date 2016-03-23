@@ -75,10 +75,10 @@ echo "espresso-common: revert gralloc: Recognize GRALLOC_USAGE_CURSOR as a valid
 git cherry-pick 19659ccd57ed8ce23d1e7e43b2d4f3d8356153c6
 echo "----------------------------------------"
 echo "espresso-common: remove the unused libQmageDecoder library"
-git cherry-pick 47a6a7127d4ac8a455b7b93a55a4df6d698e4dbf
+git cherry-pick 4e04ab19a3b7888b3a00842868e6c4931b4301bd
 echo "----------------------------------------"
 echo "espresso-common: update widevine from sprout"
-git cherry-pick 3e82c8a5c4f53ce01e7fd71c88b7e22c8abf54c0
+git cherry-pick 012233034bc3c0f265dca0e6d2d250d9570180b8
 echo ""
 cd $SAUCE
 echo "Done!"
