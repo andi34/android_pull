@@ -54,6 +54,7 @@ echo ""
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
 # echo "BFQ"
 # git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/02/110002/2 && git cherry-pick FETCH_HEAD
 # echo "----------------------------------------"
