@@ -1,105 +1,76 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/android-6.0
+
+# Let's apply all commits!
+echo ""
 echo ""
 echo "----------------------------------------"
-cd device/samsung/espressowifi
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd device/samsung/espresso3g
+cd $SAUCE/device/samsung/espresso3g
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd hardware/samsung
+cd $SAUCE/hardware/samsung
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd hardware/ti/omap4
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/82/17482/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/83/17483/2 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/84/17484/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd kernel/samsung/espresso10
+cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/av
+cd $SAUCE/frameworks/av
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/base
+cd $SAUCE/frameworks/base
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/native
+cd $SAUCE/frameworks/native
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/opt/telephony
+cd $SAUCE/frameworks/opt/telephony
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
+echo "----------------------------------------"
+cd $SAUCE/build
+echo "----------------------------------------"
+echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (1/2)"
+git fetch https://gerrit.omnirom.org/android_build refs/changes/78/17478/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/Settings
+cd $SAUCE/bionic
 echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd build
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-cd ..
+echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
+git fetch https://gerrit.omnirom.org/android_bionic refs/changes/79/17479/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd bootable/recovery
+cd $SAUCE/bootable/recovery
 echo "----------------------------------------"
 echo "nothing for now..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd system/extras
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd system/vold
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
+cd $SAUCE
 echo "Done!"
 echo "----------------------------------------"
 echo "----------------------------------------"
