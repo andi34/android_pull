@@ -107,6 +107,16 @@ git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/chang
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/vendor/samsung
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-12.1
+echo "espresso-common: revert gralloc: Recognize GRALLOC_USAGE_CURSOR as a valid usage flag."
+git cherry-pick df56578ae0c87a0eb9ebd52d12a3cfbf1b593d62
+echo "----------------------------------------"
+echo "espresso-common: remove the unused libQmageDecoder library"
+git cherry-pick 8b4bbb673af5d0cf85bfaf37306f30d93d6ff001
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/bionic
 echo "Nothing for now..."
 echo "----------------------------------------"
