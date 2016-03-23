@@ -31,6 +31,9 @@ git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/chan
 git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/40/14340/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/64/137564/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/83/137483/5 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/10/137810/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
@@ -85,6 +88,12 @@ cd $SAUCE/bionic
 echo "----------------------------------------"
 echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
 git fetch https://gerrit.omnirom.org/android_bionic refs/changes/79/17479/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/vendor/samsung
+echo "----------------------------------------"
+git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-5.1
+git cherry-pick 92bdf2af4c111b43c2f96200b65dc813379a32bc
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
