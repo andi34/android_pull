@@ -5,27 +5,7 @@ SAUCE=~/android/cm-13.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3100
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5100
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/85/133985/5 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/00/135100/1 && git cherry-pick FETCH_HEAD
@@ -41,21 +21,11 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso-common
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "snapcam"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/05/130605/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo ""
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/32/133732/7 && git cherry-pick FETCH_HEAD
-#echo "cleanup following WIP"
-#git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/32/133732/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/64/137564/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/83/137483/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
@@ -101,6 +71,17 @@ cd $SAUCE/bootable/recovery
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/vendor/samsung
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
+echo "espresso-common: revert gralloc: Recognize GRALLOC_USAGE_CURSOR as a valid usage flag."
+git cherry-pick 18f6747ceb56a3f7486ffcdda17688caff96541d
+echo "----------------------------------------"
+echo "espresso-common: remove the unused libQmageDecoder library"
+git cherry-pick 47a6a7127d4ac8a455b7b93a55a4df6d698e4dbf
+echo "----------------------------------------"
+echo "espresso-common: update widevine from sprout"
+git cherry-pick 3e82c8a5c4f53ce01e7fd71c88b7e22c8abf54c0
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
