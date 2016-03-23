@@ -5,26 +5,6 @@ SAUCE=~/android/cm-12.1
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3100
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5100
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5110
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 echo "fade off by default"
@@ -40,36 +20,11 @@ echo "Rename espresso to espressowifi to avoid conflicts with HTC's espresso"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/64/137664/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso-common
-echo "----------------------------------------"
-echo "set minfree overlay for less aggressive behaviour"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/02/114602/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "espresso-common: more SELinux rules "
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/07/114607/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo "----------------------------------------"
 echo ""
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
-# echo "BFQ"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/02/110002/2 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/03/110003/2 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/04/110004/2 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/05/110005/2 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/14/110014/2 && git cherry-pick FETCH_HEAD
-# echo "----------------------------------------"
-#echo "enforcing time"
-#git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/24/116024/1 && git cherry-pick FETCH_HEAD
-# following breaks boot on p5113
-#git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/41/130341/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
