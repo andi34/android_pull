@@ -69,6 +69,16 @@ echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/vendor/samsung
+git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-6.0
+echo "espresso-common: revert gralloc: Recognize GRALLOC_USAGE_CURSOR as a valid usage flag."
+git cherry-pick 19659ccd57ed8ce23d1e7e43b2d4f3d8356153c6
+echo "----------------------------------------"
+echo "espresso-common: remove the unused libQmageDecoder library"
+git cherry-pick 47a6a7127d4ac8a455b7b93a55a4df6d698e4dbf
+echo "----------------------------------------"
+echo "espresso-common: update widevine from sprout"
+git cherry-pick 3e82c8a5c4f53ce01e7fd71c88b7e22c8abf54c0
 echo ""
 cd $SAUCE
 echo "Done!"
