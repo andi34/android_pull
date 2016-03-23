@@ -27,6 +27,9 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
+echo "fade off by default"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/88/137788/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 echo "espresso: set hwrotation on init for espresso and espressowifi variants"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/85/133985/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
