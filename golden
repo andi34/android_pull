@@ -1,0 +1,129 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/android-5.1
+
+# Let's apply all commits!
+echo ""
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/bionic
+git fetch https://github.com/andi34/Omni_bionic/commits/android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick e18570f014fbf8e3b18f9aca0d7d865976a3fe7f
+echo "----------------------------------------"
+echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
+git fetch https://gerrit.omnirom.org/android_bionic refs/changes/79/17479/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/build
+echo "----------------------------------------"
+"add back make bootzip"
+git fetch https://gerrit.omnirom.org/android_build refs/changes/63/14663/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_build refs/changes/64/14664/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (1/2)"
+git fetch https://gerrit.omnirom.org/android_build refs/changes/78/17478/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+git fetch https://github.com/andi34/Omni_frameworks_av.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 78ba31d8ce2884536b86e116ac4e4ce5418f204c
+git cherry-pick eab51f8f0392b1bf3cae9636bb3b62865b7a2e49
+git cherry-pick d9daa1a5db98420194a83e395aeef131415d6184
+git cherry-pick 27057d01eada003dd7fe3511ced9c462e40f78a0
+git cherry-pick 226815e4efbe42e1e5744b2438f3a4fa5b3886ee
+git cherry-pick 5c648f8b250161161a140334db2ed9e50c3a35c0
+git cherry-pick 03d6446020edc9f141a4b419eee51f7b8a768e96
+git cherry-pick 300d4ca9f6cf71ac3551be072575b8bdcce09621
+git cherry-pick ae411c5614a6c881f3f0973290fac5238d608e00
+git cherry-pick 301f2c7275962692071fa1e660d6dabd2306890d
+git cherry-pick 400b80a0a9b265d1844bc43c9c0c9cd2b80e1d0f
+git cherry-pick b02d28c07832c71c0dca06231cd27990255239d5
+git cherry-pick ccd81d094c833817cce521e17dc7d064ac2f4208
+git cherry-pick d97dbe42592f8ee9375dd85eb16e2864f0b10f54
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+git fetch https://github.com/andi34/Omni_frameworks_base.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 5ba21315d299babf483c92b9c70c5c1bf6e0a639
+git cherry-pick b0dc4d3c20e7bfecc9a71c6610cb4c16b07b5702
+git cherry-pick 7824c6e1464be4ab7c565f30bbf80f20fe1f0fcf
+git cherry-pick 111c13e3142a80540c5129a4c3037517350d2d69
+git cherry-pick acf97a0b81f90348d1ccc7305a861ba425b658c0
+git cherry-pick 8cfb000e0e5886103eb72d8399a3b690e0bcd1d1
+git cherry-pick e4f579da686e88d8d7d48d1cd59baa5f7cd67ddb
+git cherry-pick fd2624217069528cb4ac30490833754ea477ad8a
+git cherry-pick 633f99a9af23d1d41eac4702168ed62b659f67e7
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+git fetch https://github.com/andi34/Omni_frameworks_native.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 8c29449399a28fbdcae2c8f5ca06f6cbadc8b93f
+git cherry-pick 6f632da6b36c32bc83c23b152445418c23889c6b
+git cherry-pick 155a4e8a25259f0ee7d3bae1ecc52177fe49cc3b
+git cherry-pick e2d3d1b0447992355321f2cebb8c7c395acc6faa
+git cherry-pick ceb50bd3f023e71f47aa3372b0935700166f3186
+git cherry-pick f3dd9b9457075315721a106d396c9c41157d96e5
+git cherry-pick 22ec502441ab3dc8ea6c2cf3bbaae707b0594848
+git cherry-pick 0cc99dca23912c04579cee5424f2c7481b8e15d6
+git cherry-pick b9a1dcae55c7bbe16277b4e7b39eaaef6e1f09dc
+git cherry-pick 084a029c4529c9036f320fe1c50c53e4cba8c412
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/opt/telephony
+git fetch https://github.com/andi34/Omni_frameworks_opt_Telephony.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 76af8afd30eff392fa5219a30163ea35d034cb95
+git cherry-pick 11d8d45de0041d04ed602bdcc4bb25971bb625a4
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/opt/net/wifi
+git fetch https://github.com/andi34/Omni_frameworks_opt_net_wifi.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick c847f2d6290b89cede55aea3723ad5e140174ece
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Settings
+git fetch https://github.com/andi34/Omni_packages_apps_Settings.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 650fc9066fac51c7524cab4bb6881ea1942946f6
+git cherry-pick 873e3f52366bae289e3e6eb0f5d84ca4092c88d9
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/services/Telecomm
+git fetch https://github.com/andi34/Omni_packages_services_Telecomm.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 5942805fab91e1786c31130fb0ece210f6835235
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/services/Telephony
+git fetch https://github.com/andi34/Omni_packages_services_Telephony.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 9f6bebe7a81f13ae1269c8ea86a8421ca40df983
+git cherry-pick 923ac4a86a07e780336e8d4c1e722df438557fb0
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/system/core
+git fetch https://github.com/andi34/Omni_system_core.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick 8ffb6b24a77df6496907ad75eccb2582bcc35ff2
+git cherry-pick e132dde2c3a19f52873fae28328c40fcb9838c1d
+git cherry-pick 01a798fcf5b25b980592f9ed73d06ec003fbdf56
+git cherry-pick 04c550352b8e42bf4e46a4015469fcbe3a9ad9ed
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/vendor/omni
+echo "----------------------------------------"
+echo "vendor: add date and time by default for HOMEMADE builds  https://gerrit.omnirom.org/#/c/11379/"
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/79/11379/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"
