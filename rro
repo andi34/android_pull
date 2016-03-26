@@ -1,69 +1,54 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/android-5.1
+
+# Let's apply all commits!
 echo ""
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd frameworks/base
-echo "FRAMEWORKS"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/93/11693/5 && git cherry-pick FETCH_HEAD
+cd $SAUCE/frameworks/base
+git fetch https://github.com/andi34/Omni_frameworks_base.git android-5.1-ste
 echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/68/11868/8 && git cherry-pick FETCH_HEAD
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd packages/apps/Settings
-echo "SETTINGS"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/76/11676/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Settings refs/changes/30/12230/2 && git cherry-pick FETCH_HEAD
-cd ../../..
+git cherry-pick ff7fa5cda904b26a83db5f085a4747e745e98c25
+git cherry-pick 6839a5dabe25d2606b027c449d98f8535bf38455
+git cherry-pick 9ecca35745ae0d3f9cf27d6317435b2ad1226906
+git cherry-pick b06f047b80e4d7014d335dba3872818da569362b
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/Contacts
-echo "CONTACTS"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Contacts refs/changes/05/11705/1 && git cherry-pick FETCH_HEAD
+cd $SAUCE/packages/apps/Contacts
+git fetch https://github.com/andi34/Omni_packages_apps_Contacts.git android-5.1-ste
 echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Contacts refs/changes/35/12235/1 && git cherry-pick FETCH_HEAD
-cd ../../..
+git cherry-pick 5aaf55262286cb75d95219f8a6eab19b75305b1f
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/ContactsCommon
-echo "CONTACTS COMMON"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_packages_apps_ContactsCommon refs/changes/75/11675/1 && git cherry-pick FETCH_HEAD
+cd $SAUCE/packages/apps/ContactsCommon
+git fetch https://github.com/andi34/Omni_packages_apps_ContactsCommon.git android-5.1-ste
 echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_packages_apps_ContactsCommon refs/changes/34/12234/1 && git cherry-pick FETCH_HEAD
-cd ../../..
+git cherry-pick 8df74ca8360926969d985a0069505d0316f15965
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/Dialer
-echo "DIALER"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Dialer refs/changes/74/11674/2 && git cherry-pick FETCH_HEAD
+cd $SAUCE/packages/apps/Dialer
+git fetch https://github.com/andi34/Omni_packages_apps_Dialer.git android-5.1-ste
 echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_packages_apps_Dialer refs/changes/33/12233/1 && git cherry-pick FETCH_HEAD
-cd ../../..
+git cherry-pick 37f94e8b29face61807e933018d45d3f1281af4f
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd packages/apps/InCallUI
-echo "INCALLUI"
-echo "Exposing hard coded resources for type 2 overlay access/"
-git fetch https://gerrit.omnirom.org/android_packages_apps_InCallUI refs/changes/73/11673/2 && git cherry-pick FETCH_HEAD
+cd $SAUCE/packages/apps/InCallUI
+git fetch https://github.com/andi34/Omni_packages_apps_InCallUI.git android-5.1-ste
 echo "----------------------------------------"
-echo "Layers 2.1 - Layers Cleanup/Fixes"
-git fetch https://gerrit.omnirom.org/android_packages_apps_InCallUI refs/changes/32/12232/1 && git cherry-pick FETCH_HEAD
-cd ../../..
+git cherry-pick 6f8a3929644318c29f529513c35cc696eb8408fe
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Settings
+git fetch https://github.com/andi34/Omni_packages_apps_Settings.git android-5.1-ste
+echo "----------------------------------------"
+git cherry-pick eb9895fd6f4b8870dfdc7c848acbd83503dda8f9
+git cherry-pick 611b8091baf62fd008f68a3d19f22bef797ec5fa
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
