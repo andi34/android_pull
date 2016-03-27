@@ -37,7 +37,7 @@ echo "av: Skip S/W codec configuration"
 git cherry-pick 1cb2a6ecb073429dde70ab41e1f45bed8498e944
 echo "----------------------------------------"
 echo "StagefrightRecorder: switch back to SurfaceMediaSource"
-git cherry-pick b29fe5d3a32437e259cca1f17adce958599ae0da
+git cherry-pick c9eb3ee680d91cf2d3f064d6361509eb6c1e2ef1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
