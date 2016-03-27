@@ -36,6 +36,9 @@ echo "----------------------------------------"
 echo "av: Skip S/W codec configuration"
 git cherry-pick 1cb2a6ecb073429dde70ab41e1f45bed8498e944
 echo "----------------------------------------"
+echo "StagefrightRecorder: switch back to SurfaceMediaSource"
+git cherry-pick b29fe5d3a32437e259cca1f17adce958599ae0da
+echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 git fetch https://github.com/andi34/SlimRoms_frameworks_base.git lp5.1-ste
