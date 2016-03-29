@@ -54,8 +54,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
 echo "----------------------------------------"
-echo "fix libril after bad commit merge"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_samsung refs/changes/94/138494/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
