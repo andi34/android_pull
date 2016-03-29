@@ -8,10 +8,10 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/01/138501/2 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/00/138500/3 && git cherry-pick FETCH_HEAD
+#git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/00/138500/3 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/96/138496/3 && git cherry-pick FETCH_HEAD
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/98/138498/3 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/97/138497/3 && git cherry-pick FETCH_HEAD
+#git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/97/138497/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
