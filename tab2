@@ -11,7 +11,8 @@ cd $SAUCE/build
 echo "----------------------------------------"
 git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_build.git aosp-5.1.1_r34
 echo "proper zip naming"
-git cherry-pick 729a4771284b3504dcf11a73a4ac88f3df15ce64
+git cherry-pick 39110c9a840d269323d3336b0f57093883a0c2ab
+git cherry-pick b7ce78d872e69dda0fa23e30952544b67020697c
 echo "----------------------------------------"
 echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (1/2)"
 git fetch https://gerrit.omnirom.org/android_build refs/changes/78/17478/2 && git cherry-pick FETCH_HEAD
