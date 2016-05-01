@@ -10,23 +10,22 @@ echo "----------------------------------------"
 echo "p31xx portrait sensor & touch"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/01/138501/10 && git cherry-pick FETCH_HEAD
 echo "selinux updates"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/96/138496/5 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/98/138498/8 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/07/141107/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/96/138496/6 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/98/138498/10 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/07/141107/4 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "selinux updates"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/24/141124/11 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/11/141011/2 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/51/142751/1 && git cherry-pick FETCH_HEAD
 echo "enforced baby"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/09/141109/2 && git cherry-pick FETCH_HEAD
-echo "silent module request denials"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/11/141111/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/09/141109/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
