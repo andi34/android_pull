@@ -29,9 +29,9 @@ echo "multiple updates"
 git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/75/134675/1
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/98/135098/1 && git cherry-pick FETCH_HEAD
+# git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/98/135098/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
@@ -49,8 +49,7 @@ echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
 echo "a bunch of kernel changes..."
-# need to be rebased - some conflicts will happen on espresso board commonisation
-# git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/97/135097/1
+git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/59/143459/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
