@@ -3,29 +3,62 @@
 SAUCE=~/android/aosp-6.0
 
 # Let's apply all commits!
-echo ""
-echo ""
 echo "----------------------------------------"
+echo ""
+echo "  SAMSUNG GALAXY TAB2 - AOSP ADDITIONS  "
+echo ""
 echo "----------------------------------------"
 cd $SAUCE/build
-echo "----------------------------------------"
-git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_build.git aosp-5.1.1_r34
-echo "proper zip naming"
-git cherry-pick 39110c9a840d269323d3336b0f57093883a0c2ab
-git cherry-pick b7ce78d872e69dda0fa23e30952544b67020697c
+git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_build.git aosp-6.0.1_r30
+git cherry-pick 189e45b58f919d8927bbe6ff3128f5aaa4b10456
+git cherry-pick 8b0e812c3aa453dd2044e8bea9c2ae7518635538
+git cherry-pick 156d3911676d8778c29162f94bb2b179b47d1090
+git cherry-pick a651a0a1c6b34b56f3f8c300b430e4d0fc3e8baf
+git cherry-pick 811aad9ad9bad88b860af965529ea41a211d2b16
+git cherry-pick 689020602e290b5fb8052efde3e5ba85d883f2d9
+git cherry-pick 0717645daf2fc0aabac9b489ee33195ed2bdad66
 echo "----------------------------------------"
 echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (1/2)"
 git fetch https://gerrit.omnirom.org/android_build refs/changes/78/17478/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+echo ""
 echo "----------------------------------------"
 cd $SAUCE/bionic
-echo "----------------------------------------"
 echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
 git fetch https://gerrit.omnirom.org/android_bionic refs/changes/79/17479/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_frameworks_base.git aosp-6.0.1_r30
+git cherry-pick 1330ea45f8c0c6048164696b555410fb32580439
+git cherry-pick fabead0212f4c0f2e548914ab23d3c50bea10a29
+git cherry-pick 0055c5d72559fa0ab271ca89910e6a2a024491ce
+git cherry-pick d747991e65377078f11f7936310c4653e9ee026b
+git cherry-pick cb6dc645647508e62d73426bbd81657891a4e856
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_frameworks_native.git aosp-6.0.1_r30
+git cherry-pick a3a879fefd1de6403b0d2402571ceccac184b12a
+git cherry-pick 934732715b37ac37fbcfc330bb6ad0ec54bdedb9
+git cherry-pick 124d2849d158759a18c31aa45c2fd73e4aab1b52
+git cherry-pick 9b2a25d79fa8aa3deddce2c92c39829c7eacb428
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Settings
+git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_packages_apps_Settings.git aosp-6.0.1_r30
+git cherry-pick f1c98655da3d77b26588a44c5f4c4a0d4a19222b
+git cherry-pick 1aee3567dad4de0b8ce779771ab44613cc260579
+git cherry-pick 7d18eb14d62c46de877d31f7427903f9051f14f4
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/system/core
+git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-6.0.1_r30
+git cherry-pick 6082f80b2144283c1ca9e96556319601a8651784
+echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
-cd $SAUCE
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
