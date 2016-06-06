@@ -38,7 +38,6 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_frameworks_native.git aosp-6.0.1_r30
-git cherry-pick a3a879fefd1de6403b0d2402571ceccac184b12a
 git cherry-pick 934732715b37ac37fbcfc330bb6ad0ec54bdedb9
 git cherry-pick 124d2849d158759a18c31aa45c2fd73e4aab1b52
 git cherry-pick 9b2a25d79fa8aa3deddce2c92c39829c7eacb428
