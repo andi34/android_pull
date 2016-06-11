@@ -65,13 +65,9 @@ echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
-git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
 echo "----------------------------------------"
-echo "espresso-common: remove the unused libQmageDecoder library"
-git cherry-pick 47a6a7127d4ac8a455b7b93a55a4df6d698e4dbf
+echo "Nothing for now..."
 echo "----------------------------------------"
-echo "espresso-common: update widevine from sprout"
-git cherry-pick 3e82c8a5c4f53ce01e7fd71c88b7e22c8abf54c0
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
