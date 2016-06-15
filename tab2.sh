@@ -1,163 +1,79 @@
 #!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/mm6.0
+
+# Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd device/samsung/p3100
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/79/16579/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-cd device/samsung/p3110
-echo "nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/73/16573/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/74/16574/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/75/16575/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/76/16576/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/77/16577/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-cd device/samsung/p5100
+echo "Nothing for now..."
 echo "----------------------------------------"
-echo "nothing for now..."
 echo "----------------------------------------"
-cd ../../..
+cd $SAUCE/hardware/samsung
 echo "----------------------------------------"
+echo "Nothing for now..."
 echo "----------------------------------------"
-cd device/samsung/p5110
 echo "----------------------------------------"
-echo "nothing for now..."
+cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-cd ../../..
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd device/samsung/espresso-common
+cd $SAUCE/frameworks/av
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-cd hardware/samsung
-echo "nothing for now..."
+echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
+cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-cd hardware/ti/omap4
+echo "Nothing for now..."
 echo "----------------------------------------"
-echo "camera: fix build for MM https://review.slimroms.org/#/c/10457"
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/57/10457/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "camera: fix build after Miscellaneous: shut up warnings and a few fixes https://review.slimroms.org/#/c/12323"
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/23/12323/3 && git cherry-pick FETCH_HEAD
+cd $SAUCE/bionic
 echo "----------------------------------------"
-cd ../../..
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd kernel/samsung/espresso10
+cd $SAUCE/build
 echo "----------------------------------------"
-echo "nothing for now..."
+echo "Nothing for now..."
 echo "----------------------------------------"
-cd ../../..
 echo "----------------------------------------"
+cd $SAUCE/bootable/recovery
 echo "----------------------------------------"
-cd frameworks/av
+echo "Nothing for now..."
 echo "----------------------------------------"
-echo "libstagefright: add missing TI color format case https://review.slimroms.org/#/c/12100"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/00/12100/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-echo "libstagefright: Make it possible to skip OMX buffer reallocation https://review.slimroms.org/#/c/12101"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/01/12101/1 && git cherry-pick FETCH_HEAD
+cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-cd ../..
+git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
+git cherry-pick 4ff7c74576990228eec7d224717763f46c6f326f
+git cherry-pick 7f9c0809da7875666f678510216553ba5237c473
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/base
-echo "----------------------------------------"
-echo "Camera2 legacy: retry EGL config without EGL_RECORDABLE_ANDROID https://review.slimroms.org/#/c/11434"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/34/11434/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "framework: fix screenshot and rotation animation for devices with abnormal hw rotation https://review.slimroms.org/#/c/11473"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/73/11473/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/native
-echo "----------------------------------------"
-echo "surfaceflinger: Reimplement hwrotation https://review.slimroms.org/#/c/11461"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/61/11461/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "surfaceflinger: odd hw rotation (90/270) patch for swapping width/height https://review.slimroms.org/#/c/11462"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/62/11462/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Fix boot animation rotation problem when ro.sf.hwrotation is set to 90 or 270 https://review.slimroms.org/#/c/11463"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/63/11463/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "surfaceflinger: Consolidate display orientation compensation hooks https://review.slimroms.org/#/c/11464"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/64/11464/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Revert surfaceflinger: Consolidate display orientation compensation hooks https://review.slimroms.org/#/c/11465"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/65/11465/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd frameworks/opt/telephony
-echo "----------------------------------------"
-echo "Squashed support for RIL subclass https://review.slimroms.org/#/c/12144"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/44/12144/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "RIL: forward port support for mQANElements https://review.slimroms.org/#/c/12145"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/45/12145/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "RIL: Make mQANElements configurable by property https://review.slimroms.org/#/c/12146"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/46/12146/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Telephony: Allow more RIL methods to be overridden https://review.slimroms.org/#/c/12147"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/47/12147/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Set default subscriptions when single SIM is available https://review.slimroms.org/#/c/12148"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_opt_telephony refs/changes/48/12148/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd packages/apps/Settings
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-cd ../../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd build
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-cd ..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd bootable/recovery
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd system/extras
-echo "----------------------------------------"
-echo "ext4_utils: add BoardConfig define to suppress EMMC-corrupting wipe command https://review.slimroms.org/#/c/12102/"
-git fetch https://review.slimroms.org/SlimRoms/android_system_extras refs/changes/02/12102/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd system/vold
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-cd ../..
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
+cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
