@@ -23,17 +23,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/57/10457/5 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/23/12323/7 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/28/16628/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/29/16629/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/30/16630/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/31/16631/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/32/16632/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/33/16633/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/34/16634/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/35/16635/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/36/16636/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
