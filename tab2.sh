@@ -39,11 +39,6 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/hardware/samsung
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/57/10457/5 && git cherry-pick FETCH_HEAD
