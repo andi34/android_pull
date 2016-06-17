@@ -7,17 +7,18 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/79/16579/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/39/16639/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/40/16640/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/41/16641/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/42/16642/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/43/16643/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/44/16644/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/45/16645/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/46/16646/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/47/16647/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/48/16648/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/79/16579/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/39/16639/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/40/16640/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/41/16641/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/42/16642/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/43/16643/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/44/16644/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/45/16645/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/46/16646/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/47/16647/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/48/16648/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/62/16662/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
