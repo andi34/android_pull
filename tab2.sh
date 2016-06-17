@@ -14,9 +14,11 @@ cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/73/16573/1 && git cherry-pick FETCH_HEAD
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/74/16574/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/75/16575/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/76/16576/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/77/16577/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/37/16637/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/38/16638/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/76/16576/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/75/16575/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/77/16577/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
