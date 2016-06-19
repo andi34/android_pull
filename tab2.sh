@@ -9,12 +9,19 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/64/18264/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/56/18256/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/57/18257/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/58/18258/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/59/18259/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/60/18260/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/61/18261/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/62/18262/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/63/18263/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
