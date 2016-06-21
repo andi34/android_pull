@@ -16,8 +16,8 @@ cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/56/18256/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/57/18257/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/58/18258/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/59/18259/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/58/18258/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/59/18259/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/60/18260/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/61/18261/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/62/18262/1 && git cherry-pick FETCH_HEAD
@@ -56,7 +56,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/opt/telephony
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/87/18287/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/88/18288/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
