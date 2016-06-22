@@ -56,7 +56,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/opt/telephony
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/87/18287/1 && git cherry-pick FETCH_HEAD
+#git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/87/18287/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_frameworks_opt_telephony refs/changes/88/18288/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
