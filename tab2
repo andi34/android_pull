@@ -40,7 +40,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/39/18339/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
