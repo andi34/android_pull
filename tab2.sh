@@ -33,9 +33,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/63/16663/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/64/16664/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/65/16665/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
