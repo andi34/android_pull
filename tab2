@@ -9,8 +9,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "espresso: set hwrotation on init for espresso and espressowifi variants"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/85/133985/5 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -20,17 +19,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-# echo "enforcing time"
-# git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/91/12091/1 && git cherry-pick FETCH_HEAD
-echo "Overclocking stuff"
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/35/14335/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/36/14336/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/37/14337/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/38/14338/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/39/14339/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_kernel_samsung_espresso10 refs/changes/40/14340/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/01/135101/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
@@ -40,9 +29,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/69/17469/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_hardware_ti_omap4 refs/changes/70/17470/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
@@ -89,8 +76,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-5.1
-git cherry-pick 92bdf2af4c111b43c2f96200b65dc813379a32bc
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
