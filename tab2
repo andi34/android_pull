@@ -5,40 +5,13 @@ SAUCE=~/android/lp5.1
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3100
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/p3110
-echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso3g
 echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5100
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/p5110
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/omap4-common
-echo "----------------------------------------"
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso-common
-echo "----------------------------------------"
-echo "espresso-common: more SELinux rules "
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/07/7307/7 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "DeviceSettings: Overhaul"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/09/7309/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "espresso-common: set minfree overlay for less aggressive behaviour"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso-common refs/changes/67/10467/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
@@ -52,25 +25,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "Net: Initialize link state at boot"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/8712/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "ARM: backtrace: avoid crash on large invalid fp value"
-git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/8713/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-#echo "BFQ"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/10/10810/1 && git cherry-pick FETCH_HEAD
-#echo "----------------------------------------"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/11/10811/1 && git cherry-pick FETCH_HEAD
-#echo "----------------------------------------"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/12/10812/1 && git cherry-pick FETCH_HEAD
-#echo "----------------------------------------"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/13/10813/1 && git cherry-pick FETCH_HEAD
-#echo "----------------------------------------"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/14/10814/1 && git cherry-pick FETCH_HEAD
-#echo "----------------------------------------"
-#echo "enforced time"
-#git fetch https://review.slimroms.org/SlimRoms/kernel_samsung_espresso10 refs/changes/15/10815/1 && git cherry-pick FETCH_HEAD
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
