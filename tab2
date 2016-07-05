@@ -7,14 +7,12 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/07/150207/7 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/08/150208/2 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/10/150210/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/09/150209/9 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
@@ -64,8 +62,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
-# echo "Force bsdiff for recovery_from_boot.p if not using GZIP"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/90/98390/1 && git cherry-pick FETCH_HEAD
 echo "add back bootzip"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/78/107678/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
