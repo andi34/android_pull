@@ -9,7 +9,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/54/18454/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
