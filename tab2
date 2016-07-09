@@ -7,14 +7,17 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/49/17549/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/50/17550/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
-echo "nothing for now..."
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/51/17551/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
+echo "----------------------------------------"
 echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -33,20 +36,25 @@ echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/packages/apps/Settings
+echo "----------------------------------------"
+echo "nothing for now..."
 #echo "Settings: readd advanced settings https://review.slimroms.eu/#/c/2721/"
 #git fetch https://review.slimroms.eu/SlimRoms/packages_apps_Settings refs/changes/21/2721/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
-echo "nothing..."
+echo "----------------------------------------"
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/bootable/recovery
+echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_bootable_recovery refs/changes/28/12728/24 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/system/vold
-echo "nothing..."
+echo "----------------------------------------"
+echo "nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
