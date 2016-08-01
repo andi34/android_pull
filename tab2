@@ -9,16 +9,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/75/18475/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/76/18476/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/77/18477/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/78/18478/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/79/18479/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/74/18474/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
