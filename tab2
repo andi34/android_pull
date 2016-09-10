@@ -7,12 +7,25 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git revert -n 52b44e08e36b782eb7f9e9838f49d4ea4c7cb32c
+git commit sepolicy/file_contexts -m "revert for now"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/07/161607/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/08/161608/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/09/161609/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/10/161610/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/11/161611/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/12/161612/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/13/161613/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/14/161614/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/15/161615/3 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/16/161616/3 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/18/161618/4 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/19/161619/3 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/17/161617/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
@@ -66,7 +79,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
+git cherry-pick 75f4cddb7b40a57481064e88827b7f5cdcee8695^..7f0747de47cd04a975c99db673d40861ef552df3
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
