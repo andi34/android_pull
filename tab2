@@ -9,14 +9,13 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git revert -n e493e94b23f0e568729284b656906cbadeb4c0e8
-git commit sepolicy/file_contexts -m "revert for now"
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 git fetch https://github.com/andi34/android_device_samsung_espresso3g.git android-6.0
-git cherry-pick b3b045e2b9dec8aad466de752ebbdc73edf74aa5^..3770ac35df7f38a6059420dfd5e14b1141472e70
+git cherry-pick b3b045e2b9dec8aad466de752ebbdc73edf74aa5^..2668660dcae7998442b031558f0b09cbf798771a
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
