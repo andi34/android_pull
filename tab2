@@ -16,7 +16,7 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 git fetch https://github.com/andi34/android_device_samsung_espresso3g.git android-6.0
-git cherry-pick b3b045e2b9dec8aad466de752ebbdc73edf74aa5^..2668660dcae7998442b031558f0b09cbf798771a
+git cherry-pick ee161118cda2fdd79efc391b5771bd58bb724fb3^..922791a59c1fbb56f3950fb8a41f84235099067c
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
