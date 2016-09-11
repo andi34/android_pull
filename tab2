@@ -81,7 +81,7 @@ echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
-git cherry-pick 75f4cddb7b40a57481064e88827b7f5cdcee8695^..7f0747de47cd04a975c99db673d40861ef552df3
+git cherry-pick 75f4cddb7b40a57481064e88827b7f5cdcee8695^..f59d6ff6ae9435465fe9be7b2cd1accb05f8a05a
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
