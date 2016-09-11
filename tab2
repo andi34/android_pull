@@ -9,7 +9,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://github.com/andi34/android_device_samsung_espressowifi.git android-6.0
+git cherry-pick 921fa8958c5a2da47456f1fe5b626f42df8c63fc
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
