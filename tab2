@@ -13,19 +13,20 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/07/161607/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/08/161608/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/09/161609/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/10/161610/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/11/161611/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/12/161612/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/13/161613/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/14/161614/2 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/15/161615/3 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/16/161616/3 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/18/161618/4 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/19/161619/3 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espresso3g refs/changes/17/161617/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/17/161617/4 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/19/161619/4 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/16/161616/4 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/08/161608/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/09/161609/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/07/161607/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/10/161610/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/11/161611/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/12/161612/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/13/161613/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/14/161614/3 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/07/161807/1 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/15/161615/4 && git cherry-pick FETCH_HEAD
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/18/161618/5 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
