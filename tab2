@@ -9,12 +9,14 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git revert -n e493e94b23f0e568729284b656906cbadeb4c0e8
+git commit sepolicy/file_contexts -m "revert for now"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://github.com/andi34/android_device_samsung_espresso3g.git android-6.0
+git cherry-pick b3b045e2b9dec8aad466de752ebbdc73edf74aa5^..3770ac35df7f38a6059420dfd5e14b1141472e70
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/samsung
@@ -75,6 +77,12 @@ echo "----------------------------------------"
 cd $SAUCE/vendor/omni
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/vendor/samsung
+echo "----------------------------------------"
+git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-6.0
+git cherry-pick 38b0238e2a00dd4033bd227c9c9c7d0e47efbc17^..e48f349503b6c9cdbd3230ff9140f854d523b486
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
