@@ -10,6 +10,8 @@ echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/76/20176/1 && git cherry-pick FETCH_HEAD
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/77/20177/1 && git cherry-pick FETCH_HEAD
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/78/20178/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/72/20272/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/73/20273/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
