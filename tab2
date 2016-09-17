@@ -12,6 +12,8 @@ echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/91/19191/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/92/19192/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/93/19193/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/21/19221/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.omnirom.org/android_device_samsung_espressowifi refs/changes/22/19222/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
