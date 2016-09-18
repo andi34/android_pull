@@ -7,65 +7,47 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3100
 echo "----------------------------------------"
-echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3100 refs/changes/61/134661/2
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p3110
 echo "----------------------------------------"
-echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p3110 refs/changes/66/134666/2
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5100
 echo "----------------------------------------"
-echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5100 refs/changes/70/134670/1
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/p5110
 echo "----------------------------------------"
-echo "multiple updates"
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_p5110 refs/changes/75/134675/1
+echo "Nothing for now..."
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso3g
+echo "----------------------------------------"
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso refs/changes/98/135098/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
 echo "----------------------------------------"
-echo "a bunch of common changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso-common refs/changes/56/134656/1
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/omap4-common
-echo "----------------------------------------"
-echo "omap4-common: goodbye Tab2 Family"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_omap4-common refs/changes/11/126511/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
 echo "----------------------------------------"
-echo "a bunch of kernel changes..."
-git pull http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_espresso10 refs/changes/59/143459/1
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick 0f179cbb2ce2091584889ac2cbf81f92addd234e
-git cherry-pick cce5eaf3246bf2ad2f1290032a56f9d73aedeacd
-git cherry-pick 7ae9246a732024c16709c62ff54d4aadb054756e
-git cherry-pick 4d3fc8d67a58264964e724253d82f378fd8d33ad
-git cherry-pick 50594252f12c955f65b10e012f20adbab1c88a83
-git cherry-pick 5d74a3464ccada5c2cc7d6d98a821e4cf0f2879a
-git cherry-pick 2cde33ed0defa70a9bf9d99dc4af7e6a36fc9e57
-git cherry-pick d6640c9dfe5bf72c9d60544149f2f8c23fa80652
-git cherry-pick 7c58f28073c80a9ec7b2f09235a9052517360d28
-git cherry-pick a0793925c83cb11dedbb595018b40c6383ccafcb
-git cherry-pick da5fa6745d0af62b1d2e1ef0d0a4139616ec687d
-git cherry-pick 845b7c56601765aacbfbfac794ff64a4e9d5264e
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
