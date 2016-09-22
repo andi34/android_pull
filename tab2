@@ -32,7 +32,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/05/163405/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso-common
