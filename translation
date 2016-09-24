@@ -1,0 +1,42 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+SAUCE=~/android/mm6.0
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/frameworks_base refs/changes/18/20518/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Settings
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/packages_apps_Settings refs/changes/19/20519/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/SlimLauncher
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/packages_apps_SlimLauncher refs/changes/20/20520/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Bluetooth
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/packages_apps_Bluetooth refs/changes/21/20521/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Browser
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/packages_apps_Browser refs/changes/22/20522/1 && git cherry-pick FETCH_HEADecho "----------------------------------------"
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/packages/services/Telephony
+echo "----------------------------------------"
+git fetch https://andi34@review.slimroms.org/a/SlimRoms/packages_services_Telephony refs/changes/23/20523/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"
