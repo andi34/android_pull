@@ -12,7 +12,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/45/163745/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
