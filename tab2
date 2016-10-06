@@ -12,10 +12,6 @@ cd $SAUCE/build
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/84/384/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/81/381/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
 cd $SAUCE/system/core
 git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-4.4
 git cherry-pick d5a6d83890587e878367908e5f0ae5abdc9368a9
