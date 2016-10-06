@@ -8,6 +8,10 @@ echo ""
 echo "  AOSP ADDITIONS  "
 echo ""
 echo "----------------------------------------"
+cd $SAUCE/build
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/84/384/2 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/81/381/1 && git cherry-pick FETCH_HEAD
 echo ""
