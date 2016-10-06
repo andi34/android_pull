@@ -8,10 +8,6 @@ echo ""
 echo "  AOSP ADDITIONS  "
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/80/380/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
 cd $SAUCE/system/core
 git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-5.1.1_r37
 git cherry-pick 08c84a2ee80f1f17a82e980245317be180f52421
