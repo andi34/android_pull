@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/04/21304/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -33,7 +33,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-echo "Nothing for now..."
+git pull ssh://andi34@review.slimroms.org:29418/SlimRoms/hardware_ti_omap4 refs/changes/02/21302/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
@@ -48,7 +48,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/03/21303/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/bionic
