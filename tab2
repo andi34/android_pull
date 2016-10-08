@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/04/21304/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -33,7 +33,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git pull ssh://andi34@review.slimroms.org:29418/SlimRoms/hardware_ti_omap4 refs/changes/02/21302/2
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
@@ -70,8 +70,6 @@ cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0-2
 git cherry-pick bb19523e1e6980f23d41062ed14751539453dc05
-git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
-git cherry-pick 33f17530383c27eb610756612c13bed2e5d50efe
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
