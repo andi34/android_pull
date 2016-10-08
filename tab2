@@ -22,7 +22,7 @@ cd $SAUCE/vendor/ti
 git fetch unlegacy
 git checkout unlegacy/stable
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/proprietary_vendor_ti refs/changes/62/462/3 && git cherry-pick FETCH_HEAD
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/proprietary_vendor_ti refs/changes/73/373/10 && git cherry-pick FETCH_HEAD
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/proprietary_vendor_ti refs/changes/73/373/11 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
