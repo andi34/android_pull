@@ -33,7 +33,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git pull ssh://andi34@review.slimroms.org:29418/SlimRoms/hardware_ti_omap4 refs/changes/02/21302/1
+git pull ssh://andi34@review.slimroms.org:29418/SlimRoms/hardware_ti_omap4 refs/changes/02/21302/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
