@@ -14,52 +14,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/60/19160/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/61/19161/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/62/19162/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/63/19163/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/64/19164/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/65/19165/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/66/19166/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/67/19167/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/68/19168/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/69/19169/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/89/19189/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_device_samsung_espresso3g refs/changes/90/19190/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/samsung
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/kernel/samsung/espresso10
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/opt/telephony
-echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -78,11 +32,6 @@ echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
 git fetch https://gerrit.omnirom.org/android_bionic refs/changes/79/17479/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/bootable/recovery
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/omni
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2 && git cherry-pick FETCH_HEAD
@@ -90,8 +39,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung.git android-6.0
-git cherry-pick 21de8372a0cd5726579ea0475763f3f31dbaf159
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
