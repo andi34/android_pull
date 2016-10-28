@@ -12,64 +12,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/81/20181/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/82/20182/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/83/20183/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/84/20184/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/85/20185/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/86/20186/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/87/20187/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/88/20188/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/89/20189/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/90/20190/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/91/20191/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espresso3g refs/changes/92/20192/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/kernel/samsung/espresso10
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/03/21303/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/bionic
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/build
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/bootable/recovery
-echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0-2
-git cherry-pick bb19523e1e6980f23d41062ed14751539453dc05
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
