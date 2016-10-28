@@ -5,11 +5,6 @@ SAUCE=~/android/cm-11.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick d6d753a7637bf9d9b907f099b2a7055a5c0e0980
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/08/163408/1 && git cherry-pick FETCH_HEAD
