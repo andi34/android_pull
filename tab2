@@ -23,6 +23,7 @@ git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_sams
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/95/695/3 && git cherry-pick FETCH_HEAD
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/96/696/2 && git cherry-pick FETCH_HEAD
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/61/761/3 && git cherry-pick FETCH_HEAD
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/60/760/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
