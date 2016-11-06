@@ -20,11 +20,10 @@ echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/49/22349/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-echo "----------------------------------------"
-echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
-git cherry-pick c6410487e5433b5dd36c44faed139ef32019c481
+# cd $SAUCE/vendor/samsung
+# echo "----------------------------------------"
+# echo "----------------------------------------"
+# git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
