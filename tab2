@@ -12,7 +12,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/03/169303/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
@@ -29,6 +29,11 @@ echo "----------------------------------------"
 # git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
 # echo "----------------------------------------"
 # echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+echo "----------------------------------------"
+git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/02/169302/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
