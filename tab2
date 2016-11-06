@@ -23,7 +23,8 @@ echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
+git cherry-pick c6410487e5433b5dd36c44faed139ef32019c481
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
