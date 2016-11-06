@@ -15,10 +15,15 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/49/22349/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-echo "Nothing for now..."
 echo "----------------------------------------"
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
