@@ -33,11 +33,6 @@ cd $SAUCE/hardware/ti/omap4
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/39/639/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/proprietary_vendor_samsung refs/changes/55/755/1 && git cherry-pick FETCH_HEAD
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/proprietary_vendor_samsung refs/changes/56/756/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/83/683/1 && git cherry-pick FETCH_HEAD
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/84/684/1 && git cherry-pick FETCH_HEAD
