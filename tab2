@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/51/22351/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -17,7 +17,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/49/22349/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/49/22349/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/77/22477/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 # cd $SAUCE/vendor/samsung
