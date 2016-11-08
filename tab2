@@ -33,6 +33,7 @@ echo "----------------------------------------"
 cd $SAUCE/frameworks/av
 echo "----------------------------------------"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/02/169302/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_frameworks_av refs/changes/04/169604/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
