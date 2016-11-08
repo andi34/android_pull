@@ -16,9 +16,7 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo ""
 cd $SAUCE/kernel/samsung/espresso10
-echo "----------------------------------------"
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
@@ -28,28 +26,20 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/45/169845/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/46/169846/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/frameworks/base
+echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
+echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
@@ -57,26 +47,13 @@ echo "----------------------------------------"
 echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/bionic
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/build
+echo "----------------------------------------"
 echo "add back bootzip"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/78/107678/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Set metadata on bootzip"
 git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/19/7219/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/bootable/recovery
-echo "Nothing for now..."
-echo "----------------------------------------"
-cd ../..
-echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
