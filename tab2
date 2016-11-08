@@ -7,12 +7,17 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/51/22351/3 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 echo "Nothing for now..."
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/hardware/ti/omap4
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/25/22525/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
