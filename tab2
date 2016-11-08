@@ -21,6 +21,11 @@ git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/49/223
 git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/77/22477/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/32/22432/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 # cd $SAUCE/vendor/samsung
 # echo "----------------------------------------"
 # echo "----------------------------------------"
