@@ -29,11 +29,6 @@ echo "----------------------------------------"
 # git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
 # echo "----------------------------------------"
 # echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_hardware_ti_omap4 refs/changes/42/169942/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
