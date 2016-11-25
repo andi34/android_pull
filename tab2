@@ -15,13 +15,7 @@ git cherry-pick d5a6d83890587e878367908e5f0ae5abdc9368a9
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/39/639/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/80/680/1 && git cherry-pick FETCH_HEAD
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/81/681/1 && git cherry-pick FETCH_HEAD
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_frameworks_native refs/changes/82/682/1 && git cherry-pick FETCH_HEAD
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/17/917/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo ""
