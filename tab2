@@ -13,7 +13,7 @@ git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-5.
 git cherry-pick 08c84a2ee80f1f17a82e980245317be180f52421
 echo ""
 echo "----------------------------------------"
-d $SAUCE/device/samsung/espresso3g
+cd $SAUCE/device/samsung/espresso3g
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/03/703/2 && git cherry-pick FETCH_HEAD
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/05/705/2 && git cherry-pick FETCH_HEAD
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/06/706/2 && git cherry-pick FETCH_HEAD
