@@ -5,65 +5,6 @@ SAUCE=~/android/cm-11.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/build
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/79/172179/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/dalvik
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_dalvik refs/changes/80/172180/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/external/expat
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_expat refs/changes/81/172181/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_expat refs/changes/82/172182/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_expat refs/changes/83/172183/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_expat refs/changes/84/172184/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/external/freetype
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_freetype refs/changes/86/172186/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/external/jpeg
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_jpeg refs/changes/87/172187/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/external/libvpx
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_libvpx refs/changes/88/172188/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_libvpx refs/changes/89/172189/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/external/sepolicy
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_external_sepolicy refs/changes/90/172190/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/91/172191/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/92/172192/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/93/172193/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/94/172194/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/95/172195/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/96/172196/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_av refs/changes/97/172197/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/98/172198/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/99/172199/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/00/172200/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/01/172201/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/02/172202/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/03/172203/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_frameworks_base refs/changes/04/172204/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/libcore
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_libcore refs/changes/05/172205/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/Bluetooth
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_packages_apps_Bluetooth refs/changes/06/172206/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/packages/services/Telephony
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_packages_services_Telephony refs/changes/07/172207/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/system/core
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_core refs/changes/08/172208/1 && git cherry-pick FETCH_HEAD
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_core refs/changes/09/172209/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-cd $SAUCE/system/media
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_system_media refs/changes/10/172210/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/08/163408/1 && git cherry-pick FETCH_HEAD
