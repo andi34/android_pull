@@ -7,22 +7,21 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espressowifi refs/changes/40/170240/1 && git cherry-pick FETCH_HEAD
-# git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espressowifi refs/changes/49/163849/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/28/35728/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_device_samsung_espresso3g refs/changes/03/169303/1 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
 echo "----------------------------------------"
 echo "Add back mka bootzip"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/47/125247/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/64/2964/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "Set metadata on bootzip"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_build refs/changes/48/125248/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/70/2970/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 # cd $SAUCE/vendor/samsung
@@ -37,7 +36,7 @@ echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
-git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/85/130585/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/12/155912/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
