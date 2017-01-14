@@ -26,14 +26,6 @@ git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_sams
 git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_samsung_espresso3g refs/changes/58/1058/3 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/build
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/29/1229/2 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-cd $SAUCE/vendor/unlegacy
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_vendor_unlegacy refs/changes/30/1230/5 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
 #cd $SAUCE/hardware/ti/omap4
 #git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/17/917/2 && git cherry-pick FETCH_HEAD
 echo ""
