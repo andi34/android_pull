@@ -27,11 +27,11 @@ git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_device_sams
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/build
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/29/1229/1 && git cherry-pick FETCH_HEAD
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/29/1229/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/vendor/unlegacy
-git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_vendor_unlegacy refs/changes/30/1230/3 && git cherry-pick FETCH_HEAD
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_vendor_unlegacy refs/changes/30/1230/5 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 #cd $SAUCE/hardware/ti/omap4
