@@ -33,6 +33,14 @@ git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-6.
 git cherry-pick db95b3c014558daa4785f97903e7ed44d987830c
 echo ""
 echo "----------------------------------------"
+cd $SAUCE/build
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_build refs/changes/27/1227/2 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/vendor/unlegacy
+git fetch http://gerrit.unlegacy-android.cf/Unlegacy-Android/android_vendor_unlegacy refs/changes/28/1228/2 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
 echo "Done!"
