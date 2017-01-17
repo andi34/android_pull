@@ -17,7 +17,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git pull https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/90/24692/1
+git pull https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/92/24692/1
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
