@@ -60,7 +60,6 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_build refs/changes/70/21370/1 && git cherry-pick FETCH_HEAD
 "add back make bootzip"
 git fetch https://gerrit.omnirom.org/android_build refs/changes/63/14663/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.omnirom.org/android_build refs/changes/64/14664/1 && git cherry-pick FETCH_HEAD
