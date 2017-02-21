@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing..."
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/05/162905/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -26,8 +26,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.0
-git cherry-pick e7819ab009d7bed58531f6b8d5ed50459f262c4f^..eefcdd704a80c73530ecfadf08d28b37fa007669
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.1
+git cherry-pick f8bee2007345bc4f03afdfac3e27bb0822dc29ac^..7ca62c80a29b9f6cb2c2ae22671d86cdf96bec25
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
