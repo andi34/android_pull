@@ -7,10 +7,21 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/05/162905/1 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
+echo "----------------------------------------"
+echo "nothing..."
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/hardware/ti/omap4
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/12/163412/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/13/163413/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/14/163414/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/15/163415/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/16/163416/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/17/163417/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "nothing..."
 echo "----------------------------------------"
@@ -26,8 +37,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-13.1
-git cherry-pick f8bee2007345bc4f03afdfac3e27bb0822dc29ac^..7ca62c80a29b9f6cb2c2ae22671d86cdf96bec25
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
