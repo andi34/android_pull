@@ -9,7 +9,18 @@ echo "  SAMSUNG GALAXY TAB2 - UA ADDITIONS  "
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/2 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/hardware/ti/omap4
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/03/1503/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/02/1502/4 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/vendor/unlegacy
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_vendor_unlegacy refs/changes/89/1489/3 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo ""
