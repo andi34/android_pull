@@ -33,8 +33,8 @@ echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/19/26619/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/20/26620/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/21/26621/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/20/26620/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/21/26621/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
