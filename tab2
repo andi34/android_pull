@@ -5,6 +5,10 @@ SAUCE=~/android/mm6.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
+cd $SAUCE/build
+git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/47/26647/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 echo "Nothing for now..."
