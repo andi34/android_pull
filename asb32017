@@ -1,0 +1,35 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+# https://review.lineageos.org/#/q/topic:asb-2017.03-cm-11.0+(status:open+OR+status:merged)
+SAUCE=~/android/cm-11.0
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/bootable/recovery-cm
+git fetch https://review.lineageos.org/LineageOS/android_bootable_recovery-cm refs/changes/91/164791/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/build
+git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/03/165603/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/external/libnfc-nci
+git fetch https://review.lineageos.org/LineageOS/android_external_libnfc-nci refs/changes/92/164792/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/external/openssl
+git fetch https://review.lineageos.org/LineageOS/android_external_openssl refs/changes/05/164805/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_external_openssl refs/changes/06/164806/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/14/164814/8 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_base refs/changes/93/164793/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/PackageInstaller
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_PackageInstaller refs/changes/01/164801/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"

@@ -1,0 +1,43 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+# https://review.lineageos.org/#/q/topic:cm-11-asb-2017.01+(status:open+OR+status:merged)
+SAUCE=~/android/cm-11.0
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/build
+git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/29/160429/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/dalvic
+git fetch https://review.lineageos.org/LineageOS/android_dalvik refs/changes/87/162887/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_dalvik refs/changes/88/162888/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/external/libvpx
+git fetch https://review.lineageos.org/LineageOS/android_external_libvpx refs/changes/79/159979/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/external/tremolo
+git fetch https://review.lineageos.org/LineageOS/android_external_tremolo refs/changes/62/160162/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/78/159978/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/81/159981/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/80/159980/6 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/70/160170/6 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/76/159976/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/74/160174/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/hardware/qcom/audio-caf
+git fetch https://review.lineageos.org/LineageOS/android_hardware_qcom_audio-caf refs/changes/12/160412/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/ContactsCommon
+git fetch https://review.lineageos.org/LineageOS/android_packages_apps_ContactsCommon refs/changes/95/162895/6 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/system/core
+git fetch https://review.lineageos.org/LineageOS/android_system_core refs/changes/84/162884/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"

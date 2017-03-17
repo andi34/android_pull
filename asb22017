@@ -1,0 +1,30 @@
+#!/bin/bash
+# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+# https://review.lineageos.org/#/q/topic:asb-2017.02-cm-11.0+(status:open+OR+status:merged)
+SAUCE=~/android/cm-11.0
+
+# Let's apply all commits!
+echo ""
+echo "----------------------------------------"
+cd $SAUCE/bionic
+git fetch https://review.lineageos.org/LineageOS/android_bionic refs/changes/45/164345/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_bionic refs/changes/59/160759/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/build
+git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/21/160921/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/external/icu4c
+git fetch https://review.lineageos.org/LineageOS/android_external_icu4c refs/changes/35/164135/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/hardware/libhardware
+git fetch https://review.lineageos.org/LineageOS/android_hardware_libhardware refs/changes/57/160757/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/87/160787/4 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/58/160758/10 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo ""
+echo "Done!"
+cd $SAUCE
+echo "----------------------------------------"
+echo "----------------------------------------"
