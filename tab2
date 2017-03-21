@@ -46,6 +46,11 @@ git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/20
 git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/21/26621/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/kernel/oneplus/msm8974
+echo "----------------------------------------"
+git pull https://review.slimroms.org/SlimRoms/kernel_oneplus_msm8974 refs/changes/04/26904/2
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
