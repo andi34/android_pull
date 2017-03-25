@@ -23,10 +23,9 @@ git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_packages_apps_Settings.
 git cherry-pick 63a31a2743e49e198e44ea79abbc79721812bd60^..eb5d01e60ceae20287448a0e42fd7c265417b251
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/system/core
-git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_system_core.git aosp-6.0.1_r61-tab2
-git cherry-pick db95b3c014558daa4785f97903e7ed44d987830c
-echo ""
+cd $SAUCE/vendor/unlegacy
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_vendor_unlegacy refs/changes/58/1758/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
