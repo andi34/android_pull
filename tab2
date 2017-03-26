@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 git fetch https://github.com/andi34/android_device_samsung_espressowifi.git cm-11.0
-git cherry-pick 464d36a60a6b48559de9252c732c188ea2d95c7a^..fede53319f3f03b6d9331415b95dc19ff5defe5d
+git cherry-pick 7286226024bf6af4bf0977b5d1979e8b8a0f3e17^..af2a286cd441aa83f4519fffdbc28d27550e0c4a
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
