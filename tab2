@@ -8,13 +8,13 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch https://github.com/andi34/android_device_samsung_espressowifi.git cm-12.1
-git cherry-pick 6e11314d99f03488e7634030efd4f497fc5e09f1^..8d571c23138fd42779b77684680b7fef95be56cd
+git cherry-pick 6e11314d99f03488e7634030efd4f497fc5e09f1^..4dbdc08a17b41a2649e5456a3b5aff10efa4bb69
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
 git fetch https://github.com/andi34/android_device_samsung_espresso3g.git cm-12.1
-git cherry-pick bc8448e26660c5b33d0a8872e7c973f28fcc0344
+git cherry-pick cf324fb58a7974cd40fa2ea9dfb627de86265950
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
@@ -46,7 +46,7 @@ echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-12.1
-git cherry-pick df0e37818946b12e0cdef6fac97797f1e8cb7c7a^..82762917237d38750f754942bdd8889dea864c85
+git cherry-pick df0e37818946b12e0cdef6fac97797f1e8cb7c7a^..16910c0e8c628c1ea614788db3bec0b54912e970
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
