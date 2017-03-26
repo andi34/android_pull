@@ -11,7 +11,12 @@ git cherry-pick 7286226024bf6af4bf0977b5d1979e8b8a0f3e17^..af2a286cd441aa83f4519
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick 4af4cf62d54dab874fb900481ad3493c429f522a^..fede53319f3f03b6d9331415b95dc19ff5defe5d
+git cherry-pick 4af4cf62d54dab874fb900481ad3493c429f522a
+git cherry-pick 081dd57274acfce3ed5e14f8857d7e721c2e3fe0
+git cherry-pick f2fccc1a0eb3b8644b3452d73b614d8b0909e688
+git cherry-pick 4115c2c4a61c9480368438ac92190ac9c9ff584c
+git cherry-pick 852b1523ef4a5ca7cfb86e2ade12aa11de9ffa6b
+git cherry-pick 2eeaf75d696b080702827a200790ac62e7b8d50a
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
