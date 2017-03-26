@@ -7,14 +7,12 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://github.com/andi34/android_device_samsung_espressowifi.git cm-12.1
-git cherry-pick 6e11314d99f03488e7634030efd4f497fc5e09f1^..4dbdc08a17b41a2649e5456a3b5aff10efa4bb69
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch https://github.com/andi34/android_device_samsung_espresso3g.git cm-12.1
-git cherry-pick cf324fb58a7974cd40fa2ea9dfb627de86265950
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
