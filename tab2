@@ -7,12 +7,14 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-# git fetch ssh://Android-Andi@review.cyanogenmod.org:29418/CyanogenMod/android_device_samsung_espressowifi refs/changes/65/163765/4 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/andi34/android_device_samsung_espressowifi.git cm-12.1
+git cherry-pick 6e11314d99f03488e7634030efd4f497fc5e09f1^..8d571c23138fd42779b77684680b7fef95be56cd
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-echo "Nothing for now..."
+https://github.com/andi34/android_device_samsung_espresso3g.git cm-12.1
+git cherry-pick bc8448e26660c5b33d0a8872e7c973f28fcc0344
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/espresso10
@@ -43,7 +45,8 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-echo "Nothing for now..."
+git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-12.1
+git cherry-pick 1b6b8771b6a8cd0edf338427e01f6bbabce14076^..77b7cff65d29a872b8cbb9faed40af4260f10169
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
