@@ -9,6 +9,10 @@ echo "  AOSP ADDITIONS  "
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/hardware/ti/omap4
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/14/1214/4 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/vendor/unlegacy
 echo "----------------------------------------"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_vendor_unlegacy refs/changes/58/1758/1 && git cherry-pick FETCH_HEAD
