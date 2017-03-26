@@ -7,11 +7,11 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 git fetch https://github.com/andi34/android_device_samsung_espressowifi.git cm-11.0
-git cherry-pick 7286226024bf6af4bf0977b5d1979e8b8a0f3e17^..af2a286cd441aa83f4519fffdbc28d27550e0c4a
+git cherry-pick 7286226024bf6af4bf0977b5d1979e8b8a0f3e17^..6a57b2dd55a5d8c29d9ed6d46e5db33cbaa71f91
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-11.0
-git cherry-pick 2cb850d8e3b52799363f127f836897cc211db1b3^..25c2a64ecf1564a9370ea4c34404420843e0e371
+git cherry-pick 2cb850d8e3b52799363f127f836897cc211db1b3^..c8bc6f6ab9b1b5b296677a24740e2dba49e703d7
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "Vendor: add hour and minute for zip-nameing"
