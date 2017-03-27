@@ -9,7 +9,9 @@ echo "  SAMSUNG GALAXY TAB2 - UA ADDITIONS  "
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso
-git pull https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/60/1760/3
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/6 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/1506/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/60/1760/4 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/61/1761/3 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
@@ -21,17 +23,12 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/tuna
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_kernel_samsung_tuna refs/changes/36/1536/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_kernel_samsung_tuna refs/changes/37/1537/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_kernel_samsung_tuna refs/changes/38/1538/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_kernel_samsung_tuna refs/changes/39/1539/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_kernel_samsung_tuna refs/changes/40/1540/1 && git cherry-pick FETCH_HEAD
+gecho "nothing to do..."
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/03/1503/2 && git cherry-pick FETCH_HEAD
-echo "nothing to do..."
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
