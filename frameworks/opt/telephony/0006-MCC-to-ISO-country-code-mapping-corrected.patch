@@ -1,0 +1,35 @@
+From 85e8dd79f2acb34ba0a22abedad31d2cc090677d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Karol=20Wr=C3=B3tniak?= <karol.wrotniak@droidsonroids.pl>
+Date: Mon, 17 Nov 2014 02:56:57 +0100
+Subject: [PATCH 6/9] MCC to ISO country code mapping corrected
+
+ISO code of Democratic Republic of the Congo (MCC 630) changed from CG to CD (CD is correct for Congo - different country, MCC 629)
+Added Niue (ISO: NU, MCC 555)
+Added South Sudan (ISO: SS, MCC: 659)
+Added Tuvalu (ISO: TV, MCC 553)
+
+Change-Id: I3867190d1c34e8e2717eae3e393c0c647c6b2cb0
+Reference: ITU E.212: http://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212A-2012-PDF-E.pdf
+
+Conflicts:
+	src/java/com/android/internal/telephony/MccTable.java
+---
+ src/java/com/android/internal/telephony/MccTable.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/java/com/android/internal/telephony/MccTable.java b/src/java/com/android/internal/telephony/MccTable.java
+index 91355ae..e599c60 100644
+--- a/src/java/com/android/internal/telephony/MccTable.java
++++ b/src/java/com/android/internal/telephony/MccTable.java
+@@ -621,7 +621,7 @@ public final class MccTable {
+ 		sTable.add(new MccEntry(627,"gq",2));	//Equatorial Guinea (Republic of)
+ 		sTable.add(new MccEntry(628,"ga",2));	//Gabonese Republic
+ 		sTable.add(new MccEntry(629,"cg",2));	//Congo (Republic of the)
+-		sTable.add(new MccEntry(630,"cg",2));	//Democratic Republic of the Congo
++		sTable.add(new MccEntry(630,"cd",2));	//Democratic Republic of the Congo
+ 		sTable.add(new MccEntry(631,"ao",2));	//Angola (Republic of)
+ 		sTable.add(new MccEntry(632,"gw",2));	//Guinea-Bissau (Republic of)
+ 		sTable.add(new MccEntry(633,"sc",2));	//Seychelles (Republic of)
+-- 
+2.7.4
+

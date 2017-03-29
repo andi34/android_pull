@@ -1,0 +1,165 @@
+From daec7643f79c40c6a32047e9b10a354e33782616 Mon Sep 17 00:00:00 2001
+From: Muhammed Nazim <mnm9994u@gmail.com>
+Date: Sat, 11 Jan 2014 23:27:20 +1100
+Subject: [PATCH 1/5] Settings: Add Advanced reboot [2/2]
+
+Change-Id: I59690daf92514dff10543171bb3eba435fa216e5
+---
+ res/values/custom_arrays.xml                   | 32 ++++++++++++++++++++++++++
+ res/values/custom_strings.xml                  | 26 +++++++++++++++++++++
+ res/xml/security_settings_misc.xml             |  9 ++++++++
+ src/com/android/settings/SecuritySettings.java | 18 +++++++++++++++
+ 4 files changed, 85 insertions(+)
+ create mode 100644 res/values/custom_arrays.xml
+ create mode 100644 res/values/custom_strings.xml
+
+diff --git a/res/values/custom_arrays.xml b/res/values/custom_arrays.xml
+new file mode 100644
+index 0000000..d8a95c9
+--- /dev/null
++++ b/res/values/custom_arrays.xml
+@@ -0,0 +1,32 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2012-2014 SlimRoms Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++
++    <!-- Advanced reboot menu dev options -->
++    <string-array name="advanced_reboot_entries">
++        <item>@string/advanced_reboot_disabled</item>
++        <item>@string/advanced_reboot_hide_on_keyguard</item>
++        <item>@string/advanced_reboot_show_always</item>
++    </string-array>
++
++    <string-array name="advanced_reboot_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++    </string-array>
++
++</resources>
++
+diff --git a/res/values/custom_strings.xml b/res/values/custom_strings.xml
+new file mode 100644
+index 0000000..9659e38
+--- /dev/null
++++ b/res/values/custom_strings.xml
+@@ -0,0 +1,26 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2012-2014 SlimRoms Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++
++    <!-- Advanced reboot options -->
++    <string name="advanced_reboot_title">Advanced reboot</string>
++    <string name="advanced_reboot_summary">Include options in the power menu for rebooting into recovery and bootloader</string>
++    <string name="advanced_reboot_dialog_title">Advanced reboot menu</string>
++    <string name="advanced_reboot_disabled">Disable</string>
++    <string name="advanced_reboot_hide_on_keyguard">Hide on lock screen</string>
++    <string name="advanced_reboot_show_always">Show always</string>
++
++</resources>
+diff --git a/res/xml/security_settings_misc.xml b/res/xml/security_settings_misc.xml
+index 71f9ffa..4493a8f 100644
+--- a/res/xml/security_settings_misc.xml
++++ b/res/xml/security_settings_misc.xml
+@@ -46,6 +46,15 @@
+             android:title="@string/device_admin_title"
+             android:persistent="false">
+ 
++        <ListPreference
++            android:key="advanced_reboot"
++            android:title="@string/advanced_reboot_title"
++            android:dialogTitle="@string/advanced_reboot_dialog_title"
++            android:entries="@array/advanced_reboot_entries"
++            android:entryValues="@array/advanced_reboot_values"
++            android:summary="@string/advanced_reboot_summary"
++            android:persistent="false" />
++
+         <Preference android:key="manage_device_admin"
+                 android:title="@string/manage_device_admin"
+                 android:summary="@string/manage_device_admin_summary"
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index c2990e5..8d937b6 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -83,6 +83,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private static final String KEY_OWNER_INFO_SETTINGS = "owner_info_settings";
+     private static final String KEY_ADVANCED_SECURITY = "advanced_security";
+     private static final String KEY_MANAGE_TRUST_AGENTS = "manage_trust_agents";
++    private static final String KEY_ADVANCED_REBOOT = "advanced_reboot";
+ 
+     private static final int SET_OR_CHANGE_LOCK_METHOD_REQUEST = 123;
+     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_IMPROVE_REQUEST = 124;
+@@ -128,6 +129,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private SwitchPreference mToggleAppInstallation;
+     private DialogInterface mWarnInstallApps;
+     private SwitchPreference mPowerButtonInstantlyLocks;
++    private ListPreference mAdvancedReboot;
+ 
+     private boolean mIsPrimary;
+ 
+@@ -346,6 +348,16 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             mToggleAppInstallation.setEnabled(false);
+         }
+ 
++        mAdvancedReboot = (ListPreference) root.findPreference(KEY_ADVANCED_REBOOT);
++        if (mIsPrimary) {
++            mAdvancedReboot.setValue(String.valueOf(Settings.Secure.getInt(
++                    getContentResolver(), Settings.Secure.ADVANCED_REBOOT, 0)));
++            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
++            mAdvancedReboot.setOnPreferenceChangeListener(this);
++        } else {
++            deviceAdminCategory.removePreference(mAdvancedReboot);
++        }
++
+         // Advanced Security features
+         PreferenceGroup advancedCategory =
+                 (PreferenceGroup)root.findPreference(KEY_ADVANCED_SECURITY);
+@@ -355,6 +367,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+                 manageAgents.setEnabled(false);
+                 manageAgents.setSummary(R.string.disabled_because_no_backup_security);
+             }
++
+         }
+ 
+         // The above preferences come and go based on security state, so we need to update
+@@ -697,6 +710,11 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             } else {
+                 setNonMarketAppsAllowed(false);
+             }
++        } else if (preference == mAdvancedReboot) {
++            Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADVANCED_REBOOT,
++                    Integer.valueOf((String) value));
++            mAdvancedReboot.setValue(String.valueOf(value));
++            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
+         }
+         return result;
+     }
+-- 
+2.7.4
+

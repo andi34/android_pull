@@ -1,0 +1,145 @@
+From 72005d3cb7e61f0321e605fee5082530c4719c12 Mon Sep 17 00:00:00 2001
+From: Brian Larsen <brian@chezbel.com>
+Date: Mon, 29 Dec 2014 01:34:36 +0800
+Subject: [PATCH 4/9] BootMessage: Show each app name being optimized during
+ boot
+
+Below the message that says "Optimizing app x of y" the name of
+the current app is displayed. This is the same as we had for kitkat.
+---
+ core/java/android/view/WindowManagerPolicy.java    |  5 +++++
+ .../internal/policy/impl/PhoneWindowManager.java   | 23 ++++++++++++++++++++-
+ .../android/server/pm/PackageManagerService.java   | 24 ++++++++++++++++++++--
+ 3 files changed, 49 insertions(+), 3 deletions(-)
+
+diff --git a/core/java/android/view/WindowManagerPolicy.java b/core/java/android/view/WindowManagerPolicy.java
+index 94f3e7a..6ce0d0a 100644
+--- a/core/java/android/view/WindowManagerPolicy.java
++++ b/core/java/android/view/WindowManagerPolicy.java
+@@ -1115,6 +1115,11 @@ public interface WindowManagerPolicy {
+     public void systemBooted();
+ 
+     /**
++     * name of package being worked on during boot time message
++     */
++    public void setPackageName(String pkgName);
++
++    /**
+      * Show boot time message to the user.
+      */
+     public void showBootMessage(final CharSequence msg, final boolean always);
+diff --git a/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java b/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
+index b7a301d..a090e2b 100644
+--- a/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
++++ b/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
+@@ -5584,6 +5584,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+ 
+     ProgressDialog mBootMsgDialog = null;
+ 
++
++    /**
++     * name of package currently being dex optimized
++     * as shown through this.showBootMessage(msg, always);
++     */
++    static String currentPackageName;
++    public void setPackageName(String pkgName) {
++        if (pkgName == null) {
++            pkgName = "stop.looking.at.me.swan";
++        }
++        this.currentPackageName = pkgName;
++    }
++
+     /** {@inheritDoc} */
+     @Override
+     public void showBootMessage(final CharSequence msg, final boolean always) {
+@@ -5643,7 +5656,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                     mBootMsgDialog.setCancelable(false);
+                     mBootMsgDialog.show();
+                 }
+-                mBootMsgDialog.setMessage(msg);
++
++                if (always && (currentPackageName != null)) {
++                    // Only display the current package name if the main message says "Optimizing app N of M".
++                    // We don't want to do this when the message says "Starting apps" or "Finishing boot", etc.
++                    mBootMsgDialog.setMessage(msg + "\n" + currentPackageName);
++                }
++                else {
++                    mBootMsgDialog.setMessage(msg);
++                }
+             }
+         });
+     }
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 72b64d5..d550e9e 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -64,6 +64,7 @@ import com.android.internal.app.ResolverActivity;
+ import com.android.internal.content.NativeLibraryHelper;
+ import com.android.internal.content.PackageHelper;
+ import com.android.internal.os.IParcelFileDescriptorFactory;
++import com.android.internal.policy.impl.PhoneWindowManager;
+ import com.android.internal.util.ArrayUtils;
+ import com.android.internal.util.FastPrintWriter;
+ import com.android.internal.util.FastXmlSerializer;
+@@ -178,6 +179,9 @@ import android.util.Slog;
+ import android.util.SparseArray;
+ import android.util.SparseBooleanArray;
+ import android.view.Display;
++import android.view.WindowManager;
++import android.view.WindowManagerPolicy;
++
+ 
+ import java.io.BufferedInputStream;
+ import java.io.BufferedOutputStream;
+@@ -586,6 +590,9 @@ public class PackageManagerService extends IPackageManager.Stub {
+     // Stores a list of users whose package restrictions file needs to be updated
+     private ArraySet<Integer> mDirtyUsers = new ArraySet<Integer>();
+ 
++    WindowManager mWindowManager;
++    private final WindowManagerPolicy mPolicy; // to set packageName
++
+     final private DefaultContainerConnection mDefContainerConn =
+             new DefaultContainerConnection();
+     class DefaultContainerConnection implements ServiceConnection {
+@@ -796,7 +803,7 @@ public class PackageManagerService extends IPackageManager.Stub {
+                 Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+             }
+         }
+-        
++
+         void doHandleMessage(Message msg) {
+             switch (msg.what) {
+                 case INIT_COPY: {
+@@ -1339,8 +1346,12 @@ public class PackageManagerService extends IPackageManager.Stub {
+             mSeparateProcesses = null;
+         }
+ 
+-        mInstaller = installer;
++        mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
++        Display d = mWindowManager.getDefaultDisplay();
++        mPolicy = new PhoneWindowManager();
++        d.getMetrics(mMetrics);
+ 
++        mInstaller = installer;
+         getDefaultDisplayMetrics(context, mMetrics);
+ 
+         SystemConfig systemConfig = SystemConfig.getInstance();
+@@ -4728,6 +4739,15 @@ public class PackageManagerService extends IPackageManager.Stub {
+         }
+         if (!isFirstBoot()) {
+             try {
++                // give the packagename to the PhoneWindowManager
++                ApplicationInfo ai;
++                try {
++                    ai = mContext.getPackageManager().getApplicationInfo(pkg.packageName, 0);
++                } catch (Exception e) {
++                    ai = null;
++                }
++                mPolicy.setPackageName((String) (ai != null ? mContext.getPackageManager().getApplicationLabel(ai) : pkg.packageName));
++
+                 ActivityManagerNative.getDefault().showBootMessage(
+                         mContext.getResources().getString(R.string.android_upgrading_apk,
+                                 curr, total), true);
+-- 
+2.7.4
+

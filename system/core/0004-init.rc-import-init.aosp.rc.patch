@@ -1,0 +1,26 @@
+From 29c13023a0bfc16b529d14158c2f078ba5e24d07 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Tue, 4 Nov 2014 13:32:11 -0600
+Subject: [PATCH 4/4] init.rc: import init.aosp.rc
+
+---
+ rootdir/init.rc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index b572652..66f4cb2 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -323,6 +323,9 @@ on post-fs-data
+     # Set indication (checked by vold) that we have finished this action
+     #setprop vold.post_fs_data_done 1
+ 
++    # Include extra init file
++    import /init.aosp.rc
++
+ on boot
+     # basic network init
+     ifup lo
+-- 
+2.7.4
+

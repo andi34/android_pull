@@ -1,0 +1,159 @@
+From 7fe38e62946f7928cd73032749fc2d50052387fa Mon Sep 17 00:00:00 2001
+From: Ziyan <jaraidaniel@gmail.com>
+Date: Sun, 15 Mar 2015 16:14:56 +0100
+Subject: [PATCH 2/5] Move advanced reboot to development settings
+
+Change-Id: I01d80e181f0306eddf82d786f40a6ce15b6dd4de
+---
+ res/xml/development_prefs.xml                     |  9 +++++++++
+ res/xml/security_settings_misc.xml                |  9 ---------
+ src/com/android/settings/DevelopmentSettings.java | 13 +++++++++++++
+ src/com/android/settings/SecuritySettings.java    | 19 -------------------
+ 4 files changed, 22 insertions(+), 28 deletions(-)
+
+diff --git a/res/xml/development_prefs.xml b/res/xml/development_prefs.xml
+index f31d556..607e013 100644
+--- a/res/xml/development_prefs.xml
++++ b/res/xml/development_prefs.xml
+@@ -21,6 +21,15 @@
+             android:title="@*android:string/bugreport_title"
+             android:dialogTitle="@*android:string/bugreport_title" />
+ 
++    <ListPreference
++            android:key="advanced_reboot"
++            android:title="@string/advanced_reboot_title"
++            android:dialogTitle="@string/advanced_reboot_dialog_title"
++            android:entries="@array/advanced_reboot_entries"
++            android:entryValues="@array/advanced_reboot_values"
++            android:summary="@string/advanced_reboot_summary"
++            android:persistent="false" />
++
+     <PreferenceScreen
+             android:key="local_backup_password"
+             android:title="@string/local_backup_password_title"
+diff --git a/res/xml/security_settings_misc.xml b/res/xml/security_settings_misc.xml
+index 4493a8f..71f9ffa 100644
+--- a/res/xml/security_settings_misc.xml
++++ b/res/xml/security_settings_misc.xml
+@@ -46,15 +46,6 @@
+             android:title="@string/device_admin_title"
+             android:persistent="false">
+ 
+-        <ListPreference
+-            android:key="advanced_reboot"
+-            android:title="@string/advanced_reboot_title"
+-            android:dialogTitle="@string/advanced_reboot_dialog_title"
+-            android:entries="@array/advanced_reboot_entries"
+-            android:entryValues="@array/advanced_reboot_values"
+-            android:summary="@string/advanced_reboot_summary"
+-            android:persistent="false" />
+-
+         <Preference android:key="manage_device_admin"
+                 android:title="@string/manage_device_admin"
+                 android:summary="@string/manage_device_admin_summary"
+diff --git a/src/com/android/settings/DevelopmentSettings.java b/src/com/android/settings/DevelopmentSettings.java
+index c80da67..87a298c 100644
+--- a/src/com/android/settings/DevelopmentSettings.java
++++ b/src/com/android/settings/DevelopmentSettings.java
+@@ -143,6 +143,8 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
+     private static final String SELECT_LOGD_SIZE_PROPERTY = "persist.logd.size";
+     private static final String SELECT_LOGD_DEFAULT_SIZE_PROPERTY = "ro.logd.size";
+ 
++    private static final String KEY_ADVANCED_REBOOT = "advanced_reboot";
++
+     private static final String OPENGL_TRACES_KEY = "enable_opengl_traces";
+ 
+     private static final String IMMEDIATELY_DESTROY_ACTIVITIES_KEY
+@@ -178,6 +180,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
+     private boolean mHaveDebugSettings;
+     private boolean mDontPokeProperties;
+ 
++    private ListPreference mAdvancedReboot;
+     private SwitchPreference mEnableAdb;
+     private Preference mClearAdbKeys;
+     private SwitchPreference mEnableTerminal;
+@@ -274,6 +277,11 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
+         final PreferenceGroup debugDebuggingCategory = (PreferenceGroup)
+                 findPreference(DEBUG_DEBUGGING_CATEGORY_KEY);
+ 
++        mAdvancedReboot = addListPreference(KEY_ADVANCED_REBOOT);
++        mAdvancedReboot.setValue(String.valueOf(Settings.Secure.getInt(
++                getContentResolver(), Settings.Secure.ADVANCED_REBOOT, 0)));
++        mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
++
+         mEnableAdb = findAndInitSwitchPref(ENABLE_ADB);
+         mClearAdbKeys = findPreference(CLEAR_ADB_KEYS);
+         if (!SystemProperties.getBoolean("ro.adb.secure", false)) {
+@@ -1512,6 +1520,11 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
+         } else if (preference == mSimulateColorSpace) {
+             writeSimulateColorSpace(newValue);
+             return true;
++        } else if (preference == mAdvancedReboot) {
++            Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADVANCED_REBOOT,
++                    Integer.valueOf((String) newValue));
++            mAdvancedReboot.setValue(String.valueOf(newValue));
++            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
+         }
+         return false;
+     }
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index 8d937b6..035a2d7 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -83,8 +83,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private static final String KEY_OWNER_INFO_SETTINGS = "owner_info_settings";
+     private static final String KEY_ADVANCED_SECURITY = "advanced_security";
+     private static final String KEY_MANAGE_TRUST_AGENTS = "manage_trust_agents";
+-    private static final String KEY_ADVANCED_REBOOT = "advanced_reboot";
+-
+     private static final int SET_OR_CHANGE_LOCK_METHOD_REQUEST = 123;
+     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_IMPROVE_REQUEST = 124;
+     private static final int CONFIRM_EXISTING_FOR_BIOMETRIC_WEAK_LIVELINESS_OFF = 125;
+@@ -129,7 +127,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private SwitchPreference mToggleAppInstallation;
+     private DialogInterface mWarnInstallApps;
+     private SwitchPreference mPowerButtonInstantlyLocks;
+-    private ListPreference mAdvancedReboot;
+ 
+     private boolean mIsPrimary;
+ 
+@@ -348,16 +345,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             mToggleAppInstallation.setEnabled(false);
+         }
+ 
+-        mAdvancedReboot = (ListPreference) root.findPreference(KEY_ADVANCED_REBOOT);
+-        if (mIsPrimary) {
+-            mAdvancedReboot.setValue(String.valueOf(Settings.Secure.getInt(
+-                    getContentResolver(), Settings.Secure.ADVANCED_REBOOT, 0)));
+-            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
+-            mAdvancedReboot.setOnPreferenceChangeListener(this);
+-        } else {
+-            deviceAdminCategory.removePreference(mAdvancedReboot);
+-        }
+-
+         // Advanced Security features
+         PreferenceGroup advancedCategory =
+                 (PreferenceGroup)root.findPreference(KEY_ADVANCED_SECURITY);
+@@ -367,7 +354,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
+                 manageAgents.setEnabled(false);
+                 manageAgents.setSummary(R.string.disabled_because_no_backup_security);
+             }
+-
+         }
+ 
+         // The above preferences come and go based on security state, so we need to update
+@@ -710,11 +696,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             } else {
+                 setNonMarketAppsAllowed(false);
+             }
+-        } else if (preference == mAdvancedReboot) {
+-            Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADVANCED_REBOOT,
+-                    Integer.valueOf((String) value));
+-            mAdvancedReboot.setValue(String.valueOf(value));
+-            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
+         }
+         return result;
+     }
+-- 
+2.7.4
+

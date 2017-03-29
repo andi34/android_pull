@@ -1,0 +1,231 @@
+From 8a47bd321ef0c6a53fe611f31fe1e6937539f1b8 Mon Sep 17 00:00:00 2001
+From: gmillz <griffinn.millender@gmail.com>
+Date: Fri, 30 Nov 2012 15:42:43 -0600
+Subject: [PATCH 3/4] Add unpackbootimg.
+
+---
+ mkbootimg/Android.mk      |  31 +++++++++
+ mkbootimg/mkbootimg.c     |   1 +
+ mkbootimg/unpackbootimg.c | 157 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 189 insertions(+)
+ create mode 100644 mkbootimg/unpackbootimg.c
+
+diff --git a/mkbootimg/Android.mk b/mkbootimg/Android.mk
+index 0c9b0c6..4191227 100644
+--- a/mkbootimg/Android.mk
++++ b/mkbootimg/Android.mk
+@@ -10,4 +10,35 @@ LOCAL_MODULE := mkbootimg
+ 
+ include $(BUILD_HOST_EXECUTABLE)
+ 
++include $(CLEAR_VARS)
++LOCAL_MODULE_TAGS := eng
++LOCAL_SRC_FILES := unpackbootimg.c
++LOCAL_MODULE := unpackbootimg
++include $(BUILD_HOST_EXECUTABLE)
++
++include $(CLEAR_VARS)
++LOCAL_SRC_FILES := mkbootimg.c
++LOCAL_STATIC_LIBRARIES := libmincrypt libcutils libc
++LOCAL_MODULE := utility_mkbootimg
++LOCAL_MODULE_TAGS := eng
++LOCAL_MODULE_STEM := mkbootimg
++LOCAL_MODULE_CLASS := UTILITY_EXECUTABLES
++LOCAL_UNSTRIPPED_PATH := $(PRODUCT_OUT)/symbols/utilities
++LOCAL_MODULE_PATH := $(PRODUCT_OUT)/utilities
++LOCAL_FORCE_STATIC_EXECUTABLE := true
++include $(BUILD_EXECUTABLE)
++
++include $(CLEAR_VARS)
++LOCAL_SRC_FILES := unpackbootimg.c
++LOCAL_STATIC_LIBRARIES := libcutils libc
++LOCAL_MODULE := utility_unpackbootimg
++LOCAL_MODULE_TAGS := eng
++LOCAL_MODULE_STEM := unpackbootimg
++LOCAL_MODULE_CLASS := UTILITY_EXECUTABLES
++LOCAL_UNSTRIPPED_PATH := $(PRODUCT_OUT)/symbols/utilities
++LOCAL_MODULE_PATH := $(PRODUCT_OUT)/utilities
++LOCAL_FORCE_STATIC_EXECUTABLE := true
++include $(BUILD_EXECUTABLE)
++
+ $(call dist-for-goals,dist_files,$(LOCAL_BUILT_MODULE))
++
+diff --git a/mkbootimg/mkbootimg.c b/mkbootimg/mkbootimg.c
+index fc92b4d..a2b81de 100644
+--- a/mkbootimg/mkbootimg.c
++++ b/mkbootimg/mkbootimg.c
+@@ -65,6 +65,7 @@ int usage(void)
+             "       [ --board <boardname> ]\n"
+             "       [ --base <address> ]\n"
+             "       [ --pagesize <pagesize> ]\n"
++            "       [ --ramdisk_offset <address> ]\n"
+             "       -o|--output <filename>\n"
+             );
+     return 1;
+diff --git a/mkbootimg/unpackbootimg.c b/mkbootimg/unpackbootimg.c
+new file mode 100644
+index 0000000..14721a9
+--- /dev/null
++++ b/mkbootimg/unpackbootimg.c
+@@ -0,0 +1,157 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <fcntl.h>
++#include <errno.h>
++#include <limits.h>
++#include <libgen.h>
++
++#include "mincrypt/sha.h"
++#include "bootimg.h"
++
++typedef unsigned char byte;
++
++int read_padding(FILE* f, unsigned itemsize, int pagesize)
++{
++    byte* buf = (byte*)malloc(sizeof(byte) * pagesize);
++    unsigned pagemask = pagesize - 1;
++    unsigned count;
++
++    if((itemsize & pagemask) == 0) {
++        free(buf);
++        return 0;
++    }
++
++    count = pagesize - (itemsize & pagemask);
++
++    fread(buf, count, 1, f);
++    free(buf);
++    return count;
++}
++
++void write_string_to_file(char* file, char* string)
++{
++    FILE* f = fopen(file, "w");
++    fwrite(string, strlen(string), 1, f);
++    fwrite("\n", 1, 1, f);
++    fclose(f);
++}
++
++int usage() {
++    printf("usage: unpackbootimg\n");
++    printf("\t-i|--input boot.img\n");
++    printf("\t[ -o|--output output_directory]\n");
++    printf("\t[ -p|--pagesize <size-in-hexadecimal> ]\n");
++    return 0;
++}
++
++int main(int argc, char** argv)
++{
++    char tmp[PATH_MAX];
++    char* directory = "./";
++    char* filename = NULL;
++    int pagesize = 0;
++
++    argc--;
++    argv++;
++    while(argc > 0){
++        char *arg = argv[0];
++        char *val = argv[1];
++        argc -= 2;
++        argv += 2;
++        if(!strcmp(arg, "--input") || !strcmp(arg, "-i")) {
++            filename = val;
++        } else if(!strcmp(arg, "--output") || !strcmp(arg, "-o")) {
++            directory = val;
++        } else if(!strcmp(arg, "--pagesize") || !strcmp(arg, "-p")) {
++            pagesize = strtoul(val, 0, 16);
++        } else {
++            return usage();
++        }
++    }
++    
++    if (filename == NULL) {
++        return usage();
++    }
++    
++    int total_read = 0;
++    FILE* f = fopen(filename, "rb");
++    boot_img_hdr header;
++
++    //printf("Reading header...\n");
++    int i;
++    for (i = 0; i <= 512; i++) {
++        fseek(f, i, SEEK_SET);
++        fread(tmp, BOOT_MAGIC_SIZE, 1, f);
++        if (memcmp(tmp, BOOT_MAGIC, BOOT_MAGIC_SIZE) == 0)
++            break;
++    }
++    total_read = i;
++    if (i > 512) {
++        printf("Android boot magic not found.\n");
++        return 1;
++    }
++    fseek(f, i, SEEK_SET);
++    printf("Android magic found at: %d\n", i);
++
++    fread(&header, sizeof(header), 1, f);
++    printf("BOARD_KERNEL_CMDLINE %s\n", header.cmdline);
++    printf("BOARD_KERNEL_BASE %08x\n", header.kernel_addr - 0x00008000);
++    printf("BOARD_PAGE_SIZE %d\n", header.page_size);
++    
++    if (pagesize == 0) {
++        pagesize = header.page_size;
++    }
++    
++    //printf("cmdline...\n");
++    sprintf(tmp, "%s/%s", directory, basename(filename));
++    strcat(tmp, "-cmdline");
++    write_string_to_file(tmp, header.cmdline);
++    
++    //printf("base...\n");
++    sprintf(tmp, "%s/%s", directory, basename(filename));
++    strcat(tmp, "-base");
++    char basetmp[200];
++    sprintf(basetmp, "%08x", header.kernel_addr - 0x00008000);
++    write_string_to_file(tmp, basetmp);
++
++    //printf("pagesize...\n");
++    sprintf(tmp, "%s/%s", directory, basename(filename));
++    strcat(tmp, "-pagesize");
++    char pagesizetmp[200];
++    sprintf(pagesizetmp, "%d", header.page_size);
++    write_string_to_file(tmp, pagesizetmp);
++    
++    total_read += sizeof(header);
++    //printf("total read: %d\n", total_read);
++    total_read += read_padding(f, sizeof(header), pagesize);
++
++    sprintf(tmp, "%s/%s", directory, basename(filename));
++    strcat(tmp, "-zImage");
++    FILE *k = fopen(tmp, "wb");
++    byte* kernel = (byte*)malloc(header.kernel_size);
++    //printf("Reading kernel...\n");
++    fread(kernel, header.kernel_size, 1, f);
++    total_read += header.kernel_size;
++    fwrite(kernel, header.kernel_size, 1, k);
++    fclose(k);
++
++    //printf("total read: %d\n", header.kernel_size);
++    total_read += read_padding(f, header.kernel_size, pagesize);
++
++    sprintf(tmp, "%s/%s", directory, basename(filename));
++    strcat(tmp, "-ramdisk.gz");
++    FILE *r = fopen(tmp, "wb");
++    byte* ramdisk = (byte*)malloc(header.ramdisk_size);
++    //printf("Reading ramdisk...\n");
++    fread(ramdisk, header.ramdisk_size, 1, f);
++    total_read += header.ramdisk_size;
++    fwrite(ramdisk, header.ramdisk_size, 1, r);
++    fclose(r);
++    
++    fclose(f);
++    
++    //printf("Total Read: %d\n", total_read);
++    return 0;
++}
+\ No newline at end of file
+-- 
+2.7.4
+

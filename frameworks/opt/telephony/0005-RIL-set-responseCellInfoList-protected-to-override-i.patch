@@ -1,0 +1,27 @@
+From ccfdf9982a402c6bb2bf8947d3c53d8e1c1cea8f Mon Sep 17 00:00:00 2001
+From: Dan Pasanen <dan.pasanen@gmail.com>
+Date: Mon, 10 Nov 2014 23:50:17 -0600
+Subject: [PATCH 5/9] RIL: set responseCellInfoList protected to override in
+ sub classes
+
+Change-Id: Ibbbee0c1a59ab2be6b71fc2f70c6279314b55d6e
+---
+ src/java/com/android/internal/telephony/RIL.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
+index beb4aee..e90a503 100644
+--- a/src/java/com/android/internal/telephony/RIL.java
++++ b/src/java/com/android/internal/telephony/RIL.java
+@@ -3835,7 +3835,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+         }
+     }
+ 
+-    private ArrayList<CellInfo> responseCellInfoList(Parcel p) {
++    protected ArrayList<CellInfo> responseCellInfoList(Parcel p) {
+         int numberOfInfoRecs;
+         ArrayList<CellInfo> response;
+ 
+-- 
+2.7.4
+

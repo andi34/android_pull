@@ -1,0 +1,25 @@
+From 55d25b88a8a01da87d4a4bb04ebc0a08961fd427 Mon Sep 17 00:00:00 2001
+From: lichti1901 <lichti190185@gmail.com>
+Date: Sun, 21 Dec 2014 11:32:46 +0100
+Subject: [PATCH 9/9] enable advanced reboot as default
+
+---
+ services/core/java/com/android/server/power/ShutdownThread.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/power/ShutdownThread.java b/services/core/java/com/android/server/power/ShutdownThread.java
+index bde49b9..769cbc0 100644
+--- a/services/core/java/com/android/server/power/ShutdownThread.java
++++ b/services/core/java/com/android/server/power/ShutdownThread.java
+@@ -216,7 +216,7 @@ public final class ShutdownThread extends Thread {
+ 
+     private static int getAdvancedReboot(Context context) {
+         return Settings.Secure.getInt(context.getContentResolver(),
+-                Settings.Secure.ADVANCED_REBOOT, 0);
++                Settings.Secure.ADVANCED_REBOOT, 1);
+     }
+ 
+     private static class CloseDialogReceiver extends BroadcastReceiver
+-- 
+2.7.4
+

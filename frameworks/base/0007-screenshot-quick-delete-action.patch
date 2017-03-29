@@ -1,0 +1,240 @@
+From e82c1a721e567c7d907c18319d47bd438d9e987f Mon Sep 17 00:00:00 2001
+From: DvTonder <david.vantonder@gmail.com>
+Date: Sat, 9 Nov 2013 14:28:22 -0500
+Subject: [PATCH 7/9] screenshot: quick delete action
+
+Add option to delete screenshot from notification
+
+Also respect:
+    From: Michael Bestas <mikeioannina@gmail.com>
+    Date: Wed, 26 Nov 2014 21:17:08 +0200
+    Subject: [PATCH] SystemUI: Use material delete icon
+
+    Change-Id: I11df5713486672e4f5c4784e6f94a893cf36b4dd
+
+Change-Id: I0f153bc3c72b902163b4ae75e220ddb09e3fcb11
+---
+ packages/SystemUI/AndroidManifest.xml              |   3 ++
+ .../SystemUI/res/drawable-hdpi/ic_menu_delete.png  | Bin 0 -> 360 bytes
+ .../SystemUI/res/drawable-mdpi/ic_menu_delete.png  | Bin 0 -> 212 bytes
+ .../SystemUI/res/drawable-xhdpi/ic_menu_delete.png | Bin 0 -> 442 bytes
+ .../res/drawable-xxhdpi/ic_menu_delete.png         | Bin 0 -> 652 bytes
+ packages/SystemUI/res/values/custom_strings.xml    |  23 ++++++++++
+ .../systemui/screenshot/DeleteScreenshot.java      |  51 +++++++++++++++++++++
+ .../systemui/screenshot/GlobalScreenshot.java      |  12 ++++-
+ 8 files changed, 88 insertions(+), 1 deletion(-)
+ create mode 100644 packages/SystemUI/res/drawable-hdpi/ic_menu_delete.png
+ create mode 100644 packages/SystemUI/res/drawable-mdpi/ic_menu_delete.png
+ create mode 100644 packages/SystemUI/res/drawable-xhdpi/ic_menu_delete.png
+ create mode 100644 packages/SystemUI/res/drawable-xxhdpi/ic_menu_delete.png
+ create mode 100644 packages/SystemUI/res/values/custom_strings.xml
+ create mode 100644 packages/SystemUI/src/com/android/systemui/screenshot/DeleteScreenshot.java
+
+diff --git a/packages/SystemUI/AndroidManifest.xml b/packages/SystemUI/AndroidManifest.xml
+index b606a6f..23be0c6 100644
+--- a/packages/SystemUI/AndroidManifest.xml
++++ b/packages/SystemUI/AndroidManifest.xml
+@@ -144,6 +144,9 @@
+             android:process=":screenshot"
+             android:exported="false" />
+ 
++        <receiver android:name=".screenshot.DeleteScreenshot"
++                android:exported="true" />
++
+         <service android:name=".LoadAverageService"
+                 android:exported="true" />
+ 
+diff --git a/packages/SystemUI/res/drawable-hdpi/ic_menu_delete.png b/packages/SystemUI/res/drawable-hdpi/ic_menu_delete.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0e1c6ae1fcb06a669478137f71b036eb9499bba3
+GIT binary patch
+literal 360
+zcmV-u0hj)XP)<h;3K|Lk000e1NJLTq001xm001xu1^@s6R|5Hm0003mNkl<ZXhZE-
+zJqp4w7;SKK^%jDYS8(wN4z3D<*YF5}t_~i-Q;37$EnIaG+Sigoml*oJU@bhMh;6<v
+z?=LabWj+76p5xC%plb)^fE*wdP=rVU>2f*HlrYcp0e&xV4Fl4CaR2O_d(+bU2FV=o
+z;CJXdi-5b~`8E{^69Ir-0mM3$ioVYQq>gQSia=Y%zKs8!0|`OXtxOTBXZ34=2Vuy5
+zJt<4zN~1>uEZ(WLj|f<mYu3pDtBP2}S_7qcijX2?RiHi+>wmzgpmrfe2wSi*Jyn?^
+zqzEZO{Xfi|5aThk5uo;g!`#x^gWZKDn0SvX^d>Hb>xBUu5V*$%hMrRd{8l=`_uN3D
+z1b+eerxkp46laS6p;iRCc0mrv0a5`)h!l`6mjkqfWP<{hMR+ls3$QEz0000<MNUMn
+GLSTZh{+3k$
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/drawable-mdpi/ic_menu_delete.png b/packages/SystemUI/res/drawable-mdpi/ic_menu_delete.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f476beefffc07336936f8f51a44f2569caab4b55
+GIT binary patch
+literal 212
+zcmeAS@N?(olHy`uVBq!ia0vp^3LwnE1|*BCs=ffJ*`6+rArbD$DG~_>EDn4#?y*WR
+zVQGuw`1AjNyvU5=G{%iGQG8XbPnH`R8QH0+rVENPIe4F+l%(OKd%^Hn%NJf=c7ac<
+zs-Ik18BQ<-EpD9gfPJR*tA>jL61<IILQ#}ycZ2J8gNdT&qZ48uxb;K@IUNwoNYEAR
+ztKbf~%u{k8ag|kr#NiWx&LtcZk}V9Y+++=;n3(057&hGXRLuKll?-$ygQu&X%Q~lo
+FCIBt4MT-Cc
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/drawable-xhdpi/ic_menu_delete.png b/packages/SystemUI/res/drawable-xhdpi/ic_menu_delete.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c76b19e0252650fff19181b92abc403b50d8702e
+GIT binary patch
+literal 442
+zcmV;r0Y(0aP)<h;3K|Lk000e1NJLTq002M$002M;1^@s6s%dfF0004jNkl<ZcwX(A
+zJ!(Qh6onnD>>-VNuyg~K*?<s8Z<E@}+QvQ*a09Q*22y4ZY23rJ2+uR<gA@USoI5bg
+z_uy9Y&fI(Mxj&3AO&Whv<MB@*00lJ8043140BC}g042~k1C&7H0$>UhDS=@arc&CI
+z>{a$~Lv=s;{ayB!QaVK|G@O8I@Xre5<sZS1@n#Y_*)Ey{8vzRRD>_@h@kPwsaUKLX
+zSj-qGp!E`PDXBD$tp}8L+;yIvfaqS}>i#2v5a5#1h=T%xrvW8k+5qVRR|aT;G(j^1
+zOaZ1q?7aYEkTK}F31Sam54bSEB4l0z!tVx|0!#s>faMPn#vo&mF~}YewFrF*_|`W7
+z_pTqk_JGB`FaPyk#3s1WLHT2dh^G?)TPJV?0W&$cmpwWi71mL<76IQ*Tsr~TIbDlo
+z5>~RMp&WW)e8>*&;6r+VGdm@)LKINKan~6T;9{~?928J%=3IWG02h<B;-G+9Gw1Rf
+k1-O{36$b^>nmL!>XY22kK>}Z`hX4Qo07*qoM6N<$f+BRb^Z)<=
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/drawable-xxhdpi/ic_menu_delete.png b/packages/SystemUI/res/drawable-xxhdpi/ic_menu_delete.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6ce98ca0e5cb375282e31f653f1b1b285dfc4f60
+GIT binary patch
+literal 652
+zcmeAS@N?(olHy`uVBq!ia0vp^2_VeD1|%QND7Ro>U<&qhaSW-5dpl>NFLR&>%g#Ag
+z3m9H4U^uam?>eKUh=Z)j12YBl|0+6>hYp_F^>xmN2&L-p*UUeEZ(*+9^{G{8#)Xo@
+z>qQvknOHR#)EJK6W?((Q@}NR`0mBRinS5pu2H}RsxeZJSOa*&*0~mZ5`nEH2HE<sI
+zXy(9Zz-V!g4XkPXF2>z=-&K96l&s&bUi3@qx~>1^Ew&$j{YqUex`E-3?VeEYh@}mz
+z57);Xie%;4F#oHczJP&TWI6Ym&M=J!9BQmC>C4TRG|1h~*vzElvsaPz%MG{L|JOFW
+zc&DH9V$FZnSc%&&%0vYcU-2d~UHi81&7AXpo#%4>Sh}zw?)2ibTpb2q+e9uTOXr3;
+zw5-H12dqzX!Ev)&YZ^F$^F0`Cw_QwQb(vA+%=KbpubH;Op)1ls4*j`XA{hmj-J8Hv
+zl|y4A_qi~>Z$9JevfO@)ER)<X!+PNp`Y-SHZ{Mt#_sip18pjWXd)#UX`)+;=y=uCJ
+z!TPT;bJT%9vkTTgSe)@scjxlLU;8^R_jBL4|0UzlAB!rR#T}A=q`%&<oYHI7U{#uZ
+mDwH9|8A}`y9kC2zADDx`+)P|6+9?c7WelFKelF{r5}E)Bg$<+t
+
+literal 0
+HcmV?d00001
+
+diff --git a/packages/SystemUI/res/values/custom_strings.xml b/packages/SystemUI/res/values/custom_strings.xml
+new file mode 100644
+index 0000000..614d73e
+--- /dev/null
++++ b/packages/SystemUI/res/values/custom_strings.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/**
++ * Copyright (c) 2009, The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License"); 
++ * you may not use this file except in compliance with the License. 
++ * You may obtain a copy of the License at 
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0 
++ *
++ * Unless required by applicable law or agreed to in writing, software 
++ * distributed under the License is distributed on an "AS IS" BASIS, 
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
++ * See the License for the specific language governing permissions and 
++ * limitations under the License.
++ */
++-->
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++    <!-- Screenshot delete -->
++    <string name="screenshot_delete_action">Delete</string>
++
++</resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/DeleteScreenshot.java b/packages/SystemUI/src/com/android/systemui/screenshot/DeleteScreenshot.java
+new file mode 100644
+index 0000000..61e64b3
+--- /dev/null
++++ b/packages/SystemUI/src/com/android/systemui/screenshot/DeleteScreenshot.java
+@@ -0,0 +1,51 @@
++/*
++ * Copyright (C) 2012 The CyanogenMod Project (DvTonder)
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.systemui.screenshot;
++
++import android.app.NotificationManager;
++import android.content.BroadcastReceiver;
++import android.content.Context;
++import android.content.Intent;
++import android.net.Uri;
++import android.os.Bundle;
++
++import com.android.systemui.screenshot.GlobalScreenshot;
++
++public class DeleteScreenshot extends BroadcastReceiver {
++    // Intent extra fields
++    public static final String SCREENSHOT_URI = "com.android.systemui.SCREENSHOT_URI";
++
++    @Override
++    public void onReceive(Context context, Intent intent) {
++        Bundle extras = intent.getExtras();
++
++        if (extras == null) {
++            // We have nothing, abort
++            return;
++        }
++
++        Uri screenshotUri = Uri.parse(extras.getString(SCREENSHOT_URI));
++        if (screenshotUri != null) {
++            context.getContentResolver().delete(screenshotUri, null, null);
++        }
++
++        // Dismiss the notification that brought us here.
++        NotificationManager notificationManager =
++                (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
++        notificationManager.cancel(GlobalScreenshot.SCREENSHOT_NOTIFICATION_ID);
++    }
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java b/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
+index b95959f..a57a45c 100644
+--- a/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
++++ b/packages/SystemUI/src/com/android/systemui/screenshot/GlobalScreenshot.java
+@@ -57,6 +57,7 @@ import android.view.animation.Interpolator;
+ import android.widget.ImageView;
+ 
+ import com.android.systemui.R;
++import com.android.systemui.screenshot.DeleteScreenshot;
+ 
+ import java.io.File;
+ import java.io.OutputStream;
+@@ -251,6 +252,15 @@ class SaveImageInBackgroundTask extends AsyncTask<SaveImageInBackgroundData, Voi
+                      PendingIntent.getActivity(context, 0, chooserIntent,
+                              PendingIntent.FLAG_CANCEL_CURRENT));
+ 
++            Intent deleteIntent = new Intent();
++            deleteIntent.setClass(context, DeleteScreenshot.class);
++            deleteIntent.putExtra(DeleteScreenshot.SCREENSHOT_URI, uri.toString());
++
++            mNotificationBuilder.addAction(R.drawable.ic_menu_delete,
++                     r.getString(R.string.screenshot_delete_action),
++                     PendingIntent.getBroadcast(context, 0, deleteIntent,
++                             PendingIntent.FLAG_CANCEL_CURRENT));
++
+             OutputStream out = resolver.openOutputStream(uri);
+             image.compress(Bitmap.CompressFormat.PNG, 100, out);
+             out.flush();
+@@ -341,7 +351,7 @@ class SaveImageInBackgroundTask extends AsyncTask<SaveImageInBackgroundData, Voi
+ class GlobalScreenshot {
+     private static final String TAG = "GlobalScreenshot";
+ 
+-    private static final int SCREENSHOT_NOTIFICATION_ID = 789;
++    protected static final int SCREENSHOT_NOTIFICATION_ID = 789;
+     private static final int SCREENSHOT_FLASH_TO_PEAK_DURATION = 130;
+     private static final int SCREENSHOT_DROP_IN_DURATION = 430;
+     private static final int SCREENSHOT_DROP_OUT_DELAY = 500;
+-- 
+2.7.4
+

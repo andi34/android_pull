@@ -1,0 +1,46 @@
+From 5237946b5667b7e5fdeee0081b10c7aa2d9066fc Mon Sep 17 00:00:00 2001
+From: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Date: Sat, 24 Nov 2012 23:11:49 +0000
+Subject: [PATCH 1/4] surfaceflinger: Reimplement hwrotation
+
+Change-Id: Ia26bb36b5b6de132af49c272c4472ad2703afbda
+---
+ services/surfaceflinger/DisplayDevice.cpp | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/services/surfaceflinger/DisplayDevice.cpp b/services/surfaceflinger/DisplayDevice.cpp
+index 564f974..4325233 100644
+--- a/services/surfaceflinger/DisplayDevice.cpp
++++ b/services/surfaceflinger/DisplayDevice.cpp
+@@ -380,6 +380,20 @@ status_t DisplayDevice::orientationToTransfrom(
+         int orientation, int w, int h, Transform* tr)
+ {
+     uint32_t flags = 0;
++    char value[PROPERTY_VALUE_MAX];
++    property_get("ro.sf.hwrotation", value, "0");
++    int additionalRot = atoi(value);
++
++    if (additionalRot) {
++        additionalRot /= 90;
++        if (orientation == DisplayState::eOrientationUnchanged) {
++            orientation = additionalRot;
++        } else {
++            orientation += additionalRot;
++            orientation %= 4;
++        }
++    }
++
+     switch (orientation) {
+     case DisplayState::eOrientationDefault:
+         flags = Transform::ROT_0;
+@@ -396,6 +410,7 @@ status_t DisplayDevice::orientationToTransfrom(
+     default:
+         return BAD_VALUE;
+     }
++
+     tr->set(flags, w, h);
+     return NO_ERROR;
+ }
+-- 
+2.7.4
+

@@ -1,0 +1,35 @@
+From 1b2fc36accb9419cf4a02a12ae30f84229730235 Mon Sep 17 00:00:00 2001
+From: Brian Larsen <brian@chezbel.com>
+Date: Mon, 29 Dec 2014 14:29:57 +0800
+Subject: [PATCH 5/9] Bootmsg: The app name is now displayed in bold text.
+
+Change-Id: I5e37527e3b00ef3889a029c707b54a514c7f0a22
+---
+ policy/src/com/android/internal/policy/impl/PhoneWindowManager.java | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java b/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
+index a090e2b..19aacb4 100644
+--- a/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
++++ b/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
+@@ -70,6 +70,7 @@ import android.service.dreams.DreamService;
+ import android.service.dreams.IDreamManager;
+ import android.speech.RecognizerIntent;
+ import android.telecom.TelecomManager;
++import android.text.Html;
+ import android.util.DisplayMetrics;
+ import android.util.EventLog;
+ import android.util.Log;
+@@ -5660,7 +5661,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                 if (always && (currentPackageName != null)) {
+                     // Only display the current package name if the main message says "Optimizing app N of M".
+                     // We don't want to do this when the message says "Starting apps" or "Finishing boot", etc.
+-                    mBootMsgDialog.setMessage(msg + "\n" + currentPackageName);
++//                    mBootMsgDialog.setMessage(msg + "\n" + currentPackageName);
++                    mBootMsgDialog.setMessage(Html.fromHtml(msg + "<br><b>" + currentPackageName + "</b>"));
+                 }
+                 else {
+                     mBootMsgDialog.setMessage(msg);
+-- 
+2.7.4
+

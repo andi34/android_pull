@@ -1,0 +1,55 @@
+From b1eb7a06ee24078efb3a7efaa32c1561b92f4cb8 Mon Sep 17 00:00:00 2001
+From: Paul Lawrence <paullawrence@google.com>
+Date: Tue, 25 Nov 2014 14:57:32 -0800
+Subject: [PATCH 1/5] Fix encrypt-and-wipe
+
+encrypt-and-wipe was broken when checks were added that encryption succeeded
+which assumed a 'normal' full encrypt traversing the device.
+
+encrypt-and-wipe doesn't traverse, it just lays down a file system over
+the encrypted device, so in this mode do not check the amount encrypted -
+it will always be 0.
+
+Bug: 18511900
+Change-Id: Icb1d7e0cdb67abd2eac0ab3cbfc1a88912768f9d
+---
+ cryptfs.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/cryptfs.c b/cryptfs.c
+index e9d6afb..7976e11 100644
+--- a/cryptfs.c
++++ b/cryptfs.c
+@@ -3186,7 +3186,8 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
+     }
+ 
+     /* Calculate checksum if we are not finished */
+-    if (!rc && crypt_ftr.encrypted_upto != crypt_ftr.fs_size) {
++    if (!rc && how == CRYPTO_ENABLE_INPLACE
++            && crypt_ftr.encrypted_upto != crypt_ftr.fs_size) {
+         rc = cryptfs_SHA256_fileblock(crypto_blkdev,
+                                       crypt_ftr.hash_first_block);
+         if (rc) {
+@@ -3204,7 +3205,8 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
+         /* Success */
+         crypt_ftr.flags &= ~CRYPT_INCONSISTENT_STATE;
+ 
+-        if (crypt_ftr.encrypted_upto != crypt_ftr.fs_size) {
++        if (how == CRYPTO_ENABLE_INPLACE
++              && crypt_ftr.encrypted_upto != crypt_ftr.fs_size) {
+             SLOGD("Encrypted up to sector %lld - will continue after reboot",
+                   crypt_ftr.encrypted_upto);
+             crypt_ftr.flags |= CRYPT_ENCRYPTION_IN_PROGRESS;
+@@ -3212,7 +3214,8 @@ int cryptfs_enable_internal(char *howarg, int crypt_type, char *passwd,
+ 
+         put_crypt_ftr_and_key(&crypt_ftr);
+ 
+-        if (crypt_ftr.encrypted_upto == crypt_ftr.fs_size) {
++        if (how == CRYPTO_ENABLE_WIPE
++              || crypt_ftr.encrypted_upto == crypt_ftr.fs_size) {
+           char value[PROPERTY_VALUE_MAX];
+           property_get("ro.crypto.state", value, "");
+           if (!strcmp(value, "")) {
+-- 
+2.7.4
+

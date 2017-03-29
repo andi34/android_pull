@@ -1,0 +1,45 @@
+From 8298d17aeccd22becdf3e75915932899e2456807 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Tue, 2 Dec 2014 21:59:23 -0600
+Subject: [PATCH 2/2] Revert "Force sync files written by minzip."
+
+They weren't even writing files, they're writing block images. WTF?
+This commit increases flashing time tenfold, and reverting it
+hasn't had any repercussions as far as I can tell.
+
+This reverts commit a6c142f2a579ea5e7cdfbc88e6a061c55029265a.
+---
+ minzip/Zip.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/minzip/Zip.c b/minzip/Zip.c
+index 70aff00..5070104 100644
+--- a/minzip/Zip.c
++++ b/minzip/Zip.c
+@@ -1067,8 +1067,7 @@ bool mzExtractRecursive(const ZipArchive *pArchive,
+                     setfscreatecon(secontext);
+                 }
+ 
+-                int fd = open(targetFile, O_CREAT|O_WRONLY|O_TRUNC|O_SYNC
+-                        , UNZIP_FILEMODE);
++                int fd = creat(targetFile, UNZIP_FILEMODE);
+ 
+                 if (secontext) {
+                     freecon(secontext);
+@@ -1083,12 +1082,7 @@ bool mzExtractRecursive(const ZipArchive *pArchive,
+                 }
+ 
+                 bool ok = mzExtractZipEntryToFile(pArchive, pEntry, fd);
+-                if (ok) {
+-                    ok = (fsync(fd) == 0);
+-                }
+-                if (close(fd) != 0) {
+-                    ok = false;
+-                }
++                close(fd);
+                 if (!ok) {
+                     LOGE("Error extracting \"%s\"\n", targetFile);
+                     ok = false;
+-- 
+2.7.4
+

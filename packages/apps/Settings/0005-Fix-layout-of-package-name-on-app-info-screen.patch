@@ -1,0 +1,26 @@
+From dd047a7162862771ae813e8e3e8cd51a74e0e27c Mon Sep 17 00:00:00 2001
+From: Ziyan <jaraidaniel@gmail.com>
+Date: Fri, 27 Mar 2015 16:34:40 +0100
+Subject: [PATCH 5/5] Fix layout of package name on app info screen
+
+Change-Id: Iec556ecdd50d1cef9af48a9470204c1fa3cd4c41
+---
+ res/layout/manage_applications_item.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/layout/manage_applications_item.xml b/res/layout/manage_applications_item.xml
+index d27d52b..6982616 100755
+--- a/res/layout/manage_applications_item.xml
++++ b/res/layout/manage_applications_item.xml
+@@ -61,7 +61,7 @@
+         android:layout_width="0dip"
+         android:layout_columnSpan="2"
+         android:layout_gravity="fill_horizontal"
+-        android:layout_marginTop="2dip"
++        android:layout_marginTop="15dip"
+         android:singleLine="true"
+         android:ellipsize="marquee"
+         android:visibility="gone"
+-- 
+2.7.4
+

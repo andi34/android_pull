@@ -1,0 +1,39 @@
+From 3e4ed2cd2e1503a77c926e36ddbf854c0672a175 Mon Sep 17 00:00:00 2001
+From: Christian Balster <christian.balster@gmail.com>
+Date: Wed, 14 Jan 2015 03:02:36 +0100
+Subject: [PATCH 8/9] RIL: set responseHardwareConfig() and
+ responseICC_IOBase64() protected
+
+Change modifier to protected to make the functions overridable/callable
+in RIL subclass.
+
+Change-Id: Ic90c02937265d3d00729f72787df74469e36f5f8
+---
+ src/java/com/android/internal/telephony/RIL.java | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
+index d488461..00e1c22 100644
+--- a/src/java/com/android/internal/telephony/RIL.java
++++ b/src/java/com/android/internal/telephony/RIL.java
+@@ -3415,7 +3415,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+         return new IccIoResult(sw1, sw2, s);
+     }
+ 
+-    private Object
++    protected Object
+     responseICC_IOBase64(Parcel p) {
+         int sw1, sw2;
+         Message ret;
+@@ -3950,7 +3950,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+         return response;
+     }
+ 
+-   private Object
++   protected Object
+    responseHardwareConfig(Parcel p) {
+       int num;
+       ArrayList<HardwareConfig> response;
+-- 
+2.7.4
+

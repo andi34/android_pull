@@ -1,0 +1,44 @@
+From 1d784ffcbfbf3322881c1f7f06b53e53dd070fdd Mon Sep 17 00:00:00 2001
+From: deadman96385 <seanhoyt963@gmail.com>
+Date: Sat, 6 Sep 2014 21:40:26 +0000
+Subject: [PATCH 4/5] Open app when clicking on icon in App Info screen
+
+Based on Xposed module Shortcut in App Info:
+http://repo.xposed.info/module/com.mohammadag.shortcutinappinfo
+
+Credit: Adam77Root
+There is no vibration as in the module as I didn't find it necessary
+Change-Id: I07b3f947aaaa13702adba3b4e78bb780fe861baf
+---
+ .../settings/applications/InstalledAppDetails.java        | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/src/com/android/settings/applications/InstalledAppDetails.java b/src/com/android/settings/applications/InstalledAppDetails.java
+index 555ce14..c380dfb 100755
+--- a/src/com/android/settings/applications/InstalledAppDetails.java
++++ b/src/com/android/settings/applications/InstalledAppDetails.java
+@@ -578,6 +578,21 @@ public class InstalledAppDetails extends Fragment
+         ImageView icon = (ImageView) appSnippet.findViewById(R.id.app_icon);
+         mState.ensureIcon(mAppEntry);
+         icon.setImageDrawable(mAppEntry.icon);
++
++        // Clicking on application icon opens application.
++        final String finalPackageName = pkgInfo.packageName;
++        icon.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View v) {
++                PackageManager pm = v.getContext().getPackageManager();
++                Intent intent = pm.getLaunchIntentForPackage(finalPackageName);
++                if (intent == null)
++                    return;
++
++                v.getContext().startActivity(intent);
++            }
++        });
++
+         // Set application name.
+         TextView label = (TextView) appSnippet.findViewById(R.id.app_name);
+         label.setText(mAppEntry.label);
+-- 
+2.7.4
+
