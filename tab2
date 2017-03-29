@@ -1,5 +1,5 @@
 #!/bin/bash
-# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+
 SAUCE=~/android/aosp-5.1
 
 # Let's apply all commits!
@@ -18,8 +18,7 @@ echo "----------------------------------------"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_vendor_unlegacy refs/changes/58/1758/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh
+
