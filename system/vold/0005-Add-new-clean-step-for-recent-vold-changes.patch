@@ -1,0 +1,24 @@
+From 6b5eedfa353ffa4f1cdd1593fc75def8a27ffbbe Mon Sep 17 00:00:00 2001
+From: dhacker29 <dhackerdvm@gmail.com>
+Date: Wed, 19 Nov 2014 02:30:03 -0500
+Subject: [PATCH 5/5] Add new clean step for recent vold changes
+
+Vold crashes on a non clobber build after recent changes
+
+Change-Id: I909f5a8b0533f0ad12b69a779038756a296fb4dc
+---
+ CleanSpec.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/CleanSpec.mk b/CleanSpec.mk
+index b84e1b6..7d1bf5f 100644
+--- a/CleanSpec.mk
++++ b/CleanSpec.mk
+@@ -47,3 +47,4 @@
+ # ************************************************
+ # NEWER CLEAN STEPS MUST BE AT THE END OF THE LIST
+ # ************************************************
++$(call add-clean-step, rm -rf $(PRODUCT_OUT)/obj/EXECUTABLES/vold_intermediates)
+-- 
+2.7.4
+

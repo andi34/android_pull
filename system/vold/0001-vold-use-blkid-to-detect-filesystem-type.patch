@@ -1,0 +1,146 @@
+From f6f4f04674c85d4fb5a0b2c81a89e80c67bdceb9 Mon Sep 17 00:00:00 2001
+From: codeworkx <codeworkx@cyanogenmod.org>
+Date: Thu, 31 Jan 2013 14:44:16 +0000
+Subject: [PATCH 1/5] vold: use blkid to detect filesystem type
+
+In preparation for handling ext4 partitions via vold and fuse.
+
+Change-Id: Ibaccded63a7a293ad53f16afb80448ddd493554c
+---
+ Android.mk |  6 ++++--
+ Volume.cpp | 71 ++++++++++++++++++++++++++++++++++++++++++++++++--------------
+ 2 files changed, 59 insertions(+), 18 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index d90b1c2..5599cc5 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -29,7 +29,8 @@ common_c_includes := \
+ 	frameworks/native/include \
+ 	system/security/keystore \
+ 	hardware/libhardware/include/hardware \
+-	system/security/softkeymaster/include/keymaster
++	system/security/softkeymaster/include/keymaster \
++	external/e2fsprogs/lib
+ 
+ common_shared_libraries := \
+ 	libsysutils \
+@@ -46,7 +47,8 @@ common_shared_libraries := \
+ 	libselinux \
+ 	libutils \
+ 	libhardware \
+-	libsoftkeymaster
++	libsoftkeymaster \
++	libext2_blkid
+ 
+ common_static_libraries := \
+ 	libfs_mgr \
+diff --git a/Volume.cpp b/Volume.cpp
+index ca56d1c..dd439a0 100644
+--- a/Volume.cpp
++++ b/Volume.cpp
+@@ -35,6 +35,8 @@
+ 
+ #include <private/android_filesystem_config.h>
+ 
++#include <blkid/blkid.h>
++
+ #define LOG_TAG "Vold"
+ 
+ #include <cutils/fs.h>
+@@ -141,6 +143,22 @@ dev_t Volume::getShareDevice() {
+     return getDiskDevice();
+ }
+ 
++char *getFsType(const char * devicePath) {
++    char *fstype = NULL;
++
++    SLOGD("Trying to get filesystem type for %s \n", devicePath);
++
++    fstype = blkid_get_tag_value(NULL, "TYPE", devicePath);
++    if (fstype) {
++        SLOGD("Found %s filesystem on %s\n", fstype, devicePath);
++    } else {
++        SLOGE("None or unknown filesystem on %s\n", devicePath);
++        return NULL;
++    }
++
++    return fstype;
++}
++
+ void Volume::handleVolumeShared() {
+ }
+ 
+@@ -414,6 +432,7 @@ int Volume::mountVol() {
+ 
+     for (i = 0; i < n; i++) {
+         char devicePath[255];
++        char *fstype = NULL;
+ 
+         sprintf(devicePath, "/dev/block/vold/%d:%d", major(deviceNodes[i]),
+                 minor(deviceNodes[i]));
+@@ -423,25 +442,45 @@ int Volume::mountVol() {
+         errno = 0;
+         setState(Volume::State_Checking);
+ 
+-        if (Fat::check(devicePath)) {
+-            if (errno == ENODATA) {
+-                SLOGW("%s does not contain a FAT filesystem\n", devicePath);
+-                continue;
+-            }
+-            errno = EIO;
+-            /* Badness - abort the mount */
+-            SLOGE("%s failed FS checks (%s)", devicePath, strerror(errno));
+-            setState(Volume::State_Idle);
+-            return -1;
+-        }
+-
+         errno = 0;
+         int gid;
+ 
+-        if (Fat::doMount(devicePath, getMountpoint(), false, false, false,
+-                AID_MEDIA_RW, AID_MEDIA_RW, 0007, true)) {
+-            SLOGE("%s failed to mount via VFAT (%s)\n", devicePath, strerror(errno));
+-            continue;
++        fstype = getFsType((const char *)devicePath);
++
++        if (fstype != NULL) {
++            if (strcmp(fstype, "vfat") == 0) {
++
++                if (Fat::check(devicePath)) {
++                    errno = EIO;
++                    /* Badness - abort the mount */
++                    SLOGE("%s failed FS checks (%s)", devicePath, strerror(errno));
++                    setState(Volume::State_Idle);
++                    free(fstype);
++                    return -1;
++                }
++
++                if (Fat::doMount(devicePath, getMountpoint(), false, false, false,
++                            AID_MEDIA_RW, AID_MEDIA_RW, 0007, true)) {
++                    SLOGE("%s failed to mount via VFAT (%s)\n", devicePath, strerror(errno));
++                    continue;
++                }
++
++            } else {
++                // Unsupported filesystem
++                errno = ENODATA;
++                setState(Volume::State_Idle);
++                free(fstype);
++                return -1;
++            }
++
++            free(fstype);
++
++        } else {
++            // Unsupported filesystem
++            errno = ENODATA;
++            setState(Volume::State_Idle);
++            free(fstype);
++            return -1;
+         }
+ 
+         extractMetadata(devicePath);
+-- 
+2.7.4
+
