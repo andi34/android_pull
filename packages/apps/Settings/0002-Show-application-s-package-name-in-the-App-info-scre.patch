@@ -1,0 +1,100 @@
+From 604fc3c862683f0b3ab0a6bd6d96f1aa3b892269 Mon Sep 17 00:00:00 2001
+From: chirayudesai <chirayudesai1@gmail.com>
+Date: Wed, 21 Oct 2015 01:32:12 +0300
+Subject: [PATCH 2/3] Show application's package name in the "App info" screen.
+
+* Adapted for marshmallow by @KreAch3R.
+---
+ res/layout/app_item.xml                                | 13 +++++++++++++
+ .../android/settings/applications/AppOpsDetails.java   |  2 +-
+ .../settings/applications/InstalledAppDetails.java     | 18 +++++++++++++++---
+ 3 files changed, 29 insertions(+), 4 deletions(-)
+
+diff --git a/res/layout/app_item.xml b/res/layout/app_item.xml
+index ea0008e..e072b98 100644
+--- a/res/layout/app_item.xml
++++ b/res/layout/app_item.xml
+@@ -70,4 +70,17 @@
+         android:layout_gravity="fill_horizontal|top"
+         android:duplicateParentState="true" />
+ 
++    <TextView
++        android:id="@+id/pkgname"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_toEndOf="@android:id/icon"
++        android:layout_below="@android:id/widget_frame"                
++        android:singleLine="true"
++        android:ellipsize="marquee"
++        android:textAppearance="@android:style/TextAppearance.Material.Body1"
++        android:textColor="?android:attr/textColorSecondary"
++        android:visibility="gone"
++        android:duplicateParentState="true" />  
++
+ </RelativeLayout>
+diff --git a/src/com/android/settings/applications/AppOpsDetails.java b/src/com/android/settings/applications/AppOpsDetails.java
+index a8320b1..50626ff 100644
+--- a/src/com/android/settings/applications/AppOpsDetails.java
++++ b/src/com/android/settings/applications/AppOpsDetails.java
+@@ -65,7 +65,7 @@ public class AppOpsDetails extends InstrumentedFragment {
+         final View appSnippet = mRootView.findViewById(R.id.app_snippet);
+         CharSequence label = mPm.getApplicationLabel(pkgInfo.applicationInfo);
+         Drawable icon = mPm.getApplicationIcon(pkgInfo.applicationInfo);
+-        InstalledAppDetails.setupAppSnippet(appSnippet, label, icon,
++        InstalledAppDetails.setupAppSnippet(appSnippet, label, icon, null,
+                 pkgInfo != null ? pkgInfo.versionName : null);
+     }
+ 
+diff --git a/src/com/android/settings/applications/InstalledAppDetails.java b/src/com/android/settings/applications/InstalledAppDetails.java
+index 85e1832..2cf9a9c 100755
+--- a/src/com/android/settings/applications/InstalledAppDetails.java
++++ b/src/com/android/settings/applications/InstalledAppDetails.java
+@@ -442,7 +442,7 @@ public class InstalledAppDetails extends AppInfoBase
+     private void setAppLabelAndIcon(PackageInfo pkgInfo) {
+         final View appSnippet = mHeader.findViewById(R.id.app_snippet);
+         mState.ensureIcon(mAppEntry);
+-        setupAppSnippet(appSnippet, mAppEntry.label, mAppEntry.icon,
++        setupAppSnippet(appSnippet, mAppEntry.label, mAppEntry.icon, pkgInfo.packageName,
+                 pkgInfo != null ? pkgInfo.versionName : null);
+     }
+ 
+@@ -765,7 +765,7 @@ public class InstalledAppDetails extends AppInfoBase
+         return true;
+     }
+ 
+-    public static void setupAppSnippet(View appSnippet, CharSequence label, Drawable icon,
++    public static void setupAppSnippet(View appSnippet, CharSequence label, Drawable icon, CharSequence packageName,
+             CharSequence versionName) {
+         LayoutInflater.from(appSnippet.getContext()).inflate(R.layout.widget_text_views,
+                 (ViewGroup) appSnippet.findViewById(android.R.id.widget_frame));
+@@ -774,7 +774,7 @@ public class InstalledAppDetails extends AppInfoBase
+         iconView.setImageDrawable(icon);
+ 
+         // Clicking on application icon opens application.
+-        final String finalPackageName = pkgInfo.packageName;
++        final String finalPackageName = String.valueOf(packageName);
+         iconView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+@@ -790,6 +790,18 @@ public class InstalledAppDetails extends AppInfoBase
+         // Set application name.
+         TextView labelView = (TextView) appSnippet.findViewById(android.R.id.title);
+         labelView.setText(label);
++        
++	    // Set application package name.
++        TextView packageNameView = (TextView) appSnippet.findViewById(R.id.pkgname);
++        
++        if (!TextUtils.isEmpty(packageName)) {
++            packageNameView.setSelected(true);
++            packageNameView.setVisibility(View.VISIBLE);
++            packageNameView.setText(packageName);
++        } else {
++            packageNameView.setVisibility(View.INVISIBLE);
++        }
++        
+         // Version number of application
+         TextView appVersion = (TextView) appSnippet.findViewById(R.id.widget_text1);
+ 
+-- 
+2.7.4
+

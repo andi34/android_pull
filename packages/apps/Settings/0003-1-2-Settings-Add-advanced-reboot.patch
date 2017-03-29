@@ -1,0 +1,132 @@
+From ce50191727808e74b9e57c7a2996a750b32a8324 Mon Sep 17 00:00:00 2001
+From: Muhammed Nazim <mnm9994u@gmail.com>
+Date: Fri, 1 Jan 2016 23:48:59 +0100
+Subject: [PATCH 3/3] [1/2] Settings: Add advanced reboot
+
+Change-Id: Iebc4553cdc05ee59a1900e0eeebca219ea5b169a
+---
+ res/values/custom_arrays.xml                   | 15 +++++++++++++++
+ res/values/custom_strings.xml                  | 10 ++++++++++
+ res/xml/security_settings_misc.xml             |  9 +++++++++
+ src/com/android/settings/SecuritySettings.java | 18 ++++++++++++++++++
+ 4 files changed, 52 insertions(+)
+ create mode 100644 res/values/custom_arrays.xml
+ create mode 100644 res/values/custom_strings.xml
+
+diff --git a/res/values/custom_arrays.xml b/res/values/custom_arrays.xml
+new file mode 100644
+index 0000000..4acec45
+--- /dev/null
++++ b/res/values/custom_arrays.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++    <!-- Advanced reboot menu dev options -->
++    <string-array name="advanced_reboot_entries">
++        <item>@string/advanced_reboot_disabled</item>
++        <item>@string/advanced_reboot_hide_on_keyguard</item>
++        <item>@string/advanced_reboot_show_always</item>
++    </string-array>
++
++    <string-array name="advanced_reboot_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++    </string-array>
++</resources>
+diff --git a/res/values/custom_strings.xml b/res/values/custom_strings.xml
+new file mode 100644
+index 0000000..491d785
+--- /dev/null
++++ b/res/values/custom_strings.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++    <!-- Advanced reboot options -->
++    <string name="advanced_reboot_title">Advanced reboot</string>
++    <string name="advanced_reboot_summary">Include options in the power menu for rebooting into recovery and downloadmode</string>
++    <string name="advanced_reboot_dialog_title">Advanced reboot menu</string>
++    <string name="advanced_reboot_disabled">Disable</string>
++    <string name="advanced_reboot_hide_on_keyguard">Hide on lock screen</string>
++    <string name="advanced_reboot_show_always">Show always</string>
++</resources>
+diff --git a/res/xml/security_settings_misc.xml b/res/xml/security_settings_misc.xml
+index b67e1b7..2bc6fb3 100644
+--- a/res/xml/security_settings_misc.xml
++++ b/res/xml/security_settings_misc.xml
+@@ -46,6 +46,15 @@
+             android:title="@string/device_admin_title"
+             android:persistent="false">
+ 
++        <ListPreference
++            android:key="advanced_reboot"
++            android:title="@string/advanced_reboot_title"
++            android:dialogTitle="@string/advanced_reboot_dialog_title"
++            android:entries="@array/advanced_reboot_entries"
++            android:entryValues="@array/advanced_reboot_values"
++            android:summary="@string/advanced_reboot_summary"
++            android:persistent="false" />
++
+         <Preference android:key="manage_device_admin"
+                 android:title="@string/manage_device_admin"
+                 android:summary="@string/manage_device_admin_summary"
+diff --git a/src/com/android/settings/SecuritySettings.java b/src/com/android/settings/SecuritySettings.java
+index 892d61f..e1c9760 100644
+--- a/src/com/android/settings/SecuritySettings.java
++++ b/src/com/android/settings/SecuritySettings.java
+@@ -87,6 +87,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private static final String KEY_ADVANCED_SECURITY = "advanced_security";
+     private static final String KEY_MANAGE_TRUST_AGENTS = "manage_trust_agents";
+     private static final String KEY_FINGERPRINT_SETTINGS = "fingerprint_settings";
++    private static final String KEY_ADVANCED_REBOOT = "advanced_reboot";
+ 
+     private static final int SET_OR_CHANGE_LOCK_METHOD_REQUEST = 123;
+     private static final int CHANGE_TRUST_AGENT_SETTINGS = 126;
+@@ -131,6 +132,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+     private SwitchPreference mToggleAppInstallation;
+     private DialogInterface mWarnInstallApps;
+     private SwitchPreference mPowerButtonInstantlyLocks;
++    private ListPreference mAdvancedReboot;
+ 
+     private boolean mIsPrimary;
+ 
+@@ -317,6 +319,16 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             mToggleAppInstallation.setEnabled(false);
+         }
+ 
++        mAdvancedReboot = (ListPreference) root.findPreference(KEY_ADVANCED_REBOOT);
++        if (mIsPrimary) {
++            mAdvancedReboot.setValue(String.valueOf(Settings.Secure.getInt(
++                    getContentResolver(), Settings.Secure.ADVANCED_REBOOT, 2)));
++            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
++            mAdvancedReboot.setOnPreferenceChangeListener(this);
++        } else {
++            deviceAdminCategory.removePreference(mAdvancedReboot);
++        }
++
+         // Advanced Security features
+         PreferenceGroup advancedCategory =
+                 (PreferenceGroup)root.findPreference(KEY_ADVANCED_SECURITY);
+@@ -326,6 +338,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
+                 manageAgents.setEnabled(false);
+                 manageAgents.setSummary(R.string.disabled_because_no_backup_security);
+             }
++
+         }
+ 
+         // The above preferences come and go based on security state, so we need to update
+@@ -704,6 +717,11 @@ public class SecuritySettings extends SettingsPreferenceFragment
+             } else {
+                 setNonMarketAppsAllowed(false);
+             }
++        } else if (preference == mAdvancedReboot) {
++            Settings.Secure.putInt(getContentResolver(), Settings.Secure.ADVANCED_REBOOT,
++                    Integer.valueOf((String) value));
++            mAdvancedReboot.setValue(String.valueOf(value));
++            mAdvancedReboot.setSummary(mAdvancedReboot.getEntry());
+         }
+         return result;
+     }
+-- 
+2.7.4
+

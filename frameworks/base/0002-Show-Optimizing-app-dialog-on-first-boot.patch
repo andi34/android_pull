@@ -1,0 +1,72 @@
+From 23f3c853c0159ebe81e8011bb7662e074cf02d51 Mon Sep 17 00:00:00 2001
+From: Paul Bouman <boumanpaul@gmail.com>
+Date: Fri, 9 Oct 2015 05:24:48 -0400
+Subject: [PATCH 2/6] Show Optimizing app dialog on first boot The boot dialog
+ is currently hidden on first boot but the bootanimation can take a very long
+ time to go away. Show the boot dialog so we know whats happening.
+
+Edited By: @BeansTown106
+*adapt for 6.0 marshmallow
+*make it work with BootMessage: Show each app name being optimized during boot
+---
+ .../android/server/pm/PackageManagerService.java   | 27 +++++++++++-----------
+ services/java/com/android/server/SystemServer.java |  2 +-
+ 2 files changed, 14 insertions(+), 15 deletions(-)
+
+diff --git a/services/core/java/com/android/server/pm/PackageManagerService.java b/services/core/java/com/android/server/pm/PackageManagerService.java
+index 4c13713..e188fb3 100644
+--- a/services/core/java/com/android/server/pm/PackageManagerService.java
++++ b/services/core/java/com/android/server/pm/PackageManagerService.java
+@@ -6189,23 +6189,22 @@ public class PackageManagerService extends IPackageManager.Stub {
+         if (DEBUG_DEXOPT) {
+             Log.i(TAG, "Optimizing app " + curr + " of " + total + ": " + pkg.packageName);
+         }
+-        if (!isFirstBoot()) {
++        try {
++            // give the packagename to the PhoneWindowManager
++            ApplicationInfo ai;
+             try {
+-                // give the packagename to the PhoneWindowManager
+-                ApplicationInfo ai;
+-                try {
+-                    ai = mContext.getPackageManager().getApplicationInfo(pkg.packageName, 0);
+-                } catch (Exception e) {
+-                    ai = null;
+-                }
+-                mPolicy.setPackageName((String) (ai != null ? mContext.getPackageManager().getApplicationLabel(ai) : pkg.packageName));
+-
+-                ActivityManagerNative.getDefault().showBootMessage(
+-                        mContext.getResources().getString(R.string.android_upgrading_apk,
+-                                curr, total), true);
+-            } catch (RemoteException e) {
++                ai = mContext.getPackageManager().getApplicationInfo(pkg.packageName, 0);
++            } catch (Exception e) {
++                ai = null;
+             }
++            mPolicy.setPackageName((String) (ai != null ? mContext.getPackageManager().getApplicationLabel(ai) : pkg.packageName));
++
++            ActivityManagerNative.getDefault().showBootMessage(
++                    mContext.getResources().getString(R.string.android_upgrading_apk,
++                            curr, total), true);
++        } catch (RemoteException e) {
+         }
++
+         PackageParser.Package p = pkg;
+         synchronized (mInstallLock) {
+             mPackageDexOptimizer.performDexOpt(p, null /* instruction sets */,
+diff --git a/services/java/com/android/server/SystemServer.java b/services/java/com/android/server/SystemServer.java
+index 7dd16d1..08def2d 100644
+--- a/services/java/com/android/server/SystemServer.java
++++ b/services/java/com/android/server/SystemServer.java
+@@ -499,7 +499,7 @@ public final class SystemServer {
+             Slog.i(TAG, "Window Manager");
+             wm = WindowManagerService.main(context, inputManager,
+                     mFactoryTestMode != FactoryTest.FACTORY_TEST_LOW_LEVEL,
+-                    !mFirstBoot, mOnlyCore);
++                    true, mOnlyCore);
+             ServiceManager.addService(Context.WINDOW_SERVICE, wm);
+             ServiceManager.addService(Context.INPUT_SERVICE, inputManager);
+ 
+-- 
+2.7.4
+

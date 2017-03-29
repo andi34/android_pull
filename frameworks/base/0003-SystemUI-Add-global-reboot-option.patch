@@ -1,0 +1,395 @@
+From 3e874eb9234f832839ec61ee8dc9d5bd17565734 Mon Sep 17 00:00:00 2001
+From: haiyangl <haiyangl@codeaurora.org>
+Date: Wed, 30 Dec 2015 19:19:45 +0100
+Subject: [PATCH 3/6] SystemUI: Add global reboot option
+
+Add global reboot option when long press power key and confirmation dialog
+when user chooses to reboot device
+
+Change-Id: I23286cb655a4fead8dfc450f08f27d9588e47686
+---
+ .../drawable-hdpi/ic_lock_power_reboot_alpha.png   | Bin 0 -> 1459 bytes
+ .../drawable-mdpi/ic_lock_power_reboot_alpha.png   | Bin 0 -> 1307 bytes
+ .../drawable-xhdpi/ic_lock_power_reboot_alpha.png  | Bin 0 -> 1674 bytes
+ .../drawable-xxhdpi/ic_lock_power_reboot_alpha.png | Bin 0 -> 1921 bytes
+ core/res/res/drawable/ic_lock_power_reboot.xml     |  33 +++++++++++++++++++++
+ core/res/res/values-zh-rCN/strings.xml             |   4 +++
+ core/res/res/values/strings.xml                    |  11 +++++++
+ core/res/res/values/symbols.xml                    |   4 +++
+ .../com/android/server/policy/GlobalActions.java   |  33 +++++++++++++++++++++
+ .../com/android/server/power/ShutdownThread.java   |  18 +++++++++--
+ 10 files changed, 101 insertions(+), 2 deletions(-)
+ create mode 100644 core/res/res/drawable-hdpi/ic_lock_power_reboot_alpha.png
+ create mode 100644 core/res/res/drawable-mdpi/ic_lock_power_reboot_alpha.png
+ create mode 100644 core/res/res/drawable-xhdpi/ic_lock_power_reboot_alpha.png
+ create mode 100644 core/res/res/drawable-xxhdpi/ic_lock_power_reboot_alpha.png
+ create mode 100644 core/res/res/drawable/ic_lock_power_reboot.xml
+
+diff --git a/core/res/res/drawable-hdpi/ic_lock_power_reboot_alpha.png b/core/res/res/drawable-hdpi/ic_lock_power_reboot_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..17b4866832206a0035c748a198d6a28c725636a5
+GIT binary patch
+literal 1459
+zcmeAS@N?(olHy`uVBq!ia0vp^1|ZDA1|-9oezpTC$r9IylHmNblJdl&R0hYC{G?O`
+z&)mfH)S%SFl*+=BsWuD@%xRe+5hW46K32*3xq68pHF_1f1wh>l3^w)^1&PVosU-?Y
+zsp*+{wo31J?^jaDOtDo8H}y5}EpSfF$n>ZxN)4{^3rViZPPR-@vbR&PsjvbXkegbP
+zs8ErclUHn2VXFi-*9yo63F|8<fR&VF+bTgE72zA8;GAESs$i;Tteb3LXsBRjre|nk
+zYG!7rqhMrUXryldL}t2%CRV0qRz~IuP@n{~ttchUD#*nRY8Q}atCUevQedU8UtV6W
+zS8lAAUzDzIXlZE)GQ-G77pOwFxH7LKu|hYmSQ%!5OKNd)QD#9&W`3Rm$i&2?{L&Iz
+zC7??oUdS!*^@SUpR}2j(V36roBo^o!>KW+g=7RhMR$W{Yl!|Z$R@KEJl?AE#L8-<0
+zrA5iW_()TRX$FQJev3c~fv&OgFUkZ)N@9*nesXDUYF>$_i>(q+MlU5Z#md0U&B)E%
+z&B?{h&Dqu1(9qG+(%IF*$k5cl$j!{u$Ps1+HoYc>PDX}qZpLmdPOgTAuEtJo#wO0L
+zM&_1IW=5u#=B6;co_WP3iFwJXFncqB_Coa<;ni#9T$Gwvl3x^(pPvIu0Rb8LCHch}
+z`2`Bj!Db2?;hA|U`Q^o$py+}4)+Mzlvn(~mttdZN0UW+onON+1F>nDo*V5V2&CLbm
+zZwnW53nxPpCj%1;V+&(*XC<iK6mr5$ALtl;P~t#JEHEKp3Is9XNgv38XP(qNV2&vQ
+zW{v8E7()gI#>bv6jv*Dd-poAfb=X1RxbW9!(HySYRUai;{4aIezO=q^O~iDWdjBt}
+zN3%JUny$P$Ih);H;7V9vrouU=BdIri%f2ylo;xtVE~Tuzu4L2AnQf8NSVOmUE_md|
+zz~aF0?~Txur&2$nRKD!!?GkRE;>04r;(I~h%0~fjo+?(;f=;gQ4a;UNF!{Z8#gX_e
+zO7~kn|7J2Rd3=bWN5#>VkD*HFzPdbv^~^g;+zs=R&Q0TISQfD{A^ef`lXd+92g?l%
+z6B)Y{wz2Gwyil~x^5Ly{NquH!a>5LvN4lRyeEaaHL~svp1Bc<ca?QINr4RL8GwVIf
+z_Tc%kw4Zy^45m5mX*SDE;#j#vg`u7y{7z-uGLbFs6xys_tW8;)E!^;PQmeWnHy=Zq
+z!)2)n|Mgq-ypC-Wd1c-4P|bdkc;tV5FRxpz91e$fEeH-cTkzY4dFz`h`Df1s_VMgt
+zy(*CWdO@{I<*Ppi(>?kQt9N{Se&SQeO3h|@UB<WG`|QQ+HZT98bbYC{P|b9f|IL5C
+zUP$Ls?Jz1h6YDQHHTH>iYuQB8HGYBex2H{$Xh=_CTz5NcqT`*P3=wB%`|Y~R?33Kx
+z{)1udk6W!0N1D^_voRmo!drEO<^Ap@OTJk#M%;4vxX-BGFpx`-fl<I=XDzn@L*ADV
+U+1clGH-m~%Pgg&ebxsLQ0P(j8y8r+H
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-mdpi/ic_lock_power_reboot_alpha.png b/core/res/res/drawable-mdpi/ic_lock_power_reboot_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..471a41c819132b2d2eb9d719f356394bbcd023e9
+GIT binary patch
+literal 1307
+zcmeAS@N?(olHy`uVBq!ia0vp^3LwnE1|*BCs=fdz$r9IylHmNblJdl&R0hYC{G?O`
+z&)mfH)S%SFl*+=BsWuD@%xRe+5hW46K32*3xq68pHF_1f1wh>l3^w)^1&PVosU-?Y
+zsp*+{wo31J?^jaDOtDo8H}y5}EpSfF$n>ZxN)4{^3rViZPPR-@vbR&PsjvbXkegbP
+zs8ErclUHn2VXFi-*9yo63F|8<fR&VF+bTgE72zA8;GAESs$i;Tteb3LXsBRjre|nk
+zYG!7rqhMrUXryldL}t2%CRV0qRz~IuP@n{~ttchUD#*nRY8Q}atCUevQedU8UtV6W
+zS8lAAUzDzIXlZE)GQ-G77pOwFxH7LKu|hYmSQ%!5OKNd)QD#9&W`3Rm$i&2?{L&Iz
+zC7??oUdS!*^@SUpR}2j(V36roBo^o!>KW+g=7RhMR$W{Yl!|Z$R@KEJl?AE#L8-<0
+zrA5iW_()TRX$FQJev3c~fv&OgFUkZ)N@9*nesXDUYF>$_i>(q+MlU5Z#md0U&B)E%
+z&B?{h&Dqu1(9qG+(%IF*$k5cl$j!{u$Ps1+HocanCKl#~mWFOFPOgTAuErL|=7z4W
+z&TejImd0*w=B_Zko_WP3iFwJXFncqB_Coa<;MHs8T$Gwvl3x^(pPvIu0Rb8LCHch}
+z`2`Bj!Db2?;hA|U`Q^o$py+}4)+Mzlvn(~mttdZN0UW+onON*MFt#)`0(#KN)y)Ou
+zZwnW53nxPpCj%1;kUyN2pn6lt2{V15WAs6Z11Yh<gn%g!#Dph(AP1g#QuBa0rU;ld
+zR<C@V&cMLv?djqeQgQ1|xOes;2LZpL6-R@s#kYw64*oRz*8z6L))(_%dvfP;ZV_?i
+zdE~lx?dA;^5^t2(xSTxTo{(PlEV=wgny}Hars61(IXAPIQaS%HRS5t6p~m5Drg%>#
+z?x|=A!~BLL#`Q|y>{px@Sm)5p|1CdX$lmOg_r&+np@&@(9J&I8S|jvLj_%~G<viiB
+z<ivG`JKgJx3!|B)9AUc<a>TUt{;D0^jD2<q+#S4y8x;&UoP52Cd3(cM#>ZaV7XwQk
+z_-n|xG43clvv<OinK$P&yz+R*knKN{FJzLe=8WLz+xIj#O-)(5qeE_mPNUD6|LYXr
+z1)3CPUDqsAGI4q}O?ruiIgdfQs*G@M{Y0L{s)0Uf-iJbLE{k06P4-gysQRIGl8yB~
+z_No)+UsW%#`7ro%?eAkauKhsvg4Gp+Rd*Jb`0Z1#pLV_8ZMuJg{s9KI_nyCI2TN`Q
+O6<40FelF{r5}E*{d%#@)
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xhdpi/ic_lock_power_reboot_alpha.png b/core/res/res/drawable-xhdpi/ic_lock_power_reboot_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a786b408bb328d15b272a373213525f5b72e9a5c
+GIT binary patch
+literal 1674
+zcmbVLX;2eq7~U8_K&Xl^a@b*A+X_mK4P;|h0&FfpjHV$9qOFANCajR%kSrvi)F=$K
+zf=8WNN2Q%eJ<!%;igjA*2v(7)PQ`jvv;!!0pcV}tMOsJf28its#vlD=cfVtw=XsCs
+zeLvDJUJx1_9Si_KXhynH$IfZqH!y(x9wv)B*(r)q<uF;aiE$Wg1c2dmJ^^M}3}!+{
+z81S;<ABkiD;F?H%4wIu<gc@lJ-{8gYofa$027u&Lr`2FABp5KCFq4!F@_gS6fg~=2
+zvc(#q#;PC+$n<g>kyXA}Z!9k~N^vMP1x$9Ltbm1J44~6eMA=cN3>wiz*|qmr0D&VA
+zrcefrI+df*f(qJ3fMR|k&nSdp5JC8Gk{ChY1W+V|MFJuFAUrq;6(guf0*(!cwPwRj
+zs7|RKv&HUYPyxeOQGvkWaPS?8eA;Ffz*4Eyt05BcSOm{rMll8_kFwA5DJTiM(MDPs
+zlBPhfq9LCyVPp{N>1YTRt48xmn6i&0icOioX|M`lzEEJXc;gyD+Zi44uN&i{?fNn+
+zA<z+ay2NH=@5409M`m;PdP80y>kYcZMzWV;C{ohK5(_~w8A=(%{^8>!jtUXANG(yz
+zm1?y@l?cO_RH{(T6TxDkNR5a^m``IoZjuU-t1wutR$>YmRwYWMVu?ISE>$QHrBETA
+z=i_EjcE&&%37=h(wL8XDy_SnAY=nWKZF-t6@>PJgfM#fW0c`~pSqK=HO;R}Ru*Z9^
+zXEa(RVIxZkTy3K*;7EQ^avb{zk~mMUkSbugS~-5)qg?#|<V?UiBk&f-e~QI-#8#kp
+z`Kt8U&8y}iD7Is4Y-{9x5iSFO2~8PFOz*tazq>s%1`BU%6z?3KEc@ol%le6D)+{O4
+zPOVYv!YrHqnwA`Q4N<mgwYh!AoR1DHcsVs*cWD2I@=5hiw|(U~<9AlrxGR<}H4e&#
+zw&RWSpLCiXU6)RE#BJ%3fBpcQ*?S&{1h{!Xh>Nq2UX}KyHleC3)pRHQlb_QXYAWWQ
+z+<fm|@W$%a>6bVx!r66Eb2*}+?rYC6Rr8+Rb@`^DaBFx9*4gH`;lDIw>-Ak^SIO_+
+zRu8nHZ^Qx`6>wn6THu<vjoKI5y|8CvkY6_NXO(f?!B97}p=5pc1Tfy&Ps0|VVd;Xv
+z)QIOV)BDUk<v>Hd`5kIgdo?tz$76X^k^Q$Ps-T|ktFf=o(!>_JB~3Hln6rMc(HVSm
+zWzgGOODpTj4zFkl|6!ML&(4{Z2Ls%dX%+r?YclmIS=?<iZ-#7H6b6z5dja<ax5rJ?
+z4=zjVb^EVgHS7JTyB#1m5|7<C!L<D-mdJTg5z-`l>R*xK288C~{mFisiGISMa=h5q
+z8xP!Ewz`JHseRYeE^RqpO&dRR4VN}NlW+z!Z$(UdJ{b)O1kAO~i+ao4?Pr@r=X!vE
+z7C;@-GD*9l_Sd+gl_w-i9+Iv@)+6-r2b}V|9i3NCLvwC$51(B*xgmazJY~xHhzML4
+zxVO^NF}n@99VEuW0`)zE(S1iuABRnho_*!y^2>Je_SC*FPdtcB+8_VjvxSf6FYk5T
+za%~^VY=tG8D(D%R53eWCoSoh8eR_TaHV}0Be&ne?ZgpR94PPL+L%orw+V5M#s#5vI
+zLm^eUyQ{J}5B#I^?&S8&{i*-Nj@B5+lhB@gJqCKb<M@uHVYTP>M6KgZ$JTPf{fhb>
+zFH-omeduO2Av$-}5RkWS67$5*&BHcEJaOr3YwGK`z8d=N7s@{pFl{~FcTsS=8DK|-
+LYO(UDJa5B4c8h99
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-xxhdpi/ic_lock_power_reboot_alpha.png b/core/res/res/drawable-xxhdpi/ic_lock_power_reboot_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6072387a4359ee6db56cb24f604f38a99c549078
+GIT binary patch
+literal 1921
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable/ic_lock_power_reboot.xml b/core/res/res/drawable/ic_lock_power_reboot.xml
+new file mode 100644
+index 0000000..82c7927
+--- /dev/null
++++ b/core/res/res/drawable/ic_lock_power_reboot.xml
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (c) 2014, The Linux Foundation. All rights reserved.
++
++     Redistribution and use in source and binary forms, with or without
++     modification, are permitted provided that the following conditions are
++     met:
++         * Redistributions of source code must retain the above copyright
++           notice, this list of conditions and the following disclaimer.
++         * Redistributions in binary form must reproduce the above
++           copyright notice, this list of conditions and the following
++           disclaimer in the documentation and/or other materials provided
++           with the distribution.
++         * Neither the name of The Linux Foundation nor the names of its
++           contributors may be used to endorse or promote products derived
++           from this software without specific prior written permission.
++
++     THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
++     WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
++     ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
++     BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++     CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++     SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++     BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
++     OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
++     IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++    android:src="@drawable/ic_lock_power_reboot_alpha"
++    android:tint="?attr/colorControlNormal" />
++
+diff --git a/core/res/res/values-zh-rCN/strings.xml b/core/res/res/values-zh-rCN/strings.xml
+index 0bafe95..bcf89d3 100644
+--- a/core/res/res/values-zh-rCN/strings.xml
++++ b/core/res/res/values-zh-rCN/strings.xml
+@@ -201,6 +201,9 @@
+     <string name="shutdown_confirm_question" msgid="2906544768881136183">"您要关机吗？"</string>
+     <string name="reboot_safemode_title" msgid="7054509914500140361">"重新启动并进入安全模式"</string>
+     <string name="reboot_safemode_confirm" msgid="55293944502784668">"您要重新启动并进入安全模式吗？这样会停用您已安装的所有第三方应用。再次重新启动将恢复这些应用。"</string>
++    <string name="reboot_title">"重启"</string>
++    <string name="reboot_confirm" product="tablet">"您的平板电脑将会重启。"</string>
++    <string name="reboot_confirm" product="default">"您的手机将会重启。"</string>
+     <string name="recent_tasks_title" msgid="3691764623638127888">"近期任务"</string>
+     <string name="no_recent_tasks" msgid="8794906658732193473">"最近没有运行任何应用"</string>
+     <string name="global_actions" product="tablet" msgid="408477140088053665">"平板电脑选项"</string>
+@@ -208,6 +211,7 @@
+     <string name="global_actions" product="default" msgid="2406416831541615258">"手机选项"</string>
+     <string name="global_action_lock" msgid="2844945191792119712">"屏幕锁定"</string>
+     <string name="global_action_power_off" msgid="4471879440839879722">"关机"</string>
++    <string name="global_action_reboot">"重启"</string>
+     <string name="global_action_bug_report" msgid="7934010578922304799">"错误报告"</string>
+     <string name="bugreport_title" msgid="2667494803742548533">"提交错误报告"</string>
+     <string name="bugreport_message" msgid="398447048750350456">"这会收集有关当前设备状态的信息，并以电子邮件的形式进行发送。从开始生成错误报告到准备好发送需要一点时间，请耐心等待。"</string>
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index 8a9b9cf..854d041 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -457,6 +457,14 @@
+          This will disable all third party applications you have installed.
+          They will be restored when you reboot again.</string>
+ 
++    <!-- Title of dialog to confirm rebooting. -->
++    <string name="reboot_title">Reboot</string>
++
++    <!-- Reboot Confirmation Dialog.  When the user chooses to reboot the device, there will
++         be a confirmation dialog.  This is the message. -->
++    <string name="reboot_confirm" product="tablet">Your tablet will reboot.</string>
++    <string name="reboot_confirm" product="default">Your phone will reboot.</string>
++
+     <!-- Recent Tasks dialog: title
+      TODO: this should move to SystemUI.apk, but the code for the old
+             recent dialog is still in the framework
+@@ -481,6 +489,9 @@
+     <!-- label for item that turns off power in phone options dialog -->
+     <string name="global_action_power_off">Power off</string>
+ 
++    <!-- label for item that reboots the phone in phone options dialog -->
++    <string name="global_action_reboot">Reboot</string>
++
+     <!-- label for item that generates a bug report in the phone options dialog -->
+     <string name="global_action_bug_report">Bug report</string>
+ 
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index 1bfb06c..f667176 100644
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -820,8 +820,10 @@
+   <java-symbol type="string" name="reboot_to_update_reboot" />
+   <java-symbol type="string" name="reboot_to_reset_title" />
+   <java-symbol type="string" name="reboot_to_reset_message" />
++  <java-symbol type="string" name="reboot_confirm" />
+   <java-symbol type="string" name="reboot_safemode_confirm" />
+   <java-symbol type="string" name="reboot_safemode_title" />
++  <java-symbol type="string" name="reboot_title" />
+   <java-symbol type="string" name="relationTypeAssistant" />
+   <java-symbol type="string" name="relationTypeBrother" />
+   <java-symbol type="string" name="relationTypeChild" />
+@@ -1485,6 +1487,7 @@
+   <java-symbol type="drawable" name="ic_jog_dial_vibrate_on" />
+   <java-symbol type="drawable" name="ic_lock_airplane_mode" />
+   <java-symbol type="drawable" name="ic_lock_airplane_mode_off" />
++  <java-symbol type="drawable" name="ic_lock_power_reboot" />
+   <java-symbol type="drawable" name="ic_menu_cc" />
+   <java-symbol type="drawable" name="jog_tab_bar_left_unlock" />
+   <java-symbol type="drawable" name="jog_tab_bar_right_sound_off" />
+@@ -1554,6 +1557,7 @@
+   <java-symbol type="string" name="config_orientationSensorType" />
+   <java-symbol type="string" name="faceunlock_multiple_failures" />
+   <java-symbol type="string" name="global_action_power_off" />
++  <java-symbol type="string" name="global_action_reboot" />
+   <java-symbol type="string" name="global_actions_airplane_mode_off_status" />
+   <java-symbol type="string" name="global_actions_airplane_mode_on_status" />
+   <java-symbol type="string" name="global_actions_toggle_airplane_mode" />
+diff --git a/services/core/java/com/android/server/policy/GlobalActions.java b/services/core/java/com/android/server/policy/GlobalActions.java
+index 3cee927..8e73495 100644
+--- a/services/core/java/com/android/server/policy/GlobalActions.java
++++ b/services/core/java/com/android/server/policy/GlobalActions.java
+@@ -40,6 +40,7 @@ import android.net.ConnectivityManager;
+ import android.os.Build;
+ import android.os.Bundle;
+ import android.os.Handler;
++import android.os.IPowerManager;
+ import android.os.Message;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
+@@ -93,6 +94,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
+     /* Valid settings for global actions keys.
+      * see config.xml config_globalActionList */
+     private static final String GLOBAL_ACTION_KEY_POWER = "power";
++    private static final String GLOBAL_ACTION_KEY_REBOOT = "reboot";
+     private static final String GLOBAL_ACTION_KEY_AIRPLANE = "airplane";
+     private static final String GLOBAL_ACTION_KEY_BUGREPORT = "bugreport";
+     private static final String GLOBAL_ACTION_KEY_SILENT = "silent";
+@@ -273,6 +275,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
+             }
+             if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
+                 mItems.add(new PowerAction());
++            } else if (GLOBAL_ACTION_KEY_REBOOT.equals(actionKey)) {
++                mItems.add(new RebootAction());
+             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
+                 mItems.add(mAirplaneModeOn);
+             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
+@@ -367,6 +371,35 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
+         }
+     }
+ 
++    private final class RebootAction extends SinglePressAction {
++        private RebootAction() {
++            super(com.android.internal.R.drawable.ic_lock_power_reboot,
++                    R.string.global_action_reboot);
++        }
++
++        @Override
++        public boolean showDuringKeyguard() {
++            return true;
++        }
++
++        @Override
++        public boolean showBeforeProvisioning() {
++            return true;
++        }
++
++        @Override
++        public void onPress() {
++            try {
++                IPowerManager pm = IPowerManager.Stub.asInterface(ServiceManager
++                        .getService(Context.POWER_SERVICE));
++                pm.reboot(true, null, false);
++            } catch (RemoteException e) {
++                Log.e(TAG, "PowerManager service died!", e);
++                return;
++            }
++        }
++    }
++
+     private Action getBugReportAction() {
+         return new SinglePressAction(com.android.internal.R.drawable.ic_lock_bugreport,
+                 R.string.bugreport_title) {
+diff --git a/services/core/java/com/android/server/power/ShutdownThread.java b/services/core/java/com/android/server/power/ShutdownThread.java
+index dd8648d..7463ae3 100644
+--- a/services/core/java/com/android/server/power/ShutdownThread.java
++++ b/services/core/java/com/android/server/power/ShutdownThread.java
+@@ -142,13 +142,25 @@ public final class ShutdownThread extends Thread {
+             }
+         }
+ 
++        boolean showRebootOption = false;
++        String[] defaultActions = context.getResources().getStringArray(
++                com.android.internal.R.array.config_globalActionsList);
++        for (int i = 0; i < defaultActions.length; i++) {
++            if (defaultActions[i].equals("reboot")) {
++                showRebootOption = true;
++                break;
++            }
++        }
+         final int longPressBehavior = context.getResources().getInteger(
+                         com.android.internal.R.integer.config_longPressOnPowerBehavior);
+-        final int resourceId = mRebootSafeMode
++        int resourceId = mRebootSafeMode
+                 ? com.android.internal.R.string.reboot_safemode_confirm
+                 : (longPressBehavior == 2
+                         ? com.android.internal.R.string.shutdown_confirm_question
+                         : com.android.internal.R.string.shutdown_confirm);
++        if (showRebootOption && !mRebootSafeMode) {
++            resourceId = com.android.internal.R.string.reboot_confirm;
++        }
+ 
+         Log.d(TAG, "Notifying thread to start shutdown longPressBehavior=" + longPressBehavior);
+ 
+@@ -160,7 +172,9 @@ public final class ShutdownThread extends Thread {
+             sConfirmDialog = new AlertDialog.Builder(context)
+                     .setTitle(mRebootSafeMode
+                             ? com.android.internal.R.string.reboot_safemode_title
+-                            : com.android.internal.R.string.power_off)
++                            : showRebootOption
++                                    ? com.android.internal.R.string.reboot_title
++                                    : com.android.internal.R.string.power_off)
+                     .setMessage(resourceId)
+                     .setPositiveButton(com.android.internal.R.string.yes, new DialogInterface.OnClickListener() {
+                         public void onClick(DialogInterface dialog, int which) {
+-- 
+2.7.4
+

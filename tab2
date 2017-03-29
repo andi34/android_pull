@@ -1,5 +1,5 @@
 #!/bin/bash
-# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
+
 SAUCE=~/android/aosp-6.0
 
 # Let's apply all commits!
@@ -8,28 +8,11 @@ echo ""
 echo "  SAMSUNG GALAXY TAB2 - AOSP ADDITIONS  "
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_frameworks_base.git aosp-6.0.1_r61-tab2
-git cherry-pick fdd9e3d9db75067c4696eb11bb41524599e94032^..b24c61a96c53c97783fc2d61b88da0e20c5dcc98
-echo ""
-echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_frameworks_native.git aosp-6.0.1_r61-tab2
-git cherry-pick 9f68c2da0274b9a14ededf849b6501f5694cf30a^..0601a099e615614c1cf05ebe55f59d5a9f63e4fe
-echo ""
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/Settings
-git fetch https://github.com/SamsungGalaxyTab2-AOSP/aosp_packages_apps_Settings.git aosp-6.0.1_r61-tab2
-git cherry-pick 63a31a2743e49e198e44ea79abbc79721812bd60^..eb5d01e60ceae20287448a0e42fd7c265417b251
-echo ""
-echo "----------------------------------------"
 cd $SAUCE/vendor/unlegacy
 echo "----------------------------------------"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_vendor_unlegacy refs/changes/58/1758/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh

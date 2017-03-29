@@ -1,0 +1,52 @@
+From 3d2919b93b1fc5305c3d9c9ea51463b242146199 Mon Sep 17 00:00:00 2001
+From: Hashcode <hashcode0f@gmail.com>
+Date: Mon, 10 Dec 2012 16:33:53 -0800
+Subject: [PATCH 3/3] surfaceflinger: odd hw rotation (90/270) patch for
+ swapping width/height
+
+This patch works in addition to the following commit
+re-implementing ro.sf.hwrotation:
+https://github.com/CyanogenMod/android_frameworks_native/commit/7d283431efffc4402cb1a6cacf5da64729c883bb
+
+When using values of 90 and 270 for ro.sf.hwrotation the
+LCD width and height also need to be swapped to display properly.
+
+Change-Id: I2874fdb8f8d8b855df6d62d338c9a22360491973
+NOTE: This patch does not fix the initial startup of bootanimation
+---
+ services/surfaceflinger/SurfaceFlinger.cpp | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
+index 8d769e0..e2fd9b6 100644
+--- a/services/surfaceflinger/SurfaceFlinger.cpp
++++ b/services/surfaceflinger/SurfaceFlinger.cpp
+@@ -628,10 +628,21 @@ status_t SurfaceFlinger::getDisplayConfigs(const sp<IBinder>& display,
+             info.orientation = 0;
+         }
+ 
+-        info.w = hwConfig.width;
+-        info.h = hwConfig.height;
+-        info.xdpi = xdpi;
+-        info.ydpi = ydpi;
++        char value[PROPERTY_VALUE_MAX];
++        property_get("ro.sf.hwrotation", value, "0");
++        int additionalRot = atoi(value) / 90;
++        if ((type == DisplayDevice::DISPLAY_PRIMARY) && (additionalRot & DisplayState::eOrientationSwapMask)) {
++            info.h = hwConfig.width;
++            info.w = hwConfig.height;
++            info.xdpi = ydpi;
++            info.ydpi = xdpi;
++        }
++        else {
++            info.w = hwConfig.width;
++            info.h = hwConfig.height;
++            info.xdpi = xdpi;
++            info.ydpi = ydpi;
++        }
+         info.fps = float(1e9 / hwConfig.refresh);
+         info.appVsyncOffset = VSYNC_EVENT_PHASE_OFFSET_NS;
+         info.colorTransform = hwConfig.colorTransform;
+-- 
+2.7.4
+

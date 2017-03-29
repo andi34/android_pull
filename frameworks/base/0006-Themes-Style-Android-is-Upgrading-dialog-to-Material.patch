@@ -1,0 +1,27 @@
+From a5cb64038c56b1705da4eea7571aeb633d29ad19 Mon Sep 17 00:00:00 2001
+From: Justin M <justinjams@gmail.com>
+Date: Sun, 8 Mar 2015 01:33:42 -0500
+Subject: [PATCH 6/6] Themes: Style "Android is Upgrading" dialog to Material
+ Dark
+
+Change-Id: I60843689f29ca3304ed2e17218ca8541efd14b73
+---
+ services/core/java/com/android/server/policy/PhoneWindowManager.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 81c1457..2be66f3 100644
+--- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -6141,6 +6141,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+                     } else if (mContext.getPackageManager().hasSystemFeature(
+                             PackageManager.FEATURE_TELEVISION)) {
+                         theme = com.android.internal.R.style.Theme_Leanback_Dialog_Alert;
++                    } else if (SystemProperties.get("ro.product.board").equals("tuna")) {
++                        theme = com.android.internal.R.style.Theme_Material_Dialog_Alert;
+                     } else {
+                         theme = 0;
+                     }
+-- 
+2.7.4
+
