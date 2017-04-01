@@ -20,8 +20,7 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_tuna refs/changes/33/1533/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_tuna refs/changes/34/1534/1 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
