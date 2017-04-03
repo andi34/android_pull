@@ -34,6 +34,7 @@ git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/43/167643/1 && git cherry-pick FETCH_HEAD
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/44/167644/1 && git cherry-pick FETCH_HEAD
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/45/167645/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/86/167686/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
