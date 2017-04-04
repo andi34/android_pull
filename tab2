@@ -14,27 +14,52 @@ echo "----------------------------------------"
 echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/tuna
+cd $SAUCE/frameworks/av
 echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/maguro
-echo "----------------------------------------"
-echo "nothing..."
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/85/167785/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/38/167638/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/39/167639/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/40/167640/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/41/167641/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/42/167642/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/43/167643/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/44/167644/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/45/167645/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/86/167686/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/38/167638/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/39/167639/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/40/167640/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/41/167641/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/42/167642/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/43/167643/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/44/167644/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/45/167645/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/45/167745/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/86/167686/2 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/46/167746/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/47/167747/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/48/167748/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/49/167749/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/50/167750/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/51/167751/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/52/167752/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/53/167753/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/54/167754/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/55/167755/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/56/167756/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/57/167757/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/58/167758/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/59/167759/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/60/167760/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/61/167761/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/62/167762/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/63/167763/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/64/167764/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/65/167765/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/66/167766/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/77/167777/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/78/167778/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/79/167779/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/80/167780/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/84/167784/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/13/167813/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/14/167814/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/15/167815/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
