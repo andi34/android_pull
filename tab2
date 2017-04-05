@@ -12,6 +12,12 @@ git fetch https://gerrit.omnirom.org/android_frameworks_av refs/changes/77/22777
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/00/21600/5 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_frameworks_native refs/changes/92/21592/3 && git cherry-pick FETCH_HEAD
