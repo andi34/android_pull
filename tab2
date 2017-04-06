@@ -4,8 +4,9 @@ SAUCE=~/android/ng7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE
+cd $SAUCE/frameworks/base
 echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/10/27310/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
