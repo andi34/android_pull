@@ -10,6 +10,12 @@ git fetch https://review.slimroms.org/SlimRoms/frameworks_av refs/changes/38/272
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/01/27301/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/35/27235/1 && git cherry-pick FETCH_HEAD
