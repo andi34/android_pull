@@ -30,7 +30,7 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/03/1503/2 && git cherry-pick FETCH_HEAD
+echo "nothing to do..."
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
