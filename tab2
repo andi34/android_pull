@@ -4,6 +4,13 @@ SAUCE=~/android/ng7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/espressowifi
+echo "----------------------------------------"
+git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/62/168062/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/63/168063/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/10/27310/1 && git cherry-pick FETCH_HEAD
