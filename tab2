@@ -17,18 +17,6 @@ git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/10/2
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/vendor/slim
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/vendor_slim refs/changes/27/27327/2 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/system/netd
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/android_system_netd refs/changes/34/27334/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
 echo ""
 echo "Done!"
 cd $SAUCE
