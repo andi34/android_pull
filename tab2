@@ -4,6 +4,12 @@ SAUCE=~/android/ng7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/tuna
+echo "----------------------------------------"
+git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/74/27374/2
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/80/168080/1 && git cherry-pick FETCH_HEAD
@@ -15,6 +21,13 @@ echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/10/27310/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/kernel/samsung/tuna
+echo "----------------------------------------"
+git fetch https://github.com/Unlegacy-Android/android_kernel_samsung_tuna.git staging
+git cherry-pick 1682c64d923905486d018d7f270239ff84f666bc^..a353646d47bc5d9235595dbbb6b69f517f875092
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
