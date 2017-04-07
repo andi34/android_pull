@@ -16,7 +16,12 @@ git fetch https://review.slimroms.org/SlimRoms/vendor_slim refs/changes/27/27327
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-
+cd $SAUCE/system/netd
+echo "----------------------------------------"
+git fetch https://review.slimroms.org/SlimRoms/android_system_netd refs/changes/34/27334/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 cd $SAUCE
