@@ -20,7 +20,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-git pull https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/85/27385/1
+git pull https://review.slimroms.org/SlimRoms/frameworks_base refs/changes/85/27385/2
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
