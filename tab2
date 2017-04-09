@@ -28,6 +28,12 @@ git fetch https://gerrit.omnirom.org/android_frameworks_opt_net_wifi refs/change
 gecho ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/vendor/omni
+echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2 && git cherry-pick FETCH_HEAD
+gecho ""
+echo "----------------------------------------"
+echo "----------------------------------------"
 echo ""
 echo "Done!"
 cd $SAUCE
