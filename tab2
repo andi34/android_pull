@@ -4,12 +4,6 @@ SAUCE=~/android/android-7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/build
-echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_build refs/changes/42/22842/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/80/168080/1 && git cherry-pick FETCH_HEAD
@@ -20,14 +14,11 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_frameworks_av refs/changes/77/22777/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/00/21600/5 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_frameworks_base refs/changes/54/22854/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
