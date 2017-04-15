@@ -17,10 +17,11 @@ cd $SAUCE/device/samsung/espresso
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/85/1785/6 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/11 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/1506/8 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/60/1760/11 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/28/1828/1 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/64/1764/3 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/2006/4 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/60/1760/13 && git cherry-pick FETCH_HEAD
+
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
