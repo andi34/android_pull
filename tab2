@@ -14,14 +14,14 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/85/1785/6 && git cherry-pick FETCH_HEAD
+echo "Revert k3.4 changes and switch to a temp. 7.1 kernel branch"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/11 && git cherry-pick FETCH_HEAD
+echo "bluetooth: Our kernel is missing CLOCK_BOOTTIME_ALARM (alarmtimer)"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/1506/8 && git cherry-pick FETCH_HEAD
+echo "Debug time"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/28/1828/1 && git cherry-pick FETCH_HEAD
+echo "libsensors: convert to C++"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/64/1764/3 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/2006/4 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/60/1760/13 && git cherry-pick FETCH_HEAD
-
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -36,13 +36,7 @@ echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/95/1995/5 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/96/1996/6 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/system/sepolicy
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_system_sepolicy refs/changes/07/2007/1 && git cherry-pick FETCH_HEAD
+echo "nothing"
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
