@@ -6,9 +6,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/80/168080/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/62/168062/1 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/63/168063/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
@@ -24,14 +22,13 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/opt/net/wifi
 echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_frameworks_opt_net_wifi refs/changes/53/22853/1 && git cherry-pick FETCH_HEAD
-gecho ""
+echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/omni
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2 && git cherry-pick FETCH_HEAD
-gecho ""
+echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
