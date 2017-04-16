@@ -10,13 +10,15 @@ git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/frameworks/av
+cd $SAUCE/libcore
 echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_libcore refs/changes/45/23045/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/frameworks/base
+cd $SAUCE/system/netd
 echo "----------------------------------------"
+git fetch https://gerrit.omnirom.org/android_system_netd refs/changes/44/23044/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
