@@ -7,8 +7,9 @@ echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/changes/26/27526/1 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/68/170668/1 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/63/168063/3 && git cherry-pick FETCH_HEAD
-git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/62/168062/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/62/168062/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
