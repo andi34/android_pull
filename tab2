@@ -6,7 +6,7 @@ SAUCE=~/android/mm6.0
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/build
-git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/47/26647/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
@@ -21,12 +21,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/19/27019/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/hardware_ti_omap4 refs/changes/22/26622/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
@@ -41,25 +41,22 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/19/26619/1 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/20/26620/2 && git cherry-pick FETCH_HEAD
-git fetch https://review.slimroms.org/SlimRoms/frameworks_native refs/changes/21/26621/2 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/oneplus/msm8974
 echo "----------------------------------------"
-git pull https://review.slimroms.org/SlimRoms/kernel_oneplus_msm8974 refs/changes/04/26904/2
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-2.git mm6.0
-git cherry-pick 52d8e8c3dfeba5cf7a9e91751371bda5d035962d^..001456fe4038610f2d68127bca6c5fdfc5f19adb
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/slim
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/vendor_slim refs/changes/44/26644/1 && git cherry-pick FETCH_HEAD
+echo "Nothing for now..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
