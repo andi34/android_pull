@@ -32,6 +32,11 @@ echo "----------------------------------------"
 git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_system_core refs/changes/77/172677/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+echo "----------------------------------------"
+git revert 8e4f67d660749b1401917942af13aabe50eaf055 -n && git add --all && git commit -a -m "Revert native: dock battery"cd $SAUCE/vendor/cm
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
