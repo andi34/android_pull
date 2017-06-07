@@ -24,9 +24,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/tuna
 echo "----------------------------------------"
-git fetch https://github.com/Unlegacy-Android/android_kernel_samsung_tuna.git staging
-git cherry-pick 1682c64d923905486d018d7f270239ff84f666bc^..a353646d47bc5d9235595dbbb6b69f517f875092
-echo ""
+cho ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
