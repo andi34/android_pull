@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-echo "nothing..."
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/72/176572/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -27,11 +27,11 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-echo "nothing..."
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/69/176569/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/tuna
-git pull https://review.lineageos.org/LineageOS/android_kernel_samsung_tuna refs/changes/79/173079/1
+git pull https://review.lineageos.org/LineageOS/android_kernel_samsung_tuna refs/changes/21/176421/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
