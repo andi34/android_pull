@@ -31,7 +31,8 @@ git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/tuna
-git pull https://review.lineageos.org/LineageOS/android_kernel_samsung_tuna refs/changes/21/176421/2
+echo "----------------------------------------"
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
