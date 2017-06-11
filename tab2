@@ -17,7 +17,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-echo "nothing..."
+git pull https://review.lineageos.org/LineageOS/android_device_samsung_tuna refs/changes/30/176930/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/maguro
@@ -27,12 +27,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/69/176569/1 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/kernel/samsung/tuna
 echo "----------------------------------------"
-echo "nothing..."
+git pull https://review.lineageos.org/LineageOS/android_kernel_samsung_tuna refs/changes/21/176421/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
