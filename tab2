@@ -10,6 +10,7 @@ git fetch https://review.slimroms.org/SlimRoms/device_samsung_espressowifi refs/
 git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/63/168063/3 && git cherry-pick FETCH_HEAD
 git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espressowifi refs/changes/62/168062/2 && git cherry-pick FETCH_HEAD
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/64/1764/6 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/85/176585/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -29,12 +30,12 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/system/core
 echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_system_core refs/changes/77/172677/1 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-git revert 8e4f67d660749b1401917942af13aabe50eaf055 -n && git add --all && git commit -a -m "Revert native: dock battery"cd $SAUCE/vendor/cm
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
