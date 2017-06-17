@@ -25,7 +25,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-echo "nothing..."
+git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/67/176667/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/system/core
