@@ -1,40 +1,5 @@
 #!/bin/bash
 echo "----------------------------------------"
-cd device/samsung/p3100
-echo "P31XX: force "fade out" screen-off-animation"
-git fetch https://gerrit.slimroms.net/SlimRoms/device_samsung_p3100 refs/changes/22/4822/3 && git cherry-pick FETCH_HEAD
-cd ../../..
-echo "----------------------------------------"
-cd kernel/samsung/espresso10
-echo "Apply GT-P3100_JB_Opensource_Update1 from opensource.samsung.com [1/3]"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/77/10677/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Apply P3110 JB Update1 from opensource.samsung.com: new files [2/3]"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/39/11339/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Apply P3110 JB Update1 from opensource.samsung.com: deleted files [3/3]"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/40/11340/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "revert some parts from JB Update 1"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/92/11092/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Add back missing parts from Upstream 3.0.38 -> 3.0.39"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/96/11096/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Rectify various build errors"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/04/11104/4 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "bcmdhd: workaround broken AC video queue in IBSS mode"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/00/11400/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Added optimized ARM RWSEM algorithm."
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/06/11406/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "config: enable RWSEM_XCHGADD_ALGORITHM"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/07/11407/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "WLAN subsystem: Sysctl support for key TCP/IP parameters"
-git fetch https://gerrit.slimroms.net/SlimRoms/kernel_samsung_espresso10 refs/changes/08/11408/1 && git cherry-pick FETCH_HEAD
-cd ../../..
+echo "nothing"
 echo "----------------------------------------"
 echo "DONE"
