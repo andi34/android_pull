@@ -5,46 +5,10 @@ SAUCE=~/android/cm-12.1
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso3g
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/kernel/samsung/espresso10
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/samsung
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-echo "----------------------------------------"
-echo "Nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
 echo "----------------------------------------"
 #echo "Vendor: add hour and minute for zip-nameing"
 #git fetch http://review.cyanogenmod.org/CyanogenMod/android_vendor_cm refs/changes/43/93543/5 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-echo "----------------------------------------"
-git fetch https://github.com/andi34/proprietary_vendor_samsung-1.git cm-12.1
-git cherry-pick df0e37818946b12e0cdef6fac97797f1e8cb7c7a^..16910c0e8c628c1ea614788db3bec0b54912e970
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo ""
