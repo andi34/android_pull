@@ -9,9 +9,14 @@ echo "  AOSP ADDITIONS  "
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/device/samsung/espresso
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/88/2388/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/79/2079/7 && git cherry-pick FETCH_HEAD
+echo "nothing"
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/unlegacy
