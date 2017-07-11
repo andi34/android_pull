@@ -6,7 +6,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/73/29873/1 && git cherry-pick FETCH_HEAD
+git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/73/29873/2
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
