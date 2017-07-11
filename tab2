@@ -15,8 +15,6 @@ echo "bluetooth: Our kernel is missing CLOCK_BOOTTIME_ALARM (alarmtimer)"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/1506/8 && git cherry-pick FETCH_HEAD
 echo "Debug time"
 git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/28/1828/1 && git cherry-pick FETCH_HEAD
-echo "libsensors: convert to C++"
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/64/1764/5 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
