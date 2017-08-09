@@ -6,7 +6,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/66/30266/4
+git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/66/30266/5
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
