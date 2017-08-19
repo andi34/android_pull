@@ -6,7 +6,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/66/30266/5
+git pull https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/66/30266/6
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
@@ -30,6 +30,11 @@ cd $SAUCE/vendor/samsung
 echo "----------------------------------------"
 #git fetch https://github.com/andi34/proprietary_vendor_samsung-2/tree/ng7.1-2
 #git cherry-pick fb73576268655a582921e50cf1e674ae4641256f
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/build
+git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/46/30546/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
