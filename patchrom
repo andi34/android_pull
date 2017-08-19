@@ -12,7 +12,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git pull https://gerrit.omnirom.org/android_device_samsung_tuna refs/changes/66/24866/1
+git pull https://gerrit.omnirom.org/android_device_samsung_tuna refs/changes/90/24890/6
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
