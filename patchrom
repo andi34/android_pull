@@ -56,5 +56,18 @@ if [[ -d "$SAUCE/hardware/qcom/camera" ]]; then
 	cd $SAUCE
 fi
 
+if [[ -d "$SAUCE/packages/apps/Snap" ]]; then
+	cd $SAUCE/packages/apps/Snap
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi https://github.com/andi34/android_packages_apps_Snap.git
+	fi
+	git fetch andi
+	git checkout andi/mm6.0-sultan
+	cd $SAUCE
+fi
+
 cd $SAUCE/pull
 . patch.sh
