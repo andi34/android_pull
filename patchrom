@@ -4,5 +4,57 @@ SAUCE=~/android/mm6.0
 
 # Let's apply all commits!
 
+if [[ -d "$SAUCE/kernel/oneplus/msm8974" ]]; then
+	cd $SAUCE/kernel/oneplus/msm8974
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi https://github.com/andi34/android_kernel_oneplus_msm8974.git
+	fi
+	git fetch andi
+	git checkout andi/mm6.0-sultan
+	cd $SAUCE
+fi
+
+if [[ -d "$SAUCE/vendor/oneplus" ]]; then
+	cd $SAUCE/vendor/oneplus
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi https://github.com/andi34/proprietary_vendor_oneplus.git
+	fi
+	git fetch andi
+	git checkout andi/mm6.0-sultan2
+	cd $SAUCE
+fi
+
+if [[ -d "$SAUCE/device/oneplus/bacon" ]]; then
+	cd $SAUCE/device/oneplus/bacon
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi https://github.com/andi34/device_oneplus_bacon.git
+	fi
+	git fetch andi
+	git checkout andi/mm6.0-sultan
+	cd $SAUCE
+fi
+
+if [[ -d "$SAUCE/hardware/qcom/camera" ]]; then
+	cd $SAUCE/hardware/qcom/camera
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi https://github.com/andi34/android_hardware_qcom_camera-1.git
+	fi
+	git fetch andi
+	git checkout andi/bacon/cm-13.0-sultan
+	cd $SAUCE
+fi
+
 cd $SAUCE/pull
 . patch.sh
