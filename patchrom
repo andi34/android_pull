@@ -69,6 +69,19 @@ if [[ -d "$SAUCE/packages/apps/Snap" ]]; then
 	git checkout andi/mm6.0-sultan
 	cd $SAUCE
 fi
+
+if [[ -d "$SAUCE/external/sony/boringssl-compat" ]]; then
+	cd $SAUCE/external/sony/boringssl-compat
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git https://github.com/andi34/android_external_sony_boringssl-compat
+	fi
+	git fetch andi
+	git checkout andi/mm6.0-sultan
+	cd $SAUCE
+fi
 }
 
 if [ "$OSSCAM" = "y" ]; then
