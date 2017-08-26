@@ -1,6 +1,6 @@
 #!/bin/bash
 # Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
-SAUCE=~/android/aosp-7.1
+SAUCE=~/android/aosp-8.0
 
 # Let's apply all commits!
 echo "----------------------------------------"
@@ -9,27 +9,76 @@ echo "  SAMSUNG GALAXY TAB2 - UA ADDITIONS  "
 echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso
-echo "Revert k3.4 changes and switch to a temp. 7.1 kernel branch"
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/98/1498/11 && git cherry-pick FETCH_HEAD
-echo "bluetooth: Our kernel is missing CLOCK_BOOTTIME_ALARM (alarmtimer)"
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/06/1506/8 && git cherry-pick FETCH_HEAD
-echo "Debug time"
-git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_device_samsung_espresso refs/changes/28/1828/1 && git cherry-pick FETCH_HEAD
-echo ""
+echo "----------------------------------------"
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/07/3007/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/08/3008/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/34/3034/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/35/3035/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/36/3036/4 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/41/3141/2 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_device_samsung_espresso refs/changes/44/3144/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
-echo "nothing to do..."
-echo ""
 echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/kernel/samsung/tuna
 echo "nothing to do..."
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
-echo "nothing"
+echo "----------------------------------------"
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/24/3024/6 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/33/3033/6 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/42/3142/5 && git cherry-pick FETCH_HEAD
+git fetch ssh://andi34@gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_hardware_ti_omap4 refs/changes/46/3146/2 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+if [[ -d "$SAUCE/kernel/ti/omap4" ]]; then
+	cd $SAUCE/kernel/ti/omap4
+	if git config remote.unlegacy.url > /dev/null; then
+		echo "Unlegacy remote exist already"
+	else
+		echo "adding Unlegacy remote"
+		git remote add unlegacy https://github.com/Unlegacy-Android/android_kernel_ti_omap4.git
+	fi
+	git fetch unlegacy
+	git checkout unlegacy/3.0/staging2
+fi
+cd $SAUCE/build/make
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_build refs/changes/62/3162/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_build refs/changes/63/3163/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_build refs/changes/64/3164/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/system/core
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_system_core refs/changes/32/3032/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/av
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_av refs/changes/92/2992/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_av refs/changes/93/2993/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_base refs/changes/96/2996/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_base refs/changes/97/2997/1 && git cherry-pick FETCH_HEAD
+echo ""
+echo "----------------------------------------"
+echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+echo "----------------------------------------"
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/02/3002/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/03/3003/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/04/3004/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/05/3005/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
