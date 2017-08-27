@@ -12,7 +12,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-echo "nothing"
+git fetch https://gerrit.omnirom.org/android_device_samsung_tuna refs/changes/90/25090/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/omni
