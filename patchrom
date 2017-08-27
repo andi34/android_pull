@@ -61,24 +61,24 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
 echo "----------------------------------------"
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_av refs/changes/92/2992/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_av refs/changes/93/2993/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_av refs/changes/92/2992/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_av refs/changes/93/2993/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base
 echo "----------------------------------------"
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_base refs/changes/96/2996/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_base refs/changes/97/2997/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_base refs/changes/96/2996/1 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_base refs/changes/97/2997/1 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/02/3002/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/03/3003/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/04/3004/2 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.unlegacy-android.org:29418/Unlegacy-Android/android_frameworks_native refs/changes/05/3005/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_native refs/changes/02/3002/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_native refs/changes/03/3003/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_native refs/changes/04/3004/2 && git cherry-pick FETCH_HEAD
+git fetch https://gerrit.unlegacy-android.org/Unlegacy-Android/android_frameworks_native refs/changes/05/3005/2 && git cherry-pick FETCH_HEAD
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
