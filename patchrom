@@ -21,7 +21,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/native
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_native refs/changes/22/187022/2 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
