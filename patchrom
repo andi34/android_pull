@@ -19,6 +19,11 @@ echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/85/167785/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE/frameworks/native
+echo "----------------------------------------"
+git fetch https://review.lineageos.org/LineageOS/android_frameworks_native refs/changes/22/187022/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/67/176667/1 && git cherry-pick FETCH_HEAD
