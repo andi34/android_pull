@@ -11,7 +11,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-git fetch https://Android-Andi@review.lineageos.org/a/LineageOS/android_device_samsung_espresso3g refs/changes/23/187023/1 && git cherry-pick FETCH_HEAD
+git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espresso3g refs/changes/23/187023/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
