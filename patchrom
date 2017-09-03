@@ -76,7 +76,7 @@ if [[ -d "$SAUCE/external/sony/boringssl-compat" ]]; then
 		echo "Remote exist already"
 	else
 		echo "adding remote"
-		git https://github.com/andi34/android_external_sony_boringssl-compat
+		git remote add andi https://github.com/andi34/android_external_sony_boringssl-compat.git
 	fi
 	git fetch andi
 	git checkout andi/mm6.0-sultan
@@ -89,5 +89,6 @@ if [ "$OSSCAM" = "y" ]; then
 	osscamhal
 fi
 
-cd $SAUCE/pull
-. patch.sh
+cd $SAUCE
+#cd $SAUCE/pull
+#. patch.sh
