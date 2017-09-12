@@ -3,59 +3,10 @@
 SAUCE=~/android/android-4.4
 
 # Let's apply all commits!
-echo "Adding All in One Animation Control,"
-echo "Battery Saver mode, On-The-Go mode"
-echo "Implement App circle sidebar and"
-echo "follow dark 4.4 UI"
-echo ""
 echo "----------------------------------------"
-cd $SAUCE/packages/apps/Camera2
+cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://github.com/andi34/Omni_packages_apps_Camera2.git android-4.4
-git cherry-pick 32530d8d9577a7e66f9b3ec7233d9574266c7e0a
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/Settings
-echo "----------------------------------------"
-git fetch https://github.com/andi34/Omni_packages_apps_Settings.git android-4.4
-git cherry-pick 86fd341d0b83931770c0955d006d1454e610bc5e
-git cherry-pick d0c9b77b197114f12b60a75795855d364379c5d8
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/OmniGears
-echo "----------------------------------------"
-git fetch https://github.com/andi34/Omni_packages_apps_OmniGears.git android-4.4
-git cherry-pick b8738b9821f0ab1bb60516bd69d0c384eead4a2d
-git cherry-pick 62d1a4b6960df471a5ce2b823cddb88ad7a45e55
-git cherry-pick 3cf527a4d35f8880cdb5974b8277fcc9249aa056
-git cherry-pick 82afb07b3f5641740bb9f629e392feabc5ad11ad
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/OmniSwitch
-echo "----------------------------------------"
-git fetch https://github.com/andi34/Omni_packages_apps_OmniSwitch.git android-4.4
-git cherry-pick 2d6c6472fed15262d16dbd923f8e3aa674197750
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-echo "----------------------------------------"
-git fetch https://github.com/andi34/Omni_frameworks_base.git android-4.4
-git cherry-pick bfa96578657f044d1692c4b72c5a3212fa2c5e3d
-git cherry-pick 96087ddcd76415dfb3dda411d4a32b677db3c2ea
-git cherry-pick 7accf1cd13ae22c436940850159d2b0696f2b42d
-git cherry-pick a4c0f381d0eab2c9c271dea66b29b5d753dae9aa
-git cherry-pick 32ffee6f4c3fd64827f2c50275b6fb453507fc75
-git cherry-pick 9134f9b48b07828f27220dba69f1963b3d4206f8
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "nothing for now..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/vendor/omni
-echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/61/17261/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
+git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_device_samsung_espressowifi refs/changes/57/25657/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo ""
 echo "Done!"
