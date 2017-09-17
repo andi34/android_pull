@@ -7,7 +7,7 @@ echo ""
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_device_samsung_espressowifi refs/changes/85/176585/2 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espresso3g
@@ -17,7 +17,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
 echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_device_samsung_tuna refs/changes/46/173846/3 && git cherry-pick FETCH_HEAD
+git fetch https://review.lineageos.org/LineageOS/android_device_samsung_tuna refs/changes/09/190309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/maguro
@@ -30,11 +30,6 @@ echo "----------------------------------------"
 echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/kernel/samsung/tuna
-echo "----------------------------------------"
-#git pull https://review.lineageos.org/LineageOS/android_kernel_samsung_tuna refs/changes/21/176421/2
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/build
 echo "----------------------------------------"
 echo "Add back mka bootzip"
@@ -42,11 +37,6 @@ git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/64/2
 echo "----------------------------------------"
 echo "Set metadata on bootzip"
 git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/70/2970/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/packages/apps/Snap
-echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_packages_apps_Snap refs/changes/46/177846/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/samsung
