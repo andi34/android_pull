@@ -9,10 +9,10 @@ cd $SAUCE/frameworks/native
 git fetch https://github.com/andi34/SlimRoms_frameworks_native.git kk4.4-ste
 echo "----------------------------------------"
 echo "[2/3] STE OMX Fix"
-git cherry-pick 351b6c0117d5263224d81a3ab94f859e2d027ed5
+git cherry-pick f9ed64b47ac1ff3c822c13f1265a12b34293d596
 echo "----------------------------------------"
 echo "native:Fix buffering on STE devices"
-git cherry-pick cb013d79a715e50d72259ac1786f48df2160f869
+git cherry-pick 4358356378706f40ac6bd589f4c1d2c007d7eec3
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
