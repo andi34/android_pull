@@ -1,0 +1,60 @@
+From 4206a6fd860e4ea1f8358d3062ed19d3e9c3fa64 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Fri, 19 Sep 2014 15:39:44 -0500
+Subject: [PATCH 2/3] STE-OMX-getSupportedProfileLevel-fix
+
+PS4: Meticulus note:
+-I suspected that including headers like on previous PS wasn't a good idea.
+You code you learn...
+
+-Removing the headers I included and referencing existing headers
+seems like much better practice and in this case also fixes
+the FC at the end of video recording...
+
+PS5: fix a DERP, PS6: formatting & Whitespace
+Change-Id: I9dc7ee39fec411b2e362cba173dd03f05b985be3
+---
+ media/libstagefright/OMXClient.cpp | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/media/libstagefright/OMXClient.cpp b/media/libstagefright/OMXClient.cpp
+index 4eb8654..147b6d0 100644
+--- a/media/libstagefright/OMXClient.cpp
++++ b/media/libstagefright/OMXClient.cpp
+@@ -25,6 +25,10 @@
+ #include <utils/KeyedVector.h>
+ 
+ #include "include/OMX.h"
++#ifdef STE_HARDWARE
++#include <OMX_Video.h>
++#include <OMX_Index.h>
++#endif
+ 
+ namespace android {
+ 
+@@ -241,6 +245,22 @@ status_t MuxOMX::sendCommand(
+ status_t MuxOMX::getParameter(
+         node_id node, OMX_INDEXTYPE index,
+         void *params, size_t size) {
++#ifdef STE_HARDWARE
++       /* Meticulus:
++        * If we call into our STE omx blobs with an unsupported profile index
++        * The blob freaks out and dies causing errors later. If we stop the call
++        * and just return an error here, VFM doesn't freak out and the caller
++        * can try a working profile. i.e. YouTube v5.10.1.5 (9/19/2014) and up.
++        */
++       if(index == OMX_IndexParamVideoProfileLevelQuerySupported){
++               OMX_VIDEO_PARAM_PROFILELEVELTYPE *pt = (OMX_VIDEO_PARAM_PROFILELEVELTYPE *)params;
++               ALOGI("Meticulus: eProfile=%lu eLevel=%lu nProfileIndex=%lu\n",pt->eProfile, pt->eLevel, pt->nProfileIndex);
++               if(pt->nProfileIndex >= 3 || pt->nProfileIndex == 0){
++                       return -1;
++               }
++
++       }
++#endif
+     return getOMX(node)->getParameter(node, index, params, size);
+ }
+ 
+-- 
+2.7.4
+
