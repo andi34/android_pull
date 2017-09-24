@@ -19,13 +19,16 @@ cd $SAUCE/frameworks/av
 git fetch https://github.com/andi34/SlimRoms_frameworks_av.git kk4.4-ste
 echo "----------------------------------------"
 echo "STE Multimedia Fix"
-git cherry-pick 82421e514a8e379e720395856a4f4e3d84908d24
+git cherry-pick 05bb5665ba58b587a91f074806d71cb394ad3e25
 echo "----------------------------------------"
 echo "STE-OMX-getSupportedProfileLevel-fix"
-git cherry-pick 3707d2cd9ec864675bbf334becaffb4fa11389c7
+git cherry-pick b5aefc0c9c0eafe78468eab0c73b498c4ebb1509
 echo "----------------------------------------"
 echo "STE-OMX Fix Streaming Video"
-git cherry-pick 275fd38bbfd35ef0b69e70f1e61f8b6fce563cd0
+git cherry-pick 292d745a688ff8672b50fc817a40eb22eded1c3a
+echo "----------------------------------------"
+echo " Revert DO NOT MERGE: Camera: Adjust pointers to ANW buffers to avoid infoleak"
+git cherry-pick 3b1a765b2fd107547033f8b18ee0a3a31d7e8206
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/base

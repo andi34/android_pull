@@ -1,0 +1,179 @@
+From 3b1a765b2fd107547033f8b18ee0a3a31d7e8206 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sun, 24 Sep 2017 19:07:46 +0200
+Subject: [PATCH 4/4] Revert "DO NOT MERGE: Camera: Adjust pointers to ANW
+ buffers to avoid infoleak"
+
+This reverts commit 90272b12232275caed0db017d7bc673c6b221c0c.
+---
+ camera/ICameraRecordingProxy.cpp                   |  6 +----
+ include/camera/ICameraRecordingProxy.h             |  6 -----
+ include/media/stagefright/CameraSource.h           |  3 ---
+ media/libstagefright/CameraSource.cpp              | 31 ----------------------
+ .../api1/client2/StreamingProcessor.cpp            | 12 +++------
+ 5 files changed, 4 insertions(+), 54 deletions(-)
+
+diff --git a/camera/ICameraRecordingProxy.cpp b/camera/ICameraRecordingProxy.cpp
+index 16a3d02..7223b6d 100644
+--- a/camera/ICameraRecordingProxy.cpp
++++ b/camera/ICameraRecordingProxy.cpp
+@@ -31,11 +31,6 @@ enum {
+     RELEASE_RECORDING_FRAME,
+ };
+ 
+-uint8_t ICameraRecordingProxy::baseObject = 0;
+-
+-size_t ICameraRecordingProxy::getCommonBaseAddress() {
+-    return (size_t)&baseObject;
+-}
+ 
+ class BpCameraRecordingProxy: public BpInterface<ICameraRecordingProxy>
+ {
+@@ -111,3 +106,4 @@ status_t BnCameraRecordingProxy::onTransact(
+ // ----------------------------------------------------------------------------
+ 
+ }; // namespace android
++
+diff --git a/include/camera/ICameraRecordingProxy.h b/include/camera/ICameraRecordingProxy.h
+index 4edf9cd..2aac284 100644
+--- a/include/camera/ICameraRecordingProxy.h
++++ b/include/camera/ICameraRecordingProxy.h
+@@ -83,12 +83,6 @@ public:
+     virtual status_t        startRecording(const sp<ICameraRecordingProxyListener>& listener) = 0;
+     virtual void            stopRecording() = 0;
+     virtual void            releaseRecordingFrame(const sp<IMemory>& mem) = 0;
+-
+-    // b/28466701
+-    static  size_t          getCommonBaseAddress();
+-  private:
+-
+-    static  uint8_t         baseObject;
+ };
+ 
+ // ----------------------------------------------------------------------------
+diff --git a/include/media/stagefright/CameraSource.h b/include/media/stagefright/CameraSource.h
+index 32f468b..a829916 100644
+--- a/include/media/stagefright/CameraSource.h
++++ b/include/media/stagefright/CameraSource.h
+@@ -232,9 +232,6 @@ private:
+     status_t checkFrameRate(const CameraParameters& params,
+                     int32_t frameRate);
+ 
+-    static void adjustIncomingANWBuffer(IMemory* data);
+-    static void adjustOutgoingANWBuffer(IMemory* data);
+-
+     void stopCameraRecording();
+     void releaseCamera();
+     status_t reset();
+diff --git a/media/libstagefright/CameraSource.cpp b/media/libstagefright/CameraSource.cpp
+index efa7c42..45e35e4 100644
+--- a/media/libstagefright/CameraSource.cpp
++++ b/media/libstagefright/CameraSource.cpp
+@@ -25,10 +25,8 @@
+ #include <media/stagefright/MediaDefs.h>
+ #include <media/stagefright/MediaErrors.h>
+ #include <media/stagefright/MetaData.h>
+-#include <media/hardware/HardwareAPI.h>
+ #include <camera/Camera.h>
+ #include <camera/CameraParameters.h>
+-#include <camera/ICameraRecordingProxy.h>
+ #include <gui/Surface.h>
+ #include <utils/String8.h>
+ #include <cutils/properties.h>
+@@ -769,8 +767,6 @@ void CameraSource::releaseQueuedFrames() {
+     List<sp<IMemory> >::iterator it;
+     while (!mFramesReceived.empty()) {
+         it = mFramesReceived.begin();
+-        // b/28466701
+-        adjustOutgoingANWBuffer(it->get());
+         releaseRecordingFrame(*it);
+         mFramesReceived.erase(it);
+         ++mNumFramesDropped;
+@@ -791,9 +787,6 @@ void CameraSource::signalBufferReturned(MediaBuffer *buffer) {
+     for (List<sp<IMemory> >::iterator it = mFramesBeingEncoded.begin();
+          it != mFramesBeingEncoded.end(); ++it) {
+         if ((*it)->pointer() ==  buffer->data()) {
+-            // b/28466701
+-            adjustOutgoingANWBuffer(it->get());
+-
+             releaseOneRecordingFrame((*it));
+             mFramesBeingEncoded.erase(it);
+             ++mNumFramesEncoded;
+@@ -898,10 +891,6 @@ void CameraSource::dataCallbackTimestamp(int64_t timestampUs,
+     ++mNumFramesReceived;
+ 
+     CHECK(data != NULL && data->size() > 0);
+-
+-    // b/28466701
+-    adjustIncomingANWBuffer(data.get());
+-
+     mFramesReceived.push_back(data);
+     int64_t timeUs = mStartTimeUs + (timestampUs - mFirstFrameTimeUs);
+     mFrameTimes.push_back(timeUs);
+@@ -915,26 +904,6 @@ bool CameraSource::isMetaDataStoredInVideoBuffers() const {
+     return mIsMetaDataStoredInVideoBuffers;
+ }
+ 
+-void CameraSource::adjustIncomingANWBuffer(IMemory* data) {
+-    uint8_t *payload =
+-            reinterpret_cast<uint8_t*>(data->pointer());
+-    if (*(uint32_t*)payload == kMetadataBufferTypeGrallocSource) {
+-        buffer_handle_t* pBuffer = (buffer_handle_t*)(payload + 4);
+-        *pBuffer = (buffer_handle_t)((uint8_t*)(*pBuffer) +
+-                ICameraRecordingProxy::getCommonBaseAddress());
+-    }
+-}
+-
+-void CameraSource::adjustOutgoingANWBuffer(IMemory* data) {
+-    uint8_t *payload =
+-            reinterpret_cast<uint8_t*>(data->pointer());
+-    if (*(uint32_t*)payload == kMetadataBufferTypeGrallocSource) {
+-        buffer_handle_t* pBuffer = (buffer_handle_t*)(payload + 4);
+-        *pBuffer = (buffer_handle_t)((uint8_t*)(*pBuffer) -
+-                ICameraRecordingProxy::getCommonBaseAddress());
+-    }
+-}
+-
+ CameraSource::ProxyListener::ProxyListener(const sp<CameraSource>& source) {
+     mSource = source;
+ }
+diff --git a/services/camera/libcameraservice/api1/client2/StreamingProcessor.cpp b/services/camera/libcameraservice/api1/client2/StreamingProcessor.cpp
+index f6834c5..6076dae 100644
+--- a/services/camera/libcameraservice/api1/client2/StreamingProcessor.cpp
++++ b/services/camera/libcameraservice/api1/client2/StreamingProcessor.cpp
+@@ -29,7 +29,6 @@
+ #include <utils/Trace.h>
+ #include <gui/Surface.h>
+ #include <media/hardware/MetadataBufferType.h>
+-#include <camera/ICameraRecordingProxy.h>
+ 
+ #include "common/CameraDeviceBase.h"
+ #include "api1/Camera2Client.h"
+@@ -709,10 +708,7 @@ status_t StreamingProcessor::processRecordingFrame() {
+         uint8_t *data = (uint8_t*)heap->getBase() + offset;
+         uint32_t type = kMetadataBufferTypeGrallocSource;
+         *((uint32_t*)data) = type;
+-        buffer_handle_t* pBuffer = (buffer_handle_t*)(data + 4);
+-        *pBuffer = (buffer_handle_t)(
+-                (uint8_t*)imgBuffer.mGraphicBuffer->handle -
+-                ICameraRecordingProxy::getCommonBaseAddress());
++        *((buffer_handle_t*)(data + 4)) = imgBuffer.mGraphicBuffer->handle;
+         ALOGVV("%s: Camera %d: Sending out buffer_handle_t %p",
+                 __FUNCTION__, mId,
+                 imgBuffer.mGraphicBuffer->handle);
+@@ -758,10 +754,8 @@ void StreamingProcessor::releaseRecordingFrame(const sp<IMemory>& mem) {
+     }
+ 
+     // Release the buffer back to the recording queue
+-    // b/28466701
+-    buffer_handle_t* pBuffer = (buffer_handle_t*)(data + 4);
+-    buffer_handle_t imgHandle = (buffer_handle_t)((uint8_t*)(*pBuffer) +
+-            ICameraRecordingProxy::getCommonBaseAddress());
++
++    buffer_handle_t imgHandle = *(buffer_handle_t*)(data + 4);
+ 
+     size_t itemIndex;
+     for (itemIndex = 0; itemIndex < mRecordingBuffers.size(); itemIndex++) {
+-- 
+2.7.4
+

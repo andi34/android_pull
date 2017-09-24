@@ -1,7 +1,7 @@
-From 85b75eecbec3a585e1f8913b42ef108a7d3c7a46 Mon Sep 17 00:00:00 2001
+From 292d745a688ff8672b50fc817a40eb22eded1c3a Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
 Date: Fri, 10 Oct 2014 16:25:16 -0500
-Subject: [PATCH 3/3] STE-OMX Fix Streaming Video
+Subject: [PATCH 3/4] STE-OMX Fix Streaming Video
 
 -Don't store metadata in buffers. We don't support that at all.
 

@@ -1,7 +1,7 @@
-From 4206a6fd860e4ea1f8358d3062ed19d3e9c3fa64 Mon Sep 17 00:00:00 2001
+From b5aefc0c9c0eafe78468eab0c73b498c4ebb1509 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
 Date: Fri, 19 Sep 2014 15:39:44 -0500
-Subject: [PATCH 2/3] STE-OMX-getSupportedProfileLevel-fix
+Subject: [PATCH 2/4] STE-OMX-getSupportedProfileLevel-fix
 
 PS4: Meticulus note:
 -I suspected that including headers like on previous PS wasn't a good idea.
