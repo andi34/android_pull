@@ -31,11 +31,6 @@ cd $SAUCE/build
 echo "----------------------------------------"
 # echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (1/2)"
 # git fetch https://gerrit.omnirom.org/android_build refs/changes/78/17478/2 && git cherry-pick FETCH_HEAD
-echo "make bootzip"
-git fetch https://gerrit.omnirom.org/android_build refs/changes/63/14663/1 && git cherry-pick FETCH_HEAD
-git fetch https://gerrit.omnirom.org/android_build refs/changes/64/14664/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 # cd $SAUCE/bionic
 # echo "----------------------------------------"
 # echo "Fix error: ro.build.fingerprint cannot exceed 91 bytes (2/2)"
