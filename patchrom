@@ -6,7 +6,7 @@ SAUCE=~/android/android-4.4
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/espressowifi
 echo "----------------------------------------"
-git fetch ssh://Android-Andi@gerrit.omnirom.org:29418/android_device_samsung_espressowifi refs/changes/57/25657/2 && git cherry-pick FETCH_HEAD
+echo "nothing..."
 echo "----------------------------------------"
 echo ""
 echo "Done!"
