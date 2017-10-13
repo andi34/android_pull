@@ -21,8 +21,6 @@ git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh
