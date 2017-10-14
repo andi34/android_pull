@@ -3,13 +3,6 @@
 SAUCE=~/android/android-4.4
 
 # Let's apply all commits!
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh

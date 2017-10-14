@@ -1,0 +1,42 @@
+From 331cdaa8c8a87ab834bf10df114b11bbf3038c03 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Wed, 28 May 2014 14:27:57 +0200
+Subject: [PATCH] espresso: Enable app moving support
+
+Change-Id: I71cb18aa8765dc26f3c6ac4dbb4ea3c9931afdca
+---
+ BoardConfigOmni.mk                                                   | 5 ++++-
+ .../aosp-common/frameworks/base/core/res/res/xml/storage_list.xml    | 3 ++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/BoardConfigOmni.mk b/BoardConfigOmni.mk
+index 02222c0..f03036f 100644
+--- a/BoardConfigOmni.mk
++++ b/BoardConfigOmni.mk
+@@ -41,4 +41,7 @@ BOARD_SEPOLICY_UNION += \
+     file_contexts \
+     property_contexts \
+     property.te \
+-    variant_setup.te
+\ No newline at end of file
++    variant_setup.te
++
++# External apps on SD
++TARGET_EXTERNAL_APPS = sdcard1
+diff --git a/overlay/aosp-common/frameworks/base/core/res/res/xml/storage_list.xml b/overlay/aosp-common/frameworks/base/core/res/res/xml/storage_list.xml
+index 3178b6d..63c452c 100644
+--- a/overlay/aosp-common/frameworks/base/core/res/res/xml/storage_list.xml
++++ b/overlay/aosp-common/frameworks/base/core/res/res/xml/storage_list.xml
+@@ -42,7 +42,8 @@
+     <storage android:mountPoint="/storage/sdcard1"
+              android:storageDescription="@string/storage_sd_card"
+              android:primary="false"
+-             android:removable="true" />
++             android:removable="true"
++             android:externalApps="true" />
+ 
+     <storage android:mountPoint="/storage/usbdisk0"
+              android:storageDescription="@string/storage_usb"
+-- 
+2.7.4
+
