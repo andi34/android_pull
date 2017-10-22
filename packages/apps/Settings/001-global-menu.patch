@@ -1,0 +1,230 @@
+From ced93710f37152c96b25927ebaaf092d4cffd913 Mon Sep 17 00:00:00 2001
+From: fusionjack <dogfight60-fusionjack@yahoo.de>
+Date: Sun, 08 Feb 2015 23:03:12 +0100
+Subject: [PATCH] Settings: Slim Global Menu (2/2)
+
+Forward port from SlimKat
+
+Change-Id: I061029551794f1674bb92104768e283b0444fce7
+---
+
+diff --git a/res/values/slim_arrays.xml b/res/values/slim_arrays.xml
+index 8ac0a2e..4d64d66 100644
+--- a/res/values/slim_arrays.xml
++++ b/res/values/slim_arrays.xml
+@@ -1901,4 +1901,27 @@
+         <item>zw</item>
+     </string-array>
+ 
++    <!-- Slim's Global Reboot Menu -->
++    <string-array name="shortcut_action_power_menu_entries">
++        <item>@string/shortcut_action_airplane</item>
++        <item>@string/shortcut_action_app</item>
++        <item>@string/shortcut_action_power_off</item>
++        <item>@string/shortcut_action_reboot</item>
++        <item>@string/shortcut_action_screenshot</item>
++        <item>@string/shortcut_action_sound</item>
++        <item>@string/shortcut_action_users</item>
++        <item>@string/shortcut_action_lockdown</item>
++    </string-array>
++
++    <string-array name="shortcut_action_power_menu_values" translatable="false">
++        <item>**airplane**</item>
++        <item>**app**</item>
++        <item>**poweroff**</item>
++        <item>**reboot**</item>
++        <item>**screenshot**</item>
++        <item>**sound**</item>
++        <item>**users**</item>
++        <item>**lockdown**</item>
++    </string-array>
++
+ </resources>
+diff --git a/res/values/slim_strings.xml b/res/values/slim_strings.xml
+index be7b73e..ccfa0ee 100644
+--- a/res/values/slim_strings.xml
++++ b/res/values/slim_strings.xml
+@@ -567,6 +567,14 @@
+     <string name="shortcut_action_ring_vib">Ring/Vib</string>
+     <string name="shortcut_action_ring_silent">Ring/Silent</string>
+     <string name="shortcut_action_ring_vib_silent">Ring/Vib/Silent</string>
++
++    <string name="shortcut_action_airplane">Airplane mode</string>
++    <string name="shortcut_action_power_off">Power off</string>
++    <string name="shortcut_action_reboot">Reboot</string>
++    <string name="shortcut_action_sound">Sound</string>
++    <string name="shortcut_action_users">Users</string>
++    <string name="shortcut_action_lockdown">Lock now</string>
++
+     <string name="shortcut_action_longpress">Longpress:</string>
+     <string name="shortcut_action_select_action_longpress">Choose longpress action:</string>
+     <string name="shortcut_action_select_action">Choose action:</string>
+@@ -728,6 +736,7 @@
+ 
+     <!-- Navigation settings -->
+     <string name="navigation_settings_options_title">Navigation options</string>
++    <string name="power_menu_title">Global menu</string>
+ 
+     <!-- Hardware keys -->
+     <string name="button_keys_title">Hardware Buttons</string>
+diff --git a/res/xml/slim_navigation_settings.xml b/res/xml/slim_navigation_settings.xml
+index b093b6a..2d660cb 100644
+--- a/res/xml/slim_navigation_settings.xml
++++ b/res/xml/slim_navigation_settings.xml
+@@ -44,4 +44,17 @@
+                 android:targetClass="com.slim.device.settings.ScreenOffGestureSettings" />
+     </Preference>
+ 
++    <PreferenceScreen
++        android:key="navbar_targets_settings"
++        android:fragment="com.android.settings.slim.dslv.ActionListViewSettings"
++        android:title="@string/power_menu_title">
++            <extra android:name="actionMode" android:value="5" />
++            <extra android:name="maxAllowedActions" android:value="6" />
++            <extra android:name="disableLongpress" android:value="true" />
++            <extra android:name="disableDeleteLastEntry" android:value="true" />
++            <extra android:name="actionValues" android:value="shortcut_action_power_menu_values" />
++            <extra android:name="actionEntries" android:value="shortcut_action_power_menu_entries" />
++            <extra android:name="fragment" android:value="com.android.settings.slim.fragments.PowerMenuFragment" />
++    </PreferenceScreen>
++
+ </PreferenceScreen>
+diff --git a/src/com/android/settings/slim/dslv/ActionListViewSettings.java b/src/com/android/settings/slim/dslv/ActionListViewSettings.java
+index e4dbc2b..7d221fc 100644
+--- a/src/com/android/settings/slim/dslv/ActionListViewSettings.java
++++ b/src/com/android/settings/slim/dslv/ActionListViewSettings.java
+@@ -61,6 +61,7 @@
+ import com.android.internal.util.slim.ActionConfig;
+ import com.android.internal.util.slim.ActionConstants;
+ import com.android.internal.util.slim.ActionHelper;
++import com.android.internal.util.slim.PolicyHelper;
+ import com.android.internal.util.slim.ImageHelper;
+ import com.android.internal.util.slim.DeviceUtils;
+ import com.android.internal.util.slim.DeviceUtils.FilteredDeviceFeaturesArray;
+@@ -564,12 +565,12 @@
+             case PIE_SECOND:
+                 return ActionHelper.getPieSecondLayerConfigWithDescription(
+                     mActivity, mActionValuesKey, mActionEntriesKey);
++            case POWER_MENU_SHORTCUT:
++                return PolicyHelper.getPowerMenuConfigWithDescription(
++                    mActivity, mActionValuesKey, mActionEntriesKey);
+ /* Disabled for now till all features are back. Enable it step per step!!!!!!
+             case NAV_RING:
+                 return ActionHelper.getNavRingConfigWithDescription(
+-                    mActivity, mActionValuesKey, mActionEntriesKey);
+-            case POWER_MENU_SHORTCUT:
+-                return PolicyHelper.getPowerMenuConfigWithDescription(
+                     mActivity, mActionValuesKey, mActionEntriesKey);
+             case SHAKE_EVENTS_DISABLED:
+                 return ActionHelper.getDisabledShakeApps(mActivity);
+@@ -592,12 +593,12 @@
+             case PIE_SECOND:
+                 ActionHelper.setPieSecondLayerConfig(mActivity, actionConfigs, reset);
+                 break;
++            case POWER_MENU_SHORTCUT:
++                PolicyHelper.setPowerMenuConfig(mActivity, actionConfigs, reset);
++                break;
+ /* Disabled for now till all features are back. Enable it step per step!!!!!!
+             case NAV_RING:
+                 ActionHelper.setNavRingConfig(mActivity, actionConfigs, reset);
+-                break;
+-            case POWER_MENU_SHORTCUT:
+-                PolicyHelper.setPowerMenuConfig(mActivity, actionConfigs, reset);
+                 break;
+             case SHAKE_EVENTS_DISABLED:
+                 ActionHelper.setDisabledShakeApps(mActivity, actionConfigs, reset);
+@@ -650,24 +651,23 @@
+             Drawable d = null;
+             String iconUri = getItem(position).getIcon();
+             if (mActionMode == POWER_MENU_SHORTCUT) {
+-/* Disabled for now till slims power menu is back!!!!!!!!!!!!!!
+                 d = ImageHelper.resize(
+                         mActivity, PolicyHelper.getPowerMenuIconImage(mActivity,
+                         getItem(position).getClickAction(),
+-                        iconUri, false), 36); */
++                        iconUri, false), 48);
+             } else {
+                 d = ImageHelper.resize(
+                         mActivity, ActionHelper.getActionIconImage(mActivity,
+                         getItem(position).getClickAction(),
+                         iconUri), 36);
+-            }
+ 
+-            if ((iconUri.equals(ActionConstants.ICON_EMPTY) &&
+-                    getItem(position).getClickAction().startsWith("**")) || (iconUri != null
+-                    && iconUri.startsWith(ActionConstants.SYSTEM_ICON_IDENTIFIER))) {
+-                if (d != null) {
+-                    d = ImageHelper.getColoredDrawable(d,
+-                            getResources().getColor(R.color.dslv_icon_dark));
++                if ((iconUri.equals(ActionConstants.ICON_EMPTY) &&
++                        getItem(position).getClickAction().startsWith("**")) || (iconUri != null
++                        && iconUri.startsWith(ActionConstants.SYSTEM_ICON_IDENTIFIER))) {
++                    if (d != null) {
++                        d = ImageHelper.getColoredDrawable(d,
++                                getResources().getColor(R.color.dslv_icon_dark));
++                    }
+                 }
+             }
+             holder.iconView.setImageBitmap(ImageHelper.drawableToBitmap(d));
+diff --git a/src/com/android/settings/slim/fragments/PowerMenuFragment.java b/src/com/android/settings/slim/fragments/PowerMenuFragment.java
+new file mode 100644
+index 0000000..27fe446
+--- /dev/null
++++ b/src/com/android/settings/slim/fragments/PowerMenuFragment.java
+@@ -0,0 +1,56 @@
++/*
++ * Copyright (C) 2013-2015 Slimroms
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.settings.slim.fragments;
++
++import android.content.res.Resources;
++import android.os.Bundle;
++import android.preference.Preference;
++import android.preference.PreferenceScreen;
++import android.preference.ListPreference;
++import android.preference.Preference.OnPreferenceChangeListener;
++import android.provider.Settings;
++import android.util.Log;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ListView;
++
++import com.android.settings.R;
++import com.android.settings.SettingsPreferenceFragment;
++
++public class PowerMenuFragment extends SettingsPreferenceFragment {
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++    }
++
++    @Override
++    public View onCreateView(LayoutInflater inflater,
++            ViewGroup container, Bundle savedInstanceState) {
++        final View view = super.onCreateView(inflater, container, savedInstanceState);
++        final ListView list = (ListView) view.findViewById(android.R.id.list);
++        // our container already takes care of the padding
++        if (list != null) {
++            int paddingTop = list.getPaddingTop();
++            int paddingBottom = list.getPaddingBottom();
++            list.setPadding(0, paddingTop, 0, paddingBottom);
++        }
++        return view;
++    }
++
++}
