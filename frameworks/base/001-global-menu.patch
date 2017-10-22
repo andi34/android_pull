@@ -1,0 +1,868 @@
+From 8d23459a5b0f3be44f4fbc31e625676208f3f820 Mon Sep 17 00:00:00 2001
+From: fusionjack <dogfight60-fusionjack@yahoo.de>
+Date: Sun, 08 Feb 2015 03:59:17 +0100
+Subject: [PATCH] Base: Slim Global Menu (1/2)
+
+Forward port from SlimKat
+
+Change-Id: Ie95c64be88a8825e9370a9bc29be7865931a889a
+---
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 3a0d31f..bee182c 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -3693,6 +3693,13 @@
+         public static final String NAVIGATION_BAR_CONFIG = "navigation_bar_config";
+ 
+         /**
++         * Config for advanced power menu
++         *
++         * @hide
++         */
++        public static final String POWER_MENU_CONFIG = "power_menu_config";
++
++        /**
+          * Wether the navbar menu button is on the left/right/both
+          * @hide
+          */
+diff --git a/core/java/com/android/internal/util/slim/PolicyConstants.java b/core/java/com/android/internal/util/slim/PolicyConstants.java
+new file mode 100644
+index 0000000..2b386b8
+--- /dev/null
++++ b/core/java/com/android/internal/util/slim/PolicyConstants.java
+@@ -0,0 +1,42 @@
++/*
++* Copyright (C) 2013-2015 SlimRoms Project
++*
++* Licensed under the Apache License, Version 2.0 (the "License");
++* you may not use this file except in compliance with the License.
++* You may obtain a copy of the License at
++*
++* http://www.apache.org/licenses/LICENSE-2.0
++*
++* Unless required by applicable law or agreed to in writing, software
++* distributed under the License is distributed on an "AS IS" BASIS,
++* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++* See the License for the specific language governing permissions and
++* limitations under the License.
++*/
++
++package com.android.internal.util.slim;
++
++public class PolicyConstants {
++
++    public static final String ACTION_POWER_OFF  = "**poweroff**";
++    public static final String ACTION_REBOOT     = "**reboot**";
++    public static final String ACTION_SCREENSHOT = "**screenshot**";
++    public static final String ACTION_AIRPLANE   = "**airplane**";
++    public static final String ACTION_SOUND      = "**sound**";
++    public static final String ACTION_USERS      = "**users**";
++    public static final String ACTION_LOCKDOWN   = "**lockdown**";
++
++    public static final String ACTION_DELIMITER  = "|";
++    public static final String ICON_EMPTY = "empty";
++    public static final String SYSTEM_ICON_IDENTIFIER = "system_shortcut=";
++
++    public static final String POWER_MENU_CONFIG_DEFAULT =
++          ACTION_POWER_OFF + ACTION_DELIMITER
++        + ICON_EMPTY       + ACTION_DELIMITER
++        + ACTION_REBOOT    + ACTION_DELIMITER
++        + ICON_EMPTY       + ACTION_DELIMITER
++        + ACTION_AIRPLANE  + ACTION_DELIMITER
++        + ICON_EMPTY       + ACTION_DELIMITER
++        + ACTION_SOUND     + ACTION_DELIMITER
++        + ICON_EMPTY       + ACTION_DELIMITER;
++}
+diff --git a/core/java/com/android/internal/util/slim/PolicyHelper.java b/core/java/com/android/internal/util/slim/PolicyHelper.java
+new file mode 100644
+index 0000000..fabfcfc
+--- /dev/null
++++ b/core/java/com/android/internal/util/slim/PolicyHelper.java
+@@ -0,0 +1,163 @@
++/*
++* Copyright (C) 2013-2015 SlimRoms Project
++*
++* Licensed under the Apache License, Version 2.0 (the "License");
++* you may not use this file except in compliance with the License.
++* You may obtain a copy of the License at
++*
++* http://www.apache.org/licenses/LICENSE-2.0
++*
++* Unless required by applicable law or agreed to in writing, software
++* distributed under the License is distributed on an "AS IS" BASIS,
++* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++* See the License for the specific language governing permissions and
++* limitations under the License.
++*/
++
++package com.android.internal.util.slim;
++
++import android.content.ContentResolver;
++import android.content.Context;
++import android.content.Intent;
++import android.content.pm.PackageManager;
++import android.content.pm.PackageManager.NameNotFoundException;
++import android.content.res.Resources;
++import android.graphics.drawable.BitmapDrawable;
++import android.graphics.drawable.Drawable;
++import android.net.Uri;
++import android.os.UserHandle;
++import android.provider.Settings;
++import android.util.Log;
++
++import java.io.File;
++import java.io.FileNotFoundException;
++import java.net.URISyntaxException;
++import java.util.ArrayList;
++
++public class PolicyHelper {
++
++    private static final String SYSTEMUI_METADATA_NAME = "com.android.systemui";
++
++    public static ArrayList<ActionConfig> getPowerMenuConfigWithDescription(
++            Context context, String values, String entries) {
++        String config = Settings.System.getStringForUser(
++                    context.getContentResolver(),
++                    Settings.System.POWER_MENU_CONFIG,
++                    UserHandle.USER_CURRENT);
++        if (config == null) {
++            config = PolicyConstants.POWER_MENU_CONFIG_DEFAULT;
++        }
++        return ConfigSplitHelper.getActionConfigValues(context, config, values, entries, true);
++    }
++
++    public static void setPowerMenuConfig(Context context,
++            ArrayList<ActionConfig> actionConfig, boolean reset) {
++        String config;
++        if (reset) {
++            config = PolicyConstants.POWER_MENU_CONFIG_DEFAULT;
++        } else {
++            config = ConfigSplitHelper.setActionConfig(actionConfig, true);
++        }
++        Settings.System.putString(context.getContentResolver(),
++                    Settings.System.POWER_MENU_CONFIG,
++                    config);
++    }
++
++    public static Drawable getPowerMenuIconImage(Context context,
++            String clickAction, String customIcon, boolean enabled) {
++        int resId = -1;
++        Drawable d = null;
++        PackageManager pm = context.getPackageManager();
++        if (pm == null) {
++            return null;
++        }
++
++        int color = context.getResources().getColor(
++                com.android.internal.R.color.global_menu_icon);
++        if (enabled) {
++            color = context.getResources().getColor(
++                    com.android.internal.R.color.global_menu_icon_enabled);
++        }
++
++        Resources systemUiResources;
++        try {
++            systemUiResources = pm.getResourcesForApplication(SYSTEMUI_METADATA_NAME);
++        } catch (Exception e) {
++            Log.e("ButtonsHelper:", "can't access systemui resources",e);
++            return null;
++        }
++
++        if (!clickAction.startsWith("**")) {
++            try {
++                String extraIconPath = clickAction.replaceAll(".*?hasExtraIcon=", "");
++                if (extraIconPath != null && !extraIconPath.isEmpty()) {
++                    File f = new File(Uri.parse(extraIconPath).getPath());
++                    if (f.exists()) {
++                        d = new BitmapDrawable(context.getResources(),
++                                f.getAbsolutePath());
++                    }
++                }
++                if (d == null) {
++                    d = pm.getActivityIcon(Intent.parseUri(clickAction, 0));
++                }
++            } catch (NameNotFoundException e) {
++                resId = systemUiResources.getIdentifier(
++                    SYSTEMUI_METADATA_NAME + ":drawable/ic_sysbar_null", null, null);
++                if (resId > 0) {
++                    d = systemUiResources.getDrawable(resId);
++                }
++            } catch (URISyntaxException e) {
++                e.printStackTrace();
++            }
++        }
++
++        if (customIcon != null && customIcon.startsWith(ActionConstants.SYSTEM_ICON_IDENTIFIER)) {
++            resId = systemUiResources.getIdentifier(customIcon.substring(
++                        ActionConstants.SYSTEM_ICON_IDENTIFIER.length()), "drawable", "android");
++            if (resId > 0) {
++                d = systemUiResources.getDrawable(resId);
++                if (d != null) {
++                    d = ImageHelper.getColoredDrawable(d, color);
++                }
++            }
++        } else if (customIcon != null && !customIcon.equals(ActionConstants.ICON_EMPTY)) {
++            File f = new File(Uri.parse(customIcon).getPath());
++            if (f.exists()) {
++                d = new BitmapDrawable(context.getResources(),
++                    ImageHelper.getRoundedCornerBitmap(
++                        new BitmapDrawable(context.getResources(),
++                        f.getAbsolutePath()).getBitmap()));
++            } else {
++                Log.e("ActionHelper:", "can't access custom icon image");
++                return null;
++            }
++        } else if (clickAction.startsWith("**")) {
++            d = getPowerMenuSystemIcon(context, clickAction);
++            if (d != null) {
++                d = ImageHelper.getColoredDrawable(d, color);
++            }
++        }
++        return d;
++    }
++
++    private static Drawable getPowerMenuSystemIcon(Context context, String clickAction) {
++        if (clickAction.equals(PolicyConstants.ACTION_POWER_OFF)) {
++            return context.getResources().getDrawable(
++                com.android.internal.R.drawable.ic_lock_power_off_alpha);
++        } else if (clickAction.equals(PolicyConstants.ACTION_REBOOT)) {
++            return context.getResources().getDrawable(
++                com.android.internal.R.drawable.ic_lock_reboot_alpha);
++        } else if (clickAction.equals(PolicyConstants.ACTION_SCREENSHOT)) {
++            return context.getResources().getDrawable(
++                com.android.internal.R.drawable.ic_lock_screenshot);
++        } else if (clickAction.equals(PolicyConstants.ACTION_AIRPLANE)) {
++            return context.getResources().getDrawable(
++                com.android.internal.R.drawable.ic_lock_airplane_mode_off_am_alpha);
++        } else if (clickAction.equals(PolicyConstants.ACTION_LOCKDOWN)) {
++            return context.getResources().getDrawable(
++                com.android.internal.R.drawable.ic_lock_lock_alpha);
++        }
++        return null;
++    }
++
++}
+diff --git a/core/res/res/drawable-hdpi/ic_lock_lock_alpha.png b/core/res/res/drawable-hdpi/ic_lock_lock_alpha.png
+index 6d1029c..3953474 100644
+--- a/core/res/res/drawable-hdpi/ic_lock_lock_alpha.png
++++ b/core/res/res/drawable-hdpi/ic_lock_lock_alpha.png
+Binary files differ
+diff --git a/core/res/res/drawable-hdpi/ic_lock_screenshot.png b/core/res/res/drawable-hdpi/ic_lock_screenshot.png
+new file mode 100644
+index 0000000..5ef76f7
+--- /dev/null
++++ b/core/res/res/drawable-hdpi/ic_lock_screenshot.png
+Binary files differ
+diff --git a/core/res/res/drawable-mdpi/ic_lock_lock_alpha.png b/core/res/res/drawable-mdpi/ic_lock_lock_alpha.png
+index 5ff3654..c43653d 100644
+--- a/core/res/res/drawable-mdpi/ic_lock_lock_alpha.png
++++ b/core/res/res/drawable-mdpi/ic_lock_lock_alpha.png
+Binary files differ
+diff --git a/core/res/res/drawable-mdpi/ic_lock_screenshot.png b/core/res/res/drawable-mdpi/ic_lock_screenshot.png
+new file mode 100644
+index 0000000..9996e72
+--- /dev/null
++++ b/core/res/res/drawable-mdpi/ic_lock_screenshot.png
+Binary files differ
+diff --git a/core/res/res/drawable-xhdpi/ic_lock_lock_alpha.png b/core/res/res/drawable-xhdpi/ic_lock_lock_alpha.png
+index 086a0ca..4208bef 100644
+--- a/core/res/res/drawable-xhdpi/ic_lock_lock_alpha.png
++++ b/core/res/res/drawable-xhdpi/ic_lock_lock_alpha.png
+Binary files differ
+diff --git a/core/res/res/drawable-xhdpi/ic_lock_screenshot.png b/core/res/res/drawable-xhdpi/ic_lock_screenshot.png
+new file mode 100644
+index 0000000..7e4c0ee
+--- /dev/null
++++ b/core/res/res/drawable-xhdpi/ic_lock_screenshot.png
+Binary files differ
+diff --git a/core/res/res/drawable-xxhdpi/ic_lock_lock_alpha.png b/core/res/res/drawable-xxhdpi/ic_lock_lock_alpha.png
+index 1b8882c..a6b578e 100644
+--- a/core/res/res/drawable-xxhdpi/ic_lock_lock_alpha.png
++++ b/core/res/res/drawable-xxhdpi/ic_lock_lock_alpha.png
+Binary files differ
+diff --git a/core/res/res/drawable-xxhdpi/ic_lock_screenshot.png b/core/res/res/drawable-xxhdpi/ic_lock_screenshot.png
+new file mode 100644
+index 0000000..0d859c3
+--- /dev/null
++++ b/core/res/res/drawable-xxhdpi/ic_lock_screenshot.png
+Binary files differ
+diff --git a/core/res/res/drawable/ic_audio_ring_notif.xml b/core/res/res/drawable/ic_audio_ring_notif.xml
+index 60a98ab..03cb2bb 100644
+--- a/core/res/res/drawable/ic_audio_ring_notif.xml
++++ b/core/res/res/drawable/ic_audio_ring_notif.xml
+@@ -20,6 +20,6 @@
+         android:viewportHeight="24.0">
+ 
+     <path
+-        android:fillColor="#8A000000"
++        android:fillColor="@color/global_menu_icon"
+         android:pathData="M11.5,22.0c1.1,0.0 2.0,-0.9 2.0,-2.0l-4.0,0.0C9.5,21.1 10.4,22.0 11.5,22.0zM18.0,16.0l0.0,-5.5c0.0,-3.1 -2.1,-5.6 -5.0,-6.3L13.0,3.5C13.0,2.7 12.3,2.0 11.5,2.0C10.7,2.0 10.0,2.7 10.0,3.5l0.0,0.7c-2.9,0.7 -5.0,3.2 -5.0,6.3L5.0,16.0l-2.0,2.0l0.0,1.0l17.0,0.0l0.0,-1.0L18.0,16.0z"/>
+ </vector>
+diff --git a/core/res/res/drawable/ic_audio_ring_notif_mute.xml b/core/res/res/drawable/ic_audio_ring_notif_mute.xml
+index 17dfa7e..9eea916 100644
+--- a/core/res/res/drawable/ic_audio_ring_notif_mute.xml
++++ b/core/res/res/drawable/ic_audio_ring_notif_mute.xml
+@@ -20,6 +20,6 @@
+         android:viewportHeight="24.0">
+ 
+     <path
+-        android:fillColor="#8A000000"
++        android:fillColor="@color/global_menu_icon"
+         android:pathData="M11.5,22.0c1.1,0.0 2.0,-0.9 2.0,-2.0l-4.0,0.0C9.5,21.1 10.4,22.0 11.5,22.0zM18.0,10.5c0.0,-3.1 -2.1,-5.6 -5.0,-6.3L13.0,3.5C13.0,2.7 12.3,2.0 11.5,2.0C10.7,2.0 10.0,2.7 10.0,3.5l0.0,0.7C9.5,4.3 9.0,4.5 8.6,4.7l9.4,9.4L18.0,10.5zM17.7,19.0l2.0,2.0l1.3,-1.3L4.3,3.0L3.0,4.3l2.9,2.9C5.3,8.2 5.0,9.3 5.0,10.5L5.0,16.0l-2.0,2.0l0.0,1.0L17.7,19.0z" />
+ </vector>
+diff --git a/core/res/res/drawable/ic_audio_ring_notif_vibrate.xml b/core/res/res/drawable/ic_audio_ring_notif_vibrate.xml
+index 2ed33ea..69ff04e 100644
+--- a/core/res/res/drawable/ic_audio_ring_notif_vibrate.xml
++++ b/core/res/res/drawable/ic_audio_ring_notif_vibrate.xml
+@@ -20,6 +20,6 @@
+         android:viewportHeight="24.0">
+ 
+     <path
+-        android:fillColor="#8A000000"
++        android:fillColor="@color/global_menu_icon"
+         android:pathData="M0.0,15.0l2.0,0.0L2.0,9.0L0.0,9.0L0.0,15.0zM3.0,17.0l2.0,0.0L5.0,7.0L3.0,7.0L3.0,17.0zM22.0,9.0l0.0,6.0l2.0,0.0L24.0,9.0L22.0,9.0zM19.0,17.0l2.0,0.0L21.0,7.0l-2.0,0.0L19.0,17.0zM16.5,3.0l-9.0,0.0C6.7,3.0 6.0,3.7 6.0,4.5l0.0,15.0C6.0,20.3 6.7,21.0 7.5,21.0l9.0,0.0c0.8,0.0 1.5,-0.7 1.5,-1.5l0.0,-15.0C18.0,3.7 17.3,3.0 16.5,3.0zM16.0,19.0L8.0,19.0L8.0,5.0l8.0,0.0L16.0,19.0z"/>
+ </vector>
+diff --git a/core/res/res/layout/global_actions_silent_mode.xml b/core/res/res/layout/global_actions_silent_mode.xml
+index a358623..446138e 100644
+--- a/core/res/res/layout/global_actions_silent_mode.xml
++++ b/core/res/res/layout/global_actions_silent_mode.xml
+@@ -30,6 +30,7 @@
+         android:focusable="true"
+         >
+         <ImageView
++            android:id="@+id/image1"
+             android:layout_width="48dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="center"
+@@ -58,6 +59,7 @@
+         android:focusable="true"
+         >
+         <ImageView
++            android:id="@+id/image2"
+             android:layout_width="48dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="center"
+@@ -87,6 +89,7 @@
+         android:focusable="true"
+         >
+         <ImageView
++            android:id="@+id/image3"
+             android:layout_width="48dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="center"
+@@ -100,4 +103,4 @@
+             android:background="@drawable/silent_mode_indicator"
+             />
+     </LinearLayout>
+-</LinearLayout>
+\ No newline at end of file
++</LinearLayout>
+diff --git a/core/res/res/values/slim_colors.xml b/core/res/res/values/slim_colors.xml
+new file mode 100644
+index 0000000..73b2269
+--- /dev/null
++++ b/core/res/res/values/slim_colors.xml
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++**
++** Copyright 2015, The SlimRoms Source Project
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++<resources>
++
++    <!-- Slim's global menu -->
++    <color name="global_menu_icon">#ff212121</color>
++    <color name="global_menu_icon_enabled">#ff009688</color>
++
++</resources>
+diff --git a/core/res/res/values/slim_symbols.xml b/core/res/res/values/slim_symbols.xml
+index 2a8804b..c96fd4d 100644
+--- a/core/res/res/values/slim_symbols.xml
++++ b/core/res/res/values/slim_symbols.xml
+@@ -177,4 +177,17 @@
+   <!-- PlatLogo -->
+   <java-symbol type="drawable" name="slim_platlogo" />
+ 
++  <!-- Config Power Menu -->
++  <java-symbol type="drawable" name="ic_lock_power_off_alpha" />
++  <java-symbol type="drawable" name="ic_lock_reboot_alpha" />
++  <java-symbol type="drawable" name="ic_lock_screenshot" />
++  <java-symbol type="drawable" name="ic_lock_airplane_mode_off_am_alpha" />
++  <java-symbol type="drawable" name="ic_lock_lock_alpha" />
++  <java-symbol type="color" name="global_menu_icon" />
++  <java-symbol type="color" name="global_menu_icon_enabled" />
++  <!-- Used to color the tri state sound options -->
++  <java-symbol type="id" name="image1" />
++  <java-symbol type="id" name="image2" />
++  <java-symbol type="id" name="image3" />
++
+ </resources>
+diff --git a/policy/src/com/android/internal/policy/impl/GlobalActions.java b/policy/src/com/android/internal/policy/impl/GlobalActions.java
+index df02d07..522b94c 100644
+--- a/policy/src/com/android/internal/policy/impl/GlobalActions.java
++++ b/policy/src/com/android/internal/policy/impl/GlobalActions.java
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 2008 The Android Open Source Project
++ * Copyright (C) 2015 The SlimRoms Project
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+@@ -21,6 +22,11 @@
+ import com.android.internal.telephony.TelephonyIntents;
+ import com.android.internal.telephony.TelephonyProperties;
+ import com.android.internal.R;
++import com.android.internal.util.slim.Action;
++import com.android.internal.util.slim.ActionConfig;
++import com.android.internal.util.slim.PolicyConstants;
++import com.android.internal.util.slim.PolicyHelper;
++import com.android.internal.util.slim.ImageHelper;
+ import com.android.internal.widget.LockPatternUtils;
+ 
+ import android.app.ActivityManager;
+@@ -219,9 +225,98 @@
+         } else {
+             mSilentModeAction = new SilentModeTriStateAction(mContext, mAudioManager, mHandler);
+         }
++
++        mItems = new ArrayList<Action>();
++
++        ArrayList<ActionConfig> powerMenuConfig =
++                PolicyHelper.getPowerMenuConfigWithDescription(
++                mContext, "shortcut_action_power_menu_values",
++                "shortcut_action_power_menu_entries");
++
++        ArraySet<String> addedKeys = new ArraySet<String>();
++        for (final ActionConfig config : powerMenuConfig) {
++            String actionKey = config.getClickAction();
++            if (addedKeys.contains(actionKey)) {
++                // If we already have added this, don't add it again.
++                continue;
++            }
++
++            Drawable enabledIcon = PolicyHelper.getPowerMenuIconImage(
++                    mContext, actionKey, config.getIcon(), true);
++            Drawable disabledIcon = PolicyHelper.getPowerMenuIconImage(
++                    mContext, actionKey, config.getIcon(), false);
++            enabledIcon = ImageHelper.resize(mContext, enabledIcon, 36);
++            disabledIcon = ImageHelper.resize(mContext, disabledIcon, 36);
++
++            if (actionKey.equals(PolicyConstants.ACTION_POWER_OFF)) {
++                mItems.add(getPowerAction(disabledIcon));
++            } else if (actionKey.equals(PolicyConstants.ACTION_REBOOT)) {
++                mItems.add(new RebootAction(disabledIcon));
++            } else if (actionKey.equals(PolicyConstants.ACTION_AIRPLANE)) {
++                constructAirPlaneModeToggle(enabledIcon, disabledIcon);
++                mItems.add(mAirplaneModeOn);
++            } else if ((actionKey.equals(PolicyConstants.ACTION_SOUND)) && (mShowSilentToggle)) {
++                mItems.add(mSilentModeAction);
++            } else if (actionKey.equals(PolicyConstants.ACTION_USERS)) {
++                addUsersToMenu(mItems);
++            } else if (actionKey.equals(PolicyConstants.ACTION_LOCKDOWN)) {
++                mItems.add(getLockdownAction(disabledIcon));
++            } else if (actionKey != null) {
++                // must be a screenshot, custom app or action shorcut
++                mItems.add(
++                    new SinglePressAction(disabledIcon, config.getClickActionDescription()) {
++                        public void onPress() {
++                            com.android.internal.util.slim.Action.processAction(
++                                mContext, config.getClickAction(), false);
++                        }
++
++                        public boolean showDuringKeyguard() {
++                            return true;
++                        }
++                        public boolean showBeforeProvisioning() {
++                            return true;
++                        }
++                    });
++            }
++            // Add here so we don't add more than one.
++            addedKeys.add(actionKey);
++        }
++
++        mAdapter = new MyAdapter();
++
++        AlertParams params = new AlertParams(mContext);
++        params.mAdapter = mAdapter;
++        params.mOnClickListener = this;
++        params.mForceInverseBackground = true;
++
++        GlobalActionsDialog dialog = new GlobalActionsDialog(mContext, params);
++        dialog.setCanceledOnTouchOutside(false); // Handled by the custom class.
++
++        dialog.getListView().setItemsCanFocus(true);
++        dialog.getListView().setLongClickable(true);
++        dialog.getListView().setOnItemLongClickListener(
++                new AdapterView.OnItemLongClickListener() {
++                    @Override
++                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
++                            long id) {
++                        final Action action = mAdapter.getItem(position);
++                        if (action instanceof LongPressAction) {
++                            return ((LongPressAction) action).onLongPress();
++                        }
++                        return false;
++                    }
++        });
++        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
++
++        dialog.setOnDismissListener(this);
++
++        return dialog;
++    }
++
++    private void constructAirPlaneModeToggle(Drawable enabledIcon, Drawable disabledIcon) {
+         mAirplaneModeOn = new ToggleAction(
+-                R.drawable.ic_lock_airplane_mode,
+-                R.drawable.ic_lock_airplane_mode_off,
++                enabledIcon,
++                disabledIcon,
+                 R.string.global_actions_toggle_airplane_mode,
+                 R.string.global_actions_airplane_mode_on_status,
+                 R.string.global_actions_airplane_mode_off_status) {
+@@ -261,83 +356,11 @@
+             }
+         };
+         onAirplaneModeChanged();
+-
+-        mItems = new ArrayList<Action>();
+-        String[] defaultActions = mContext.getResources().getStringArray(
+-                com.android.internal.R.array.config_globalActionsList);
+-
+-        ArraySet<String> addedKeys = new ArraySet<String>();
+-        for (int i = 0; i < defaultActions.length; i++) {
+-            String actionKey = defaultActions[i];
+-            if (addedKeys.contains(actionKey)) {
+-                // If we already have added this, don't add it again.
+-                continue;
+-            }
+-            if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
+-                mItems.add(getPowerAction());
+-            } else if (GLOBAL_ACTION_KEY_REBOOT.equals(actionKey)) {
+-                mItems.add(new RebootAction());
+-            } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
+-                mItems.add(mAirplaneModeOn);
+-            } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
+-                if (Settings.Global.getInt(mContext.getContentResolver(),
+-                        Settings.Global.BUGREPORT_IN_POWER_MENU, 0) != 0 && isCurrentUserOwner()) {
+-                    mItems.add(getBugReportAction());
+-                }
+-            } else if (GLOBAL_ACTION_KEY_SILENT.equals(actionKey)) {
+-                if (mShowSilentToggle) {
+-                    mItems.add(mSilentModeAction);
+-                }
+-            } else if (GLOBAL_ACTION_KEY_USERS.equals(actionKey)) {
+-                if (SystemProperties.getBoolean("fw.power_user_switcher", false)) {
+-                    addUsersToMenu(mItems);
+-                }
+-            } else if (GLOBAL_ACTION_KEY_SETTINGS.equals(actionKey)) {
+-                mItems.add(getSettingsAction());
+-            } else if (GLOBAL_ACTION_KEY_LOCKDOWN.equals(actionKey)) {
+-                mItems.add(getLockdownAction());
+-            } else {
+-                Log.e(TAG, "Invalid global action key " + actionKey);
+-            }
+-            // Add here so we don't add more than one.
+-            addedKeys.add(actionKey);
+-        }
+-
+-        mAdapter = new MyAdapter();
+-
+-        AlertParams params = new AlertParams(mContext);
+-        params.mAdapter = mAdapter;
+-        params.mOnClickListener = this;
+-        params.mForceInverseBackground = true;
+-
+-        GlobalActionsDialog dialog = new GlobalActionsDialog(mContext, params);
+-        dialog.setCanceledOnTouchOutside(false); // Handled by the custom class.
+-
+-        dialog.getListView().setItemsCanFocus(true);
+-        dialog.getListView().setLongClickable(true);
+-        dialog.getListView().setOnItemLongClickListener(
+-                new AdapterView.OnItemLongClickListener() {
+-                    @Override
+-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+-                            long id) {
+-                        final Action action = mAdapter.getItem(position);
+-                        if (action instanceof LongPressAction) {
+-                            return ((LongPressAction) action).onLongPress();
+-                        }
+-                        return false;
+-                    }
+-        });
+-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+-
+-        dialog.setOnDismissListener(this);
+-
+-        return dialog;
+     }
+ 
+     private final class RebootAction extends SinglePressAction implements LongPressAction {
+-        private RebootAction() {
+-            super(com.android.internal.R.drawable.ic_lock_reboot,
+-                R.string.global_action_reboot);
++        private RebootAction(Drawable icon) {
++            super(icon, R.string.global_action_reboot);
+         }
+ 
+         @Override
+@@ -362,64 +385,8 @@
+         }
+     }
+ 
+-    private Action getBugReportAction() {
+-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_bugreport,
+-                R.string.bugreport_title) {
+-
+-            public void onPress() {
+-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+-                builder.setTitle(com.android.internal.R.string.bugreport_title);
+-                builder.setMessage(com.android.internal.R.string.bugreport_message);
+-                builder.setNegativeButton(com.android.internal.R.string.cancel, null);
+-                builder.setPositiveButton(com.android.internal.R.string.report,
+-                        new DialogInterface.OnClickListener() {
+-                            @Override
+-                            public void onClick(DialogInterface dialog, int which) {
+-                                // don't actually trigger the bugreport if we are running stability
+-                                // tests via monkey
+-                                if (ActivityManager.isUserAMonkey()) {
+-                                    return;
+-                                }
+-                                // Add a little delay before executing, to give the
+-                                // dialog a chance to go away before it takes a
+-                                // screenshot.
+-                                mHandler.postDelayed(new Runnable() {
+-                                    @Override public void run() {
+-                                        try {
+-                                            ActivityManagerNative.getDefault()
+-                                                    .requestBugReport();
+-                                        } catch (RemoteException e) {
+-                                        }
+-                                    }
+-                                }, 500);
+-                            }
+-                        });
+-                AlertDialog dialog = builder.create();
+-                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+-                dialog.show();
+-            }
+-
+-            public boolean showDuringKeyguard() {
+-                return true;
+-            }
+-
+-            public boolean showBeforeProvisioning() {
+-                return false;
+-            }
+-
+-            @Override
+-            public String getStatus() {
+-                return mContext.getString(
+-                        com.android.internal.R.string.bugreport_status,
+-                        Build.VERSION.RELEASE,
+-                        Build.ID);
+-            }
+-        };
+-    }
+-
+-    private Action getPowerAction() {
+-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_power_off,
+-                R.string.global_action_power_off) {
++    private Action getPowerAction(Drawable icon) {
++        return new SinglePressAction(icon, R.string.global_action_power_off) {
+ 
+             @Override
+             public void onPress() {
+@@ -446,32 +413,8 @@
+         };
+     }
+ 
+-    private Action getSettingsAction() {
+-        return new SinglePressAction(com.android.internal.R.drawable.ic_settings,
+-                R.string.global_action_settings) {
+-
+-            @Override
+-            public void onPress() {
+-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+-                mContext.startActivity(intent);
+-            }
+-
+-            @Override
+-            public boolean showDuringKeyguard() {
+-                return true;
+-            }
+-
+-            @Override
+-            public boolean showBeforeProvisioning() {
+-                return true;
+-            }
+-        };
+-    }
+-
+-    private Action getLockdownAction() {
+-        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_lock,
+-                R.string.global_action_lockdown) {
++    private Action getLockdownAction(Drawable icon) {
++        return new SinglePressAction(icon, R.string.global_action_lockdown) {
+ 
+             @Override
+             public void onPress() {
+@@ -547,7 +490,9 @@
+ 
+     private void prepareDialog() {
+         refreshSilentMode();
+-        mAirplaneModeOn.updateState(mAirplaneState);
++        if (mAirplaneModeOn != null) {
++            mAirplaneModeOn.updateState(mAirplaneState);
++        }
+         mAdapter.notifyDataSetChanged();
+         mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+         if (mShowSilentToggle) {
+@@ -714,6 +659,20 @@
+             mIcon = null;
+         }
+ 
++        protected SinglePressAction(Drawable icon, int messageResId) {
++            mIconResId = 0;
++            mMessageResId = messageResId;
++            mMessage = null;
++            mIcon = icon;
++        }
++
++        protected SinglePressAction(Drawable icon, CharSequence message) {
++            mIconResId = 0;
++            mMessageResId = 0;
++            mMessage = message;
++            mIcon = icon;
++        }
++
+         protected SinglePressAction(int iconResId, Drawable icon, CharSequence message) {
+             mIconResId = iconResId;
+             mMessageResId = 0;
+@@ -762,7 +721,9 @@
+             }
+             if (mIcon != null) {
+                 icon.setImageDrawable(mIcon);
+-                icon.setScaleType(ScaleType.CENTER_CROP);
++                if (mIconResId != 0) {
++                    icon.setScaleType(ScaleType.CENTER_CROP);
++                }
+             } else if (mIconResId != 0) {
+                 icon.setImageDrawable(context.getDrawable(mIconResId));
+             }
+@@ -802,26 +763,26 @@
+         protected State mState = State.Off;
+ 
+         // prefs
+-        protected int mEnabledIconResId;
+-        protected int mDisabledIconResid;
++        protected Drawable mEnabledIcon;
++        protected Drawable mDisabledIcon;
+         protected int mMessageResId;
+         protected int mEnabledStatusMessageResId;
+         protected int mDisabledStatusMessageResId;
+ 
+         /**
+-         * @param enabledIconResId The icon for when this action is on.
+-         * @param disabledIconResid The icon for when this action is off.
++         * @param enabledIcon The icon for when this action is on.
++         * @param disabledIcon The icon for when this action is off.
+          * @param essage The general information message, e.g 'Silent Mode'
+          * @param enabledStatusMessageResId The on status message, e.g 'sound disabled'
+          * @param disabledStatusMessageResId The off status message, e.g. 'sound enabled'
+          */
+-        public ToggleAction(int enabledIconResId,
+-                int disabledIconResid,
++        public ToggleAction(Drawable enabledIcon,
++                Drawable disabledIcon,
+                 int message,
+                 int enabledStatusMessageResId,
+                 int disabledStatusMessageResId) {
+-            mEnabledIconResId = enabledIconResId;
+-            mDisabledIconResid = disabledIconResid;
++            mEnabledIcon = enabledIcon;
++            mDisabledIcon = disabledIcon;
+             mMessageResId = message;
+             mEnabledStatusMessageResId = enabledStatusMessageResId;
+             mDisabledStatusMessageResId = disabledStatusMessageResId;
+@@ -859,8 +820,7 @@
+ 
+             boolean on = ((mState == State.On) || (mState == State.TurningOn));
+             if (icon != null) {
+-                icon.setImageDrawable(context.getDrawable(
+-                        (on ? mEnabledIconResId : mDisabledIconResid)));
++                icon.setImageDrawable(on ? mEnabledIcon : mDisabledIcon);
+                 icon.setEnabled(enabled);
+             }
+ 
+@@ -908,8 +868,12 @@
+ 
+     private class SilentModeToggleAction extends ToggleAction {
+         public SilentModeToggleAction() {
+-            super(R.drawable.ic_audio_vol_mute,
+-                    R.drawable.ic_audio_vol,
++            super(ImageHelper.getColoredDrawable(
++                    mContext.getResources().getDrawable(R.drawable.ic_audio_vol_mute),
++                    mContext.getResources().getColor(R.color.global_menu_icon)),
++                    ImageHelper.getColoredDrawable(
++                    mContext.getResources().getDrawable(R.drawable.ic_audio_vol),
++                    mContext.getResources().getColor(R.color.global_menu_icon)),
+                     R.string.global_action_toggle_silent_mode,
+                     R.string.global_action_silent_mode_on_status,
+                     R.string.global_action_silent_mode_off_status);
+@@ -935,6 +899,7 @@
+     private static class SilentModeTriStateAction implements Action, View.OnClickListener {
+ 
+         private final int[] ITEM_IDS = { R.id.option1, R.id.option2, R.id.option3 };
++        private final int[] IMAGE_IDS = {R.id.image1, R.id.image2, R.id.image3 };
+ 
+         private final AudioManager mAudioManager;
+         private final Handler mHandler;
+@@ -969,6 +934,9 @@
+             for (int i = 0; i < 3; i++) {
+                 View itemView = v.findViewById(ITEM_IDS[i]);
+                 itemView.setSelected(selectedIndex == i);
++                ImageView iv = (ImageView) itemView.findViewById(IMAGE_IDS[i]);
++                iv.setImageDrawable(ImageHelper.getColoredDrawable(iv.getDrawable(),
++                        mContext.getResources().getColor(R.color.global_menu_icon)));
+                 // Set up click handler
+                 itemView.setTag(i);
+                 itemView.setOnClickListener(this);
+@@ -1076,7 +1044,9 @@
+                 handleShow();
+                 break;
+             case MESSAGE_REFRESH_AIRPLANEMODE:
+-	        mAirplaneModeOn.updateState(mAirplaneState);
++                if (mAirplaneModeOn != null) {
++                    mAirplaneModeOn.updateState(mAirplaneState);
++                }
+ 	        mAdapter.notifyDataSetChanged();
+ 	        break;
+             }
+@@ -1092,7 +1062,9 @@
+                 Settings.Global.AIRPLANE_MODE_ON,
+                 0) == 1;
+         mAirplaneState = airplaneModeOn ? ToggleAction.State.On : ToggleAction.State.Off;
+-        mAirplaneModeOn.updateState(mAirplaneState);
++        if (mAirplaneModeOn != null) {
++            mAirplaneModeOn.updateState(mAirplaneState);
++        }
+     }
+ 
+     /**
