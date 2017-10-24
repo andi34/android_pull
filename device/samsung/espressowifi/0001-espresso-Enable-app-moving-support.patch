@@ -5,14 +5,14 @@ Subject: [PATCH] espresso: Enable app moving support
 
 Change-Id: I71cb18aa8765dc26f3c6ac4dbb4ea3c9931afdca
 ---
- BoardConfigOmni.mk                                                   | 5 ++++-
+ BoardConfigCustom.mk                                                   | 5 ++++-
  .../aosp-common/frameworks/base/core/res/res/xml/storage_list.xml    | 3 ++-
  2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/BoardConfigOmni.mk b/BoardConfigOmni.mk
+diff --git a/BoardConfigCustom.mk b/BoardConfigCustom.mk
 index 02222c0..f03036f 100644
---- a/BoardConfigOmni.mk
-+++ b/BoardConfigOmni.mk
+--- a/BoardConfigCustom.mk
++++ b/BoardConfigCustom.mk
 @@ -41,4 +41,7 @@ BOARD_SEPOLICY_UNION += \
      file_contexts \
      property_contexts \
