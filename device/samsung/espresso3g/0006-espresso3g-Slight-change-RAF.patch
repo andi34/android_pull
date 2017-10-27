@@ -1,0 +1,27 @@
+From e7439409cc5242a2ecbba4bdd4c77b92b760ed0c Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Sat, 28 Nov 2015 11:51:26 -0600
+Subject: [PATCH] espresso3g: Slight change RAF
+
+RadioAccessFamily.java is odd. So odd, that I can't even explain why
+I'm adding these, just that it seems necessary to prevent any bugs in their code.
+
+Change-Id: Ie46bc694fc7001d4351569496cb3dde6d94b760c
+---
+ overlay/frameworks/base/core/res/res/values/config.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index f9fecb3..21e4735 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -63,5 +63,5 @@
+          Empty is viewed as "all".  Only used on devices which
+          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
+          format is UMTS|LTE|... -->
+-    <string translatable="false" name="config_radio_access_family">GSM | WCDMA</string>
++    <string translatable="false" name="config_radio_access_family">GSM | WCDMA | GPRS | EDGE</string>
+ </resources>
+-- 
+2.7.4
+
