@@ -1,7 +1,7 @@
 From 300b6abfecc441940c63f82d530617533a4e9f8c Mon Sep 17 00:00:00 2001
 From: CCD-1997 <dcunha.cyprien@gmail.com>
 Date: Wed, 3 Feb 2016 23:12:48 +0530
-Subject: [PATCH] espresso3g: define Radio Access Family
+Subject: [PATCH 5/6] espresso3g: define Radio Access Family
 
 Change-Id: I8782ae1c72d7f51229db371977a7099f6fa6e6a2
 Signed-off-by: CCD-1997 <dcunha.cyprien@gmail.com>

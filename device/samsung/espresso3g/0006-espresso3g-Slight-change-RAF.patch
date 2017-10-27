@@ -1,7 +1,7 @@
 From e7439409cc5242a2ecbba4bdd4c77b92b760ed0c Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sat, 28 Nov 2015 11:51:26 -0600
-Subject: [PATCH] espresso3g: Slight change RAF
+Subject: [PATCH 6/6] espresso3g: Slight change RAF
 
 RadioAccessFamily.java is odd. So odd, that I can't even explain why
 I'm adding these, just that it seems necessary to prevent any bugs in their code.

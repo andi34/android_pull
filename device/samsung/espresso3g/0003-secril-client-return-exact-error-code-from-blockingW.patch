@@ -1,7 +1,7 @@
 From b54022936e39bf2096016138724b41a2eab45250 Mon Sep 17 00:00:00 2001
 From: Basil Gello <vasek.gello@gmail.com>
 Date: Thu, 13 Jul 2017 19:36:39 +0300
-Subject: [PATCH 3/4] secril-client: return exact error code from
+Subject: [PATCH 3/6] secril-client: return exact error code from
  blockingWrite()
 
 Change-Id: Ibb6d3636648480c53a2fd19044eefe5b97f1eceb

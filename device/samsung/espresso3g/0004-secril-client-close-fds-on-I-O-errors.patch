@@ -1,7 +1,7 @@
 From 0c3bb867c24c9c2f30b0d8186cda671441b1592e Mon Sep 17 00:00:00 2001
 From: Basil Gello <vasek.gello@gmail.com>
 Date: Tue, 18 Jul 2017 22:00:01 +0300
-Subject: [PATCH 4/4] secril-client: close fds on I/O errors
+Subject: [PATCH 4/6] secril-client: close fds on I/O errors
 
 if a kernel device returns an I/O error, it is better not to chew
 the CPU resources retrying I/O operation on a not ready device.

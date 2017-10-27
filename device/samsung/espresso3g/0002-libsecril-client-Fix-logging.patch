@@ -1,7 +1,7 @@
 From 2e99b795ff8260035d52b85d87430e566e570aca Mon Sep 17 00:00:00 2001
 From: Andreas Schneider <asn@cryptomilk.org>
 Date: Wed, 8 Feb 2017 16:52:54 +0100
-Subject: [PATCH 2/4] libsecril-client: Fix logging
+Subject: [PATCH 2/6] libsecril-client: Fix logging
 
 Change-Id: I370e70ebfb8fca3d610cdf58c8ac793844d23cb8
 ---
