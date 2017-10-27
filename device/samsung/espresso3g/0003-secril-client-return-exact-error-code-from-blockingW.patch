@@ -1,0 +1,29 @@
+From b54022936e39bf2096016138724b41a2eab45250 Mon Sep 17 00:00:00 2001
+From: Basil Gello <vasek.gello@gmail.com>
+Date: Thu, 13 Jul 2017 19:36:39 +0300
+Subject: [PATCH 3/4] secril-client: return exact error code from
+ blockingWrite()
+
+Change-Id: Ibb6d3636648480c53a2fd19044eefe5b97f1eceb
+---
+ rilsrc/libsecril-client/secril-client.cpp | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/rilsrc/libsecril-client/secril-client.cpp b/rilsrc/libsecril-client/secril-client.cpp
+index 88a5d7d..85a152b 100755
+--- a/rilsrc/libsecril-client/secril-client.cpp
++++ b/rilsrc/libsecril-client/secril-client.cpp
+@@ -1546,9 +1546,8 @@ static int blockingWrite(int fd, const void *buffer, size_t len) {
+         }
+         else {
+             RLOGE ("RIL Response: unexpected error on write errno:%d", errno);
+-            printf("RIL Response: unexpected error on write errno:%d\n", errno);
+             close(fd);
+-            return -1;
++            return -errno;
+         }
+     }
+ 
+-- 
+2.7.4
+

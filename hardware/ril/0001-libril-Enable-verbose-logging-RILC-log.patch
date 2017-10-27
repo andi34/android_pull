@@ -1,0 +1,30 @@
+From 38fca2fe41eebfba3313fc2f1b65c95fd6fc557e Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Fri, 27 Oct 2017 12:55:25 +0200
+Subject: [PATCH] libril: Enable verbose logging & RILC log
+
+Change-Id: Ida3587eca39405f35357235b1ad3477d4ef3a86a
+---
+ libril/ril.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libril/ril.cpp b/libril/ril.cpp
+index d7744c0..3fe3df6 100644
+--- a/libril/ril.cpp
++++ b/libril/ril.cpp
+@@ -99,10 +99,10 @@ namespace android {
+ #define PRINTBUF_SIZE 8096
+ 
+ // Enable verbose logging
+-#define VDBG 0
++#define VDBG 1
+ 
+ // Enable RILC log
+-#define RILC_LOG 0
++#define RILC_LOG 1
+ 
+ #if RILC_LOG
+     #define startRequest           sprintf(printBuf, "(")
+-- 
+2.7.4
+

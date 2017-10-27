@@ -1,0 +1,52 @@
+From e3e180818e7f512bff00aa52f687cf0d2f4a2dfd Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Thu, 8 Sep 2016 12:56:40 -0500
+Subject: [PATCH 2/2] libsecril-shim: Fix CommandInfo struct definition by
+ using libbinder
+
+Change-Id: I5024bf2f3334ece3823a3a1aa1598bfebb54a4e6
+---
+ rilsrc/libsecril-shim/Android.mk    | 3 ++-
+ rilsrc/libsecril-shim/secril-shim.h | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/rilsrc/libsecril-shim/Android.mk b/rilsrc/libsecril-shim/Android.mk
+index 176e05e..ca978cd 100644
+--- a/rilsrc/libsecril-shim/Android.mk
++++ b/rilsrc/libsecril-shim/Android.mk
+@@ -9,7 +9,8 @@ LOCAL_SRC_FILES := \
+ LOCAL_SHARED_LIBRARIES := \
+ 	liblog \
+ 	libril \
+-	libcutils
++	libcutils \
++	libbinder
+ 
+ LOCAL_CFLAGS := -Wall -Werror
+ 
+diff --git a/rilsrc/libsecril-shim/secril-shim.h b/rilsrc/libsecril-shim/secril-shim.h
+index dd73e13..e759f61 100644
+--- a/rilsrc/libsecril-shim/secril-shim.h
++++ b/rilsrc/libsecril-shim/secril-shim.h
+@@ -11,6 +11,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#include <binder/Parcel.h>
+ #include <cutils/compiler.h>
+ #include <cutils/properties.h>
+ #include <sys/cdefs.h>
+@@ -53,8 +54,8 @@ typedef struct
+ /* TODO: Do we really need to redefine these? They aren't in a header... */
+ typedef struct {
+     int requestNumber;
+-    void (*dispatchFunction) (void *p, void *pRI);
+-    int(*responseFunction) (void *p, void *response, size_t responselen);
++    void (*dispatchFunction) (android::Parcel &p, struct RequestInfo *pRI);
++    int(*responseFunction) (android::Parcel &p, void *response, size_t responselen);
+ } CommandInfo;
+ 
+ typedef struct RequestInfo {
+-- 
+2.7.4
+

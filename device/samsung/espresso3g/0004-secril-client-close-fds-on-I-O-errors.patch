@@ -1,0 +1,60 @@
+From 0c3bb867c24c9c2f30b0d8186cda671441b1592e Mon Sep 17 00:00:00 2001
+From: Basil Gello <vasek.gello@gmail.com>
+Date: Tue, 18 Jul 2017 22:00:01 +0300
+Subject: [PATCH 4/4] secril-client: close fds on I/O errors
+
+if a kernel device returns an I/O error, it is better not to chew
+the CPU resources retrying I/O operation on a not ready device.
+
+Fixes periodical 100%-core load in audioserver after a voice call
+completion.
+
+Change-Id: I2b66ffd18c85823a11e50598a6b4e3c0245a0083
+---
+ rilsrc/libsecril-client/secril-client.cpp | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/rilsrc/libsecril-client/secril-client.cpp b/rilsrc/libsecril-client/secril-client.cpp
+index 85a152b..6236e60 100755
+--- a/rilsrc/libsecril-client/secril-client.cpp
++++ b/rilsrc/libsecril-client/secril-client.cpp
+@@ -1112,6 +1112,12 @@ error:
+     FreeToken(&(client_prv->token_pool), token);
+     ClearReqHistory(client_prv, token);
+ 
++    if (ret == -EPIPE || ret == -EBADFD) {
++        close(client_prv->sock);
++        client_prv->sock = -1;
++        client_prv->b_connect = 0;
++    }
++
+     return RIL_CLIENT_ERR_UNKNOWN;
+ }
+ 
+@@ -1268,6 +1274,23 @@ static void * RxReaderFunc(void *param) {
+                     client_prv->b_connect = 0;
+                 }
+             }
++        } else {
++            RLOGE("%s: select() returned %d\n", __FUNCTION__, -errno);
++
++            if (client_prv->sock > 0) {
++                close(client_prv->sock);
++                client_prv->sock = -1;
++                client_prv->b_connect = 0;
++            }
++
++            if (client_prv->p_rs)
++                record_stream_free(client_prv->p_rs);
++
++            // EOS
++            if (client_prv->err_cb) {
++                client_prv->err_cb(client_prv->err_cb_data, RIL_CLIENT_ERR_CONNECT);
++                return NULL;
++            }
+         }
+     }
+ 
+-- 
+2.7.4
+
