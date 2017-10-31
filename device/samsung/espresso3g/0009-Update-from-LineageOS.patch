@@ -1,0 +1,81 @@
+From d76adc025e30693ba0a1a9ebb44c2ba6f6176802 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Tue, 31 Oct 2017 10:13:32 +0100
+Subject: [PATCH 4/4] Update from LineageOS
+
+Change-Id: I2c1d3d2f15a610f3f3bc8e9982083eff74645b9e
+---
+ rilsrc/libsecril-client/Android.mk        | 5 ++---
+ rilsrc/libsecril-client/secril-client.cpp | 8 ++++++++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/rilsrc/libsecril-client/Android.mk b/rilsrc/libsecril-client/Android.mk
+index 5dcc0d4..ff66973 100755
+--- a/rilsrc/libsecril-client/Android.mk
++++ b/rilsrc/libsecril-client/Android.mk
+@@ -2,20 +2,19 @@
+ 
+ LOCAL_PATH:= $(call my-dir)
+ include $(CLEAR_VARS)
+-
+ LOCAL_MODULE_TAGS := optional
+ 
+ LOCAL_SRC_FILES:= \
+     secril-client.cpp
+ 
+-LOCAL_CFLAGS := -Wall -Werror
+-
+ LOCAL_SHARED_LIBRARIES := \
+     libutils \
+     libbinder \
+     libcutils \
+     libhardware_legacy
+ 
++LOCAL_CFLAGS := -Wall -Werror
++
+ LOCAL_MODULE:= libsecril-client
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/rilsrc/libsecril-client/secril-client.cpp b/rilsrc/libsecril-client/secril-client.cpp
+index 004270b..56351a0 100755
+--- a/rilsrc/libsecril-client/secril-client.cpp
++++ b/rilsrc/libsecril-client/secril-client.cpp
+@@ -139,6 +139,7 @@ static int processRxBuffer(RilClientPrv *prv, void *buffer, size_t buflen);
+ static uint32_t AllocateToken(uint32_t *token_pool);
+ static void FreeToken(uint32_t *token_pool, uint32_t token);
+ static uint8_t IsValidToken(uint32_t *token_pool, uint32_t token);
++static void DeallocateToken(uint32_t *token_pool, uint32_t token);
+ static int blockingWrite(int fd, const void *buffer, size_t len);
+ static int RecordReqHistory(RilClientPrv *prv, int token, uint32_t id);
+ static void ClearReqHistory(RilClientPrv *prv, int token);
+@@ -1063,6 +1064,7 @@ static int SendOemRequestHookRaw(HRilClient client, int req_id, char *data, size
+     uint32_t header = 0;
+     android::Parcel p;
+     RilClientPrv *client_prv;
++    int maxfd = -1;
+ 
+     unsigned int check_req_id = req_id;
+ 
+@@ -1204,6 +1206,7 @@ static char ConvertAudioPath(AudioPath path) {
+ static void * RxReaderFunc(void *param) {
+     RilClientPrv *client_prv = (RilClientPrv *)param;
+     int maxfd = 0;
++    int token = 0;
+     void *p_record = NULL;
+     size_t recordlen = 0;
+     int ret = 0;
+@@ -1553,6 +1556,11 @@ static RilOnComplete FindReqHandler(RilClientPrv *prv, int token, uint32_t *id)
+ }
+ 
+ 
++static void DeallocateToken(uint32_t *token_pool, uint32_t token) {
++    *token_pool &= !token;
++}
++
++
+ static int blockingWrite(int fd, const void *buffer, size_t len) {
+     size_t writeOffset = 0;
+     const uint8_t *toWrite;
+-- 
+2.7.4
+

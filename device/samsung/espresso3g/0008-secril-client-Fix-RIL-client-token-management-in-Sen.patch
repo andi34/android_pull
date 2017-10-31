@@ -1,0 +1,54 @@
+From b213020141988fd7e1388102e9657cf2e94e0946 Mon Sep 17 00:00:00 2001
+From: Basil Gello <vasek.gello@gmail.com>
+Date: Thu, 13 Jul 2017 19:29:21 +0300
+Subject: [PATCH 3/4] secril-client: Fix RIL client token management in
+ SendOemRequestHookRaw()
+
+On some devices, like SM-T805 (Galaxy Tab S 10.5 LTE), the RIL client
+code produces errors "SendOemRequestHookRaw: No token" due to large
+amount of tokens allocated by OEM messages requiring no response from
+RIL daemon (like set call audio path, set call volume, set mite etc).
+
+The indicator of an OEM message with no response expected is:
+
+     RegisterRequestCompleteHandler(client, REQ_XXX, NULL);
+
+inside the RIL client message method. To prevent the token pool from
+overflows, the proposed patch de-registers the token and frees its call
+history if the handler for this message req_id is set to NULL.
+
+Change-Id: Id414263bf471115797cae1a9ed628249734b9347
+---
+ rilsrc/libsecril-client/secril-client.cpp | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/rilsrc/libsecril-client/secril-client.cpp b/rilsrc/libsecril-client/secril-client.cpp
+index e95378e..004270b 100755
+--- a/rilsrc/libsecril-client/secril-client.cpp
++++ b/rilsrc/libsecril-client/secril-client.cpp
+@@ -1064,6 +1064,8 @@ static int SendOemRequestHookRaw(HRilClient client, int req_id, char *data, size
+     android::Parcel p;
+     RilClientPrv *client_prv;
+ 
++    unsigned int check_req_id = req_id;
++
+     client_prv = (RilClientPrv *)(client->prv);
+ 
+     // Allocate a token.
+@@ -1102,6 +1104,13 @@ static int SendOemRequestHookRaw(HRilClient client, int req_id, char *data, size
+         goto error;
+     }
+ 
++    // check if the handler for specified event is NULL and deregister token
++    // to prevent token pool overflow
++    if(!FindReqHandler(client_prv, token, &check_req_id)) {
++        FreeToken(&(client_prv->token_pool), token);
++        ClearReqHistory(client_prv, token);
++    }
++
+     return RIL_CLIENT_ERR_SUCCESS;
+ 
+ error:
+-- 
+2.7.4
+

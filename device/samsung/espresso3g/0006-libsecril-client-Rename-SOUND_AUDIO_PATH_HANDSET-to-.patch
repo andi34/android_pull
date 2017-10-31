@@ -1,0 +1,74 @@
+From 720643a572d30e111cbedca19b5b66c412043cd6 Mon Sep 17 00:00:00 2001
+From: Andreas Schneider <asn@cryptomilk.org>
+Date: Tue, 14 Feb 2017 17:24:02 +0100
+Subject: [PATCH 1/4] libsecril-client: Rename SOUND_AUDIO_PATH_HANDSET to
+ EARPIECE
+
+This still keeps SOUND_AUDIO_PATH_HANDSET in the _AudioPath enum to not
+break the API.
+
+Change-Id: If82520ff630ceb099c570e299685caef03b0d01b
+---
+ rilsrc/libsecril-client/secril-client.cpp | 10 +++++-----
+ rilsrc/libsecril-client/secril-client.h   |  3 ++-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/rilsrc/libsecril-client/secril-client.cpp b/rilsrc/libsecril-client/secril-client.cpp
+index 6236e60..966b6ef 100755
+--- a/rilsrc/libsecril-client/secril-client.cpp
++++ b/rilsrc/libsecril-client/secril-client.cpp
+@@ -83,7 +83,7 @@ namespace android {
+ #define OEM_SND_TYPE_HEADSET        0x31 // Headset(0x30) + Voice(0x01)
+ #define OEM_SND_TYPE_BTVOICE        0x41 // BT(0x40) + Voice(0x01)
+ 
+-#define OEM_SND_AUDIO_PATH_HANDSET      0x01
++#define OEM_SND_AUDIO_PATH_EARPIECE     0x01
+ #define OEM_SND_AUDIO_PATH_HEADSET      0x02
+ #define OEM_SND_AUDIO_PATH_HFK                0x03
+ #define OEM_SND_AUDIO_PATH_BLUETOOTH    0x04
+@@ -1128,7 +1128,7 @@ static bool isValidSoundType(SoundType type) {
+ 
+ 
+ static bool isValidAudioPath(AudioPath path) {
+-    return (path >= SOUND_AUDIO_PATH_HANDSET && path <= OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF);
++    return (path >= SOUND_AUDIO_PATH_EARPIECE && path <= OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF);
+ }
+ 
+ 
+@@ -1167,8 +1167,8 @@ static char ConvertSoundType(SoundType type) {
+ 
+ static char ConvertAudioPath(AudioPath path) {
+     switch (path) {
+-        case SOUND_AUDIO_PATH_HANDSET:
+-            return OEM_SND_AUDIO_PATH_HANDSET;
++        case SOUND_AUDIO_PATH_EARPIECE:
++            return OEM_SND_AUDIO_PATH_EARPIECE;
+         case SOUND_AUDIO_PATH_HEADSET:
+             return OEM_SND_AUDIO_PATH_HEADSET;
+         case SOUND_AUDIO_PATH_SPEAKER:
+@@ -1191,7 +1191,7 @@ static char ConvertAudioPath(AudioPath path) {
+             return OEM_SND_AUDIO_PATH_BT_WB_NSEC_OFF;
+ 
+         default:
+-            return OEM_SND_AUDIO_PATH_HANDSET;
++            return OEM_SND_AUDIO_PATH_EARPIECE;
+     }
+ }
+ 
+diff --git a/rilsrc/libsecril-client/secril-client.h b/rilsrc/libsecril-client/secril-client.h
+index 01ff89b..6efeaa0 100755
+--- a/rilsrc/libsecril-client/secril-client.h
++++ b/rilsrc/libsecril-client/secril-client.h
+@@ -138,7 +138,8 @@ typedef enum _SoundType {
+  * External sound device path.
+  */
+ typedef enum _AudioPath {
+-    SOUND_AUDIO_PATH_HANDSET,
++    SOUND_AUDIO_PATH_EARPIECE,
++    SOUND_AUDIO_PATH_HANDSET = SOUND_AUDIO_PATH_EARPIECE,
+     SOUND_AUDIO_PATH_HEADSET,
+     SOUND_AUDIO_PATH_SPEAKER,
+     SOUND_AUDIO_PATH_BLUETOOTH,
+-- 
+2.7.4
+
