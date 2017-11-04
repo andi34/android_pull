@@ -1,0 +1,26 @@
+From a10d1d8bae30531845d43ee499df2e6b9d1ad518 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sat, 4 Nov 2017 15:56:49 +0100
+Subject: [PATCH 5/5] Remove Browser from Build
+
+Change-Id: I608badbcf8100edea18c8fa989914ef68f01c58d
+---
+ remove_packages/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/remove_packages/Android.mk b/remove_packages/Android.mk
+index de49ee4..c5d141d 100644
+--- a/remove_packages/Android.mk
++++ b/remove_packages/Android.mk
+@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
+ LOCAL_MODULE := RemovePackages
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_MODULE_CLASS := APPS
+-LOCAL_OVERRIDES_PACKAGES := QuickSearchBox
++LOCAL_OVERRIDES_PACKAGES := QuickSearchBox Browser
+ LOCAL_UNINSTALLABLE_MODULE := true
+ LOCAL_CERTIFICATE := PRESIGNED
+ 
+-- 
+2.7.4
+

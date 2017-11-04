@@ -4,7 +4,8 @@ ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'device/samsung/espresso3g'
-    'hardware/ril'
+    'frameworks/base'
+    'vendor/unlegacy'
 )
 
 for patches in "${PATCHREPOS[@]}"; do

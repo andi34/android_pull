@@ -1,0 +1,39 @@
+From bd0ce434973f894942245afa6ae80a55a75e9a3d Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Tue, 31 Oct 2017 12:04:01 +0100
+Subject: [PATCH] espresso3g: Update sepolicy
+
+- remove deprecated unix_socket_connect
+- fix some dumpstate denials
+
+Change-Id: Ia004766dc14982af9ada09b86e42a14d3b7cdade
+---
+ sepolicy/cpboot-daemon.te | 4 +---
+ sepolicy/rild.te          | 1 +
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/sepolicy/cpboot-daemon.te b/sepolicy/cpboot-daemon.te
+index d3f1568..f2f3ae3 100644
+--- a/sepolicy/cpboot-daemon.te
++++ b/sepolicy/cpboot-daemon.te
+@@ -15,6 +15,4 @@ allow cpboot-daemon self:capability setuid;
+ allow cpboot-daemon { block_device efs_file }:dir search;
+ 
+ # Talk to init over the property socket
+-unix_socket_connect(cpboot-daemon, property, init)
+-
+-allow cpboot-daemon radio_prop:property_service set;
++set_prop(cpboot-daemon, radio_prop)
+diff --git a/sepolicy/rild.te b/sepolicy/rild.te
+index ee58e01..dd6a6e4 100644
+--- a/sepolicy/rild.te
++++ b/sepolicy/rild.te
+@@ -1,4 +1,5 @@
+ allow rild radio_data:dir { search write remove_name getattr setattr add_name};
+ allow rild radio_data:file { getattr read write open setattr unlink create };
+ allow rild storage_file:dir search;
++allow rild dumpstate_exec:file rx_file_perms;
+ allow rild toolbox_exec:file rx_file_perms;
+-- 
+2.7.4
+

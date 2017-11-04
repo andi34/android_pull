@@ -1,0 +1,40 @@
+From 88dc5fb1f4784ca05f77f237163b7f1b4e6b4d04 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sat, 25 Mar 2017 12:45:53 +0100
+Subject: [PATCH 1/5] bootzip: fix strip on GCC4.9
+
+- check KERNEL_TOOLCHAIN_PREFIX which is defined in the build tree
+
+Thanks to Anthony King <anthonydking@slimroms.net>
+
+Change-Id: I14cf122a4e959df6b2e93b11e4c6d615c0be42eb
+Signed-off-by: Andreas Blaesius <skate4life@gmx.de>
+---
+ build/tools/releasetools/boot_flash_from_image | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/build/tools/releasetools/boot_flash_from_image b/build/tools/releasetools/boot_flash_from_image
+index 0b633f3..9ff6c75 100755
+--- a/build/tools/releasetools/boot_flash_from_image
++++ b/build/tools/releasetools/boot_flash_from_image
+@@ -116,12 +116,16 @@ if path.exists("%s/system/lib/modules" % out):
+     copytree("%s/system/lib/modules" % out, "%s/system/lib/modules" % zip_dir, symlinks=True)
+ 
+ # strip kernel modules
++prefix = environ.get('KERNEL_TOOLCHAIN_PREFIX')
+ kernel_modules = "%s/system/lib/modules" % zip_dir
+ for root, dirs, files in walk(kernel_modules):
+     for file in files:
+         fn = path.join(root, file)
+         if not path.islink(fn):
+-            call(['arm-eabi-strip', '--strip-unneeded', fn])
++            if prefix == "arm-eabi-":
++                call(['arm-eabi-strip', '--strip-unneeded', fn])
++            else:
++                call(['arm-linux-androideabi-strip', '--strip-unneeded', fn])
+ 
+ # zip package
+ with ZipFile("%s.zip" % zip_dir, "w") as zipper:
+-- 
+2.7.4
+
