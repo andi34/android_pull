@@ -3,6 +3,7 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
+    'device/samsung/espresso'
     'device/samsung/espresso3g'
 )
 

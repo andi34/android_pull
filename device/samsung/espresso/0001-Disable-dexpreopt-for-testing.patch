@@ -1,0 +1,28 @@
+From 653c738d647325b40a693055c8d672c4240f0e31 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sun, 5 Nov 2017 14:39:24 +0100
+Subject: [PATCH] Disable dexpreopt for testing
+
+Change-Id: I08dfc1352be4fe79f95a32c122199a48ed6def36
+---
+ BoardConfigCommon.mk | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index a0ab0dd..d62e3c5 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -42,10 +42,6 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 734003200
+ BOARD_USERDATAIMAGE_PARTITION_SIZE := 5003787264
+ BOARD_FLASH_BLOCK_SIZE := 4096
+ 
+-# Enable dex pre-optimization with PIC
+-WITH_DEXPREOPT := true
+-WITH_DEXPREOPT_PIC := true
+-
+ # Configure jemalloc for low-memory
+ MALLOC_SVELTE := true
+ 
+-- 
+2.7.4
+
