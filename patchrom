@@ -9,22 +9,20 @@ echo "----------------------------------------"
 git fetch https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/90/29890/6 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
+cd $SAUCE/device/samsung/espresso3g
 echo "----------------------------------------"
-#git fetch git@gitlab.com:andi34/android_device_samsung_espressowifi.git ng7.1-3.4
-#git cherry-pick 03d21989f6c9c8a7147856dac905232675b0d6cc^..fa121b505a2b690f7d463a7b008d567ea529c09b
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/base
-echo "----------------------------------------"
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-echo "----------------------------------------"
-#git fetch https://github.com/andi34/proprietary_vendor_samsung-2/tree/ng7.1-2
-#git cherry-pick fb73576268655a582921e50cf1e674ae4641256f
+if [[ -d "$SAUCE/device/samsung/espresso3g" ]]; then
+	cd $SAUCE/device/samsung/espresso3g
+	if git config remote.andi.url > /dev/null; then
+		echo "Remote exist already"
+	else
+		echo "adding remote"
+		git remote add andi git@gitlab.com:andi34/android_device_samsung_espresso3g.git
+  fi
+	git fetch andi
+	git checkout andi/ng7.1
+	cd $SAUCE
+fi
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
