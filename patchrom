@@ -4,30 +4,11 @@ SAUCE=~/android/cm-13.0
 
 # Let's apply all commits!
 echo ""
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso3g
-echo "----------------------------------------"
-echo "nothing..."
+repopick -t asb-2017.11
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/device/samsung/tuna
-echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_device_samsung_tuna refs/changes/09/190309/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/maguro
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
@@ -39,13 +20,7 @@ echo "Set metadata on bootzip"
 git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/70/2970/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/vendor/samsung
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/cm
-echo "----------------------------------------"
 echo "Vendor: add hour and minute for zip-nameing"
 git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/12/155912/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
