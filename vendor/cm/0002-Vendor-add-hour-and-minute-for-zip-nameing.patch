@@ -1,0 +1,29 @@
+From 5ede220d430b729e2bbfb25d787e0997f02bba01 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Mon, 23 Feb 2015 23:01:59 +0100
+Subject: [PATCH] Vendor: add hour and minute for zip-nameing
+
+Change-Id: I22ba68a38e8b378c507dae6cb9164ede55793401
+---
+ config/common.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 969f5a7..76e3a73 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -260,9 +260,9 @@ ifeq ($(CM_BUILDTYPE), RELEASE)
+     endif
+ else
+     ifeq ($(PRODUCT_VERSION_MINOR),0)
+-        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d-%H%M)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+     else
+-        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d-%H%M)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+     endif
+ endif
+ 
+-- 
+2.7.4
+

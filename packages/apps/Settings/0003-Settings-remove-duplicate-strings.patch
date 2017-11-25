@@ -1,0 +1,100 @@
+From 612e9eee633e182fc230eda4b10aa872fccbae91 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sat, 25 Nov 2017 22:05:17 +0100
+Subject: [PATCH 3/3] Settings: remove duplicate strings
+
+- LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true isn't defined anymore and makes
+  duplicate strings visible
+
+packages/apps/Settings/res/values-de/cm_strings.xml:980: error: Resource entry wifi_disabled_association_rejected is already defined.
+packages/apps/Settings/res/values-de/cm_aosp.xml:19: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1255: error: Resource entry wifi_display_certification_heading is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:29: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1257: error: Resource entry wifi_display_session_info is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:40: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1259: error: Resource entry wifi_display_listen_mode is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:33: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1261: error: Resource entry wifi_display_autonomous_go is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:27: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1263: error: Resource entry wifi_display_pause is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:36: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1265: error: Resource entry wifi_display_resume is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:37: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1267: error: Resource entry wifi_display_wps_config is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:47: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1269: error: Resource entry wifi_display_listen_channel is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:32: Originally defined here.
+packages/apps/Settings/res/values/strings.xml:1271: error: Resource entry wifi_display_operating_channel is already defined.
+packages/apps/Settings/res/values/cm_extra.xml:34: Originally defined here.
+packages/apps/Settings/res/values-fr/strings.xml:1330: error: Resource entry adb_over_network is already defined.
+packages/apps/Settings/res/values-fr/cm_strings.xml:511: Originally defined here.
+packages/apps/Settings/res/values-fr/strings.xml:1331: error: Resource entry adb_over_network_summary is already defined.
+packages/apps/Settings/res/values-fr/cm_strings.xml:512: Originally defined here.
+packages/apps/Settings/res/values-fr/strings.xml:1332: error: Resource entry adb_over_network_warning is already defined.
+packages/apps/Settings/res/values-fr/cm_strings.xml:513: Originally defined here.
+
+Change-Id: I6ff0c52429eb0344c35ac14f27cfff7c4c031b71
+---
+ res/values-de/cm_aosp.xml | 1 -
+ res/values-fr/strings.xml | 3 ---
+ res/values/cm_extra.xml   | 9 ---------
+ 3 files changed, 13 deletions(-)
+
+diff --git a/res/values-de/cm_aosp.xml b/res/values-de/cm_aosp.xml
+index 241ee76..83cc072 100644
+--- a/res/values-de/cm_aosp.xml
++++ b/res/values-de/cm_aosp.xml
+@@ -16,5 +16,4 @@
+ -->
+ <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+     <string name="intent_sender_data_label"><xliff:g id="data">Daten:</xliff:g></string>
+-    <string name="wifi_disabled_association_rejected">Verbindung wurde abgelehnt</string>
+ </resources>
+diff --git a/res/values-fr/strings.xml b/res/values-fr/strings.xml
+index 7dbeec2..e3624b6 100644
+--- a/res/values-fr/strings.xml
++++ b/res/values-fr/strings.xml
+@@ -1327,9 +1327,6 @@
+     <string name="clear_adb_keys" msgid="4038889221503122743">"Annuler autorisations pour débog. USB"</string>
+     <string name="bugreport_in_power" msgid="4548816486587403971">"Rapports de bug menu démarra."</string>
+     <string name="bugreport_in_power_summary" msgid="5764234382355067053">"Inclure une option permettant d\'établir un rapport de bug dans le menu de démarrage"</string>
+-    <string name="adb_over_network">ADB sur TCP/IP</string>
+-    <string name="adb_over_network_summary">"Activer le débogage sur toutes les interfaces réseau (Wifi, Usb net)"</string>
+-    <string name="adb_over_network_warning">"ATTENTION: Lorsque cette fonction est activée, votre téléphone est ouvert aux intrusions sur toutes les interfaces réseau, y compris via le réseau GSM (data) !\n\nIl est fortement conseillé de désactiver le réseau mobile avant d\'activer cette fonction.\n\nContinuer ?"</string>
+     <string name="keep_screen_on" msgid="1146389631208760344">"Rester activé"</string>
+     <string name="keep_screen_on_summary" msgid="2173114350754293009">"L\'écran ne se met jamais en veille lors du chargement."</string>
+     <string name="bt_hci_snoop_log" msgid="3340699311158865670">"Activer journaux HCI Bluetooth"</string>
+diff --git a/res/values/cm_extra.xml b/res/values/cm_extra.xml
+index faec92b..0233754 100644
+--- a/res/values/cm_extra.xml
++++ b/res/values/cm_extra.xml
+@@ -24,26 +24,17 @@
+     <string name="nfc_payment_ask"></string>
+     <string name="print_services_title"></string>
+     <string name="process_stats_ram_use"></string>
+-    <string name="wifi_display_autonomous_go"></string>
+     <string name="wifi_display_available_devices"></string>
+-    <string name="wifi_display_certification_heading"></string>
+     <string name="wifi_display_disconnect_text"></string>
+     <string name="wifi_display_disconnect_title"></string>
+-    <string name="wifi_display_listen_channel"></string>
+-    <string name="wifi_display_listen_mode"></string>
+-    <string name="wifi_display_operating_channel"></string>
+     <string name="wifi_display_paired_devices"></string>
+-    <string name="wifi_display_pause"></string>
+-    <string name="wifi_display_resume"></string>
+     <string name="wifi_display_search_for_devices"></string>
+     <string name="wifi_display_searching_for_devices"></string>
+-    <string name="wifi_display_session_info"></string>
+     <string name="wifi_display_settings_empty_list_wifi_display_disabled"></string>
+     <string name="wifi_display_settings_empty_list_wifi_display_off"></string>
+     <string name="wifi_display_status_available"></string>
+     <string name="wifi_display_summary_disabled"></string>
+     <string name="wifi_display_summary_off"></string>
+     <string name="wifi_display_summary_on"></string>
+-    <string name="wifi_display_wps_config"></string>
+     <string name="wimax_settings_summary"></string>
+ </resources>
+-- 
+2.7.4
+

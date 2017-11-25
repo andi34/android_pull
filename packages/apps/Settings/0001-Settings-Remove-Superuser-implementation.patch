@@ -1,0 +1,369 @@
+From 305adc37f5645cf143c12a2ee10793f64c1e48a7 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sat, 25 Nov 2017 16:25:25 +0100
+Subject: [PATCH 1/3] Settings: Remove Superuser implementation
+
+  Revert "Switch to new Superuser"
+    This reverts commit 5a0eb79ca2619ae9383c69793e6d833c58d866f8.
+
+  Revert "Move Superuser header below Developer Options"
+    This reverts commit c0d55dce74ecfaad750014dc013115cc3f5e957e.
+
+  Revert "SECURITY FIX: Fix package uids being reused between uninstall and reinstall of different packages."
+    This reverts commit ee69b22ba1373f56a82770119c4e006a4561b364.
+
+  Revert "Hide Superuser entry if root access for apps is disabled."
+    This reverts commit 509a7941e0bbf74da9f36c8c5099d2b1db8d3a20.
+
+  Revert "Development: Root for apps is unavailable if the su daemon isn't running"
+    This reverts commit 55ae4197a14e6fee438e7e93a267bc337f1a2be3.
+
+  Revert "Fix scrollbars appearing out of place in Superuser."
+    This reverts commit dc9cd81d0414e225532d7a1727bfb11953936ed1.
+
+Change-Id: I43f08c541575b393af0a4b183196204ebc9a7db8
+---
+ Android.mk                                         |  6 +-
+ AndroidManifest.xml                                | 79 ----------------------
+ proguard.flags                                     |  2 -
+ res/xml/settings_headers.xml                       |  7 --
+ src/com/android/settings/DevelopmentSettings.java  |  6 --
+ src/com/android/settings/Settings.java             |  6 --
+ .../superuser/MultitaskSuRequestActivity.java      |  4 --
+ .../cyanogenmod/superuser/NotifyActivity.java      |  4 --
+ .../superuser/PackageChangeReceiver.java           |  4 --
+ .../superuser/PolicyNativeFragment.java            | 64 ------------------
+ .../cyanogenmod/superuser/RequestActivity.java     |  4 --
+ .../settings/cyanogenmod/superuser/SuReceiver.java |  4 --
+ 12 files changed, 1 insertion(+), 189 deletions(-)
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/MultitaskSuRequestActivity.java
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/NotifyActivity.java
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/PackageChangeReceiver.java
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/PolicyNativeFragment.java
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/RequestActivity.java
+ delete mode 100644 src/com/android/settings/cyanogenmod/superuser/SuReceiver.java
+
+diff --git a/Android.mk b/Android.mk
+index a1439ac..274a7ec 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -19,11 +19,7 @@ LOCAL_PRIVILEGED_MODULE := true
+ 
+ LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+ 
+-LOCAL_AAPT_INCLUDE_ALL_RESOURCES := true
+-LOCAL_AAPT_FLAGS += --extra-packages com.koushikdutta.superuser:com.koushikdutta.widgets --auto-add-overlay
+-
+-LOCAL_SRC_FILES += $(call all-java-files-under,../../../external/koush/Superuser/Superuser/src) $(call all-java-files-under,../../../external/koush/Widgets/Widgets/src)
+-LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res $(LOCAL_PATH)/../../../external/koush/Widgets/Widgets/res $(LOCAL_PATH)/../../../external/koush/Superuser/Superuser/res
++LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
+ LOCAL_ASSET_DIR := $(LOCAL_PATH)/assets
+ 
+ LOCAL_JAVA_LIBRARIES += org.cyanogenmod.hardware
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 3f53b75..2549f3c 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -75,31 +75,9 @@
+     <uses-permission android:name="com.cyanogen.permission.REQUEST_KILL_SWITCH_OP" />
+ 
+     <permission
+-        android:name="android.permission.REQUEST_SUPERUSER"
+-        android:protectionLevel="signature" />
+-    <permission
+-        android:name="android.permission.REPORT_SUPERUSER"
+-        android:protectionLevel="signature" />
+-    <permission
+         android:name="cyanogenmod.permission.PROTECTED_APP"
+         android:protectionLevel="signatureOrSystem" />
+ 
+-    <permission-group
+-        android:name="android.permission-group.SUPERUSER"
+-        android:description="@string/superuser_description_more"
+-        android:icon="@drawable/ic_action_permission"
+-        android:label="@string/superuser"
+-        android:priority="10000" />
+-
+-    <permission
+-        android:name="android.permission.ACCESS_SUPERUSER"
+-        android:description="@string/superuser_description_more"
+-        android:icon="@drawable/ic_action_permission"
+-        android:label="@string/superuser_description"
+-        android:logo="@drawable/ic_action_permission"
+-        android:permissionGroup="android.permission-group.SUPERUSER"
+-        android:protectionLevel="dangerous" />
+-
+     <application android:label="@string/settings_label"
+             android:icon="@mipmap/ic_launcher_settings"
+             android:taskAffinity=""
+@@ -125,63 +103,6 @@
+             </intent-filter>
+         </receiver>
+ 
+-        <!-- Only system/su can open this activity -->
+-        <!-- This activity will then call the MultitaskSuRequestActivity to create a new task stack -->
+-        <activity
+-            android:name=".cyanogenmod.superuser.RequestActivity"
+-            android:configChanges="keyboardHidden|orientation|screenSize"
+-            android:label="@string/superuser"
+-            android:launchMode="singleTask"
+-            android:excludeFromRecents="true"
+-            android:permission="android.permission.REQUEST_SUPERUSER"
+-            android:process=":superuser"
+-            android:taskAffinity="com.android.settings.superuser"
+-            android:theme="@style/RequestThemeDark" />
+-        <!-- Only system/su can open this activity -->
+-        <!-- This is activity is started in multiuser mode when the user invoking su -->
+-        <!-- is not the device owner (user id 0). -->
+-        <activity
+-            android:name=".cyanogenmod.superuser.NotifyActivity"
+-            android:configChanges="keyboardHidden|orientation|screenSize"
+-            android:label="@string/superuser"
+-            android:launchMode="singleTask"
+-            android:excludeFromRecents="true"
+-            android:permission="android.permission.REQUEST_SUPERUSER"
+-            android:process=":superuser"
+-            android:taskAffinity="com.android.settings.superuser"
+-            android:theme="@style/RequestThemeDark" />
+-
+-        <!-- Multiple instances of this activity can be running for multiple su requests -->
+-        <activity
+-            android:name=".cyanogenmod.superuser.MultitaskSuRequestActivity"
+-            android:configChanges="keyboardHidden|orientation|screenSize"
+-            android:excludeFromRecents="true"
+-            android:exported="false"
+-            android:label="@string/request"
+-            android:process=":superuser"
+-            android:taskAffinity="com.android.settings.superuser"
+-            android:theme="@style/RequestThemeDark" />
+-
+-        <receiver
+-            android:name=".cyanogenmod.superuser.SuReceiver"
+-            android:permission="android.permission.REPORT_SUPERUSER" />
+-
+-        <receiver
+-            android:name=".cyanogenmod.superuser.PackageChangeReceiver" >
+-            <intent-filter>
+-                <action android:name="android.intent.action.PACKAGE_ADDED" />
+-                <data android:scheme="package" />
+-            </intent-filter>
+-            <intent-filter>
+-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+-                <data android:scheme="package" />
+-            </intent-filter>
+-            <intent-filter>
+-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+-                <data android:scheme="package" />
+-            </intent-filter>
+-        </receiver>
+-
+       <!-- screen color Settings Controls -->
+         <activity android:name=".ScreenColorSettings" android:label="@string/screencolor"
+             android:configChanges="orientation|keyboardHidden|screenSize"
+diff --git a/proguard.flags b/proguard.flags
+index cf2fc6d..93d5902 100644
+--- a/proguard.flags
++++ b/proguard.flags
+@@ -16,8 +16,6 @@
+ -keep class com.android.settings.nfc.*
+ -keep class com.android.settings.privacyguard.*
+ -keep class com.android.settings.cyanogenmod.*Settings
+--keep class com.koushikdutta.**
+--keep class com.android.settings.cyanogenmod.superuser.**
+ -keep class com.android.settings.search.SettingsAutoCompleteTextView { *; }
+ 
+ # Keep click responders
+diff --git a/res/xml/settings_headers.xml b/res/xml/settings_headers.xml
+index 1a6d3fb..d153c32 100644
+--- a/res/xml/settings_headers.xml
++++ b/res/xml/settings_headers.xml
+@@ -314,13 +314,6 @@
+         android:icon="@drawable/ic_settings_development"
+         android:title="@string/development_settings_title" />
+ 
+-    <!-- Superuser -->
+-    <header
+-        android:id="@+id/superuser"
+-        android:fragment="com.android.settings.cyanogenmod.superuser.PolicyNativeFragment"
+-        android:icon="@drawable/ic_action_permission"
+-        android:title="@string/superuser" />
+-
+     <!-- Performance -->
+     <header
+         android:id="@+id/performance_settings"
+diff --git a/src/com/android/settings/DevelopmentSettings.java b/src/com/android/settings/DevelopmentSettings.java
+index c213f3c..9e4a95d 100644
+--- a/src/com/android/settings/DevelopmentSettings.java
++++ b/src/com/android/settings/DevelopmentSettings.java
+@@ -755,12 +755,6 @@ public class DevelopmentSettings extends RestrictedSettingsFragment
+                 .getStringArray(R.array.root_access_entries)[Integer.valueOf(value)]);
+     }
+ 
+-    /* package */ static boolean isRootForAppsEnabled() {
+-        int value = SystemProperties.getInt(ROOT_ACCESS_PROPERTY, 1);
+-        boolean daemonState = SystemProperties.get("init.svc.su_daemon", "absent").equals("running");
+-        return daemonState && (value == 1 || value == 3);
+-    }
+-
+     private void writeRootAccessOptions(Object newValue) {
+         String oldValue = SystemProperties.get(ROOT_ACCESS_PROPERTY, "1");
+         SystemProperties.set(ROOT_ACCESS_PROPERTY, newValue.toString());
+diff --git a/src/com/android/settings/Settings.java b/src/com/android/settings/Settings.java
+index 81b8cf6..958d042 100644
+--- a/src/com/android/settings/Settings.java
++++ b/src/com/android/settings/Settings.java
+@@ -94,7 +94,6 @@ import com.android.settings.cyanogenmod.NavRing;
+ import com.android.settings.cyanogenmod.PerformanceSettings;
+ import com.android.settings.cyanogenmod.StatusBar;
+ import com.android.settings.cyanogenmod.NotificationDrawer;
+-import com.android.settings.cyanogenmod.superuser.PolicyNativeFragment;
+ import com.android.settings.deviceinfo.Memory;
+ import com.android.settings.deviceinfo.UsbSettings;
+ import com.android.settings.fuelgauge.PowerUsageSummary;
+@@ -488,7 +487,6 @@ public class Settings extends PreferenceActivity
+         ButtonSettings.class.getName(),
+         ProfilesSettings.class.getName(),
+         PerformanceSettings.class.getName(),
+-        PolicyNativeFragment.class.getName(),
+         com.android.settings.cyanogenmod.PrivacySettings.class.getName(),
+         com.android.settings.quicksettings.QuickSettingsTiles.class.getName(),
+         com.android.settings.cyanogenmod.QuietHours.class.getName(),
+@@ -787,10 +785,6 @@ public class Settings extends PreferenceActivity
+                 if (um.hasUserRestriction(UserManager.DISALLOW_MODIFY_ACCOUNTS)) {
+                     target.remove(i);
+                 }
+-            } else if (id == R.id.superuser) {
+-                if (!DevelopmentSettings.isRootForAppsEnabled()) {
+-                    target.remove(i);
+-                }
+             } else if (id == R.id.multi_sim_settings) {
+                 if (!MSimTelephonyManager.getDefault().isMultiSimEnabled())
+                     target.remove(header);
+diff --git a/src/com/android/settings/cyanogenmod/superuser/MultitaskSuRequestActivity.java b/src/com/android/settings/cyanogenmod/superuser/MultitaskSuRequestActivity.java
+deleted file mode 100644
+index 0103076..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/MultitaskSuRequestActivity.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-public class MultitaskSuRequestActivity extends com.koushikdutta.superuser.MultitaskSuRequestActivity {
+-}
+\ No newline at end of file
+diff --git a/src/com/android/settings/cyanogenmod/superuser/NotifyActivity.java b/src/com/android/settings/cyanogenmod/superuser/NotifyActivity.java
+deleted file mode 100644
+index 23aa6a7..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/NotifyActivity.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-public class NotifyActivity extends com.koushikdutta.superuser.NotifyActivity {
+-}
+\ No newline at end of file
+diff --git a/src/com/android/settings/cyanogenmod/superuser/PackageChangeReceiver.java b/src/com/android/settings/cyanogenmod/superuser/PackageChangeReceiver.java
+deleted file mode 100644
+index aa36acb..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/PackageChangeReceiver.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-public class PackageChangeReceiver extends com.koushikdutta.superuser.PackageChangeReceiver {
+-}
+\ No newline at end of file
+diff --git a/src/com/android/settings/cyanogenmod/superuser/PolicyNativeFragment.java b/src/com/android/settings/cyanogenmod/superuser/PolicyNativeFragment.java
+deleted file mode 100644
+index b7d5fc4..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/PolicyNativeFragment.java
++++ /dev/null
+@@ -1,64 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-import android.content.res.Resources;
+-import android.os.Bundle;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-import android.widget.ListView;
+-
+-import com.android.settings.Utils;
+-import com.koushikdutta.superuser.LogNativeFragment;
+-import com.koushikdutta.superuser.PolicyFragmentInternal;
+-import com.koushikdutta.superuser.SettingsNativeFragment;
+-
+-public class PolicyNativeFragment extends com.koushikdutta.superuser.PolicyNativeFragment {
+-    @Override
+-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+-        View view = super.onCreateView(inflater, container, savedInstanceState);
+-        Utils.forcePrepareCustomPreferencesList(container, view, getInternal().getListView(), false);
+-        return view;
+-    }
+-
+-    @Override
+-    public PolicyFragmentInternal createFragmentInterface() {
+-        return new FragmentInternal(this) {
+-            @Override
+-            protected LogNativeFragment createLogNativeFragment() {
+-                return new LogNativeFragment() {
+-                    @Override
+-                    public View onCreateView(LayoutInflater inflater,
+-                            ViewGroup container, Bundle savedInstanceState) {
+-                        View view = super.onCreateView(inflater, container, savedInstanceState);
+-                        adjustListPadding(getInternal().getListView());
+-                        return view;
+-                    }
+-                };
+-            }
+-
+-            @Override
+-            protected SettingsNativeFragment createSettingsNativeFragment() {
+-                return new SettingsNativeFragment() {
+-                    @Override
+-                    public View onCreateView(LayoutInflater inflater,
+-                            ViewGroup container, Bundle savedInstanceState) {
+-                        View view = super.onCreateView(inflater, container, savedInstanceState);
+-                        adjustListPadding(getInternal().getListView());
+-                        return view;
+-                    }
+-                };
+-            };
+-        };
+-    }
+-
+-    private static void adjustListPadding(ListView list) {
+-        final Resources res = list.getResources();
+-        final int paddingSide = res.getDimensionPixelSize(
+-                com.android.internal.R.dimen.preference_fragment_padding_side);
+-        final int paddingBottom = res.getDimensionPixelSize(
+-                com.android.internal.R.dimen.preference_fragment_padding_bottom);
+-
+-        list.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+-        list.setPadding(paddingSide, 0, paddingSide, paddingBottom);
+-    }
+-}
+diff --git a/src/com/android/settings/cyanogenmod/superuser/RequestActivity.java b/src/com/android/settings/cyanogenmod/superuser/RequestActivity.java
+deleted file mode 100644
+index e6deca4..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/RequestActivity.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-public class RequestActivity extends com.koushikdutta.superuser.RequestActivity {
+-}
+\ No newline at end of file
+diff --git a/src/com/android/settings/cyanogenmod/superuser/SuReceiver.java b/src/com/android/settings/cyanogenmod/superuser/SuReceiver.java
+deleted file mode 100644
+index c4f9174..0000000
+--- a/src/com/android/settings/cyanogenmod/superuser/SuReceiver.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-package com.android.settings.cyanogenmod.superuser;
+-
+-public class SuReceiver extends com.koushikdutta.superuser.SuReceiver {
+-}
+\ No newline at end of file
+-- 
+2.7.4
+

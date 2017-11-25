@@ -1,0 +1,29 @@
+From 6776c35c6a2c96b731db25649267dea4a684ee3f Mon Sep 17 00:00:00 2001
+From: syphyr <syphyr@gmail.com>
+Date: Fri, 26 Aug 2016 04:01:57 +0200
+Subject: [PATCH 1/2] Change gradient background to solid color
+
+Custom modification for lower resolution screens to prevent
+screen flickering in background.
+---
+ core/res/res/drawable/background_holo_dark.xml | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/core/res/res/drawable/background_holo_dark.xml b/core/res/res/drawable/background_holo_dark.xml
+index 7cfae4d..4bf0d05 100644
+--- a/core/res/res/drawable/background_holo_dark.xml
++++ b/core/res/res/drawable/background_holo_dark.xml
+@@ -15,8 +15,6 @@
+ -->
+ 
+ <shape xmlns:android="http://schemas.android.com/apk/res/android">
+-    <gradient
+-            android:startColor="#ff000000"
+-            android:endColor="#ff272d33"
+-            android:angle="270" />
++    <solid
++            android:color="#ff161616" />
+ </shape>
+-- 
+2.7.4
+

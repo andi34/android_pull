@@ -1,16 +1,9 @@
 #!/bin/bash
-# Your build source code directory path. In the example below the build source code directory path is in the "home" folder. If your source code directory is on an external HDD it should look like: //media/your PC username/the name of your storage device/path/to/your/source/code/folder
 SAUCE=~/android/cm-11.0
 
 # Let's apply all commits!
-echo ""
-echo "----------------------------------------"
-cd $SAUCE/vendor/cm
-echo "Vendor: add hour and minute for zip-nameing"
-git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/74/144874/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh
