@@ -1,0 +1,50 @@
+From 911fe4f574d353b7f9595fd20300db37679c854f Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Sat, 7 Oct 2017 18:21:46 +0200
+Subject: [PATCH] Lineage: remove Browser
+
+AOSP Browser has a bunch of security issues and user should install
+an up-to-date browser from PlayStore.
+
+Change-Id: Ib18ce59c9a6518f5334d81cc5463f8e9e1248b82
+---
+ config/common.mk           |  4 ++++
+ remove_packages/Android.mk | 11 +++++++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 remove_packages/Android.mk
+
+diff --git a/config/common.mk b/config/common.mk
+index 969f5a7..74aefd3 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -194,6 +194,10 @@ PRODUCT_COPY_FILES +=  \
+ 
+ endif
+ 
++# Remove packages unsafe or unused default packages
++PRODUCT_PACKAGES += \
++    RemovePackages
++
+ PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
+ 
+ PRODUCT_VERSION_MAJOR = 11
+diff --git a/remove_packages/Android.mk b/remove_packages/Android.mk
+new file mode 100644
+index 0000000..e025326
+--- /dev/null
++++ b/remove_packages/Android.mk
+@@ -0,0 +1,11 @@
++LOCAL_PATH := $(call my-dir)
++include $(CLEAR_VARS)
++
++LOCAL_MODULE := RemovePackages
++LOCAL_MODULE_TAGS := optional
++LOCAL_MODULE_CLASS := APPS
++LOCAL_OVERRIDES_PACKAGES := Browser
++LOCAL_UNINSTALLABLE_MODULE := true
++LOCAL_CERTIFICATE := PRESIGNED
++
++include $(BUILD_PREBUILT)
+-- 
+2.7.4
+
