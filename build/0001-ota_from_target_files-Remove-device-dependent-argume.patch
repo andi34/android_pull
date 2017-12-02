@@ -1,4 +1,4 @@
-From 775b2ffed02b93f38e4e8d5852fc62998ea491b5 Mon Sep 17 00:00:00 2001
+From 906de34de397b2d6bf084ad1e8ac4b394ec33f18 Mon Sep 17 00:00:00 2001
 From: Gabriele M <moto.falcon.git@gmail.com>
 Date: Tue, 10 Jan 2017 23:14:12 +0100
 Subject: [PATCH] ota_from_target_files: Remove device dependent arguments
@@ -22,7 +22,7 @@ Signed-off-by: Andreas Blaesius <skate4life@gmx.de>
  2 files changed, 21 insertions(+), 36 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index f2429d9..f7569c0 100644
+index f2429d9..2bcb49f 100644
 --- a/core/Makefile
 +++ b/core/Makefile
 @@ -1411,21 +1411,18 @@ endif
@@ -44,8 +44,8 @@ index f2429d9..f7569c0 100644
  ifdef BUILD_NO
  	$(hide) echo "build_number=$(BUILD_NO)" >> $(zip_root)/META/misc_info.txt
  endif
-+	$(hide) echo "override_device=$(OTA_SCRIPT_OVERRIDE_DEVICE)" >> $(zip_root)/META/misc_info.txt
-+	$(hide) echo "override_prop=$(OTA_SCRIPT_OVERRIDE_PROP)" >> $(zip_root)/META/misc_info.txt
++	$(hide) echo "ota_override_device=$(OTA_SCRIPT_OVERRIDE_DEVICE)" >> $(zip_root)/META/misc_info.txt
++	$(hide) echo "ota_override_prop=$(OTA_SCRIPT_OVERRIDE_PROP)" >> $(zip_root)/META/misc_info.txt
 +	$(hide) echo "ota_backuptool=$(OTA_SCRIPT_BACKUPTOOL)" >> $(zip_root)/META/misc_info.txt
  	$(call generate-userimage-prop-dictionary, $(zip_root)/META/misc_info.txt)
  ifdef PRODUCT_DEFAULT_DEV_CERTIFICATE
@@ -94,7 +94,7 @@ index f2429d9..f7569c0 100644
  	   $(BUILT_TARGET_FILES_PACKAGE) $@
  
 diff --git a/tools/releasetools/ota_from_target_files b/tools/releasetools/ota_from_target_files
-index 01f7538..0203fc6 100755
+index 01f7538..5e5ab6a 100755
 --- a/tools/releasetools/ota_from_target_files
 +++ b/tools/releasetools/ota_from_target_files
 @@ -57,17 +57,6 @@ Usage:  ota_from_target_files [flags] input_target_files output_ota_package
@@ -142,11 +142,11 @@ index 01f7538..0203fc6 100755
    OPTIONS.target_tmp = OPTIONS.input_tmp
    OPTIONS.info_dict = common.LoadInfoDict(input_zip)
  
-+  if "override_device" in OPTIONS.info_dict:
-+    OPTIONS.override_device = OPTIONS.info_dict.get("override_device")
++  if "ota_override_device" in OPTIONS.info_dict:
++    OPTIONS.override_device = OPTIONS.info_dict.get("ota_override_device")
 +
-+  if "override_prop" in OPTIONS.info_dict:
-+    OPTIONS.override_prop = OPTIONS.info_dict.get("override_prop") == "true"
++  if "ota_override_prop" in OPTIONS.info_dict:
++    OPTIONS.override_prop = OPTIONS.info_dict.get("ota_override_prop") == "true"
 +
 +  if "ota_backuptool" in OPTIONS.info_dict:
 +    OPTIONS.backuptool = OPTIONS.info_dict.get("ota_backuptool") == "true"
