@@ -4,11 +4,6 @@ SAUCE=~/android/cm-13.0
 
 # Let's apply all commits!
 echo ""
-repopick -t asb-2017.11
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/tuna
-git fetch https://review.lineageos.org/LineageOS/android_device_samsung_tuna refs/changes/09/190309/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/build
@@ -26,8 +21,6 @@ git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/
 echo "----------------------------------------"
 echo "----------------------------------------"
 echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh
