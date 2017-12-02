@@ -3,6 +3,7 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
+    'build'
     'external/koush/Superuser'
     'frameworks/base'
     'packages/apps/Settings'
