@@ -15,13 +15,6 @@ echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/67/176667/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/vendor/cm
-echo "----------------------------------------"
-echo "Vendor: add hour and minute for zip-nameing"
-echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/12/155912/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 echo ""
 echo "Done!"
 cd $SAUCE
