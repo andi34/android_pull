@@ -4,39 +4,15 @@ SAUCE=~/android/cm-14.1
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso3g
-echo "----------------------------------------"
-git fetch ssh://Android-Andi@review.lineageos.org:29418/LineageOS/android_device_samsung_espresso3g refs/changes/23/187023/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/frameworks/av
 echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/85/167785/3 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/hardware/ti/omap4
 echo "----------------------------------------"
 git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/67/176667/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/system/core
-echo "----------------------------------------"
-echo "nothing..."
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/native
-echo "----------------------------------------"
-echo "nothing..."
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/vendor/cm
@@ -51,3 +27,6 @@ echo "Done!"
 cd $SAUCE
 echo "----------------------------------------"
 echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh

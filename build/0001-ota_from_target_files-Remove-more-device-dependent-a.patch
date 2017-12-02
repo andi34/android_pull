@@ -1,0 +1,74 @@
+From 08d4ee04e3e0f5fc3aa4fa7aaf4106c9616c1767 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Fri, 13 Oct 2017 21:07:12 +0200
+Subject: [PATCH] ota_from_target_files: Remove more device dependent arguments
+
+Change-Id: Ib23b8e2aa46d0ad37c51eb4c8f586b6047a9c0b0
+---
+ core/Makefile                               | 8 ++++----
+ tools/releasetools/ota_from_target_files.py | 6 ++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index 3fb4247..184c0d5 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -2140,6 +2140,7 @@ else
+ 	$(hide) vendor/cm/build/tools/getb64key.py $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem > $(zip_root)/META/releasekey.txt
+ endif
+ 	$(hide) echo "ota_override_device=$(OTA_SCRIPT_OVERRIDE_DEVICE)" >> $(zip_root)/META/misc_info.txt
++	$(hide) echo "ota_backuptool=$(OTA_SCRIPT_BACKUPTOOL)" >> $(zip_root)/META/misc_info.txt
+ 	@# Zip everything up, preserving symlinks and placing META/ files first to
+ 	@# help early validation of the .zip file while uploading it.
+ 	$(hide) (cd $(zip_root) && \
+@@ -2191,12 +2192,12 @@ else
+ endif
+ 
+ ifeq ($(WITH_GMS),true)
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
++    OTA_SCRIPT_BACKUPTOOL := false
+ else
+ ifneq ($(CM_BUILD),)
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
++    OTA_SCRIPT_BACKUPTOOL := true
+ else
+-    $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
++    OTA_SCRIPT_BACKUPTOOL := false
+ endif
+ endif
+ 
+@@ -2218,7 +2219,6 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE)
+ 	   $(block_based) \
+ 	   -p $(HOST_OUT) \
+ 	   -k $(KEY_CERT_PAIR) \
+-	   --backup=$(backuptool) \
+ 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
+ 	   $(BUILT_TARGET_FILES_PACKAGE) $@
+ 
+diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
+index 4c54cec..9d5feff 100755
+--- a/tools/releasetools/ota_from_target_files.py
++++ b/tools/releasetools/ota_from_target_files.py
+@@ -124,10 +124,6 @@ Usage:  ota_from_target_files [flags] input_target_files output_ota_package
+ 
+   --payload_signer_args <args>
+       Specify the arguments needed for payload signer.
+-
+-  --backup <boolean>
+-      Enable or disable the execution of backuptool.sh.
+-      Disabled by default.
+ """
+ 
+ import sys
+@@ -2140,6 +2136,8 @@ def main(argv):
+ 
+   if "ota_override_device" in OPTIONS.info_dict:
+     OPTIONS.override_device = OPTIONS.info_dict.get("ota_override_device")
++  if "ota_backuptool" in OPTIONS.info_dict:
++    OPTIONS.backuptool = OPTIONS.info_dict.get("ota_backuptool") == "true"
+ 
+   ab_update = OPTIONS.info_dict.get("ab_update") == "true"
+ 
+-- 
+2.7.4
+
