@@ -6,21 +6,6 @@ SAUCE=~/android/cm-13.0
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/build
-echo "----------------------------------------"
-echo "Add back mka bootzip"
-git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/64/2964/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "Set metadata on bootzip"
-git fetch https://review.lineageos.org/LineageOS/android_build refs/changes/70/2970/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/vendor/cm
-echo "Vendor: add hour and minute for zip-nameing"
-git fetch https://review.lineageos.org/LineageOS/android_vendor_cm refs/changes/12/155912/2 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo "----------------------------------------"
 
 cd $SAUCE/pull
 . patch.sh

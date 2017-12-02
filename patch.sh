@@ -4,6 +4,7 @@ ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'build'
+    'vendor/cm'
 )
 
 for patches in "${PATCHREPOS[@]}"; do

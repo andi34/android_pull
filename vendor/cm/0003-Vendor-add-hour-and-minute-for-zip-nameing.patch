@@ -1,0 +1,29 @@
+From eda94df2e803b96d1b51636dff455cf1c598f053 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Tue, 10 Jan 2017 11:45:16 +0100
+Subject: [PATCH 3/3] Vendor: add hour and minute for zip-nameing
+
+Change-Id: I6b959fcc87dcabbf8458904dd1c04b95bdea9dc9
+---
+ config/common.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 5671283..06a80a5 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -296,9 +296,9 @@ ifeq ($(CM_BUILDTYPE), RELEASE)
+     endif
+ else
+     ifeq ($(CM_VERSION_MAINTENANCE),0)
+-        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d-%H%M)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+     else
+-        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++        LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(shell date -u +%Y%m%d-%H%M)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+     endif
+ endif
+ 
+-- 
+2.7.4
+
