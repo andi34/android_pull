@@ -51,7 +51,7 @@ index 0000000..de22f57
 +ifneq ($(TARGET_NO_KERNEL),true)
 +ifneq ($(recovery_fstab),)
 +
-+BOOT_ZIP_FROM_IMAGE_SCRIPT := ./vendor/unlegacy/build/tools/releasetools/boot_flash_from_image
++BOOT_ZIP_FROM_IMAGE_SCRIPT := ./vendor/cm/build/tools/releasetools/boot_flash_from_image
 +KERNEL_PATH := $(TARGET_KERNEL_SOURCE)/arch/arm/configs/$(TARGET_KERNEL_CONFIG)
 +
 +.PHONY: bootzip
@@ -121,11 +121,11 @@ index 0000000..8efe20d
 +    prekernel_version = search('CONFIG_LOCALVERSION=.*\n', open(defconfig, 'r').read())
 +    if prekernel_version:
 +        kernel_version = sub(r'(CONFIG_LOCALVERSION=)|\"|\n|-', "", prekernel_version.group(0))
-+        kernel_version = "%s-%s-kernel" % (kernel_version or "ua", device)
++        kernel_version = "%s-%s-kernel" % (kernel_version or "lineage", device)
 +    else:
-+        kernel_version = "ua-%s-kernel" % device
++        kernel_version = "lineage-%s-kernel" % device
 +else:
-+    kernel_version = "ua-%s-kernel" % device
++    kernel_version = "lineage-%s-kernel" % device
 +
 +updater = "%s/obj/EXECUTABLES/updater_intermediates/updater" % out
 +signer = "%s/framework/signapk.jar" % environ['ANDROID_HOST_OUT']
