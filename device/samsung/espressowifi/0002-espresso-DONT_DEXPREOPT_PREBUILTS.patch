@@ -1,0 +1,25 @@
+From 809d45136e5495bb3d619e0c8160ca9976819ae3 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Mon, 25 Dec 2017 12:14:53 +0100
+Subject: [PATCH 2/2] espresso: DONT_DEXPREOPT_PREBUILTS
+
+Change-Id: I31fae6855045488ba6f74a67f1716c3c5c43d2a3
+---
+ BoardConfigCommon.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index 34ec634..abc7399 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -48,6 +48,7 @@ BOARD_FLASH_BLOCK_SIZE := 4096
+ # Enable dex pre-optimization with PIC
+ WITH_DEXPREOPT := true
+ WITH_DEXPREOPT_PIC := true
++DONT_DEXPREOPT_PREBUILTS := true
+ 
+ # Configure jemalloc for low-memory
+ MALLOC_SVELTE := true
+-- 
+2.7.4
+
