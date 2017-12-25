@@ -1,4 +1,4 @@
-From 4f152d9122ee110dd7e200ad7a084c663bb615eb Mon Sep 17 00:00:00 2001
+From ad93c00e0f156fb6af8bd6719162ec495dbeba0e Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Mon, 13 Nov 2017 23:04:33 +0100
 Subject: [PATCH 2/3] espresso3g: compile our own libril

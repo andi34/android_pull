@@ -1,4 +1,4 @@
-From bcb78a0bcb3337de3eae654183394cbf7db28039 Mon Sep 17 00:00:00 2001
+From b731e5b12be344e78ca3b2946f418cb0f6b856f1 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Sun, 12 Nov 2017 21:23:35 +0100
 Subject: [PATCH 3/3] libril: Samsung modifications
@@ -9,12 +9,12 @@ Subject: [PATCH 3/3] libril: Samsung modifications
 
 Change-Id: I166c479b5e143ac45ac49ad42ee83aae8d3edeb6
 ---
- rilsrc/include/telephony/ril.h                     | 84 ++++++++++++++++++++++
+ rilsrc/include/telephony/ril.h                     | 84 +++++++++++++++++++++
  rilsrc/libril/Android.mk                           |  4 +-
- .../libril/include/telephony/ril_commands_vendor.h | 69 ++++++++++++++++++
- .../include/telephony/ril_unsol_commands_vendor.h  | 17 +++++
- rilsrc/libril/ril.cpp                              | 84 ++++++++++++++++++++--
- 5 files changed, 250 insertions(+), 8 deletions(-)
+ .../libril/include/telephony/ril_commands_vendor.h | 69 +++++++++++++++++
+ .../include/telephony/ril_unsol_commands_vendor.h  | 55 ++++++++++++++
+ rilsrc/libril/ril.cpp                              | 86 ++++++++++++++++++++--
+ 5 files changed, 289 insertions(+), 9 deletions(-)
  create mode 100644 rilsrc/libril/include/telephony/ril_commands_vendor.h
  create mode 100644 rilsrc/libril/include/telephony/ril_unsol_commands_vendor.h
 
@@ -217,10 +217,10 @@ index 0000000..9121407
 +    {RIL_REQUEST_HANGUP_VT, dispatchVoid, responseVoid},
 diff --git a/rilsrc/libril/include/telephony/ril_unsol_commands_vendor.h b/rilsrc/libril/include/telephony/ril_unsol_commands_vendor.h
 new file mode 100644
-index 0000000..fb2ae1d
+index 0000000..0a9b657
 --- /dev/null
 +++ b/rilsrc/libril/include/telephony/ril_unsol_commands_vendor.h
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,55 @@
 +/* //device/libs/telephony/ril_unsol_commands.h
 +**
 +** Copyright 2006, The Android Open Source Project
@@ -238,8 +238,46 @@ index 0000000..fb2ae1d
 +** limitations under the License.
 +*/
 +    {SAMSUNG_UNSOL_RESPONSE_BASE, NULL, WAKE_PARTIAL},
++    {RIL_UNSOL_RELEASE_COMPLETE_MESSAGE, responseVoid, WAKE_PARTIAL}, // 11001
++    {RIL_UNSOL_STK_SEND_SMS_RESULT, responseInts, WAKE_PARTIAL}, // 11002
++    {RIL_UNSOL_STK_CALL_CONTROL_RESULT, responseVoid, WAKE_PARTIAL}, // 11003
++    {RIL_UNSOL_DUN_CALL_STATUS, responseVoid, WAKE_PARTIAL}, // 11004
++    {11005, NULL, WAKE_PARTIAL},
++    {11006, NULL, WAKE_PARTIAL},
++    {RIL_UNSOL_O2_HOME_ZONE_INFO, responseVoid, WAKE_PARTIAL}, // 11007
++    {RIL_UNSOL_DEVICE_READY_NOTI, responseVoid, WAKE_PARTIAL}, // 11008
++    {RIL_UNSOL_GPS_NOTI, responseVoid, WAKE_PARTIAL}, // 11009
++    {RIL_UNSOL_AM, responseString, WAKE_PARTIAL}, // 11010
++    {RIL_UNSOL_DUN_PIN_CONTROL_SIGNAL, responseVoid, WAKE_PARTIAL}, // 11011
++    {RIL_UNSOL_DATA_SUSPEND_RESUME, responseInts, WAKE_PARTIAL}, // 11012
++    {RIL_UNSOL_SAP, responseVoid, WAKE_PARTIAL}, // 11013
++    {11014, NULL, WAKE_PARTIAL},
++    {RIL_UNSOL_SIM_SMS_STORAGE_AVAILALE, responseVoid, WAKE_PARTIAL}, // 11015
++    {RIL_UNSOL_HSDPA_STATE_CHANGED, responseVoid, WAKE_PARTIAL}, // 11016
++    {RIL_UNSOL_WB_AMR_STATE, responseInts, WAKE_PARTIAL}, // 11017
++    {RIL_UNSOL_TWO_MIC_STATE, responseInts, WAKE_PARTIAL}, // 11018
++    {RIL_UNSOL_DHA_STATE, responseVoid, WAKE_PARTIAL}, // 11019
++    {RIL_UNSOL_UART, responseVoid, WAKE_PARTIAL}, // 11020
++    {RIL_UNSOL_RESPONSE_HANDOVER, responseVoid, WAKE_PARTIAL}, // 11021
++    {RIL_UNSOL_IPV6_ADDR, responseVoid, WAKE_PARTIAL}, // 11022
++    {RIL_UNSOL_NWK_INIT_DISC_REQUEST, responseVoid, WAKE_PARTIAL}, // 11023
++    {RIL_UNSOL_RTS_INDICATION, responseVoid, WAKE_PARTIAL}, // 11024
++    {RIL_UNSOL_OMADM_SEND_DATA, responseVoid, WAKE_PARTIAL}, // 11025
++    {RIL_UNSOL_DUN, responseVoid, WAKE_PARTIAL}, // 11026
++    {RIL_UNSOL_SYSTEM_REBOOT, responseVoid, WAKE_PARTIAL}, // 11027
++    {RIL_UNSOL_VOICE_PRIVACY_CHANGED, responseVoid, WAKE_PARTIAL}, // 11028
++    {RIL_UNSOL_UTS_GETSMSCOUNT, responseVoid, WAKE_PARTIAL}, // 11029
++    {RIL_UNSOL_UTS_GETSMSMSG, responseVoid, WAKE_PARTIAL}, // 11030
++    {RIL_UNSOL_UTS_GET_UNREAD_SMS_STATUS, responseVoid, WAKE_PARTIAL}, // 11031
++    {RIL_UNSOL_MIP_CONNECT_STATUS, responseVoid, WAKE_PARTIAL}, // 11032
++#ifdef RIL_UNSOL_SNDMGR_WB_AMR_REPORT
++    {RIL_UNSOL_SNDMGR_WB_AMR_REPORT, responseInts, WAKE_PARTIAL}, // 20017
++#endif
++#ifdef RIL_UNSOL_SNDMGR_CLOCK_CTRL
++    {RIL_UNSOL_SNDMGR_CLOCK_CTRL, responseInts, WAKE_PARTIAL}, // 20022
++#endif
 diff --git a/rilsrc/libril/ril.cpp b/rilsrc/libril/ril.cpp
-index d7744c0..0a6f9ce 100644
+index d7744c0..87c26be 100644
 --- a/rilsrc/libril/ril.cpp
 +++ b/rilsrc/libril/ril.cpp
 @@ -168,6 +168,9 @@ extern "C" const char * rilSocketIdToString(RIL_SOCKET_ID socket_id);
@@ -298,6 +336,15 @@ index d7744c0..0a6f9ce 100644
      // Received an Ack for the previous result sent to RIL.java,
      // so release wakelock and exit
      if (request == RIL_RESPONSE_ACKNOWLEDGEMENT) {
+@@ -543,7 +571,7 @@ processCommandBuffer(void *buffer, size_t buflen, RIL_SOCKET_ID socket_id) {
+         return 0;
+     }
+ 
+-    if (request < 1 || request >= (int32_t)NUM_ELEMS(s_commands)) {
++    if (pCI == NULL) {
+         Parcel pErr;
+         RLOGE("unsupported request code %d token %d", request, token);
+         // FIXME this should perhaps return a response
 @@ -562,7 +590,7 @@ processCommandBuffer(void *buffer, size_t buflen, RIL_SOCKET_ID socket_id) {
      }
  
