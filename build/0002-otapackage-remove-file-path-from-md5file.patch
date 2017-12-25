@@ -1,0 +1,34 @@
+From e46fb6ae59bca3e259fb4529e8c0e67226172e08 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=3D=3FUTF-8=3Fq=3FAndr=3DC3=3DA9=3D20Pinela=3F=3D?=
+ <sheffzor@gmail.com>
+Date: Wed, 8 Mar 2017 20:13:27 +0000
+Subject: [PATCH] otapackage: remove file path from md5file
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This fixes the issues with md5file, user won't have the same file path
+we have.
+
+Change-Id: I866cedc246146db475c7513ba023ffba7a7e0de9
+Signed-off-by: André Pinela <sheffzor@gmail.com>
+---
+ core/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index a380116..d8da420 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -2259,7 +2259,7 @@ SLIM_TARGET_PACKAGE := $(PRODUCT_OUT)/$(SLIM_MOD_VERSION).zip
+ otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
+ bacon: otapackage
+ 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(SLIM_TARGET_PACKAGE)
+-	$(hide) $(MD5SUM) $(SLIM_TARGET_PACKAGE) > $(SLIM_TARGET_PACKAGE).md5sum
++	$(hide) $(MD5SUM) $(SLIM_TARGET_PACKAGE) | cut -d ' ' -f1 > $(SLIM_TARGET_PACKAGE).md5sum
+ 	@echo -e " "
+ 	@echo -e ${CL_SLIM}" "${CL_SLIM}
+ 	@echo -e ${CL_SLIM}"                              _______________________________________________  "${CL_SLIM}
+-- 
+2.7.4
+

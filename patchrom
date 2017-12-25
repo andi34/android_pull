@@ -4,33 +4,23 @@ SAUCE=~/android/ng7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/tuna
-echo "----------------------------------------"
-git fetch https://review.slimroms.org/SlimRoms/device_samsung_tuna refs/changes/90/29890/6 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/espresso3g
-echo "----------------------------------------"
-if [[ -d "$SAUCE/device/samsung/espresso3g" ]]; then
-	cd $SAUCE/device/samsung/espresso3g
-	if git config remote.andi.url > /dev/null; then
-		echo "Remote exist already"
-	else
-		echo "adding remote"
-		git remote add andi git@gitlab.com:andi34/android_device_samsung_espresso3g.git
-  fi
-	git fetch andi
-	git checkout andi/ng7.1
-	cd $SAUCE
-fi
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/build
-git fetch https://review.slimroms.org/SlimRoms/android_build refs/changes/46/30546/1 && git cherry-pick FETCH_HEAD
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
+# cd $SAUCE/device/samsung/espresso3g
+# echo "----------------------------------------"
+# if [[ -d "$SAUCE/device/samsung/espresso3g" ]]; then
+#	cd $SAUCE/device/samsung/espresso3g
+#	if git config remote.andi.url > /dev/null; then
+#		echo "Remote exist already"
+#	else
+#		echo "adding remote"
+#		git remote add andi git@gitlab.com:andi34/android_device_samsung_espresso3g.git
+#  fi
+#	git fetch andi
+#	git checkout andi/ng7.1
+#	cd $SAUCE
+# fi
+# echo ""
+# echo "----------------------------------------"
+# echo "----------------------------------------"
 
 cd $SAUCE/pull
 . patch.sh
