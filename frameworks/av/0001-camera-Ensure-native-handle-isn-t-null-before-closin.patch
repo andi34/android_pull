@@ -1,0 +1,28 @@
+From 88eea2ec20178e13de2c8b5b385207ba3f28561c Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Thu, 13 Oct 2016 16:40:01 -0500
+Subject: [PATCH] camera: Ensure native handle isn't null before closing it.
+
+Considering this is a worst-case scenario, better safe than sorry.
+
+Change-Id: Iefe7fa9caebf4aae36d8056d4adcce3a3b7dc960
+---
+ media/libstagefright/CameraSource.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/media/libstagefright/CameraSource.cpp b/media/libstagefright/CameraSource.cpp
+index 8707d96..e61e510 100644
+--- a/media/libstagefright/CameraSource.cpp
++++ b/media/libstagefright/CameraSource.cpp
+@@ -1168,7 +1168,7 @@ void CameraSource::releaseRecordingFrameHandle(native_handle_t* handle) {
+         int64_t token = IPCThreadState::self()->clearCallingIdentity();
+         mCamera->releaseRecordingFrameHandle(handle);
+         IPCThreadState::self()->restoreCallingIdentity(token);
+-    } else {
++    } else if (handle != nullptr) {
+         native_handle_close(handle);
+         native_handle_delete(handle);
+     }
+-- 
+2.7.4
+

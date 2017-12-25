@@ -2,24 +2,6 @@
 SAUCE=~/android/cm-14.1
 
 # Let's apply all commits!
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/frameworks/av
-echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_frameworks_av refs/changes/85/167785/3 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/hardware/ti/omap4
-echo "----------------------------------------"
-git fetch https://review.lineageos.org/LineageOS/android_hardware_ti_omap4 refs/changes/67/176667/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
-echo ""
-echo "Done!"
-cd $SAUCE
-echo "----------------------------------------"
-echo "----------------------------------------"
 
 cd $SAUCE/pull
 . patch.sh
