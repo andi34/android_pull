@@ -6,6 +6,7 @@ PATCHREPOS=(
     'build'
     'device/samsung/espresso3g'
     'device/samsung/tuna'
+    'packages/apps/SlimLauncher'
 )
 
 for patches in "${PATCHREPOS[@]}"; do

@@ -1,0 +1,240 @@
+From 9a2474e9efd4549e5f17d89a2097d0d8e3e2e7a2 Mon Sep 17 00:00:00 2001
+From: scoute-dich <baumann.juergen@posteo.de>
+Date: Mon, 12 Jun 2017 19:15:49 +0200
+Subject: [PATCH 5/5] SlimLauncher: added gestures
+
+Change-Id: I8fd23cd0bb5a12c83ea8299e24c11f10ad8ec61b
+---
+ AndroidManifest.xml                             | 14 +++++++
+ res/values/slim_arrays.xml                      |  5 +++
+ res/values/slim_strings.xml                     |  2 +
+ res/xml/admin.xml                               |  5 +++
+ res/xml/device_admin_sample.xml                 | 11 +++++
+ src/org/slim/launcher/util/GestureHelper.java   | 55 +++++++++++++++++++++++++
+ src/org/slim/launcher/util/MyAdminReceiver.java | 11 +++++
+ 7 files changed, 103 insertions(+)
+ create mode 100644 res/xml/admin.xml
+ create mode 100644 res/xml/device_admin_sample.xml
+ create mode 100644 src/org/slim/launcher/util/MyAdminReceiver.java
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index 888303f..b9588af 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -58,6 +58,8 @@
+     <uses-permission android:name="${packageName}.permission.RECEIVE_LAUNCH_BROADCASTS" />
+     <uses-permission android:name="${packageName}.permission.RECEIVE_FIRST_LOAD_BROADCAST" />
+ 
++    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
++
+     <application
+         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
+         android:fullBackupOnly="true"
+@@ -166,6 +168,18 @@
+             android:writePermission="${packageName}.permission.WRITE_SETTINGS"
+             android:readPermission="${packageName}.permission.READ_SETTINGS" />
+ 
++        <receiver
++            android:name="org.slim.launcher.util.MyAdminReceiver"
++            android:permission="android.permission.BIND_DEVICE_ADMIN">
++            <meta-data
++                android:name="android.app.device_admin"
++                android:resource="@xml/admin"/>
++
++            <intent-filter>
++                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
++            </intent-filter>
++        </receiver>
++
+         <!-- ENABLE_FOR_TESTING
+ 
+         <activity
+diff --git a/res/values/slim_arrays.xml b/res/values/slim_arrays.xml
+index 2a0b515..bda8eb0 100644
+--- a/res/values/slim_arrays.xml
++++ b/res/values/slim_arrays.xml
+@@ -9,7 +9,10 @@
+         <item>@string/gesture_target_previews</item>
+         <item>@string/gesture_target_settings</item>
+         <item>@string/gesture_target_last_app</item>
++        <item>@string/gesture_target_not</item>
++        <item>@string/gesture_screen_off</item>
+         <item>@string/gesture_target_custom</item>
++
+     </string-array>
+ 
+     <string-array name="gesture_target_values" translatable="false" >
+@@ -19,6 +22,8 @@
+         <item>show_previews</item>
+         <item>show_settings</item>
+         <item>last_app</item>
++        <item>not</item>
++        <item>screen_off</item>
+         <item>custom</item>
+     </string-array>
+ 
+diff --git a/res/values/slim_strings.xml b/res/values/slim_strings.xml
+index ea70b8a..5a5212d 100644
+--- a/res/values/slim_strings.xml
++++ b/res/values/slim_strings.xml
+@@ -59,6 +59,8 @@
+     <string name="gesture_target_settings">Open launcher settings</string>
+     <string name="gesture_target_last_app">Last app</string>
+     <string name="gesture_target_custom">Custom</string>
++    <string name="gesture_target_not">Open notifications</string>
++    <string name="gesture_screen_off">Lock screen</string>
+ 
+     <!-- SlimLauncher actions -->
+     <string name="shortcut_picker_title">SlimLauncher shortcuts</string>
+diff --git a/res/xml/admin.xml b/res/xml/admin.xml
+new file mode 100644
+index 0000000..0bc4379
+--- /dev/null
++++ b/res/xml/admin.xml
+@@ -0,0 +1,5 @@
++<device-admin xmlns:android="http://schemas.android.com/apk/res/android" >
++    <uses-policies>
++        <force-lock />
++    </uses-policies>
++</device-admin>
+\ No newline at end of file
+diff --git a/res/xml/device_admin_sample.xml b/res/xml/device_admin_sample.xml
+new file mode 100644
+index 0000000..359d20a
+--- /dev/null
++++ b/res/xml/device_admin_sample.xml
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="utf-8"?>
++    <uses-policies>
++        <limit-password />
++        <watch-login />
++        <reset-password />
++        <force-lock />
++        <wipe-data />
++        <expire-password />
++        <encrypted-storage />
++        <disable-camera />
++    </uses-policies>
+\ No newline at end of file
+diff --git a/src/org/slim/launcher/util/GestureHelper.java b/src/org/slim/launcher/util/GestureHelper.java
+index adddb0b..4ad3e34 100644
+--- a/src/org/slim/launcher/util/GestureHelper.java
++++ b/src/org/slim/launcher/util/GestureHelper.java
+@@ -17,10 +17,14 @@ package org.slim.launcher.util;
+ 
+ import android.app.Activity;
+ import android.app.ActivityManager;
++import android.app.admin.DevicePolicyManager;
++import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.Intent;
+ import android.content.pm.ResolveInfo;
+ import android.graphics.Point;
++import android.net.Uri;
++import android.provider.Settings;
+ import android.util.Log;
+ import android.view.Display;
+ import android.view.MotionEvent;
+@@ -35,9 +39,12 @@ import org.slim.launcher.SlimLauncher;
+ import org.slim.launcher.settings.SettingsActivity;
+ import org.slim.launcher.settings.SettingsProvider;
+ 
++import java.lang.reflect.Method;
+ import java.net.URISyntaxException;
+ import java.util.List;
+ 
++import static android.app.Activity.RESULT_OK;
++
+ public class GestureHelper {
+ 
+     public static final String TAG = "GestureHelper";
+@@ -51,6 +58,9 @@ public class GestureHelper {
+     public static final String ACTION_LAST_APP = "last_app";
+     public static final String ACTION_CUSTOM = "custom";
+ 
++    public static final String ACTION_NOT = "not";
++    public static final String ACTION_screen_off = "screen_off";
++
+     // gesture constants
+     private static final String DOUBLE_TAP_GESTURE = "double_tap";
+     private static final String SPREAD_GESTURE = "spread";
+@@ -163,6 +173,50 @@ public class GestureHelper {
+             case ACTION_LAST_APP:
+                 getLastApp(mLauncher);
+                 break;
++
++            case ACTION_NOT:
++                try {
++                    Object sbservice = mLauncher.getSystemService( "statusbar" );
++                    Class<?> statusbarManager = Class.forName( "android.app.StatusBarManager" );
++                    Method showsb;
++                    showsb = statusbarManager.getMethod("expandNotificationsPanel");
++                    showsb.invoke( sbservice );
++
++                } catch (Exception e) {
++                    //accessibility is Enable
++                }
++                break;
++
++            case ACTION_screen_off:
++                try {
++
++                    final int ADMIN_INTENT = 15;
++                    final String description = "Sample Administrator description";
++                    DevicePolicyManager mDevicePolicyManager;
++                    ComponentName mComponentName;
++
++                    mDevicePolicyManager = (DevicePolicyManager)mLauncher.getSystemService(
++                            Context.DEVICE_POLICY_SERVICE);
++                    mComponentName = new ComponentName(mLauncher, MyAdminReceiver.class);
++
++                    Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
++                    intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
++                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,description);
++                    mLauncher.startActivityForResult(intent, ADMIN_INTENT);
++
++                    boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
++                    if (isAdmin) {
++                        mDevicePolicyManager.lockNow();
++                    }else{
++                        Toast.makeText(mLauncher, "Not Registered as admin", Toast.LENGTH_SHORT).show();
++                    }
++
++
++                } catch (Exception e) {
++                    //accessibility is Enable
++                }
++                break;
++
+             case ACTION_CUSTOM:
+                 String uri = SettingsProvider.getString(mLauncher,
+                         gesture + "_gesture_action_custom", "");
+@@ -179,6 +233,7 @@ public class GestureHelper {
+         }
+     }
+ 
++
+     public boolean handleFling(MotionEvent start, MotionEvent finish) {
+         switch (identifyGesture(finish.getRawX(), finish.getRawY(),
+                 start.getRawX(), start.getRawY())) {
+diff --git a/src/org/slim/launcher/util/MyAdminReceiver.java b/src/org/slim/launcher/util/MyAdminReceiver.java
+new file mode 100644
+index 0000000..a609488
+--- /dev/null
++++ b/src/org/slim/launcher/util/MyAdminReceiver.java
+@@ -0,0 +1,11 @@
++package org.slim.launcher.util;
++
++import android.app.admin.DeviceAdminReceiver;
++
++/**
++ * Created by juergen on 10.06.17.
++ */
++
++public class MyAdminReceiver extends DeviceAdminReceiver {
++
++}
+\ No newline at end of file
+-- 
+2.7.4
+

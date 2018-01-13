@@ -1,0 +1,165 @@
+From f049944b8f9e8dda1a5a27208c7dcda068c5ab1e Mon Sep 17 00:00:00 2001
+From: scoute-dich <baumann.juergen@posteo.de>
+Date: Sat, 27 May 2017 19:47:08 +0200
+Subject: [PATCH 3/5] SlimLauncher: fix search bar
+
+Change-Id: Ib427f0d5034965b2dc68d3cb08f144bd4c079fbc
+---
+ res/drawable/all_apps_search_divider_null.xml      | 20 +++++++++++++++++
+ res/layout/all_apps_search_divider_null.xml        | 25 ++++++++++++++++++++++
+ .../launcher3/allapps/AllAppsContainerView.java    | 14 ++++++++++++
+ .../launcher3/allapps/AllAppsGridAdapter.java      | 17 +++++++++++++--
+ .../launcher3/allapps/AlphabeticalAppsList.java    |  2 +-
+ 5 files changed, 75 insertions(+), 3 deletions(-)
+ create mode 100644 res/drawable/all_apps_search_divider_null.xml
+ create mode 100644 res/layout/all_apps_search_divider_null.xml
+
+diff --git a/res/drawable/all_apps_search_divider_null.xml b/res/drawable/all_apps_search_divider_null.xml
+new file mode 100644
+index 0000000..29eadc4
+--- /dev/null
++++ b/res/drawable/all_apps_search_divider_null.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2016 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++       android:shape="rectangle">
++    <solid android:color="#00000000" />
++    <size android:height="4dp" />
++</shape>
+\ No newline at end of file
+diff --git a/res/layout/all_apps_search_divider_null.xml b/res/layout/all_apps_search_divider_null.xml
+new file mode 100644
+index 0000000..821b805
+--- /dev/null
++++ b/res/layout/all_apps_search_divider_null.xml
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2015 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
++    android:importantForAccessibility="no"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    android:paddingBottom="@dimen/all_apps_divider_margin_vertical"
++    android:paddingLeft="@dimen/container_fastscroll_thumb_max_width"
++    android:paddingRight="@dimen/container_fastscroll_thumb_max_width"
++    android:src="@drawable/all_apps_search_divider_null"
++    android:scaleType="fitXY"
++    android:focusable="false" />
+\ No newline at end of file
+diff --git a/src/com/android/launcher3/allapps/AllAppsContainerView.java b/src/com/android/launcher3/allapps/AllAppsContainerView.java
+index f3209cc..b97f8ae 100644
+--- a/src/com/android/launcher3/allapps/AllAppsContainerView.java
++++ b/src/com/android/launcher3/allapps/AllAppsContainerView.java
+@@ -58,6 +58,9 @@ import com.android.launcher3.shortcuts.DeepShortcutsContainer;
+ import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
+ import com.android.launcher3.util.ComponentKey;
+ 
++import org.slim.launcher.SlimLauncher;
++import org.slim.launcher.settings.SettingsProvider;
++
+ import java.nio.charset.Charset;
+ import java.nio.charset.CharsetEncoder;
+ import java.util.ArrayList;
+@@ -311,6 +314,15 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
+ 
+     public void setSearchBarContainerViewVisibility(int visibility) {
+         mSearchContainer.setVisibility(visibility);
++
++        MarginLayoutParams mlp = (MarginLayoutParams) mAppsRecyclerView.getLayoutParams();
++        Rect insets = mLauncher.getDragLayer().getInsets();
++        getContentView().setPadding(0, 0, 0, 0);
++        DeviceProfile grid = mLauncher.getDeviceProfile();
++        mlp.topMargin = insets.top + (visibility == VISIBLE ? grid.hotseatCellHeightPx : 0);
++        mAppsRecyclerView.setLayoutParams(mlp);
++        mApps.updateAdapterItems();
++        mAdapter.notifyDataSetChanged();
+         //updatePaddingsAndMargins();
+     }
+ 
+@@ -488,6 +500,8 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
+ 
+                 mlp.topMargin = height;
+                 mAppsRecyclerView.setLayoutParams(mlp);
++                SlimLauncher.getInstance().preferenceChanged(
++                SettingsProvider.KEY_DRAWER_SEARCH_ENABLED);
+ 
+                 mSearchContainer.setPadding(
+                         mSearchContainer.getPaddingLeft(),
+diff --git a/src/com/android/launcher3/allapps/AllAppsGridAdapter.java b/src/com/android/launcher3/allapps/AllAppsGridAdapter.java
+index f2f8aa5..9fd9a39 100644
+--- a/src/com/android/launcher3/allapps/AllAppsGridAdapter.java
++++ b/src/com/android/launcher3/allapps/AllAppsGridAdapter.java
+@@ -43,6 +43,9 @@ import com.android.launcher3.Launcher;
+ import com.android.launcher3.R;
+ import com.android.launcher3.Utilities;
+ 
++import org.slim.launcher.SlimLauncher;
++import org.slim.launcher.settings.SettingsProvider;
++
+ import java.util.HashMap;
+ import java.util.List;
+ 
+@@ -234,8 +237,18 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
+                 });
+                 return new ViewHolder(searchMarketView);
+             case VIEW_TYPE_SEARCH_DIVIDER:
+-                return new ViewHolder(mLayoutInflater.inflate(
+-                        R.layout.all_apps_search_divider, parent, false));
++                boolean searchEnabled = SettingsProvider.getBoolean(SlimLauncher.getInstance(),
++                        SettingsProvider.KEY_DRAWER_SEARCH_ENABLED, true);
++
++                if (searchEnabled) {
++                    return new ViewHolder(mLayoutInflater.inflate(
++                            R.layout.all_apps_search_divider, parent, false));
++                } else {
++                    return new ViewHolder(mLayoutInflater.inflate(
++                            R.layout.all_apps_search_divider_null, parent, false));
++                }
++
++
+             case VIEW_TYPE_PREDICTION_DIVIDER:
+                 /* falls through */
+             case VIEW_TYPE_SEARCH_MARKET_DIVIDER:
+diff --git a/src/com/android/launcher3/allapps/AlphabeticalAppsList.java b/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
+index da3675f..b5c399e 100644
+--- a/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
++++ b/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
+@@ -267,7 +267,7 @@ public class AlphabeticalAppsList {
+      * Updates the set of filtered apps with the current filter.  At this point, we expect
+      * mCachedSectionNames to have been calculated for the set of all apps in mApps.
+      */
+-    private void updateAdapterItems() {
++    public void updateAdapterItems() {
+         SectionInfo lastSectionInfo = null;
+         String lastSectionName = null;
+         FastScrollSectionInfo lastFastScrollerSectionInfo = null;
+-- 
+2.7.4
+

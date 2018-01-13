@@ -1,0 +1,645 @@
+From 10741f590826bcd7dcf106a90fd4348f5c7d24e6 Mon Sep 17 00:00:00 2001
+From: scoute-dich <baumann.juergen@posteo.de>
+Date: Fri, 12 May 2017 22:01:35 +0200
+Subject: [PATCH 2/5] SlimLauncher: hide apps
+
+Change-Id: I1c73752bc294524bbfd95df810b4b8547afbd264
+---
+ AndroidManifest.xml                                |   7 ++
+ build.gradle                                       |   2 +
+ res/drawable/check.xml                             |   8 ++
+ res/layout/activity_hideapps.xml                   |  11 ++
+ res/layout/all_apps.xml                            |   2 +-
+ res/layout/snippet_list_row.xml                    |  35 ++++++
+ res/values/colors.xml                              |   6 +
+ res/xml/drawer_preferences.xml                     |   4 +
+ res/xml/preferences.xml                            |   5 +
+ src/com/android/launcher3/AllAppsList.java         |  17 ++-
+ .../LauncherStateTransitionAnimation.java          |   6 +-
+ src/com/android/launcher3/UninstallDropTarget.java |   2 +-
+ src/com/android/launcher3/Workspace.java           |   2 +-
+ .../launcher3/allapps/AlphabeticalAppsList.java    |   2 +-
+ .../launcher3/dragndrop/DragController.java        |   2 +-
+ .../shortcuts/DeepShortcutsContainer.java          |   2 +-
+ src/org/slim/launcher/settings/DrawerFragment.java |  19 +++
+ .../slim/launcher/settings/RestartFragment.java    |  32 +++++
+ src/org/slim/launcher/util/AllAppsActivity.java    | 130 +++++++++++++++++++++
+ src/org/slim/launcher/util/ApplicationAdapter.java |  80 +++++++++++++
+ 20 files changed, 363 insertions(+), 11 deletions(-)
+ create mode 100644 res/drawable/check.xml
+ create mode 100755 res/layout/activity_hideapps.xml
+ create mode 100755 res/layout/snippet_list_row.xml
+ create mode 100644 src/org/slim/launcher/settings/RestartFragment.java
+ create mode 100755 src/org/slim/launcher/util/AllAppsActivity.java
+ create mode 100755 src/org/slim/launcher/util/ApplicationAdapter.java
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index a4fee26..888303f 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -119,6 +119,13 @@
+             android:theme="@android:style/Theme.Material.Settings"
+             android:autoRemoveFromRecents="true" />
+ 
++        <activity
++            android:name="org.slim.launcher.util.AllAppsActivity"
++            android:icon="@mipmap/ic_launcher_settings"
++            android:label="Hide apps"
++            android:theme="@android:style/Theme.Material.Settings"
++            android:autoRemoveFromRecents="true" />
++
+         <!-- Launcher shortcuts -->
+         <activity android:name="org.slim.launcher.CreateShortcut"
+             android:label="@string/shortcut_picker_title"
+diff --git a/build.gradle b/build.gradle
+index 65849ff..91dbe06 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -69,6 +69,8 @@ dependencies {
+     compile 'com.android.support:recyclerview-v7:25.3.1'
+     compile 'com.android.support:palette-v7:25.3.1'
+     compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
++    compile 'com.android.support:appcompat-v7:25.3.1'
++    compile 'com.android.support:design:25.3.1'
+ 
+     testCompile 'junit:junit:4.12'
+     androidTestCompile 'com.android.support.test:runner:0.5'
+diff --git a/res/drawable/check.xml b/res/drawable/check.xml
+new file mode 100644
+index 0000000..68b6125
+--- /dev/null
++++ b/res/drawable/check.xml
+@@ -0,0 +1,8 @@
++<!-- drawable/check.xml -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:height="24dp"
++    android:width="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path android:fillColor="#000000" android:pathData="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
++</vector>
+\ No newline at end of file
+diff --git a/res/layout/activity_hideapps.xml b/res/layout/activity_hideapps.xml
+new file mode 100755
+index 0000000..1789439
+--- /dev/null
++++ b/res/layout/activity_hideapps.xml
+@@ -0,0 +1,11 @@
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="fill_parent"
++    android:layout_height="fill_parent"
++    android:orientation="vertical" >
++
++    <ListView
++        android:id="@android:id/list"
++        android:layout_width="fill_parent"
++        android:layout_height="wrap_content" />
++
++</LinearLayout>
+\ No newline at end of file
+diff --git a/res/layout/all_apps.xml b/res/layout/all_apps.xml
+index 4909eb3..0039fd8 100644
+--- a/res/layout/all_apps.xml
++++ b/res/layout/all_apps.xml
+@@ -77,7 +77,7 @@
+                 android:maxLines="1"
+                 android:scrollHorizontally="true"
+                 android:singleLine="true"
+-                android:textColor="#4c4c4c"
++                android:textColor="#fafafa"
+                 android:hint="@string/all_apps_search_bar_hint"
+                 android:textColorHint="@drawable/all_apps_search_hint"
+                 android:textSize="16sp" />
+diff --git a/res/layout/snippet_list_row.xml b/res/layout/snippet_list_row.xml
+new file mode 100755
+index 0000000..ab5a46c
+--- /dev/null
++++ b/res/layout/snippet_list_row.xml
+@@ -0,0 +1,35 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="fill_parent"
++    android:layout_height="wrap_content"
++    android:padding="12dp">
++
++    <ImageView
++        android:id="@+id/app_icon"
++        android:layout_width="50dp"
++        android:layout_height="50dp"
++        android:padding="3dp"
++        android:scaleType="centerCrop" />
++
++    <LinearLayout
++        android:layout_width="fill_parent"
++        android:layout_height="fill_parent"
++        android:gravity="center_vertical"
++        android:orientation="vertical"
++        android:paddingLeft="5dp" >
++
++        <TextView
++            android:id="@+id/app_name"
++            android:layout_width="fill_parent"
++            android:layout_height="wrap_content"
++            android:gravity="center_vertical"
++            android:textStyle="bold" />
++
++        <TextView
++            android:id="@+id/app_paackage"
++            android:layout_width="fill_parent"
++            android:layout_height="wrap_content"
++            android:gravity="center_vertical" />
++    </LinearLayout>
++
++</LinearLayout>
+\ No newline at end of file
+diff --git a/res/values/colors.xml b/res/values/colors.xml
+index 2ab96f0..2ce240b 100644
+--- a/res/values/colors.xml
++++ b/res/values/colors.xml
+@@ -48,4 +48,10 @@
+ 
+     <!-- Used as a fallback since colorSecondary doesn't exist pre-API 25 -->
+     <color name="fallback_secondary_color">#FF37474F</color>
++
++
++    <color name="hidden_true">#40424242</color>
++    <color name="hidden_false">#00424242</color>
++
++
+ </resources>
+diff --git a/res/xml/drawer_preferences.xml b/res/xml/drawer_preferences.xml
+index a2ca996..398ed19 100644
+--- a/res/xml/drawer_preferences.xml
++++ b/res/xml/drawer_preferences.xml
+@@ -8,4 +8,8 @@
+         android:title="@string/drawer_search_bar_title"
+         android:defaultValue="true" />
+ 
++    <Preference
++        android:key="hide_apps"
++        android:title="Hide Apps" />
++
+ </PreferenceScreen>
+diff --git a/res/xml/preferences.xml b/res/xml/preferences.xml
+index e7813cb..59ad16a 100644
+--- a/res/xml/preferences.xml
++++ b/res/xml/preferences.xml
+@@ -35,4 +35,9 @@
+         android:id="@+id/slim_application_version"
+         android:summary="@string/slim_application_copyright" />-->
+ 
++    <header
++        android:fragment="org.slim.launcher.settings.RestartFragment"
++        android:id="@+id/pref_restart"
++        android:title="Restart to apply changes" />
++
+ </preference-headers>
+diff --git a/src/com/android/launcher3/AllAppsList.java b/src/com/android/launcher3/AllAppsList.java
+index 35014c1..46f938a 100644
+--- a/src/com/android/launcher3/AllAppsList.java
++++ b/src/com/android/launcher3/AllAppsList.java
+@@ -18,6 +18,8 @@ package com.android.launcher3;
+ 
+ import android.content.ComponentName;
+ import android.content.Context;
++import android.content.SharedPreferences;
++import android.preference.PreferenceManager;
+ 
+ import com.android.launcher3.compat.LauncherActivityInfoCompat;
+ import com.android.launcher3.compat.LauncherAppsCompat;
+@@ -25,6 +27,9 @@ import com.android.launcher3.compat.UserHandleCompat;
+ import com.android.launcher3.util.FlagOp;
+ import com.android.launcher3.util.StringFilter;
+ 
++import org.slim.launcher.SlimLauncher;
++import org.slim.launcher.util.AllAppsActivity;
++
+ import java.util.ArrayList;
+ import java.util.HashSet;
+ import java.util.List;
+@@ -112,14 +117,22 @@ class AllAppsList {
+      * If the app is already in the list, doesn't add it.
+      */
+     public void add(AppInfo info) {
++
++        Context context = SlimLauncher.getInstance();
++        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
++        String ha = sharedPref.getString("hiddenApps", "");
++
+         if (mAppFilter != null && !mAppFilter.shouldShowApp(info.componentName)) {
+             return;
+         }
+         if (findActivity(data, info.componentName, info.user)) {
+             return;
+         }
+-        data.add(info);
+-        added.add(info);
++
++        if (!ha.contains(info.componentName.getPackageName())) {
++            data.add(info);
++            added.add(info);
++        }
+     }
+ 
+     public void clear() {
+diff --git a/src/com/android/launcher3/LauncherStateTransitionAnimation.java b/src/com/android/launcher3/LauncherStateTransitionAnimation.java
+index 18f252f..566278e 100644
+--- a/src/com/android/launcher3/LauncherStateTransitionAnimation.java
++++ b/src/com/android/launcher3/LauncherStateTransitionAnimation.java
+@@ -342,7 +342,7 @@ public class LauncherStateTransitionAnimation {
+                     dispatchOnLauncherTransitionEnd(fromView, animated, false);
+                     dispatchOnLauncherTransitionEnd(toView, animated, false);
+ 
+-                    // Hide the reveal view
++                    // AllAppsActivity the reveal view
+                     revealView.setVisibility(View.INVISIBLE);
+ 
+                     // Disable all necessary layers
+@@ -520,7 +520,7 @@ public class LauncherStateTransitionAnimation {
+                     }
+ 
+                     public void onAnimationEnd(Animator animation) {
+-                        // Hide the reveal view
++                        // AllAppsActivity the reveal view
+                         revealView.setVisibility(View.INVISIBLE);
+ 
+                         // Show the all apps button, and focus it
+@@ -554,7 +554,7 @@ public class LauncherStateTransitionAnimation {
+                             final View revealView, final View widgetsButtonView) {
+                         return new AnimatorListenerAdapter() {
+                             public void onAnimationEnd(Animator animation) {
+-                                // Hide the reveal view
++                                // AllAppsActivity the reveal view
+                                 revealView.setVisibility(View.INVISIBLE);
+                             }
+                         };
+diff --git a/src/com/android/launcher3/UninstallDropTarget.java b/src/com/android/launcher3/UninstallDropTarget.java
+index 0a2ef1c..9facce0 100644
+--- a/src/com/android/launcher3/UninstallDropTarget.java
++++ b/src/com/android/launcher3/UninstallDropTarget.java
+@@ -40,7 +40,7 @@ public class UninstallDropTarget extends ButtonDropTarget {
+     }
+ 
+     /**
+-     * @return the component name and flags if {@param info} is an AppInfo or an app shortcut.
++     * @return the component name and flags if {@param info} is an ApplicationAdapter or an app shortcut.
+      */
+     private static Pair<ComponentName, Integer> getAppInfoFlags(Object item) {
+         if (item instanceof AppInfo) {
+diff --git a/src/com/android/launcher3/Workspace.java b/src/com/android/launcher3/Workspace.java
+index a507937..91e621a 100644
+--- a/src/com/android/launcher3/Workspace.java
++++ b/src/com/android/launcher3/Workspace.java
+@@ -1104,7 +1104,7 @@ public class Workspace extends PagedView
+             layout = mLauncher.getHotseat().getLayout();
+             child.setOnKeyListener(new HotseatIconKeyEventListener());
+ 
+-            // Hide folder title in the hotseat
++            // AllAppsActivity folder title in the hotseat
+             if (child instanceof FolderIcon) {
+                 ((FolderIcon) child).setTextVisible(false);
+             }
+diff --git a/src/com/android/launcher3/allapps/AlphabeticalAppsList.java b/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
+index bee946d..da3675f 100644
+--- a/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
++++ b/src/com/android/launcher3/allapps/AlphabeticalAppsList.java
+@@ -593,7 +593,7 @@ public class AlphabeticalAppsList {
+         public int rowIndex;
+         // The index of this app in the row
+         public int rowAppIndex;
+-        // The associated AppInfo for the app
++        // The associated ApplicationAdapter for the app
+         public AppInfo appInfo = null;
+         // The index of this app not including sections
+         public int appIndex = -1;
+diff --git a/src/com/android/launcher3/dragndrop/DragController.java b/src/com/android/launcher3/dragndrop/DragController.java
+index a53c2f2..a874f43 100644
+--- a/src/com/android/launcher3/dragndrop/DragController.java
++++ b/src/com/android/launcher3/dragndrop/DragController.java
+@@ -185,7 +185,7 @@ public class DragController implements DragDriver.EventListener, TouchController
+             android.os.Debug.startMethodTracing("Launcher");
+         }
+ 
+-        // Hide soft keyboard, if visible
++        // AllAppsActivity soft keyboard, if visible
+         if (mInputMethodManager == null) {
+             mInputMethodManager = (InputMethodManager)
+                     mLauncher.getSystemService(Context.INPUT_METHOD_SERVICE);
+diff --git a/src/com/android/launcher3/shortcuts/DeepShortcutsContainer.java b/src/com/android/launcher3/shortcuts/DeepShortcutsContainer.java
+index e4d35a4..cb6f861 100644
+--- a/src/com/android/launcher3/shortcuts/DeepShortcutsContainer.java
++++ b/src/com/android/launcher3/shortcuts/DeepShortcutsContainer.java
+@@ -503,7 +503,7 @@ public class DeepShortcutsContainer extends LinearLayout implements View.OnLongC
+     @Override
+     public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
+         // Either the original icon or one of the shortcuts was dragged.
+-        // Hide the container, but don't remove it yet because that interferes with touch events.
++        // AllAppsActivity the container, but don't remove it yet because that interferes with touch events.
+         animateClose();
+     }
+ 
+diff --git a/src/org/slim/launcher/settings/DrawerFragment.java b/src/org/slim/launcher/settings/DrawerFragment.java
+index d837b2d..89f75ab 100644
+--- a/src/org/slim/launcher/settings/DrawerFragment.java
++++ b/src/org/slim/launcher/settings/DrawerFragment.java
+@@ -16,10 +16,14 @@
+ 
+ package org.slim.launcher.settings;
+ 
++import android.content.Intent;
+ import android.os.Bundle;
++import android.preference.Preference;
+ 
+ import com.android.launcher3.R;
+ 
++import org.slim.launcher.util.AllAppsActivity;
++
+ public class DrawerFragment extends SettingsPreferenceFragment {
+ 
+     @Override
+@@ -27,5 +31,20 @@ public class DrawerFragment extends SettingsPreferenceFragment {
+         super.onCreate(savedInstanceState);
+ 
+         addPreferencesFromResource(R.xml.drawer_preferences);
++        addHideAppsListener();
++    }
++
++    private void addHideAppsListener() {
++
++        Preference reset = findPreference("hide_apps");
++        reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
++            public boolean onPreferenceClick(Preference pref) {
++
++                startActivity(new Intent(getActivity(), AllAppsActivity.class));
++                getActivity().finish();
++
++                return true;
++            }
++        });
+     }
+ }
+diff --git a/src/org/slim/launcher/settings/RestartFragment.java b/src/org/slim/launcher/settings/RestartFragment.java
+new file mode 100644
+index 0000000..e3fabad
+--- /dev/null
++++ b/src/org/slim/launcher/settings/RestartFragment.java
+@@ -0,0 +1,32 @@
++/*
++ * Copyright (C) 2015 The SlimRoms Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package org.slim.launcher.settings;
++
++import android.os.Bundle;
++
++import com.android.launcher3.R;
++
++public class RestartFragment extends SettingsPreferenceFragment {
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++
++        getActivity().finish();
++        System.exit(0);
++    }
++}
+diff --git a/src/org/slim/launcher/util/AllAppsActivity.java b/src/org/slim/launcher/util/AllAppsActivity.java
+new file mode 100755
+index 0000000..f47addf
+--- /dev/null
++++ b/src/org/slim/launcher/util/AllAppsActivity.java
+@@ -0,0 +1,130 @@
++/*
++    This file is part of the Browser webview app.
++
++    HHS Moodle WebApp is free software: you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation, either version 3 of the License, or
++    (at your option) any later version.
++
++    HHS Moodle WebApp is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License
++    along with the Browser webview app.
++
++    If not, see <http://www.gnu.org/licenses/>.
++ */
++
++package org.slim.launcher.util;
++
++import java.util.ArrayList;
++import java.util.List;
++import android.app.ListActivity;
++import android.app.ProgressDialog;
++import android.content.SharedPreferences;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageManager;
++import android.os.AsyncTask;
++import android.os.Bundle;
++import android.preference.PreferenceManager;
++import android.view.View;
++import android.widget.ListView;
++import android.widget.Toast;
++
++import com.android.launcher3.R;
++
++public class AllAppsActivity extends ListActivity {
++    private PackageManager packageManager = null;
++    private List<ApplicationInfo> appList = null;
++    private ApplicationAdapter listAdaptor = null;
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_hideapps);
++
++        packageManager = getPackageManager();
++
++        new LoadApplications().execute();
++    }
++
++
++    @Override
++    protected void onListItemClick(ListView l, View v, int position, long id) {
++        super.onListItemClick(l, v, position, id);
++
++        ApplicationInfo app = appList.get(position);
++        try {
++
++            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(AllAppsActivity.this);
++            String ha = sharedPref.getString("hiddenApps", "");
++
++            if (!ha.contains(app.packageName)) {
++                sharedPref.edit().putString("hiddenApps", ha + app.packageName).apply();
++                v.setBackgroundColor(getResources().getColor(R.color.hidden_true));
++            } else {
++                String newString = ha.replace(app.packageName, "");
++                sharedPref.edit().putString("hiddenApps", newString).apply();
++                v.setBackgroundColor(getResources().getColor(R.color.hidden_false));
++            }
++
++        } catch (Exception e) {
++            Toast.makeText(AllAppsActivity.this, e.getMessage(),
++                    Toast.LENGTH_LONG).show();
++        }
++    }
++
++    private List<ApplicationInfo> checkForLaunchIntent(List<ApplicationInfo> list) {
++        ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
++        for (ApplicationInfo info : list) {
++            try {
++                if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
++                    applist.add(info);
++                }
++            } catch (Exception e) {
++                e.printStackTrace();
++            }
++        }
++
++        return applist;
++    }
++
++    private class LoadApplications extends AsyncTask<Void, Void, Void> {
++        private ProgressDialog progress = null;
++
++        @Override
++        protected Void doInBackground(Void... params) {
++            appList = checkForLaunchIntent(packageManager.getInstalledApplications(PackageManager.GET_META_DATA));
++            listAdaptor = new ApplicationAdapter(AllAppsActivity.this,
++                    R.layout.snippet_list_row, appList);
++
++            return null;
++        }
++
++        @Override
++        protected void onCancelled() {
++            super.onCancelled();
++        }
++
++        @Override
++        protected void onPostExecute(Void result) {
++            setListAdapter(listAdaptor);
++            progress.dismiss();
++            super.onPostExecute(result);
++        }
++
++        @Override
++        protected void onPreExecute() {
++            progress = ProgressDialog.show(AllAppsActivity.this, null,
++                    "Loading application info...");
++            super.onPreExecute();
++        }
++
++        @Override
++        protected void onProgressUpdate(Void... values) {
++            super.onProgressUpdate(values);
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/src/org/slim/launcher/util/ApplicationAdapter.java b/src/org/slim/launcher/util/ApplicationAdapter.java
+new file mode 100755
+index 0000000..0207b7c
+--- /dev/null
++++ b/src/org/slim/launcher/util/ApplicationAdapter.java
+@@ -0,0 +1,80 @@
++package org.slim.launcher.util;
++
++import java.util.List;
++
++import android.content.Context;
++import android.content.SharedPreferences;
++import android.content.pm.ApplicationInfo;
++import android.content.pm.PackageManager;
++import android.preference.PreferenceManager;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ArrayAdapter;
++import android.widget.ImageView;
++import android.widget.TextView;
++
++import com.android.launcher3.R;
++
++import org.slim.launcher.SlimLauncher;
++
++public class ApplicationAdapter extends ArrayAdapter<ApplicationInfo> {
++	private List<ApplicationInfo> appsList = null;
++	private Context context;
++	private PackageManager packageManager;
++
++	public ApplicationAdapter(Context context, int textViewResourceId,
++							  List<ApplicationInfo> appsList) {
++		super(context, textViewResourceId, appsList);
++		this.context = context;
++		this.appsList = appsList;
++		packageManager = context.getPackageManager();
++	}
++
++	@Override
++	public int getCount() {
++		return ((null != appsList) ? appsList.size() : 0);
++	}
++
++	@Override
++	public ApplicationInfo getItem(int position) {
++		return ((null != appsList) ? appsList.get(position) : null);
++	}
++
++	@Override
++	public long getItemId(int position) {
++		return position;
++	}
++
++	@Override
++	public View getView(int position, View convertView, ViewGroup parent) {
++		View view = convertView;
++		if (null == view) {
++			LayoutInflater layoutInflater = (LayoutInflater) context
++					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
++			view = layoutInflater.inflate(R.layout.snippet_list_row, null);
++		}
++
++		ApplicationInfo applicationInfo = appsList.get(position);
++		if (null != applicationInfo) {
++			TextView appName = (TextView) view.findViewById(R.id.app_name);
++			TextView packageName = (TextView) view.findViewById(R.id.app_paackage);
++			ImageView iconView = (ImageView) view.findViewById(R.id.app_icon);
++
++			appName.setText(applicationInfo.loadLabel(packageManager));
++			packageName.setText(applicationInfo.packageName);
++
++			iconView.setImageDrawable(applicationInfo.loadIcon(packageManager));
++
++			Context context = SlimLauncher.getInstance();
++			SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
++
++			if (sharedPref.getString("hiddenApps", "").contains(applicationInfo.packageName)) {
++				view.setBackgroundColor(context.getResources().getColor(R.color.hidden_true));
++			} else {
++				view.setBackgroundColor(context.getResources().getColor(R.color.hidden_false));
++			}
++		}
++		return view;
++	}
++};
+\ No newline at end of file
+-- 
+2.7.4
+

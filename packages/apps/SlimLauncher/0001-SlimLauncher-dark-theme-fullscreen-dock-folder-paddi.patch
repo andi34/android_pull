@@ -1,0 +1,695 @@
+From 937a53dced92d78818b918d9551f08eccaa4a761 Mon Sep 17 00:00:00 2001
+From: scoute-dich <baumann.juergen@posteo.de>
+Date: Fri, 12 May 2017 15:53:25 +0200
+Subject: [PATCH 1/5] SlimLauncher: dark theme, fullscreen, dock folder
+ padding, dock hide background
+
+Change-Id: I8f447447ffae6ae851fad348af950b041f7ae700
+---
+ AndroidManifest.xml                                |  6 ++
+ build.gradle                                       | 10 +--
+ res/drawable/ic_all_apps_bg_icon_1.xml             | 31 --------
+ res/drawable/ic_all_apps_bg_icon_2.xml             | 33 ---------
+ res/drawable/ic_all_apps_bg_icon_3.xml             | 36 ----------
+ res/drawable/ic_all_apps_bg_icon_4.xml             | 34 ---------
+ res/layout-sw720dp/launcher.xml                    | 83 ----------------------
+ res/layout/all_apps_empty_search.xml               |  2 +-
+ res/values/colors.xml                              | 18 +++--
+ res/xml/dock_preferences.xml                       | 13 ++++
+ res/xml/homescreen_preferences.xml                 |  6 ++
+ src/com/android/launcher3/Launcher.java            | 24 +++----
+ src/com/android/launcher3/Workspace.java           |  1 -
+ .../allapps/AllAppsBackgroundDrawable.java         | 44 +++---------
+ src/com/android/launcher3/folder/FolderIcon.java   |  8 ++-
+ src/org/slim/launcher/SlimLauncher.java            | 10 +++
+ src/org/slim/launcher/settings/SettingsKeys.java   |  3 +
+ .../slim/launcher/settings/SettingsProvider.java   | 12 ++++
+ 18 files changed, 91 insertions(+), 283 deletions(-)
+ delete mode 100644 res/drawable/ic_all_apps_bg_icon_1.xml
+ delete mode 100644 res/drawable/ic_all_apps_bg_icon_2.xml
+ delete mode 100644 res/drawable/ic_all_apps_bg_icon_3.xml
+ delete mode 100644 res/drawable/ic_all_apps_bg_icon_4.xml
+ delete mode 100644 res/layout-sw720dp/launcher.xml
+
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index d6cb983..a4fee26 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -85,6 +85,12 @@
+             android:resumeWhilePausing="true"
+             android:taskAffinity=""
+             android:enabled="true">
++
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
++
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.HOME" />
+diff --git a/build.gradle b/build.gradle
+index d760a4b..65849ff 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -13,7 +13,7 @@ apply plugin: 'com.google.protobuf'
+ 
+ android {
+     compileSdkVersion 25
+-    buildToolsVersion '25.0.1'
++    buildToolsVersion '25.0.2'
+ 
+     defaultConfig {
+         minSdkVersion 21
+@@ -65,15 +65,15 @@ repositories {
+ }
+ 
+ dependencies {
+-    compile 'com.android.support:support-v4:25.1.1'
+-    compile 'com.android.support:recyclerview-v7:25.1.1'
+-    compile 'com.android.support:palette-v7:25.1.1'
++    compile 'com.android.support:support-v4:25.3.1'
++    compile 'com.android.support:recyclerview-v7:25.3.1'
++    compile 'com.android.support:palette-v7:25.3.1'
+     compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
+ 
+     testCompile 'junit:junit:4.12'
+     androidTestCompile 'com.android.support.test:runner:0.5'
+     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+-    androidTestCompile 'com.android.support:support-annotations:25.1.1'
++    androidTestCompile 'com.android.support:support-annotations:25.3.1'
+ }
+ 
+ protobuf {
+diff --git a/res/drawable/ic_all_apps_bg_icon_1.xml b/res/drawable/ic_all_apps_bg_icon_1.xml
+deleted file mode 100644
+index c9c0a75..0000000
+--- a/res/drawable/ic_all_apps_bg_icon_1.xml
++++ /dev/null
+@@ -1,31 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2016 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:width="48dp"
+-        android:height="48dp"
+-        android:viewportWidth="48.0"
+-        android:viewportHeight="48.0">
+-
+-    <path
+-        android:fillColor="#1A000000"
+-        android:pathData="M44.28,30.96c4.84-10.68,0.09-23.27-10.59-28.11S10.42,2.74,5.58,13.42
+-        C1,23.54,6.5,35.92,16.62,40.51l0,0l-3.23,7.12C27.84,47,39.79,40.86,44.28,30.96z" />
+-    <path
+-        android:fillColor="#E0E0E0"
+-        android:pathData="M41.75,30.05c4.84-10.68,0.09-23.27-10.59-28.11S7.9,1.83,3.06,12.51
+-        c-4.59,10.12,0.92,22.5,11.03,27.09l0,0l-3.23,7.12C25.31,46.09,37.26,39.94,41.75,30.05z" />
+-</vector>
+\ No newline at end of file
+diff --git a/res/drawable/ic_all_apps_bg_icon_2.xml b/res/drawable/ic_all_apps_bg_icon_2.xml
+deleted file mode 100644
+index b6269e3..0000000
+--- a/res/drawable/ic_all_apps_bg_icon_2.xml
++++ /dev/null
+@@ -1,33 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2016 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:width="48dp"
+-        android:height="48dp"
+-        android:viewportWidth="48.0"
+-        android:viewportHeight="48.0">
+-
+-    <path
+-        android:fillColor="#1A000000"
+-        android:pathData="M20.54,44.59c0.57-0.04,1.15-0.38,1.67-1.04l24.23-30.62c0.62-0.78,0.77-1.54,0.52-2.12
+-        c-0.25-0.58-0.9-0.99-1.89-1.1L6.2,5.99C5.39,5.91,4.74,6.08,4.32,6.44l0,0C3.7,6.97,3.55,7.88,4.01,8.96l14.54,34.09
+-        C19,44.13,19.75,44.65,20.54,44.59L20.54,44.59z" />
+-    <path
+-        android:fillColor="#E0E0E0"
+-        android:pathData="M18.49,43.22c0.57-0.04,1.15-0.38,1.67-1.04l24.23-30.62c0.62-0.78,0.77-1.54,0.52-2.12
+-        c-0.25-0.58-0.9-0.99-1.89-1.1L4.15,4.62C3.34,4.54,2.69,4.71,2.27,5.08l0,0C1.65,5.6,1.5,6.52,1.96,7.6L16.5,41.69
+-        C16.96,42.76,17.7,43.28,18.49,43.22L18.49,43.22z" />
+-</vector>
+\ No newline at end of file
+diff --git a/res/drawable/ic_all_apps_bg_icon_3.xml b/res/drawable/ic_all_apps_bg_icon_3.xml
+deleted file mode 100644
+index 4c255a9..0000000
+--- a/res/drawable/ic_all_apps_bg_icon_3.xml
++++ /dev/null
+@@ -1,36 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2016 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:width="48dp"
+-        android:height="48dp"
+-        android:viewportWidth="48.0"
+-        android:viewportHeight="48.0">
+-
+-    <path
+-        android:fillColor="#1A000000"
+-        android:pathData="M25.18,1.27c-12.32,0-23.41,9.99-23.41,22.31s11.09,22.31,23.41,22.31
+-        s22.31-9.99,22.31-22.31S37.5,1.27,25.18,1.27z M25.18,33.55c-5.5,0-14.35-5.1-14.35-10.6s8.32-12.19,13.82-12.19
+-        c5.5,0,10.49,7.33,10.49,12.83S30.68,33.55,25.18,33.55z" />
+-    <path
+-        android:fillColor="#E0E0E0"
+-        android:pathData="M22.93,0.22c-12.32,0-22.31,9.99-22.31,22.31s9.99,22.31,22.31,22.31
+-        s22.31-9.99,22.31-22.31S35.25,0.22,22.93,0.22z M22.93,32.5c-5.5,0-9.97-4.46-9.97-9.97s4.46-9.97,9.97-9.97
+-        c5.5,0,9.97,4.46,9.97,9.97S28.43,32.5,22.93,32.5z" />
+-    <path
+-        android:fillColor="#E0E0E0"
+-        android:pathData="M14.81,22.53a8.12,8.12 0 1,0 16.24,0a8.12,8.12 0 1,0 -16.24,0z" />
+-</vector>
+diff --git a/res/drawable/ic_all_apps_bg_icon_4.xml b/res/drawable/ic_all_apps_bg_icon_4.xml
+deleted file mode 100644
+index 12e05bc..0000000
+--- a/res/drawable/ic_all_apps_bg_icon_4.xml
++++ /dev/null
+@@ -1,34 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2016 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<vector xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:width="48dp"
+-        android:height="48dp"
+-        android:viewportWidth="48.0"
+-        android:viewportHeight="48.0">
+-
+-    <path
+-        android:fillColor="#1A000000"
+-        android:pathData="M11.53,8.02l23.39-5.73c1.61-0.39,3.25,0.6,3.64,2.21l7.64,31.19
+-        c0.39,1.61-0.6,3.25-2.21,3.64L12.8,46.97c-1.61,0.39-3.25-0.6-3.64-2.21L3.43,21.37L11.53,8.02z" />
+-    <path
+-        android:fillColor="#E0E0E0"
+-        android:pathData="M9.2,6.53L32.59,0.8C34.2,0.4,35.84,1.4,36.23,3l7.64,31.19c0.39,1.61-0.6,3.25-2.21,3.64
+-        l-31.19,7.64c-1.61,0.39-3.25-0.6-3.64-2.21L1.11,19.87L9.2,6.53z" />
+-    <path
+-        android:fillColor="#1A000000"
+-        android:pathData="M9.27,6.47l1.91,7.8c0.4,1.62-0.59,3.24-2.21,3.64l-7.8,1.91L9.27,6.47z" />
+-</vector>
+\ No newline at end of file
+diff --git a/res/layout-sw720dp/launcher.xml b/res/layout-sw720dp/launcher.xml
+deleted file mode 100644
+index 12c01b7..0000000
+--- a/res/layout-sw720dp/launcher.xml
++++ /dev/null
+@@ -1,83 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!-- Copyright (C) 2007 The Android Open Source Project
+-
+-     Licensed under the Apache License, Version 2.0 (the "License");
+-     you may not use this file except in compliance with the License.
+-     You may obtain a copy of the License at
+-
+-          http://www.apache.org/licenses/LICENSE-2.0
+-
+-     Unless required by applicable law or agreed to in writing, software
+-     distributed under the License is distributed on an "AS IS" BASIS,
+-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-     See the License for the specific language governing permissions and
+-     limitations under the License.
+--->
+-
+-<!-- Full screen view projects under the status bar and contains the background -->
+-<com.android.launcher3.LauncherRootView
+-    xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+-    android:id="@+id/launcher"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    android:fitsSystemWindows="true">
+-
+-    <com.android.launcher3.dragndrop.DragLayer
+-        android:id="@+id/drag_layer"
+-        android:clipChildren="false"
+-        android:clipToPadding="false"
+-        android:importantForAccessibility="no"
+-        android:background="@drawable/workspace_bg"
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent">
+-
+-        <!-- The workspace contains 5 screens of cells -->
+-        <!-- DO NOT CHANGE THE ID -->
+-        <com.android.launcher3.Workspace
+-            android:layout_gravity="center"
+-            android:id="@+id/workspace"
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            launcher:pageIndicator="@id/page_indicator">
+-        </com.android.launcher3.Workspace>
+-
+-        <!-- DO NOT CHANGE THE ID -->
+-        <include layout="@layout/hotseat"
+-            android:id="@+id/hotseat"
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            launcher:layout_ignoreInsets="true" />
+-
+-        <include
+-            android:id="@+id/drop_target_bar"
+-            layout="@layout/drop_target_bar_horz" />
+-
+-        <include layout="@layout/overview_panel"
+-            android:id="@+id/overview_panel"
+-            android:visibility="gone" />
+-
+-        <!-- Keep these behind the workspace so that they are not visible when
+-             we go into AllApps -->
+-        <include layout="@layout/page_indicator"
+-                 android:id="@+id/page_indicator" />
+-
+-        <include
+-            layout="@layout/qsb_container"
+-            android:id="@+id/qsb_container" />
+-
+-        <include layout="@layout/widgets_view"
+-            android:id="@+id/widgets_view"
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            android:visibility="invisible" />
+-
+-        <include layout="@layout/all_apps"
+-            android:id="@+id/apps_view"
+-            android:layout_width="match_parent"
+-            android:layout_height="match_parent"
+-            android:visibility="invisible"
+-           launcher:layout_ignoreInsets="true" />
+-    </com.android.launcher3.dragndrop.DragLayer>
+-
+-</com.android.launcher3.LauncherRootView>
+diff --git a/res/layout/all_apps_empty_search.xml b/res/layout/all_apps_empty_search.xml
+index e1635d6..10899d5 100644
+--- a/res/layout/all_apps_empty_search.xml
++++ b/res/layout/all_apps_empty_search.xml
+@@ -25,7 +25,7 @@
+     android:paddingRight="16dp"
+     android:fontFamily="sans-serif-medium"
+     android:textSize="14sp"
+-    android:textColor="#212121"
++    android:textColor="#ffffff"
+     android:alpha="0.56"
+     android:focusable="false" />
+ 
+diff --git a/res/values/colors.xml b/res/values/colors.xml
+index d5ce786..2ab96f0 100644
+--- a/res/values/colors.xml
++++ b/res/values/colors.xml
+@@ -18,31 +18,29 @@
+ */
+ -->
+ <resources>
+-    <!-- The color tints to apply to the text and drag view when hovering
+-         over the delete target or the info target -->
+     <color name="delete_target_hover_tint">#FFC1C1C1</color>
+     <color name="uninstall_target_hover_tint">#FFF0592B</color>
+ 
+     <color name="focused_background">#80c6c5c5</color>
+ 
+-    <color name="workspace_icon_text_color">#FFF</color>
++    <color name="workspace_icon_text_color">#FFF5F5F5</color>
+ 
+-    <color name="workspace_edge_effect_color">#FFFFFFFF</color>
++    <color name="workspace_edge_effect_color">#FFF5F5F5</color>
+     <color name="folder_edge_effect_color">#FF757575</color>
+     <color name="page_indicator_dot_color">#FFDDDDDD</color>
+ 
+-    <color name="quantum_panel_text_color">#FF666666</color>
+-    <color name="quantum_panel_bg_color">#FFF5F5F5</color>
++    <color name="quantum_panel_text_color">#FFF5F5F5</color>
++    <color name="quantum_panel_bg_color">#FF424242</color>
+ 
+-    <color name="outline_color">#FFFFFFFF</color>
++    <color name="outline_color">#FF424242</color>
+     <color name="all_apps_divider_color">#1E000000</color>
+-    <color name="all_apps_caret_color">#FFFFFFFF</color>
++    <color name="all_apps_caret_color">#FFF5F5F5</color>
+     <color name="all_apps_caret_shadow_color">#22000000</color>
+-    <color name="all_apps_container_color">#FFF2F2F2</color>
++    <color name="all_apps_container_color">#FF424242</color>
+     <color name="all_apps_navbar_color">#28000000</color>
+ 
+     <color name="spring_loaded_panel_color">#40FFFFFF</color>
+-    <color name="spring_loaded_highlighted_panel_border_color">#FFF</color>
++    <color name="spring_loaded_highlighted_panel_border_color">#FFF5F5F5</color>
+ 
+     <!-- Widgets view -->
+     <color name="widgets_view_section_text_color">#FFFFFF</color>
+diff --git a/res/xml/dock_preferences.xml b/res/xml/dock_preferences.xml
+index f7fef44..1243c75 100644
+--- a/res/xml/dock_preferences.xml
++++ b/res/xml/dock_preferences.xml
+@@ -11,4 +11,17 @@
+         launcher:min="1"
+         launcher:max="7" />
+ 
++    <org.slim.launcher.preference.NumberPickerPreference
++        android:key="dock_padding"
++        android:title="Padding"
++        android:summary="Increase space between folders"
++        launcher:min="5"
++        launcher:max="40" />
++
++    <CheckBoxPreference
++        android:title="Background"
++        android:summary="Hide dock background"
++        android:key="dock_hide_background"
++        android:defaultValue="false" />
++
+ </PreferenceScreen>
+diff --git a/res/xml/homescreen_preferences.xml b/res/xml/homescreen_preferences.xml
+index 6200403..b2d5d08 100644
+--- a/res/xml/homescreen_preferences.xml
++++ b/res/xml/homescreen_preferences.xml
+@@ -15,4 +15,10 @@
+         launcher:pickerTitle1="@string/grid_size_rows_title"
+         launcher:pickerTitle2="@string/grid_size_columns_title" />
+ 
++    <CheckBoxPreference
++        android:title="Fullscreen"
++        android:summary="Enable fullscreen mode"
++        android:key="show_fullscreen"
++        android:defaultValue="false" />
++
+ </PreferenceScreen>
+diff --git a/src/com/android/launcher3/Launcher.java b/src/com/android/launcher3/Launcher.java
+index 2b83769..8e9611e 100644
+--- a/src/com/android/launcher3/Launcher.java
++++ b/src/com/android/launcher3/Launcher.java
+@@ -129,6 +129,8 @@ import com.android.launcher3.widget.PendingAddWidgetInfo;
+ import com.android.launcher3.widget.WidgetHostViewLoader;
+ import com.android.launcher3.widget.WidgetsContainerView;
+ 
++import org.slim.launcher.settings.SettingsProvider;
++
+ import java.io.FileDescriptor;
+ import java.io.PrintWriter;
+ import java.util.ArrayList;
+@@ -554,7 +556,14 @@ public class Launcher extends Activity
+         // TODO: do this in pre-N as well, once the extraction part is complete.
+         if (Utilities.isNycOrAbove()) {
+             mExtractedColors.load(this);
+-            mHotseat.updateColor(mExtractedColors, !mPaused);
++
++            boolean hide_background = SettingsProvider.getHideDockBackground(Launcher.this,
++                    SettingsProvider.KEY_DOCK_HIDE_BACKGROUND, false);
++
++            if (!hide_background) {
++                mHotseat.updateColor(mExtractedColors, !mPaused);
++            }
++
+             mWorkspace.getPageIndicator().updateColor(mExtractedColors);
+             // It's possible that All Apps is visible when this is run,
+             // so always use light status bar in that case.
+@@ -680,7 +689,7 @@ public class Launcher extends Activity
+     }
+ 
+     /**
+-     * Invoked by subclasses to signal a change to the {@link #addCustomContentToLeft} value to
++     * Invoked by subclasses to signal a change to the {@link #//addCustomContentToLeft} value to
+      * ensure the custom content page is added or removed if necessary.
+      */
+     protected void invalidateHasCustomContentToLeft() {
+@@ -4228,17 +4237,6 @@ public class Launcher extends Activity
+         return oriMap[(d.getRotation() + indexOffset) % 4];
+     }
+ 
+-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+-    public void lockScreenOrientation() {
+-        if (mRotationEnabled) {
+-            if (Utilities.ATLEAST_JB_MR2) {
+-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+-            } else {
+-                setRequestedOrientation(mapConfigurationOriActivityInfoOri(getResources()
+-                        .getConfiguration().orientation));
+-            }
+-        }
+-    }
+ 
+     public void unlockScreenOrientation(boolean immediate) {
+         if (mRotationEnabled) {
+diff --git a/src/com/android/launcher3/Workspace.java b/src/com/android/launcher3/Workspace.java
+index d88c6ef..a507937 100644
+--- a/src/com/android/launcher3/Workspace.java
++++ b/src/com/android/launcher3/Workspace.java
+@@ -392,7 +392,6 @@ public class Workspace extends PagedView
+ 
+         updateChildrenLayersEnabled(false);
+         mLauncher.onDragStarted();
+-        mLauncher.lockScreenOrientation();
+         mLauncher.onInteractionBegin();
+         // Prevent any Un/InstallShortcutReceivers from updating the db while we are dragging
+         InstallShortcutReceiver.enableInstallQueue();
+diff --git a/src/com/android/launcher3/allapps/AllAppsBackgroundDrawable.java b/src/com/android/launcher3/allapps/AllAppsBackgroundDrawable.java
+index 923b382..69edb10 100644
+--- a/src/com/android/launcher3/allapps/AllAppsBackgroundDrawable.java
++++ b/src/com/android/launcher3/allapps/AllAppsBackgroundDrawable.java
+@@ -49,15 +49,15 @@ class TransformedImageDrawable {
+         mGravity = gravity;
+     }
+ 
+-    public int getAlpha() {
+-        return mAlpha;
+-    }
+-
+     public void setAlpha(int alpha) {
+         mImage.setAlpha(alpha);
+         mAlpha = alpha;
+     }
+ 
++    public int getAlpha() {
++        return mAlpha;
++    }
++
+     public void updateBounds(Rect bounds) {
+         int width = mImage.getIntrinsicWidth();
+         int height = mImage.getIntrinsicHeight();
+@@ -86,8 +86,6 @@ class TransformedImageDrawable {
+  */
+ public class AllAppsBackgroundDrawable extends Drawable {
+ 
+-    private final TransformedImageDrawable mHand;
+-    private final TransformedImageDrawable[] mIcons;
+     private final int mWidth;
+     private final int mHeight;
+ 
+@@ -95,17 +93,7 @@ public class AllAppsBackgroundDrawable extends Drawable {
+ 
+     public AllAppsBackgroundDrawable(Context context) {
+         Resources res = context.getResources();
+-        mHand = new TransformedImageDrawable(res, R.drawable.ic_all_apps_bg_hand,
+-                0.575f, 0.f, Gravity.CENTER_HORIZONTAL);
+-        mIcons = new TransformedImageDrawable[4];
+-        mIcons[0] = new TransformedImageDrawable(res, R.drawable.ic_all_apps_bg_icon_1,
+-                0.375f, 0, Gravity.CENTER_HORIZONTAL);
+-        mIcons[1] = new TransformedImageDrawable(res, R.drawable.ic_all_apps_bg_icon_2,
+-                0.3125f, 0.2f, Gravity.CENTER_HORIZONTAL);
+-        mIcons[2] = new TransformedImageDrawable(res, R.drawable.ic_all_apps_bg_icon_3,
+-                0.475f, 0.26f, Gravity.CENTER_HORIZONTAL);
+-        mIcons[3] = new TransformedImageDrawable(res, R.drawable.ic_all_apps_bg_icon_4,
+-                0.7f, 0.125f, Gravity.CENTER_HORIZONTAL);
++
+         mWidth = res.getDimensionPixelSize(R.dimen.all_apps_background_canvas_width);
+         mHeight = res.getDimensionPixelSize(R.dimen.all_apps_background_canvas_height);
+     }
+@@ -146,36 +134,22 @@ public class AllAppsBackgroundDrawable extends Drawable {
+ 
+     @Override
+     public void draw(Canvas canvas) {
+-        mHand.draw(canvas);
+-        for (int i = 0; i < mIcons.length; i++) {
+-            mIcons[i].draw(canvas);
+-        }
+     }
+ 
+     @Override
+     protected void onBoundsChange(Rect bounds) {
+         super.onBoundsChange(bounds);
+-        mHand.updateBounds(bounds);
+-        for (int i = 0; i < mIcons.length; i++) {
+-            mIcons[i].updateBounds(bounds);
+-        }
+-        invalidateSelf();
+-    }
+ 
+-    @Override
+-    public int getAlpha() {
+-        return mHand.getAlpha();
++        invalidateSelf();
+     }
+ 
+     @Override
+     public void setAlpha(int alpha) {
+-        mHand.setAlpha(alpha);
+-        for (int i = 0; i < mIcons.length; i++) {
+-            mIcons[i].setAlpha(alpha);
+-        }
++
+         invalidateSelf();
+     }
+ 
++
+     @Override
+     public void setColorFilter(ColorFilter colorFilter) {
+         // Do nothing
+@@ -193,4 +167,4 @@ public class AllAppsBackgroundDrawable extends Drawable {
+         }
+         return null;
+     }
+-}
++}
+\ No newline at end of file
+diff --git a/src/com/android/launcher3/folder/FolderIcon.java b/src/com/android/launcher3/folder/FolderIcon.java
+index 1980e25..9c9f0ed 100644
+--- a/src/com/android/launcher3/folder/FolderIcon.java
++++ b/src/com/android/launcher3/folder/FolderIcon.java
+@@ -70,6 +70,9 @@ import com.android.launcher3.dragndrop.DragLayer;
+ import com.android.launcher3.dragndrop.DragView;
+ import com.android.launcher3.util.Thunk;
+ 
++import org.slim.launcher.SlimLauncher;
++import org.slim.launcher.settings.SettingsProvider;
++
+ import java.util.ArrayList;
+ 
+ /**
+@@ -691,8 +694,11 @@ public class FolderIcon extends FrameLayout implements FolderListener {
+                           int availableSpace, int topPadding) {
+             mInvalidateDelegate = invalidateDelegate;
+ 
++            int padding = SettingsProvider.getDockPadding(SlimLauncher.getInstance(),
++                    SettingsProvider.KEY_DOCK_PADDING, 0);
++
+             final int previewSize = grid.folderIconSizePx;
+-            final int previewPadding = grid.folderIconPreviewPadding;
++            final int previewPadding = grid.folderIconPreviewPadding + padding;
+ 
+             this.previewSize = (previewSize - 2 * previewPadding);
+ 
+diff --git a/src/org/slim/launcher/SlimLauncher.java b/src/org/slim/launcher/SlimLauncher.java
+index 42540ad..b3e122a 100644
+--- a/src/org/slim/launcher/SlimLauncher.java
++++ b/src/org/slim/launcher/SlimLauncher.java
+@@ -7,6 +7,7 @@ import android.view.Menu;
+ import android.view.MotionEvent;
+ import android.view.View;
+ import android.view.ViewGroup;
++import android.view.WindowManager;
+ 
+ import com.android.launcher3.AppInfo;
+ import com.android.launcher3.CellLayout;
+@@ -46,6 +47,15 @@ public class SlimLauncher extends Launcher {
+     @Override
+     public void onCreate(Bundle savedInstanceState) {
+         sLauncher = this;
++
++        boolean fullscreen = SettingsProvider.getFullscreen(SlimLauncher.this,
++                SettingsProvider.KEY_FULLSCREEN, false);
++
++        if (fullscreen) {
++            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
++                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
++        }
++
+         setLauncherCallbacks(new SlimLauncherCallbacks());
+         super.onCreate(savedInstanceState);
+         setInitialPreferences();
+diff --git a/src/org/slim/launcher/settings/SettingsKeys.java b/src/org/slim/launcher/settings/SettingsKeys.java
+index 75af496..3aa94f3 100644
+--- a/src/org/slim/launcher/settings/SettingsKeys.java
++++ b/src/org/slim/launcher/settings/SettingsKeys.java
+@@ -24,12 +24,15 @@ public interface SettingsKeys {
+     String KEY_SHOW_SEARCH_BAR = "show_search_bar";
+     String KEY_HOMESCREEN_GRID = "homescreen_grid";
+     String KEY_SHOW_SHADOW = "show_shadow";
++    String KEY_FULLSCREEN = "show_fullscreen";
+ 
+     // Drawer
+     String KEY_DRAWER_SEARCH_ENABLED = "drawer_search_bar";
+ 
+     // Dock
+     String KEY_DOCK_ICONS = "dock_icon_count";
++    String KEY_DOCK_HIDE_BACKGROUND = "dock_hide_background";
++    String KEY_DOCK_PADDING = "dock_padding";
+ 
+     // Gestures
+     String LEFT_UP_GESTURE_ACTION = "left_up_gesture_action";
+diff --git a/src/org/slim/launcher/settings/SettingsProvider.java b/src/org/slim/launcher/settings/SettingsProvider.java
+index 14fd4c7..9d2cc8f 100644
+--- a/src/org/slim/launcher/settings/SettingsProvider.java
++++ b/src/org/slim/launcher/settings/SettingsProvider.java
+@@ -30,6 +30,18 @@ public class SettingsProvider implements SettingsKeys {
+         return get(context).edit();
+     }
+ 
++    public static int getDockPadding(Context context, String key, int def) {
++        return get(context).getInt(key, def);
++    }
++
++    public static boolean getFullscreen(Context context, String key, boolean def) {
++        return get(context).getBoolean(key, def);
++    }
++
++    public static boolean getHideDockBackground(Context context, String key, boolean def) {
++        return get(context).getBoolean(key, def);
++    }
++
+     public static int getCellCountX(Context context, String key, int def) {
+         String[] values = get(context).getString(key, "0|" + def).split("\\|");
+         try {
+-- 
+2.7.4
+
