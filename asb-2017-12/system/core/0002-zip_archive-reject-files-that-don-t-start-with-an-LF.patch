@@ -1,16 +1,14 @@
-From 49fc79721b2f8bd14a45f0ec46a0c91c26c5f5f1 Mon Sep 17 00:00:00 2001
+From b3e27ad6d3ecbe2e53a00a81ee6b53ce9a6fb1f0 Mon Sep 17 00:00:00 2001
 From: Narayan Kamath <narayan@google.com>
 Date: Wed, 9 Aug 2017 18:32:09 +0100
-Subject: [PATCH 2/3] zip_archive: reject files that don't start with an LFH
+Subject: [PATCH 2/5] zip_archive: reject files that don't start with an LFH
  signature.
 
 Bug: 64211847
 Test: zip_archive_test
 
-(cherry picked from commit c1a56dcab711a7ee238c0af865920ca51b1408a6)
-
-Merged-In: I275e7c4da05ceeb20401b560c72294f29ef63642
-Change-Id: Ib89f0def696206ff427be27764c158fab88e4b5d
+Change-Id: I38705f4e9688326a140aa59a1333b0878ed39c14
+(cherry picked from commit dbacd826a100f2c4408446fa912f2bd63e878a8a)
 CVE-2017-13156
 ---
  libziparchive/zip_archive.cc      | 18 ++++++++++++++
@@ -18,7 +16,7 @@ CVE-2017-13156
  2 files changed, 67 insertions(+)
 
 diff --git a/libziparchive/zip_archive.cc b/libziparchive/zip_archive.cc
-index 8c2c559..b93d192 100644
+index 8c2c559..75f3262 100644
 --- a/libziparchive/zip_archive.cc
 +++ b/libziparchive/zip_archive.cc
 @@ -552,6 +552,8 @@ static int32_t MapCentralDirectory(int fd, const char* debug_file_name,
@@ -36,8 +34,8 @@ index 8c2c559..b93d192 100644
    }
 +
 +  uint32_t lfh_start_bytes;
-+  if (!ReadAtOffset(archive->fd, reinterpret_cast<uint8_t*>(&lfh_start_bytes),
-+                    sizeof(uint32_t), 0)) {
++  if (ReadAtOffset(archive->fd, reinterpret_cast<uint8_t*>(&lfh_start_bytes),
++                   sizeof(uint32_t), 0) != sizeof(uint32_t)) {
 +    ALOGW("Zip: Unable to read header for entry at offset == 0.");
 +    return -1;
 +  }

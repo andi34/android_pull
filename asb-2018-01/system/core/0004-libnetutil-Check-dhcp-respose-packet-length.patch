@@ -1,7 +1,7 @@
-From 0670021a8db74981e043bd9d76efeefc688a0af6 Mon Sep 17 00:00:00 2001
+From 6ee81422ea69a56e6e2ce38987c6b33ccffaeaf1 Mon Sep 17 00:00:00 2001
 From: tintin <tintinweb@oststrom.com>
 Date: Fri, 13 Oct 2017 11:11:48 -0700
-Subject: [PATCH 3/3] libnetutil: Check dhcp respose packet length
+Subject: [PATCH 4/5] libnetutil: Check dhcp respose packet length
 
 Bug: 67474440
 Test: Manual
