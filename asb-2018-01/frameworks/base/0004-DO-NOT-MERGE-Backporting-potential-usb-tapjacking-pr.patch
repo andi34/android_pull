@@ -1,4 +1,4 @@
-From 5375e25a14643439023d776dff915c353e03697d Mon Sep 17 00:00:00 2001
+From 0d82ff54fe6c9209a80b12b517b5e3d6f0156615 Mon Sep 17 00:00:00 2001
 From: Beverly Tai <beverlyt@google.com>
 Date: Fri, 1 Sep 2017 14:56:50 -0400
 Subject: [PATCH 4/4] DO NOT MERGE Backporting potential usb tapjacking
