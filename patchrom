@@ -10,6 +10,7 @@ git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2
 echo ""
 echo "----------------------------------------"
 echo "----------------------------------------"
+cd $SAUCE
 
-cd $SAUCE/pull
-. patch.sh
+#cd $SAUCE/pull
+#. patch.sh
