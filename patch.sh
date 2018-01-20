@@ -3,7 +3,7 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'build'
+    'device/samsung/espresso3g'
 )
 
 for patches in "${PATCHREPOS[@]}"; do
