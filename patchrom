@@ -4,17 +4,6 @@ SAUCE=~/android/android-7.1
 # Let's apply all commits!
 echo "----------------------------------------"
 echo "----------------------------------------"
-cd $SAUCE/device/samsung/espressowifi
-echo "----------------------------------------"
-echo "nothing"
-echo ""
-echo "----------------------------------------"
-echo "----------------------------------------"
-cd $SAUCE/device/samsung/tuna
-echo "----------------------------------------"
-git fetch https://gerrit.omnirom.org/android_device_samsung_tuna refs/changes/90/25090/1 && git cherry-pick FETCH_HEAD
-echo "----------------------------------------"
-echo "----------------------------------------"
 cd $SAUCE/vendor/omni
 echo "----------------------------------------"
 git fetch https://gerrit.omnirom.org/android_vendor_omni refs/changes/93/18293/2 && git cherry-pick FETCH_HEAD
