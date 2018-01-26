@@ -1,0 +1,27 @@
+From 36cec19f8f3ab44176d4047199d9aca24927b928 Mon Sep 17 00:00:00 2001
+From: gr8nole <davemartinfsu@gmail.com>
+Date: Wed, 14 Jan 2015 15:00:52 -0500
+Subject: [PATCH] liblights: Exclude lt01wifi, lt013g, and lt01lte
+
+---
+ exynos4/exynos4x12/liblights/Android.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/exynos4/exynos4x12/liblights/Android.mk b/exynos4/exynos4x12/liblights/Android.mk
+index 5392476b..0943c07b 100644
+--- a/exynos4/exynos4x12/liblights/Android.mk
++++ b/exynos4/exynos4x12/liblights/Android.mk
+@@ -13,6 +13,8 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
++ifeq ($(filter lt01wifi lt013g lt01lte,$(TARGET_DEVICE)),)
++
+ LOCAL_PATH:= $(call my-dir)
+ # HAL module implemenation, not prelinked and stored in
+ # hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.board.platform>.so
+@@ -44,3 +46,4 @@ LOCAL_MODULE_TAGS := optional
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
++endif

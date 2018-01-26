@@ -1,0 +1,103 @@
+From b281d14b4b064a255b307b121b5bb3b03d0bdc97 Mon Sep 17 00:00:00 2001
+From: Ketut Putu Kumajaya <ketut.kumajaya@gmail.com>
+Date: Sat, 19 Jul 2014 21:32:00 +0700
+Subject: [PATCH] Add support for using the flip switch to turn off the screen
+
+Change-Id: I3457af831bf5e9cd2d49efda52fb5961fee5d68f
+---
+ services/input/Android.mk                                   |  4 ++++
+ services/input/EventHub.h                                   |  9 +++++++++
+ .../java/com/android/server/input/InputManagerService.java  | 13 +++++++++++--
+ .../java/com/android/server/wm/WindowManagerService.java    |  4 ++--
+ 4 files changed, 26 insertions(+), 4 deletions(-)
+
+diff --git a/services/input/Android.mk b/services/input/Android.mk
+index 2cfb31d71af89..dd1bdb57a4248 100644
+--- a/services/input/Android.mk
++++ b/services/input/Android.mk
+@@ -52,6 +52,10 @@ ifeq ($(BOARD_USE_LEGACY_TRACKPAD),true)
+ LOCAL_CFLAGS += -DLEGACY_TRACKPAD
+ endif
+ 
++ifeq ($(BOARD_HAS_EXTENDED_SWITCH),true)
++LOCAL_CFLAGS += -DEXTENDED_SWITCH
++endif
++
+ LOCAL_MODULE_TAGS := optional
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/services/input/EventHub.h b/services/input/EventHub.h
+index ae28f016f7260..0fa1304eb1bef 100644
+--- a/services/input/EventHub.h
++++ b/services/input/EventHub.h
+@@ -57,6 +57,15 @@
+ #define MSC_ANDROID_TIME_SEC 0x6
+ #define MSC_ANDROID_TIME_USEC 0x7
+ 
++/*
++ * Override kernel header SW_MAX to prevent EventHub filter out
++ * extended switch event
++ */
++#ifdef EXTENDED_SWITCH
++#undef SW_MAX
++#define SW_MAX 0x20
++#endif
++
+ namespace android {
+ 
+ enum {
+diff --git a/services/java/com/android/server/input/InputManagerService.java b/services/java/com/android/server/input/InputManagerService.java
+index d2d312cb8df03..f50b6b5a964a1 100644
+--- a/services/java/com/android/server/input/InputManagerService.java
++++ b/services/java/com/android/server/input/InputManagerService.java
+@@ -90,6 +90,8 @@
+ import libcore.io.Streams;
+ import libcore.util.Objects;
+ 
++import android.os.SystemProperties;
++
+ /*
+  * Wraps the C++ InputManager and provides its callbacks.
+  */
+@@ -220,7 +222,9 @@ private static native void nativeVibrate(int ptr, int deviceId, long[] pattern,
+ 
+     // Switch code values must match bionic/libc/kernel/common/linux/input.h
+     /** Switch code: Lid switch.  When set, lid is shut. */
+-    public static final int SW_LID = 0x00;
++    public static final int SW_LID = SystemProperties.getInt("ro.switch_code.sw_lid", 0x00);
++    public static final boolean SW_LID_INVERT =
++            SystemProperties.getBoolean("ro.switch_code.sw_lid_invert", false);
+ 
+     /** Switch code: Keypad slide.  When set, keyboard is exposed. */
+     public static final int SW_KEYPAD_SLIDE = 0x0a;
+@@ -1374,7 +1378,12 @@ private void notifySwitch(long whenNanos, int switchValues, int switchMask) {
+         }
+ 
+         if ((switchMask & SW_LID_BIT) != 0) {
+-            final boolean lidOpen = ((switchValues & SW_LID_BIT) == 0);
++            final boolean lidOpen;
++            if (SW_LID_INVERT) {
++                lidOpen = ((switchValues & SW_LID_BIT) != 0);
++            } else {
++                lidOpen = ((switchValues & SW_LID_BIT) == 0);
++            }
+             mWindowManagerCallbacks.notifyLidSwitchChanged(whenNanos, lidOpen);
+         }
+ 
+diff --git a/services/java/com/android/server/wm/WindowManagerService.java b/services/java/com/android/server/wm/WindowManagerService.java
+index 161b91096e60a..5876cd3616ee2 100644
+--- a/services/java/com/android/server/wm/WindowManagerService.java
++++ b/services/java/com/android/server/wm/WindowManagerService.java
+@@ -5308,10 +5308,10 @@ public int getLidState() {
+                 InputManagerService.SW_LID);
+         if (sw > 0) {
+             // Switch state: AKEY_STATE_DOWN or AKEY_STATE_VIRTUAL.
+-            return LID_CLOSED;
++            return InputManagerService.SW_LID_INVERT ? LID_OPEN : LID_CLOSED;
+         } else if (sw == 0) {
+             // Switch state: AKEY_STATE_UP.
+-            return LID_OPEN;
++            return InputManagerService.SW_LID_INVERT ? LID_CLOSED : LID_OPEN;
+         } else {
+             // Switch state: AKEY_STATE_UNKNOWN.
+             return LID_ABSENT;

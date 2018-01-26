@@ -1,0 +1,43 @@
+From aef2cc3620875efb62bfbe0345b5310d665f9fdb Mon Sep 17 00:00:00 2001
+From: Ketut Putu Kumajaya <ketut.kumajaya@gmail.com>
+Date: Fri, 22 Aug 2014 11:30:47 +0700
+Subject: [PATCH] Keep button lit until the screen is dimmed
+
+Keep it lit until the screen dims instead of turning it off
+after 5 seconds. Lit on every touch is quite annoying, let
+the lights HAL control the button timeout.
+
+Change-Id: I31df34ac49bd48a8165763d8e6cd1a84c9e078a1
+---
+ .../java/com/android/server/power/PowerManagerService.java    | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/services/java/com/android/server/power/PowerManagerService.java b/services/java/com/android/server/power/PowerManagerService.java
+index df235f59e5e34..23dd816ab9dd4 100644
+--- a/services/java/com/android/server/power/PowerManagerService.java
++++ b/services/java/com/android/server/power/PowerManagerService.java
+@@ -592,6 +592,8 @@ public void systemReady(TwilightService twilight, DreamManagerService dreamManag
+             updateSettingsLocked();
+             mDirty |= DIRTY_BATTERY_STATE;
+             updatePowerStateLocked();
++
++            SystemProperties.set("sys.button.timeout", Integer.toString(mButtonTimeout / 1000));
+         }
+     }
+ 
+@@ -1735,14 +1737,7 @@ private void updateUserActivitySummaryLocked(long now, int dirty) {
+                         }
+ 
+                         mKeyboardLight.setBrightness(mKeyboardVisible ? keyboardBrightness : 0);
+-                        if (mButtonTimeout != 0 && now > mLastUserActivityTime + mButtonTimeout) {
+-                            mButtonsLight.setBrightness(0);
+-                        } else {
+-                            mButtonsLight.setBrightness(buttonBrightness);
+-                            if (buttonBrightness != 0 && mButtonTimeout != 0) {
+-                                nextTimeout = now + mButtonTimeout;
+-                            }
+-                        }
++                        mButtonsLight.setBrightness(buttonBrightness);
+                         mUserActivitySummary |= USER_ACTIVITY_SCREEN_BRIGHT;
+                     } else {
+                         nextTimeout = mLastUserActivityTime + screenOffTimeout;

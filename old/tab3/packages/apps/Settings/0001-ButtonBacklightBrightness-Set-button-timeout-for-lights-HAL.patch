@@ -1,0 +1,30 @@
+From f81880e25d7bd075c758d0eafb8ae5b80260f86f Mon Sep 17 00:00:00 2001
+From: Ketut Putu Kumajaya <ketut.kumajaya@gmail.com>
+Date: Fri, 22 Aug 2014 11:28:40 +0700
+Subject: [PATCH] ButtonBacklightBrightness: Set button timeout for lights HAL
+
+Change-Id: I912bc092664faa6b0e20226822de09979c3b0796
+---
+ src/com/android/settings/cyanogenmod/ButtonBacklightBrightness.java | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/com/android/settings/cyanogenmod/ButtonBacklightBrightness.java b/src/com/android/settings/cyanogenmod/ButtonBacklightBrightness.java
+index 753cc1b9bda..1b154cf86db 100644
+--- a/src/com/android/settings/cyanogenmod/ButtonBacklightBrightness.java
++++ b/src/com/android/settings/cyanogenmod/ButtonBacklightBrightness.java
+@@ -36,6 +36,7 @@
+ import android.widget.CompoundButton;
+ import android.widget.SeekBar;
+ import android.widget.TextView;
++import android.os.SystemProperties;
+ 
+ import com.android.settings.R;
+ 
+@@ -258,6 +259,7 @@ private int getTimeout() {
+     private void applyTimeout(int timeout) {
+         Settings.System.putInt(mResolver,
+                 Settings.System.BUTTON_BACKLIGHT_TIMEOUT, timeout * 1000);
++        SystemProperties.set("sys.button.timeout", Integer.toString(timeout));
+     }
+ 
+     private void updateBrightnessPreview() {
