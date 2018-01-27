@@ -1,11 +1,10 @@
-SAUCE=~/android/kk4.4
+#!/bin/bash
+
 ROOT="$SAUCE"
-PATCHPATH="$SAUCE/pull/golden"
+PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'frameworks/av'
-    'frameworks/base'
-    'frameworks/native'
-    'packages/apps/Camera2'
+    'hardware/ti/omap4'
+    'kernel/ti/omap4'
     'system/core'
 )
 
