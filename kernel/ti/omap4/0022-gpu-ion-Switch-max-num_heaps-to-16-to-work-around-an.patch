@@ -1,0 +1,32 @@
+From 6f781161e0d40bdcb123c53bb20c5c380e7f57d0 Mon Sep 17 00:00:00 2001
+From: Rebecca Schultz Zavin <rebecca@android.com>
+Date: Mon, 25 Jun 2012 14:02:25 -0700
+Subject: [PATCH 022/102] gpu: ion: Switch max num_heaps to 16 to work around
+ an issue elsewere
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: I3bcbc9c424086f5921a1641afeb16040deffcece
+Signed-off-by: Rebecca Schultz Zavin <rebecca@android.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ include/linux/ion.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/ion.h b/include/linux/ion.h
+index 42afe35..e1c43f1 100644
+--- a/include/linux/ion.h
++++ b/include/linux/ion.h
+@@ -37,7 +37,7 @@ enum ion_heap_type {
+ 	ION_HEAP_TYPE_CARVEOUT,
+ 	ION_HEAP_TYPE_CUSTOM, /* must be last so device specific heaps always
+ 				 are at the end of this enum */
+-	ION_NUM_HEAPS = 32,
++	ION_NUM_HEAPS = 16,
+ };
+ 
+ #define ION_HEAP_SYSTEM_MASK		(1 << ION_HEAP_TYPE_SYSTEM)
+-- 
+2.7.4
+

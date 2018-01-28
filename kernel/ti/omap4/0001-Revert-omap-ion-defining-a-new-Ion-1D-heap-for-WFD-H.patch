@@ -1,7 +1,7 @@
-From 918ade4560f8a3ceaa34605517f24abf7e42a6b3 Mon Sep 17 00:00:00 2001
+From 97c244ca60eb442a4960134e6dd4e00ec67f1952 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
 Date: Tue, 24 Nov 2015 13:01:28 -0500
-Subject: [PATCH 001/111] Revert "omap: ion: defining a new Ion 1D heap for WFD
+Subject: [PATCH 001/102] Revert "omap: ion: defining a new Ion 1D heap for WFD
  HDCP"
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
