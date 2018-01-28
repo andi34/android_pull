@@ -1,0 +1,31 @@
+From 470d5244f3803420e908717d548c383d50ac26d3 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
+Date: Tue, 24 Nov 2015 13:21:41 -0500
+Subject: [PATCH 005/102] Revert "ion: fix comment to match reality"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This reverts commit d71924ab6248df3d8eedc4e62268f4ffd6a5e5be.
+
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index eb072fc..194cff1 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -328,7 +328,7 @@ struct ion_handle *ion_alloc(struct ion_client *client, size_t len,
+ 		/* if the client doesn't support this heap type */
+ 		if (!((1 << heap->type) & client->heap_mask))
+ 			continue;
+-		/* if the caller didn't specify this heap ID */
++		/* if the caller didn't specify this heap type */
+ 		if (!((1 << heap->id) & flags))
+ 			continue;
+ 		buffer = ion_buffer_create(heap, dev, len, align, flags);
+-- 
+2.7.4
+

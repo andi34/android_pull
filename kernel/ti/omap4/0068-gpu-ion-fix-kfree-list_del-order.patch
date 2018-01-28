@@ -1,0 +1,36 @@
+From 81ffd43f40170b5283ed3cfbd08b8f317adcfa65 Mon Sep 17 00:00:00 2001
+From: JP Abgrall <jpa@google.com>
+Date: Mon, 15 Apr 2013 14:23:14 -0700
+Subject: [PATCH 068/102] gpu: ion: fix kfree/list_del order
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+With CONFIG_SLUB_DEBUG_ON it would panic during
+ion_alloc()
+ ion_buffer_create()
+   io_heap_drain_freelist()
+
+Signed-off-by: JP Abgrall <jpa@google.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index 426ae00..0f12ce1 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -1394,8 +1394,8 @@ static bool ion_heap_drain_freelist(struct ion_heap *heap)
+ 		return false;
+ 	rt_mutex_lock(&heap->lock);
+ 	list_for_each_entry_safe(buffer, tmp, &heap->free_list, list) {
+-		_ion_buffer_destroy(buffer);
+ 		list_del(&buffer->list);
++		_ion_buffer_destroy(buffer);
+ 	}
+ 	BUG_ON(!list_empty(&heap->free_list));
+ 	rt_mutex_unlock(&heap->lock);
+-- 
+2.7.4
+
