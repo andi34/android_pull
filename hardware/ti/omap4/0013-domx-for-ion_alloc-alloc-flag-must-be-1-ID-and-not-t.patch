@@ -1,0 +1,29 @@
+From 604d64d9767e8e36eff6f9b11462f4a2cfb6b34d Mon Sep 17 00:00:00 2001
+From: Kunal <kunal@pixavi.com>
+Date: Fri, 26 Aug 2016 14:06:51 +0200
+Subject: [PATCH 13/15] domx: for ion_alloc alloc flag must be (1 << ID) and
+ not the ID
+
+Fixing a bug in the code.
+
+Change-Id: I7c0e053c09a86d99112ec8d8722daa67e9f8af7b
+---
+ domx/domx/plugins/memplugin_ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/domx/domx/plugins/memplugin_ion.c b/domx/domx/plugins/memplugin_ion.c
+index a4bc53b..083cd70 100755
+--- a/domx/domx/plugins/memplugin_ion.c
++++ b/domx/domx/plugins/memplugin_ion.c
+@@ -171,7 +171,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_ION_Alloc(void *pMemPluginHandle, OMX_U32 nClient,
+ #endif
+         if(ret || (int)temp == -ENOMEM)
+         {
+-            if(sIonParams.alloc_flags != OMAP_ION_HEAP_SECURE_INPUT)
++            if(sIonParams.alloc_flags != (1 << OMAP_ION_HEAP_SECURE_INPUT))
+             {
+                //for non default types of allocation - no retry with tiler 1d - throw error
+ //STARGO: ducati secure heap is too small, need to allocate from heap
+-- 
+2.7.4
+
