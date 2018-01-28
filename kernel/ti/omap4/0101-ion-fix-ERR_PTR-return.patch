@@ -1,0 +1,29 @@
+From 31d568f3763825711a79fb6037471fdcfffcb70a Mon Sep 17 00:00:00 2001
+From: Colin Cross <ccross@android.com>
+Date: Fri, 8 Nov 2013 14:31:33 -0800
+Subject: [PATCH 101/102] ion: fix ERR_PTR return
+
+ERR_PTR takes -errno, not errno.
+
+Change-Id: I0f09fc419619df859023fb63ac7def67ae237951
+Signed-off-by: Colin Cross <ccross@android.com>
+---
+ drivers/gpu/ion/ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index 0493d20..a25b330 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -398,7 +398,7 @@ static struct ion_handle *ion_handle_get_by_id(struct ion_client *client,
+ 		ion_handle_get(handle);
+ 	mutex_unlock(&client->lock);
+ 
+-	return handle ? handle : ERR_PTR(EINVAL);
++	return handle ? handle : ERR_PTR(-EINVAL);
+ }
+ 
+ static bool ion_handle_validate(struct ion_client *client, struct ion_handle *handle)
+-- 
+2.7.4
+

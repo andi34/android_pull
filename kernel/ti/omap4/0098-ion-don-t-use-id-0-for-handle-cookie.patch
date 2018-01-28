@@ -1,0 +1,31 @@
+From 72404b007205c3b5ecd85b59c4c09a6c023a2c50 Mon Sep 17 00:00:00 2001
+From: Colin Cross <ccross@android.com>
+Date: Thu, 22 Aug 2013 19:29:44 -0700
+Subject: [PATCH 098/102] ion: don't use id 0 for handle cookie
+
+ion userspace clients think that the cookie is a pointer, so they
+use NULL to check if the handle has been initialized.  Set the first
+id number to 1.
+
+Change-Id: Ifb9af6029a8b08f57e41bc6160cc11e11001a2a9
+Signed-off-by: Colin Cross <ccross@android.com>
+---
+ drivers/gpu/ion/ion.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index 5f22b07..b040c94 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -451,7 +451,7 @@ static int ion_handle_add(struct ion_client *client, struct ion_handle *handle)
+ 		rc = idr_pre_get(&client->idr, GFP_KERNEL);
+ 		if (!rc)
+ 			return -ENOMEM;
+-		rc = idr_get_new(&client->idr, handle, &id);
++		rc = idr_get_new_above(&client->idr, handle, 1, &id);
+ 		handle->id = id;
+ 	} while (rc == -EAGAIN);
+ 
+-- 
+2.7.4
+

@@ -1,0 +1,248 @@
+From c77705d6b4910289da39a7201f6217a67689dde4 Mon Sep 17 00:00:00 2001
+From: Rebecca Schultz Zavin <rebecca@android.com>
+Date: Thu, 15 Nov 2012 10:43:46 -0800
+Subject: [PATCH 059/102] gpu: ion: Refactor common mapping functions out of
+ system heap
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The system heap contained several general purpose functions to map
+buffers to the kernel and userspace.  This patch refactors those
+into ion_heap.c so they can be used by other heaps.
+
+Change-Id: If64591798bdc2c248bf9064ace2c927909d7adb8
+Signed-off-by: Rebecca Schultz Zavin <rebecca@android.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion_heap.c        | 75 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/ion/ion_priv.h        | 10 +++++
+ drivers/gpu/ion/ion_system_heap.c | 84 +++------------------------------------
+ 3 files changed, 91 insertions(+), 78 deletions(-)
+
+diff --git a/drivers/gpu/ion/ion_heap.c b/drivers/gpu/ion/ion_heap.c
+index 3d0f5cb..8b1db6d 100644
+--- a/drivers/gpu/ion/ion_heap.c
++++ b/drivers/gpu/ion/ion_heap.c
+@@ -16,8 +16,83 @@
+ 
+ #include <linux/err.h>
+ #include <linux/ion.h>
++#include <linux/mm.h>
++#include <linux/scatterlist.h>
++#include <linux/vmalloc.h>
+ #include "ion_priv.h"
+ 
++void *ion_heap_map_kernel(struct ion_heap *heap,
++			  struct ion_buffer *buffer)
++{
++	struct scatterlist *sg;
++	int i, j;
++	void *vaddr;
++	pgprot_t pgprot;
++	struct sg_table *table = buffer->sg_table;
++	int npages = PAGE_ALIGN(buffer->size) / PAGE_SIZE;
++	struct page **pages = vmalloc(sizeof(struct page *) * npages);
++	struct page **tmp = pages;
++
++	if (!pages)
++		return 0;
++
++	if (buffer->flags & ION_FLAG_CACHED)
++		pgprot = PAGE_KERNEL;
++	else
++		pgprot = pgprot_writecombine(PAGE_KERNEL);
++
++	for_each_sg(table->sgl, sg, table->nents, i) {
++		int npages_this_entry = PAGE_ALIGN(sg_dma_len(sg)) / PAGE_SIZE;
++		struct page *page = sg_page(sg);
++		BUG_ON(i >= npages);
++		for (j = 0; j < npages_this_entry; j++) {
++			*(tmp++) = page++;
++		}
++	}
++	vaddr = vmap(pages, npages, VM_MAP, pgprot);
++	vfree(pages);
++
++	return vaddr;
++}
++
++void ion_heap_unmap_kernel(struct ion_heap *heap,
++			   struct ion_buffer *buffer)
++{
++	vunmap(buffer->vaddr);
++}
++
++int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
++		      struct vm_area_struct *vma)
++{
++	struct sg_table *table = buffer->sg_table;
++	unsigned long addr = vma->vm_start;
++	unsigned long offset = vma->vm_pgoff * PAGE_SIZE;
++	struct scatterlist *sg;
++	int i;
++
++	for_each_sg(table->sgl, sg, table->nents, i) {
++		struct page *page = sg_page(sg);
++		unsigned long remainder = vma->vm_end - addr;
++		unsigned long len = sg_dma_len(sg);
++
++		if (offset >= sg_dma_len(sg)) {
++			offset -= sg_dma_len(sg);
++			continue;
++		} else if (offset) {
++			page += offset / PAGE_SIZE;
++			len = sg_dma_len(sg) - offset;
++			offset = 0;
++		}
++		len = min(len, remainder);
++		remap_pfn_range(vma, addr, page_to_pfn(page), len,
++				vma->vm_page_prot);
++		addr += len;
++		if (addr >= vma->vm_end)
++			return 0;
++	}
++	return 0;
++}
++
+ struct ion_heap *ion_heap_create(struct ion_platform_heap *heap_data)
+ {
+ 	struct ion_heap *heap = NULL;
+diff --git a/drivers/gpu/ion/ion_priv.h b/drivers/gpu/ion/ion_priv.h
+index d817ef6..61eca1f 100644
+--- a/drivers/gpu/ion/ion_priv.h
++++ b/drivers/gpu/ion/ion_priv.h
+@@ -177,6 +177,16 @@ void ion_device_destroy(struct ion_device *dev);
+ void ion_device_add_heap(struct ion_device *dev, struct ion_heap *heap);
+ 
+ /**
++ * some helpers for common operations on buffers using the sg_table
++ * and vaddr fields
++ */
++void *ion_heap_map_kernel(struct ion_heap *, struct ion_buffer *);
++void ion_heap_unmap_kernel(struct ion_heap *, struct ion_buffer *);
++int ion_heap_map_user(struct ion_heap *, struct ion_buffer *,
++			struct vm_area_struct *);
++
++
++/**
+  * functions for creating and destroying the built in ion heaps.
+  * architectures can add their own custom architecture specific
+  * heaps as appropriate.
+diff --git a/drivers/gpu/ion/ion_system_heap.c b/drivers/gpu/ion/ion_system_heap.c
+index 2a85df9..a8cab06 100644
+--- a/drivers/gpu/ion/ion_system_heap.c
++++ b/drivers/gpu/ion/ion_system_heap.c
+@@ -224,7 +224,7 @@ void ion_system_heap_free(struct ion_buffer *buffer)
+ 	struct ion_system_heap *sys_heap = container_of(heap,
+ 							struct ion_system_heap,
+ 							heap);
+-	struct sg_table *table = buffer->priv_virt;
++	struct sg_table *table = buffer->sg_table;
+ 	struct scatterlist *sg;
+ 	LIST_HEAD(pages);
+ 	int i;
+@@ -247,86 +247,14 @@ void ion_system_heap_unmap_dma(struct ion_heap *heap,
+ 	return;
+ }
+ 
+-void *ion_system_heap_map_kernel(struct ion_heap *heap,
+-				 struct ion_buffer *buffer)
+-{
+-	struct scatterlist *sg;
+-	int i, j;
+-	void *vaddr;
+-	pgprot_t pgprot;
+-	struct sg_table *table = buffer->priv_virt;
+-	int npages = PAGE_ALIGN(buffer->size) / PAGE_SIZE;
+-	struct page **pages = vmalloc(sizeof(struct page *) * npages);
+-	struct page **tmp = pages;
+-
+-	if (!pages)
+-		return 0;
+-
+-	if (buffer->flags & ION_FLAG_CACHED)
+-		pgprot = PAGE_KERNEL;
+-	else
+-		pgprot = pgprot_writecombine(PAGE_KERNEL);
+-
+-	for_each_sg(table->sgl, sg, table->nents, i) {
+-		int npages_this_entry = PAGE_ALIGN(sg_dma_len(sg)) / PAGE_SIZE;
+-		struct page *page = sg_page(sg);
+-		BUG_ON(i >= npages);
+-		for (j = 0; j < npages_this_entry; j++) {
+-			*(tmp++) = page++;
+-		}
+-	}
+-	vaddr = vmap(pages, npages, VM_MAP, pgprot);
+-	vfree(pages);
+-
+-	return vaddr;
+-}
+-
+-void ion_system_heap_unmap_kernel(struct ion_heap *heap,
+-				  struct ion_buffer *buffer)
+-{
+-	vunmap(buffer->vaddr);
+-}
+-
+-int ion_system_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
+-			     struct vm_area_struct *vma)
+-{
+-	struct sg_table *table = buffer->priv_virt;
+-	unsigned long addr = vma->vm_start;
+-	unsigned long offset = vma->vm_pgoff * PAGE_SIZE;
+-	struct scatterlist *sg;
+-	int i;
+-
+-	for_each_sg(table->sgl, sg, table->nents, i) {
+-		struct page *page = sg_page(sg);
+-		unsigned long remainder = vma->vm_end - addr;
+-		unsigned long len = sg_dma_len(sg);
+-
+-		if (offset >= sg_dma_len(sg)) {
+-			offset -= sg_dma_len(sg);
+-			continue;
+-		} else if (offset) {
+-			page += offset / PAGE_SIZE;
+-			len = sg_dma_len(sg) - offset;
+-			offset = 0;
+-		}
+-		len = min(len, remainder);
+-		remap_pfn_range(vma, addr, page_to_pfn(page), len,
+-				vma->vm_page_prot);
+-		addr += len;
+-		if (addr >= vma->vm_end)
+-			return 0;
+-	}
+-	return 0;
+-}
+-
+ static struct ion_heap_ops system_heap_ops = {
+ 	.allocate = ion_system_heap_allocate,
+ 	.free = ion_system_heap_free,
+ 	.map_dma = ion_system_heap_map_dma,
+ 	.unmap_dma = ion_system_heap_unmap_dma,
+-	.map_kernel = ion_system_heap_map_kernel,
+-	.unmap_kernel = ion_system_heap_unmap_kernel,
+-	.map_user = ion_system_heap_map_user,
++	.map_kernel = ion_heap_map_kernel,
++	.unmap_kernel = ion_heap_unmap_kernel,
++	.map_user = ion_heap_map_user,
+ };
+ 
+ static int ion_system_heap_debug_show(struct ion_heap *heap, struct seq_file *s,
+@@ -468,8 +396,8 @@ static struct ion_heap_ops kmalloc_ops = {
+ 	.phys = ion_system_contig_heap_phys,
+ 	.map_dma = ion_system_contig_heap_map_dma,
+ 	.unmap_dma = ion_system_contig_heap_unmap_dma,
+-	.map_kernel = ion_system_heap_map_kernel,
+-	.unmap_kernel = ion_system_heap_unmap_kernel,
++	.map_kernel = ion_heap_map_kernel,
++	.unmap_kernel = ion_heap_unmap_kernel,
+ 	.map_user = ion_system_contig_heap_map_user,
+ };
+ 
+-- 
+2.7.4
+
