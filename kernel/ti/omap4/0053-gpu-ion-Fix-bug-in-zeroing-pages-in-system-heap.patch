@@ -1,0 +1,36 @@
+From d40cde9f51baa80680ec383a01bbbc7d71ca157d Mon Sep 17 00:00:00 2001
+From: Rebecca Schultz Zavin <rebecca@android.com>
+Date: Mon, 3 Dec 2012 11:43:49 -0800
+Subject: [PATCH 053/102] gpu: ion: Fix bug in zeroing pages in system heap
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Pages are zeroed for security purposes when returned to the
+ion heap.  There was a bug in this code preventing this
+from happening.
+
+Bug: 7573871
+Change-Id: I79c22ee1da98f306199f3a192eaec4e81d5fd059
+Signed-off-by: Rebecca Schultz Zavin <rebecca@android.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion_system_heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/ion/ion_system_heap.c b/drivers/gpu/ion/ion_system_heap.c
+index dfa9543..2a85df9 100644
+--- a/drivers/gpu/ion/ion_system_heap.c
++++ b/drivers/gpu/ion/ion_system_heap.c
+@@ -103,7 +103,7 @@ static void free_buffer_page(struct ion_system_heap *heap,
+ 		   security.  This uses vmap as we want to set the pgprot so
+ 		   the writes to occur to noncached mappings, as the pool's
+ 		   purpose is to keep the pages out of the cache */
+-		for (i = 0; i < order / PAGE_SIZE; i++) {
++		for (i = 0; i < (1 << order); i++) {
+ 			struct page *sub_page = page + i;
+ 			void *addr = vmap(&sub_page, 1, VM_MAP,
+ 					  pgprot_writecombine(PAGE_KERNEL));
+-- 
+2.7.4
+
