@@ -4,7 +4,6 @@ ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'hardware/ti/omap4'
-    'kernel/ti/omap4'
     'system/core'
 )
 
