@@ -89,6 +89,5 @@ if [ "$OSSCAM" = "y" ]; then
 	osscamhal
 fi
 
-cd $SAUCE
-#cd $SAUCE/pull
-#. patch.sh
+cd $SAUCE/pull
+. patch.sh

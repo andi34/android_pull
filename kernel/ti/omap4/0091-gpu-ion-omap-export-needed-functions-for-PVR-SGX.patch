@@ -1,0 +1,60 @@
+From 6c2f970880f12154369b9d1ad9a2345683f42f8d Mon Sep 17 00:00:00 2001
+From: Rogelio Garcia <rgarcia@ti.com>
+Date: Wed, 18 Feb 2015 09:07:41 -0800
+Subject: [PATCH 091/111] gpu: ion: omap: export needed functions for PVR SGX
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ia19393292e02f358f14c226af6c64f2a951341ba
+Signed-off-by: Rodrigo Obregon <robregon@ti.com>
+Signed-off-by: Vasyl Yushchyshen <vasyl.yushchyshen@globallogic.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/omap/omap_ion.c        | 3 +++
+ drivers/gpu/ion/omap/omap_tiler_heap.c | 1 +
+ 2 files changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/ion/omap/omap_ion.c b/drivers/gpu/ion/omap/omap_ion.c
+index 727dc7c..69f2ee2 100644
+--- a/drivers/gpu/ion/omap/omap_ion.c
++++ b/drivers/gpu/ion/omap/omap_ion.c
+@@ -23,6 +23,7 @@
+ #include "../ion_priv.h"
+ #include "omap_ion_priv.h"
+ #include <linux/syscalls.h>
++#include <linux/module.h>
+ 
+ struct ion_device *omap_ion_device;
+ int num_heaps;
+@@ -36,6 +37,7 @@ int omap_ion_tiler_alloc(struct ion_client *client,
+ {
+ 	return omap_tiler_alloc(tiler_heap, client, data);
+ }
++EXPORT_SYMBOL(omap_ion_tiler_alloc);
+ 
+ int omap_ion_nonsecure_tiler_alloc(struct ion_client *client,
+ 			 struct omap_ion_tiler_alloc_data *data)
+@@ -44,6 +46,7 @@ int omap_ion_nonsecure_tiler_alloc(struct ion_client *client,
+ 		return -ENOMEM;
+ 	return omap_tiler_alloc(nonsecure_tiler_heap, client, data);
+ }
++EXPORT_SYMBOL(omap_ion_nonsecure_tiler_alloc);
+ 
+ long omap_ion_ioctl(struct ion_client *client, unsigned int cmd,
+ 		    unsigned long arg)
+diff --git a/drivers/gpu/ion/omap/omap_tiler_heap.c b/drivers/gpu/ion/omap/omap_tiler_heap.c
+index 8f3a56b..dba97db 100644
+--- a/drivers/gpu/ion/omap/omap_tiler_heap.c
++++ b/drivers/gpu/ion/omap/omap_tiler_heap.c
+@@ -386,6 +386,7 @@ int omap_tiler_pages(struct ion_client *client, struct ion_handle *handle,
+ 	*tiler_addrs = info->tiler_addrs;
+ 	return 0;
+ }
++EXPORT_SYMBOL(omap_tiler_pages);
+ 
+ int omap_tiler_vinfo(struct ion_client *client, struct ion_handle *handle,
+ 			unsigned int *vstride, unsigned int *vsize)
+-- 
+2.7.4
+
