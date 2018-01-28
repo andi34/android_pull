@@ -1,0 +1,43 @@
+From 8b955b01f672175bcc9cbdbcffc93eb5d51abd4d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
+Date: Tue, 24 Nov 2015 15:35:43 -0500
+Subject: [PATCH 083/111] Revert "omap_ion: Revert ion_share and ion_import for
+ PVR fds"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This reverts commit f0ec8ff5cd4c94a7a51c7933817696236620d936.
+
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/omap/omap_ion.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/ion/omap/omap_ion.c b/drivers/gpu/ion/omap/omap_ion.c
+index f01b875..00d0960 100644
+--- a/drivers/gpu/ion/omap/omap_ion.c
++++ b/drivers/gpu/ion/omap/omap_ion.c
+@@ -164,6 +164,8 @@ int omap_ion_fd_to_handles(int fd, struct ion_client **client,
+ 		struct ion_handle **handles,
+ 		int *num_handles)
+ {
++	struct ion_buffer *ionbuff;
++	int i;
+ #ifdef CONFIG_PVR_SGX
+ 	if (*num_handles == 2)
+ 		PVRSRVExportFDToIONHandles(fd, client, handles);
+@@ -184,6 +186,10 @@ int omap_ion_fd_to_handles(int fd, struct ion_client **client,
+ 		return -EINVAL;
+ 	}
+ #endif
++	for (i = 0; i < *num_handles; i++) {
++		ionbuff = ion_share(*client, handles[i]);
++		handles[i] = ion_import(*client, ionbuff);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.7.4
+

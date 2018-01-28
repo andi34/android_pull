@@ -1,0 +1,76 @@
+From 022ccea047a973d742219b689c72919c8911028c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
+Date: Tue, 24 Nov 2015 13:15:45 -0500
+Subject: [PATCH 007/111] Revert "ion: fix build"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This reverts commit 886cd98d45b5e4a46479ecd2764eb874ccdc42bb.
+
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index 5490bf5..70fdc71 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -448,7 +448,7 @@ void *ion_map_kernel(struct ion_client *client, struct ion_handle *handle)
+ 	mutex_unlock(&client->lock);
+ 	return vaddr;
+ }
+-EXPORT_SYMBOL(ion_map_kernel);
++EXPORT_SYMBOL(ion_map_kernel)
+ 
+ struct scatterlist *ion_map_dma(struct ion_client *client,
+ 				struct ion_handle *handle)
+@@ -485,7 +485,7 @@ struct scatterlist *ion_map_dma(struct ion_client *client,
+ 	mutex_unlock(&client->lock);
+ 	return sglist;
+ }
+-EXPORT_SYMBOL(ion_map_dma);
++EXPORT_SYMBOL(ion_map_dma)
+ 
+ void ion_unmap_kernel(struct ion_client *client, struct ion_handle *handle)
+ {
+@@ -501,7 +501,7 @@ void ion_unmap_kernel(struct ion_client *client, struct ion_handle *handle)
+ 	mutex_unlock(&buffer->lock);
+ 	mutex_unlock(&client->lock);
+ }
+-EXPORT_SYMBOL(ion_unmap_kernel);
++EXPORT_SYMBOL(ion_unmap_kernel)
+ 
+ void ion_unmap_dma(struct ion_client *client, struct ion_handle *handle)
+ {
+@@ -517,7 +517,7 @@ void ion_unmap_dma(struct ion_client *client, struct ion_handle *handle)
+ 	mutex_unlock(&buffer->lock);
+ 	mutex_unlock(&client->lock);
+ }
+-EXPORT_SYMBOL(ion_unmap_dma);
++EXPORT_SYMBOL(ion_unmap_dma)
+ 
+ struct ion_buffer *ion_share(struct ion_client *client,
+ 				 struct ion_handle *handle)
+@@ -539,7 +539,7 @@ struct ion_buffer *ion_share(struct ion_client *client,
+ 	 */
+ 	return handle->buffer;
+ }
+-EXPORT_SYMBOL(ion_share);
++EXPORT_SYMBOL(ion_share)
+ 
+ struct ion_handle *ion_import(struct ion_client *client,
+ 			      struct ion_buffer *buffer)
+@@ -561,7 +561,7 @@ end:
+ 	mutex_unlock(&client->lock);
+ 	return handle;
+ }
+-EXPORT_SYMBOL(ion_import);
++EXPORT_SYMBOL(ion_import)
+ 
+ static const struct file_operations ion_share_fops;
+ 
+-- 
+2.7.4
+

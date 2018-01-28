@@ -1,0 +1,31 @@
+From c6cf64505ea1a9f66808a5846a5d9c24ec365e8f Mon Sep 17 00:00:00 2001
+From: Johan Mossberg <johan.mossberg@stericsson.com>
+Date: Mon, 10 Dec 2012 17:46:16 +0100
+Subject: [PATCH 067/111] gpu: ion: Export ion_client_create
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Will enable modules to allocate memory with ion.
+
+Signed-off-by: Johan Mossberg <johan.mossberg@stericsson.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/ion/ion.c b/drivers/gpu/ion/ion.c
+index 32abff4..35b9e75 100644
+--- a/drivers/gpu/ion/ion.c
++++ b/drivers/gpu/ion/ion.c
+@@ -687,6 +687,7 @@ struct ion_client *ion_client_create(struct ion_device *dev,
+ 
+ 	return client;
+ }
++EXPORT_SYMBOL(ion_client_create);
+ 
+ void ion_client_destroy(struct ion_client *client)
+ {
+-- 
+2.7.4
+
