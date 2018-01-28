@@ -1,0 +1,1037 @@
+From 0e067ac6740b5aae4ee5a3fba3258d61ab951f28 Mon Sep 17 00:00:00 2001
+From: Hashcode <hashcode0f@gmail.com>
+Date: Thu, 25 Aug 2016 09:34:06 -0700
+Subject: [PATCH 15/17] domx: clang fixes for warnings / errors
+
+Change-Id: I6c4d4c4e70568e0e0c7e2411869acfa22ae842ab
+---
+ domx/domx/omx_proxy_common/src/omx_proxy_common.c  | 26 +++++++--------
+ domx/domx/omx_rpc/src/omx_rpc.c                    |  2 +-
+ domx/domx/omx_rpc/src/omx_rpc_skel.c               | 34 +++++++++----------
+ domx/domx/omx_rpc/src/omx_rpc_stub.c               | 38 +++++++++++-----------
+ domx/domx/plugins/memplugin.c                      |  4 +--
+ domx/domx/plugins/memplugin_ion.c                  | 12 +++----
+ domx/domx/plugins/memplugin_table.c                |  2 +-
+ domx/mm_osal/src/timm_osal_memory.c                |  4 +--
+ domx/mm_osal/src/timm_osal_pipes.c                 |  7 ++--
+ domx/mm_osal/src/timm_osal_semaphores.c            |  4 +--
+ domx/mm_osal/src/timm_osal_task.c                  |  2 +-
+ domx/omx_core/src/OMX_Core.c                       | 21 ++++++------
+ domx/omx_core/src/OMX_Core_Wrapper.c               | 24 +++++++-------
+ .../omx_camera/src/omx_proxy_camera.c              | 24 +++++++++-----
+ .../omx_camera/src/proxy_camera_android_glue.c     |  8 ++---
+ .../src/omx_h264_enc/src/omx_proxy_h264enc.c       |  8 ++---
+ .../omx_h264_enc/src/omx_proxy_h264enc_secure.c    | 11 +++----
+ .../src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c |  8 ++---
+ .../src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c     | 10 +++---
+ .../src/omx_vc1_enc/src/omx_proxy_vc1enc.c         | 21 ++++++------
+ 20 files changed, 139 insertions(+), 131 deletions(-)
+
+diff --git a/domx/domx/omx_proxy_common/src/omx_proxy_common.c b/domx/domx/omx_proxy_common/src/omx_proxy_common.c
+index 5137ec4..678e127 100644
+--- a/domx/domx/omx_proxy_common/src/omx_proxy_common.c
++++ b/domx/domx/omx_proxy_common/src/omx_proxy_common.c
+@@ -168,7 +168,7 @@ RPC_OMX_ERRORTYPE RPC_RegisterBuffer(OMX_HANDLETYPE hRPCCtx, int fd1, int fd2,
+ 		goto EXIT;
+ 	}
+ 	if (ion_data.handle)
+-		*handle1 = ion_data.handle;
++		*handle1 = (void *)ion_data.handle;
+ 	else
+ 	{
+ 	    DOMX_ERROR("Registration failed - Invalid fd passed for Y buffer");
+@@ -188,7 +188,7 @@ RPC_OMX_ERRORTYPE RPC_RegisterBuffer(OMX_HANDLETYPE hRPCCtx, int fd1, int fd2,
+ 	   goto EXIT;
+ 	   }
+ 	if (ion_data.handle)
+-	    *handle2 = ion_data.handle;
++	    *handle2 = (void *)ion_data.handle;
+ 	else	 {
+ 	     DOMX_ERROR("Registration failed - Invalid fd passed for UV buffer");
+ 	     eRPCError = RPC_OMX_ErrorBadParameter;
+@@ -257,7 +257,7 @@ RPC_OMX_ERRORTYPE RPC_RegisterBuffer(OMX_HANDLETYPE hRPCCtx, int fd1, int fd2,
+ 			goto EXIT;
+ 		}
+ 		if (ion_data.handle)
+-			*handle1 = ion_data.handle;
++			*handle1 = (void *)ion_data.handle;
+ 		else
+ 		{
+ 		    DOMX_ERROR("Registration failed - Invalid fd passed");
+@@ -311,7 +311,7 @@ RPC_OMX_ERRORTYPE RPC_UnRegisterBuffer(OMX_HANDLETYPE hRPCCtx, OMX_PTR handle1,
+ #endif
+ 			status = ioctl(pRPCCtx->fd_omx, OMX_IOCIONUNREGISTER, &data);
+ 			if (status < 0) {
+-				DOMX_ERROR("UnregisterBuffer ioctl call failed for handle2: 0x%x",handle2);
++				DOMX_ERROR("UnregisterBuffer ioctl call failed for handle2: 0x%p",handle2);
+ 				eRPCError = RPC_OMX_ErrorInsufficientResources;
+ 			}
+ 		}
+@@ -357,7 +357,7 @@ RPC_OMX_ERRORTYPE RPC_UnRegisterBuffer(OMX_HANDLETYPE hRPCCtx, OMX_PTR handle1,
+  */
+ /* ===========================================================================*/
+ OMX_ERRORTYPE PROXY_EventHandler(OMX_HANDLETYPE hComponent,
+-    OMX_PTR pAppData, OMX_EVENTTYPE eEvent, OMX_U32 nData1, OMX_U32 nData2,
++    __unused OMX_PTR pAppData, OMX_EVENTTYPE eEvent, OMX_U32 nData1, OMX_U32 nData2,
+     OMX_PTR pEventData)
+ {
+ 	OMX_ERRORTYPE eError = OMX_ErrorNone;
+@@ -516,7 +516,7 @@ static OMX_ERRORTYPE PROXY_EmptyBufferDone(OMX_HANDLETYPE hComponent,
+ /* ===========================================================================*/
+ OMX_ERRORTYPE PROXY_FillBufferDone(OMX_HANDLETYPE hComponent,
+     OMX_U32 remoteBufHdr, OMX_U32 nfilledLen, OMX_U32 nOffset, OMX_U32 nFlags,
+-    OMX_TICKS nTimeStamp, OMX_HANDLETYPE hMarkTargetComponent,
++    OMX_TICKS nTimeStamp, __unused OMX_HANDLETYPE hMarkTargetComponent,
+     OMX_PTR pMarkData)
+ {
+ 
+@@ -833,7 +833,7 @@ OMX_ERRORTYPE PROXY_AllocateBuffer(OMX_IN OMX_HANDLETYPE hComponent,
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferHandle = newbuffer_prop.sBuffer_accessor.pBufferHandle;
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferMappedAddress = newbuffer_prop.sBuffer_accessor.pBufferMappedAddress;
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd = newbuffer_prop.sBuffer_accessor.bufferFd;
+-		pMemptr = (OMX_U8*)pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd;
++		pMemptr = (OMX_U8*) pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd;
+ 		DOMX_DEBUG ("Ion handle recieved = %x",pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferHandle);
+ 
+ 	/*No need to increment Allocated buffers here.
+@@ -1373,7 +1373,7 @@ OMX_ERRORTYPE __PROXY_SetParameter(OMX_IN OMX_HANDLETYPE hComponent,
+ 		("hComponent = %p, pCompPrv = %p, nParamIndex = %d, pParamStruct = %p",
+ 		hComponent, pCompPrv, nParamIndex, pParamStruct);
+ 
+-	switch(nParamIndex)
++	switch((unsigned int)nParamIndex)
+ 	{
+ #ifdef ENABLE_GRALLOC_BUFFERS
+ 		case OMX_TI_IndexUseNativeBuffers:
+@@ -1499,7 +1499,7 @@ OMX_ERRORTYPE __PROXY_GetParameter(OMX_IN OMX_HANDLETYPE hComponent,
+ 		("hComponent = %p, pCompPrv = %p, nParamIndex = %d, pParamStruct = %p",
+ 		 hComponent, pCompPrv, nParamIndex, pParamStruct);
+ 
+-	switch(nParamIndex)
++	switch((unsigned int)nParamIndex)
+ 	{
+ 		case OMX_TI_IndexUseBufferDescriptor:
+ 			eRPCError = RPC_GetParameter(pCompPrv->hRemoteComp, nParamIndex, pParamStruct,
+@@ -2008,7 +2008,7 @@ OMX_ERRORTYPE PROXY_GetExtensionIndex(OMX_IN OMX_HANDLETYPE hComponent,
+  */
+ /* ===========================================================================*/
+ static OMX_ERRORTYPE PROXY_ComponentRoleEnum(OMX_IN OMX_HANDLETYPE hComponent,
+-    OMX_OUT OMX_U8 * cRole, OMX_IN OMX_U32 nIndex)
++    __unused OMX_OUT OMX_U8 * cRole, __unused OMX_IN OMX_U32 nIndex)
+ {
+ 	OMX_ERRORTYPE eError = OMX_ErrorNone;
+ 
+@@ -2116,9 +2116,9 @@ static OMX_ERRORTYPE PROXY_SetCallbacks(OMX_HANDLETYPE hComponent,
+  *
+  */
+ /* ===========================================================================*/
+-static OMX_ERRORTYPE PROXY_UseEGLImage(OMX_HANDLETYPE hComponent,
+-    OMX_BUFFERHEADERTYPE ** ppBufferHdr,
+-    OMX_U32 nPortIndex, OMX_PTR pAppPrivate, void *pBuffer)
++static OMX_ERRORTYPE PROXY_UseEGLImage(__unused OMX_HANDLETYPE hComponent,
++    __unused OMX_BUFFERHEADERTYPE ** ppBufferHdr,
++    __unused OMX_U32 nPortIndex, __unused OMX_PTR pAppPrivate, __unused void *pBuffer)
+ {
+ 	return OMX_ErrorNotImplemented;
+ }
+diff --git a/domx/domx/omx_rpc/src/omx_rpc.c b/domx/domx/omx_rpc/src/omx_rpc.c
+index 3a6c33c..a6a53b1 100755
+--- a/domx/domx/omx_rpc/src/omx_rpc.c
++++ b/domx/domx/omx_rpc/src/omx_rpc.c
+@@ -100,7 +100,7 @@ void *RPC_CallbackThread(void *data);
+ */
+ /* ===========================================================================*/
+ 
+-RPC_OMX_ERRORTYPE RPC_InstanceInit(OMX_STRING cComponentName,
++RPC_OMX_ERRORTYPE RPC_InstanceInit(__unused OMX_STRING cComponentName,
+     OMX_HANDLETYPE * phRPCCtx)
+ {
+ 	RPC_OMX_ERRORTYPE eRPCError = RPC_OMX_ErrorNone;
+diff --git a/domx/domx/omx_rpc/src/omx_rpc_skel.c b/domx/domx/omx_rpc/src/omx_rpc_skel.c
+index 5b8d423..26bb5ae 100755
+--- a/domx/domx/omx_rpc/src/omx_rpc_skel.c
++++ b/domx/domx/omx_rpc/src/omx_rpc_skel.c
+@@ -247,83 +247,83 @@ RPC_OMX_ERRORTYPE RPC_SKEL_EventHandler(void *data)
+  *
+  */
+ /* ===========================================================================*/
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetHandle(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetHandle(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_SetParameter(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_SetParameter(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetParameter(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetParameter(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_FreeHandle(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_FreeHandle(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_EmptyThisBuffer(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_EmptyThisBuffer(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_FillThisBuffer(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_FillThisBuffer(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_UseBuffer(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_UseBuffer(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_FreeBuffer(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_FreeBuffer(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_SetConfig(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_SetConfig(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetConfig(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetConfig(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetState(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetState(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_SendCommand(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_SendCommand(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetComponentVersion(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetComponentVersion(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_GetExtensionIndex(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_GetExtensionIndex(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_AllocateBuffer(uint32_t size, uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_AllocateBuffer(__unused uint32_t size, __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+ 
+-RPC_OMX_ERRORTYPE RPC_SKEL_ComponentTunnelRequest(uint32_t size,
+-    uint32_t * data)
++RPC_OMX_ERRORTYPE RPC_SKEL_ComponentTunnelRequest(__unused uint32_t size,
++    __unused uint32_t * data)
+ {
+ 	return RPC_OMX_ErrorNone;
+ }
+diff --git a/domx/domx/omx_rpc/src/omx_rpc_stub.c b/domx/domx/omx_rpc/src/omx_rpc_stub.c
+index 0c28ba1..88b7c10 100755
+--- a/domx/domx/omx_rpc/src/omx_rpc_stub.c
++++ b/domx/domx/omx_rpc/src/omx_rpc_stub.c
+@@ -166,7 +166,7 @@
+ /* ===========================================================================*/
+ RPC_OMX_ERRORTYPE RPC_GetHandle(OMX_HANDLETYPE hRPCCtx,
+     OMX_STRING cComponentName, OMX_PTR pAppData,
+-    OMX_CALLBACKTYPE * pCallBacks, OMX_ERRORTYPE * eCompReturn)
++    __unused OMX_CALLBACKTYPE * pCallBacks, OMX_ERRORTYPE * eCompReturn)
+ {
+ 	RPC_OMX_ERRORTYPE eRPCError = RPC_OMX_ErrorNone;
+ 	TIMM_OSAL_ERRORTYPE eError = TIMM_OSAL_ERR_NONE;
+@@ -325,7 +325,7 @@ RPC_OMX_ERRORTYPE RPC_SetParameter(OMX_HANDLETYPE hRPCCtx,
+ 	RPC_getPacket(nPacketSize, pPacket);
+ 	RPC_initPacket(pPacket, pOmxPacket, pData, nFxnIdx, nPacketSize);
+ 
+-	if (pLocBufNeedMap != NULL && (pLocBufNeedMap - pCompParam) >= 0 ) {
++	if (pLocBufNeedMap != NULL && ((long int)pLocBufNeedMap - (long int)pCompParam) >= 0 ) {
+ 		if (nNumOfLocalBuf == 1) {
+ 			RPC_SETFIELDVALUE(pData, nPos, RPC_OMX_MAP_INFO_ONE_BUF,
+ 				RPC_OMX_MAP_INFO_TYPE);
+@@ -334,7 +334,7 @@ RPC_OMX_ERRORTYPE RPC_SetParameter(OMX_HANDLETYPE hRPCCtx,
+ 			RPC_SETFIELDVALUE(pData, nPos, RPC_OMX_MAP_INFO_TWO_BUF,
+ 				RPC_OMX_MAP_INFO_TYPE);
+ 		}
+-		nOffset = (pLocBufNeedMap - pCompParam) +
++		nOffset = ((long int)pLocBufNeedMap - (long int)pCompParam) +
+ 			sizeof(RPC_OMX_MAP_INFO_TYPE) + sizeof(OMX_U32) +
+ 			sizeof(OMX_HANDLETYPE) + sizeof(OMX_INDEXTYPE);
+ 	} else {
+@@ -401,10 +401,10 @@ RPC_OMX_ERRORTYPE RPC_GetParameter(OMX_HANDLETYPE hRPCCtx,
+ 	RPC_getPacket(nPacketSize, pPacket);
+ 	RPC_initPacket(pPacket, pOmxPacket, pData, nFxnIdx, nPacketSize);
+ 
+-	if (pLocBufNeedMap != NULL && (pLocBufNeedMap - pCompParam) >= 0 ) {
++	if (pLocBufNeedMap != NULL && ((long int)pLocBufNeedMap - (long int)pCompParam) >= 0 ) {
+ 		RPC_SETFIELDVALUE(pData, nPos, RPC_OMX_MAP_INFO_ONE_BUF,
+ 			RPC_OMX_MAP_INFO_TYPE);
+-		nOffset = (pLocBufNeedMap - pCompParam) +
++		nOffset = ((long int)pLocBufNeedMap - (long int)pCompParam) +
+ 			sizeof(RPC_OMX_MAP_INFO_TYPE) + sizeof(OMX_U32) +
+ 			sizeof(OMX_HANDLETYPE) + sizeof(OMX_INDEXTYPE);
+ 	} else {
+@@ -480,10 +480,10 @@ RPC_OMX_ERRORTYPE RPC_SetConfig(OMX_HANDLETYPE hRPCCtx,
+ 	RPC_getPacket(nPacketSize, pPacket);
+ 	RPC_initPacket(pPacket, pOmxPacket, pData, nFxnIdx, nPacketSize);
+ 
+-	if (pLocBufNeedMap != NULL && (pLocBufNeedMap - pCompConfig) >= 0 ) {
++	if (pLocBufNeedMap != NULL && ((long int)pLocBufNeedMap - (long int)pCompConfig) >= 0 ) {
+ 		RPC_SETFIELDVALUE(pData, nPos, RPC_OMX_MAP_INFO_ONE_BUF,
+ 			RPC_OMX_MAP_INFO_TYPE);
+-		nOffset = (pLocBufNeedMap - pCompConfig) +
++		nOffset = ((long int)pLocBufNeedMap - (long int)pCompConfig) +
+ 			sizeof(RPC_OMX_MAP_INFO_TYPE) + sizeof(OMX_U32) +
+ 			sizeof(OMX_HANDLETYPE) + sizeof(OMX_INDEXTYPE);
+ 	} else {
+@@ -547,10 +547,10 @@ RPC_OMX_ERRORTYPE RPC_GetConfig(OMX_HANDLETYPE hRPCCtx,
+ 	RPC_getPacket(nPacketSize, pPacket);
+ 	RPC_initPacket(pPacket, pOmxPacket, pData, nFxnIdx, nPacketSize);
+ 
+-	if (pLocBufNeedMap != NULL && (pLocBufNeedMap - pCompConfig) >= 0 ) {
++	if (pLocBufNeedMap != NULL && ((long int)pLocBufNeedMap - (long int)pCompConfig) >= 0 ) {
+ 		RPC_SETFIELDVALUE(pData, nPos, RPC_OMX_MAP_INFO_ONE_BUF,
+ 			RPC_OMX_MAP_INFO_TYPE);
+-		nOffset = (pLocBufNeedMap - pCompConfig) +
++		nOffset = ((long int)pLocBufNeedMap - (long int)pCompConfig) +
+ 			sizeof(RPC_OMX_MAP_INFO_TYPE) + sizeof(OMX_U32) +
+ 			sizeof(OMX_HANDLETYPE) + sizeof(OMX_INDEXTYPE);
+ 	} else {
+@@ -1419,27 +1419,27 @@ RPC_OMX_ERRORTYPE RPC_FillThisBuffer(OMX_HANDLETYPE hRPCCtx,
+  *
+  */
+ /* ===========================================================================*/
+-OMX_ERRORTYPE RPC_EventHandler(OMX_HANDLETYPE hRPCCtx, OMX_PTR pAppData,
+-    OMX_EVENTTYPE eEvent, OMX_U32 nData1, OMX_U32 nData2, OMX_PTR pEventData)
++OMX_ERRORTYPE RPC_EventHandler(__unused OMX_HANDLETYPE hRPCCtx, __unused OMX_PTR pAppData,
++    __unused OMX_EVENTTYPE eEvent, __unused OMX_U32 nData1, __unused OMX_U32 nData2, __unused OMX_PTR pEventData)
+ {
+-	return RPC_OMX_ErrorNone;
++	return (OMX_ERRORTYPE)RPC_OMX_ErrorNone;
+ }
+ 
+-OMX_ERRORTYPE RPC_EmptyBufferDone(OMX_HANDLETYPE hRPCCtx, OMX_PTR pAppData,
+-    OMX_BUFFERHEADERTYPE * pBuffer)
++OMX_ERRORTYPE RPC_EmptyBufferDone(__unused OMX_HANDLETYPE hRPCCtx, __unused OMX_PTR pAppData,
++    __unused OMX_BUFFERHEADERTYPE * pBuffer)
+ {
+-	return RPC_OMX_ErrorNone;
++	return (OMX_ERRORTYPE)RPC_OMX_ErrorNone;
+ }
+ 
+-OMX_ERRORTYPE RPC_FillBufferDone(OMX_HANDLETYPE hRPCCtx, OMX_PTR pAppData,
+-    OMX_BUFFERHEADERTYPE * pBuffer)
++OMX_ERRORTYPE RPC_FillBufferDone(__unused OMX_HANDLETYPE hRPCCtx, __unused OMX_PTR pAppData,
++    __unused OMX_BUFFERHEADERTYPE * pBuffer)
+ {
+-	return RPC_OMX_ErrorNone;
++	return (OMX_ERRORTYPE)RPC_OMX_ErrorNone;
+ }
+ 
+ RPC_OMX_ERRORTYPE RPC_ComponentTunnelRequest(OMX_HANDLETYPE hRPCCtx,
+     OMX_IN OMX_U32 nPort, OMX_HANDLETYPE hTunneledRemoteHandle,
+-    OMX_U32 nTunneledPort, OMX_INOUT OMX_TUNNELSETUPTYPE * pTunnelSetup,
++    OMX_U32 nTunneledPort, __unused OMX_INOUT OMX_TUNNELSETUPTYPE * pTunnelSetup,
+     OMX_ERRORTYPE * eCompReturn)
+ {
+ 	RPC_OMX_ERRORTYPE eRPCError = RPC_OMX_ErrorNone;
+diff --git a/domx/domx/plugins/memplugin.c b/domx/domx/plugins/memplugin.c
+index e2ba37a..d8d4a0f 100644
+--- a/domx/domx/plugins/memplugin.c
++++ b/domx/domx/plugins/memplugin.c
+@@ -62,7 +62,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_Init(char *cMemPluginName, void **pMemPluginHandle
+         goto EXIT;
+     }
+ 
+-    while(MemPlugins_Map[i].pMemPluginConfig != 0)
++    while(MemPlugins_Map[i].cMemPluginName[0] != '\0')
+     {
+         if(strcmp(MemPlugins_Map[i].cMemPluginName,cMemPluginName) == 0)
+         {
+@@ -163,7 +163,7 @@ EXIT:
+     }
+     return eError;
+ }
+-MEMPLUGIN_ERRORTYPE MemPlugin_Configure(void *pMemPluginHandle, void *pConfigData)
++MEMPLUGIN_ERRORTYPE MemPlugin_Configure(__unused void *pMemPluginHandle, __unused void *pConfigData)
+ {
+     //implementation to be added later
+ EXIT:
+diff --git a/domx/domx/plugins/memplugin_ion.c b/domx/domx/plugins/memplugin_ion.c
+index 083cd70..5f00d2f 100755
+--- a/domx/domx/plugins/memplugin_ion.c
++++ b/domx/domx/plugins/memplugin_ion.c
+@@ -88,7 +88,7 @@ EXIT:
+     return eError;
+ }
+ 
+-MEMPLUGIN_ERRORTYPE MemPlugin_ION_Open(void *pMemPluginHandle,OMX_U32 *pClient)
++MEMPLUGIN_ERRORTYPE MemPlugin_ION_Open(__unused void *pMemPluginHandle,OMX_U32 *pClient)
+ {
+     MEMPLUGIN_ERRORTYPE    eError = MEMPLUGIN_ERROR_NONE;
+     OMX_U32 memClient = 0;
+@@ -115,7 +115,7 @@ EXIT:
+     return eError;
+ }
+ 
+-MEMPLUGIN_ERRORTYPE MemPlugin_ION_Close(void *pMemPluginHandle, OMX_U32 nClient)
++MEMPLUGIN_ERRORTYPE MemPlugin_ION_Close(__unused void *pMemPluginHandle, OMX_U32 nClient)
+ {
+     MEMPLUGIN_ERRORTYPE    eError = MEMPLUGIN_ERROR_NONE;
+ 
+@@ -124,7 +124,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_ION_Close(void *pMemPluginHandle, OMX_U32 nClient)
+ EXIT:
+     return eError;
+ }
+-MEMPLUGIN_ERRORTYPE MemPlugin_ION_Configure(void *pMemPluginHandle, void *pConfigData)
++MEMPLUGIN_ERRORTYPE MemPlugin_ION_Configure(__unused void *pMemPluginHandle, __unused void *pConfigData)
+ {
+     //implementation to be added later
+ EXIT:
+@@ -137,7 +137,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_ION_Alloc(void *pMemPluginHandle, OMX_U32 nClient,
+ {
+     OMX_S16 ret;
+     struct ion_handle *temp;
+-    size_t stride;
++    size_t stride = 0;
+     MEMPLUGIN_ERRORTYPE eError = MEMPLUGIN_ERROR_NONE;
+     MEMPLUGIN_ION_PARAMS sIonParams;
+     MEMPLUGIN_OBJECT    *pMemPluginHdl = (MEMPLUGIN_OBJECT *)pMemPluginHandle;
+@@ -242,7 +242,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_ION_Alloc(void *pMemPluginHandle, OMX_U32 nClient,
+                                 sIonParams.map_flags,
+                                 sIonParams.nOffset,
+                                 (unsigned char **) &(pIonBufferProp->sBuffer_accessor.pBufferMappedAddress),
+-                                &(pIonBufferProp->sBuffer_accessor.bufferFd));
++                                (int *)&(pIonBufferProp->sBuffer_accessor.bufferFd));
+ 
+         if(ret < 0)
+         {
+@@ -278,7 +278,7 @@ EXIT:
+       }
+ }
+ 
+-MEMPLUGIN_ERRORTYPE MemPlugin_ION_Free(void *pMemPluginHandle,OMX_U32 nClient,
++MEMPLUGIN_ERRORTYPE MemPlugin_ION_Free(__unused void *pMemPluginHandle,OMX_U32 nClient,
+                                     MEMPLUGIN_BUFFER_PARAMS *pIonBufferParams,
+                                     MEMPLUGIN_BUFFER_PROPERTIES *pIonBufferProp)
+ {
+diff --git a/domx/domx/plugins/memplugin_table.c b/domx/domx/plugins/memplugin_table.c
+index 254d1cc..9bbb09a 100644
+--- a/domx/domx/plugins/memplugin_table.c
++++ b/domx/domx/plugins/memplugin_table.c
+@@ -48,5 +48,5 @@ MEMPLUGIN_TABLETYPE    MemPlugins_Map[] =
+ {
+     { "MEMPLUGIN_ION",    &MemPlugin_ION_Init },
+     //   {"MEMPLUGIN_DRM" ,  &MemPlugin_DRM_Configure},
+-    { 0, 0 }
++    { "\0", NULL }
+ };
+diff --git a/domx/mm_osal/src/timm_osal_memory.c b/domx/mm_osal/src/timm_osal_memory.c
+index 22eb0a4..0d80b9d 100755
+--- a/domx/mm_osal/src/timm_osal_memory.c
++++ b/domx/mm_osal/src/timm_osal_memory.c
+@@ -114,8 +114,8 @@ TIMM_OSAL_ERRORTYPE TIMM_OSAL_DeleteMemoryPool(void)
+ */
+ /* ========================================================================== */
+ TIMM_OSAL_PTR TIMM_OSAL_Malloc(TIMM_OSAL_U32 size,
+-    TIMM_OSAL_BOOL bBlockContiguous,
+-    TIMM_OSAL_U32 unBlockAlignment, TIMMOSAL_MEM_SEGMENTID tMemSegId)
++    __unused TIMM_OSAL_BOOL bBlockContiguous,
++    TIMM_OSAL_U32 unBlockAlignment, __unused TIMMOSAL_MEM_SEGMENTID tMemSegId)
+ {
+ 
+ 	TIMM_OSAL_PTR pData = TIMM_OSAL_NULL;
+diff --git a/domx/mm_osal/src/timm_osal_pipes.c b/domx/mm_osal/src/timm_osal_pipes.c
+index 1c38354..a36c4e2 100755
+--- a/domx/mm_osal/src/timm_osal_pipes.c
++++ b/domx/mm_osal/src/timm_osal_pipes.c
+@@ -58,6 +58,7 @@
+ 
+ #include <unistd.h>
+ #include <stdio.h>
++#include <string.h>
+ #include <unistd.h>
+ #include <errno.h>
+ 
+@@ -179,7 +180,7 @@ EXIT:
+ /* ========================================================================== */
+ 
+ TIMM_OSAL_ERRORTYPE TIMM_OSAL_WriteToPipe(TIMM_OSAL_PTR pPipe,
+-    void *pMessage, TIMM_OSAL_U32 size, TIMM_OSAL_S32 timeout)
++    void *pMessage, TIMM_OSAL_U32 size, __unused TIMM_OSAL_S32 timeout)
+ {
+ 	TIMM_OSAL_ERRORTYPE bReturnStatus = TIMM_OSAL_ERR_UNKNOWN;
+ 	TIMM_OSAL_U32 lSizeWritten = -1;
+@@ -222,7 +223,7 @@ TIMM_OSAL_ERRORTYPE TIMM_OSAL_WriteToPipe(TIMM_OSAL_PTR pPipe,
+ /* ========================================================================== */
+ 
+ TIMM_OSAL_ERRORTYPE TIMM_OSAL_WriteToFrontOfPipe(TIMM_OSAL_PTR pPipe,
+-    void *pMessage, TIMM_OSAL_U32 size, TIMM_OSAL_S32 timeout)
++    void *pMessage, TIMM_OSAL_U32 size, __unused TIMM_OSAL_S32 timeout)
+ {
+ 
+ 	TIMM_OSAL_ERRORTYPE bReturnStatus = TIMM_OSAL_ERR_UNKNOWN;
+@@ -357,7 +358,7 @@ TIMM_OSAL_ERRORTYPE TIMM_OSAL_ReadFromPipe(TIMM_OSAL_PTR pPipe,
+ */
+ /* ========================================================================== */
+ 
+-TIMM_OSAL_ERRORTYPE TIMM_OSAL_ClearPipe(TIMM_OSAL_PTR pPipe)
++TIMM_OSAL_ERRORTYPE TIMM_OSAL_ClearPipe(__unused TIMM_OSAL_PTR pPipe)
+ {
+ 	TIMM_OSAL_ERRORTYPE bReturnStatus = TIMM_OSAL_ERR;
+ 
+diff --git a/domx/mm_osal/src/timm_osal_semaphores.c b/domx/mm_osal/src/timm_osal_semaphores.c
+index b69ee3c..336eb9e 100755
+--- a/domx/mm_osal/src/timm_osal_semaphores.c
++++ b/domx/mm_osal/src/timm_osal_semaphores.c
+@@ -236,8 +236,8 @@ TIMM_OSAL_ERRORTYPE TIMM_OSAL_SemaphoreRelease(TIMM_OSAL_PTR pSemaphore)
+ *
+ */
+ /* ========================================================================== */
+-TIMM_OSAL_ERRORTYPE TIMM_OSAL_SemaphoreReset(TIMM_OSAL_PTR pSemaphore,
+-    TIMM_OSAL_U32 uInitCount)
++TIMM_OSAL_ERRORTYPE TIMM_OSAL_SemaphoreReset(__unused TIMM_OSAL_PTR pSemaphore,
++    __unused TIMM_OSAL_U32 uInitCount)
+ {
+ 	/*  TIMM_OSAL_SEMAPHORE *pHandle = (TIMM_OSAL_SEMAPHORE *)pSemaphore;
+ 	   STATUS  status;
+diff --git a/domx/mm_osal/src/timm_osal_task.c b/domx/mm_osal/src/timm_osal_task.c
+index 7a243a9..7596ce3 100755
+--- a/domx/mm_osal/src/timm_osal_task.c
++++ b/domx/mm_osal/src/timm_osal_task.c
+@@ -108,7 +108,7 @@ TIMM_OSAL_ERRORTYPE TIMM_OSAL_CreateTask(TIMM_OSAL_PTR * pTask,
+     TIMM_OSAL_TaskProc pFunc,
+     TIMM_OSAL_U32 uArgc,
+     TIMM_OSAL_PTR pArgv,
+-    TIMM_OSAL_U32 uStackSize, TIMM_OSAL_U32 uPriority, TIMM_OSAL_S8 * pName)
++    TIMM_OSAL_U32 uStackSize, TIMM_OSAL_U32 uPriority, __unused TIMM_OSAL_S8 * pName)
+ {
+ 
+ 	TIMM_OSAL_ERRORTYPE bReturnStatus = TIMM_OSAL_ERR_UNKNOWN;
+diff --git a/domx/omx_core/src/OMX_Core.c b/domx/omx_core/src/OMX_Core.c
+index 6a4c527..1b8a945 100644
+--- a/domx/omx_core/src/OMX_Core.c
++++ b/domx/omx_core/src/OMX_Core.c
+@@ -35,6 +35,7 @@
+ #include <string.h>
+ #include <stdlib.h>
+ #include <pthread.h>
++#include <unistd.h>
+ 
+ 
+ /* #include "OMX_RegLib.h" */
+@@ -529,7 +530,7 @@ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_SetupTunnel(OMX_IN OMX_HANDLETYPE
+ *
+ **************************************************************************/
+ OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_ComponentNameEnum(OMX_OUT OMX_STRING
+-                                                         cComponentName, OMX_IN OMX_U32 nNameLength, OMX_IN OMX_U32 nIndex)
++                                                         cComponentName, __unused OMX_IN OMX_U32 nNameLength, OMX_IN OMX_U32 nIndex)
+ {
+     OMX_ERRORTYPE    eError = OMX_ErrorNone;
+ 
+@@ -855,23 +856,23 @@ EXIT:
+     return (eError);
+ }
+ 
+-OMX_ERRORTYPE ComponentTable_EventHandler(OMX_IN OMX_HANDLETYPE hComponent,
+-                                          OMX_IN OMX_PTR pAppData,
+-                                          OMX_IN OMX_EVENTTYPE eEvent,
+-                                          OMX_IN OMX_U32 nData1, OMX_IN OMX_U32 nData2, OMX_IN OMX_PTR pEventData)
++OMX_ERRORTYPE ComponentTable_EventHandler(__unused OMX_IN OMX_HANDLETYPE hComponent,
++                                          __unused OMX_IN OMX_PTR pAppData,
++                                          __unused OMX_IN OMX_EVENTTYPE eEvent,
++                                          __unused OMX_IN OMX_U32 nData1, __unused OMX_IN OMX_U32 nData2, __unused OMX_IN OMX_PTR pEventData)
+ {
+     return (OMX_ErrorNotImplemented);
+ }
+ 
+-OMX_ERRORTYPE ComponentTable_EmptyBufferDone(OMX_OUT OMX_HANDLETYPE
+-                                             hComponent, OMX_OUT OMX_PTR pAppData,
+-                                             OMX_OUT OMX_BUFFERHEADERTYPE *pBuffer)
++OMX_ERRORTYPE ComponentTable_EmptyBufferDone(__unused OMX_OUT OMX_HANDLETYPE
++                                             hComponent, __unused OMX_OUT OMX_PTR pAppData,
++                                             __unused OMX_OUT OMX_BUFFERHEADERTYPE *pBuffer)
+ {
+     return (OMX_ErrorNotImplemented);
+ }
+ 
+-OMX_ERRORTYPE ComponentTable_FillBufferDone(OMX_OUT OMX_HANDLETYPE hComponent,
+-                                            OMX_OUT OMX_PTR pAppData, OMX_OUT OMX_BUFFERHEADERTYPE *pBuffer)
++OMX_ERRORTYPE ComponentTable_FillBufferDone(__unused OMX_OUT OMX_HANDLETYPE hComponent,
++                                            __unused OMX_OUT OMX_PTR pAppData, __unused OMX_OUT OMX_BUFFERHEADERTYPE *pBuffer)
+ {
+     return (OMX_ErrorNotImplemented);
+ }
+diff --git a/domx/omx_core/src/OMX_Core_Wrapper.c b/domx/omx_core/src/OMX_Core_Wrapper.c
+index 6fbf3d7..b7b2365 100755
+--- a/domx/omx_core/src/OMX_Core_Wrapper.c
++++ b/domx/omx_core/src/OMX_Core_Wrapper.c
+@@ -63,24 +63,24 @@ OMX_BOOL TIOMXConfigParserRedirect(OMX_PTR aInputParameters,
+ 	return Status;
+ }
+ #endif
+-OMX_ERRORTYPE TIComponentTable_EventHandler(OMX_IN OMX_HANDLETYPE hComponent,
+-    OMX_IN OMX_PTR pAppData,
+-    OMX_IN OMX_EVENTTYPE eEvent,
+-    OMX_IN OMX_U32 nData1, OMX_IN OMX_U32 nData2, OMX_IN OMX_PTR pEventData)
++OMX_ERRORTYPE TIComponentTable_EventHandler(__unused OMX_IN OMX_HANDLETYPE hComponent,
++    __unused OMX_IN OMX_PTR pAppData,
++    __unused OMX_IN OMX_EVENTTYPE eEvent,
++    __unused OMX_IN OMX_U32 nData1, __unused OMX_IN OMX_U32 nData2, __unused OMX_IN OMX_PTR pEventData)
+ {
+ 	return OMX_ErrorNotImplemented;
+ }
+ 
+-OMX_ERRORTYPE TIComponentTable_EmptyBufferDone(OMX_OUT OMX_HANDLETYPE
+-    hComponent, OMX_OUT OMX_PTR pAppData,
+-    OMX_OUT OMX_BUFFERHEADERTYPE * pBuffer)
++OMX_ERRORTYPE TIComponentTable_EmptyBufferDone(__unused OMX_OUT OMX_HANDLETYPE
++    hComponent, __unused OMX_OUT OMX_PTR pAppData,
++    __unused OMX_OUT OMX_BUFFERHEADERTYPE * pBuffer)
+ {
+ 	return OMX_ErrorNotImplemented;
+ }
+ 
+-OMX_ERRORTYPE TIComponentTable_FillBufferDone(OMX_OUT OMX_HANDLETYPE
+-    hComponent, OMX_OUT OMX_PTR pAppData,
+-    OMX_OUT OMX_BUFFERHEADERTYPE * pBuffer)
++OMX_ERRORTYPE TIComponentTable_FillBufferDone(__unused OMX_OUT OMX_HANDLETYPE
++    hComponent, __unused OMX_OUT OMX_PTR pAppData,
++    __unused OMX_OUT OMX_BUFFERHEADERTYPE * pBuffer)
+ {
+ 	return OMX_ErrorNotImplemented;
+ }
+@@ -154,8 +154,8 @@ OMX_API OMX_ERRORTYPE TIOMX_SetupTunnel(OMX_IN OMX_HANDLETYPE hOutput,
+ 	return OMX_SetupTunnel(hOutput, nPortOutput, hInput, nPortInput);
+ }
+ 
+-OMX_API OMX_ERRORTYPE TIOMX_GetContentPipe(OMX_OUT OMX_HANDLETYPE * hPipe,
+-    OMX_IN OMX_STRING szURI)
++OMX_API OMX_ERRORTYPE TIOMX_GetContentPipe(__unused OMX_OUT OMX_HANDLETYPE * hPipe,
++    __unused OMX_IN OMX_STRING szURI)
+ {
+ 
+ 	TIMM_OSAL_Entering("TIOMX_GetContentPipe\n");
+diff --git a/domx/omx_proxy_component/omx_camera/src/omx_proxy_camera.c b/domx/omx_proxy_component/omx_camera/src/omx_proxy_camera.c
+index 684b292..73b7e12 100755
+--- a/domx/omx_proxy_component/omx_camera/src/omx_proxy_camera.c
++++ b/domx/omx_proxy_component/omx_camera/src/omx_proxy_camera.c
+@@ -148,6 +148,9 @@ EXIT:
+    return eError;
+ }
+ 
++OMX_ERRORTYPE GLUE_CameraVtcAllocateMemory(OMX_IN OMX_HANDLETYPE hComponent, OMX_TI_PARAM_VTCSLICE *pVtcConfig,
++											OMX_U32 nFrmWidth, OMX_U32 nFrmHeight);
++
+ /* ===========================================================================*/
+ /**
+  * @name _OMX_CameraVtcAllocateMemory
+@@ -188,14 +191,14 @@ static OMX_ERRORTYPE _OMX_CameraVtcAllocateMemory(OMX_IN OMX_HANDLETYPE hCompone
+         if (tState == OMX_StateLoaded) {
+             DOMX_DEBUG("%s: Current state returned is %d", __func__, tState);
+ 
+-            if(OMX_GetParameter(hComponent, OMX_TI_IndexParamVtcSlice, &tVtcConfig) == OMX_ErrorNone) {
++            if(OMX_GetParameter(hComponent, (unsigned int)OMX_TI_IndexParamVtcSlice, &tVtcConfig) == OMX_ErrorNone) {
+                 if (tVtcConfig.nSliceHeight != 0 ) {
+                     OMX_CONFIG_BOOLEANTYPE tVstabParam;
+                     OMX_PARAM_VIDEONOISEFILTERTYPE tVnfParam;
+                     OMX_TI_PARAM_VTCSLICE *pVtcConfig = &tVtcConfig;
+ 
+                     tFrameDim.nPortIndex = PREVIEW_PORT; //Preview Port
+-                    if(OMX_GetParameter(hComponent, OMX_TI_IndexParam2DBufferAllocDimension, &tFrameDim) == OMX_ErrorNone){
++                    if(OMX_GetParameter(hComponent, (unsigned int)OMX_TI_IndexParam2DBufferAllocDimension, &tFrameDim) == OMX_ErrorNone){
+                         DOMX_DEBUG("Acquired OMX_TI_IndexParam2DBufferAllocDimension data. nWidth = %d, nHeight = %d.\n\n", tFrameDim.nWidth, tFrameDim.nHeight);
+                         nFrmWidth = tFrameDim.nWidth;
+                         nFrmHeight = tFrameDim.nHeight;
+@@ -207,13 +210,13 @@ static OMX_ERRORTYPE _OMX_CameraVtcAllocateMemory(OMX_IN OMX_HANDLETYPE hCompone
+ 
+                     _PROXY_OMX_INIT_PARAM(&tVnfParam, OMX_PARAM_VIDEONOISEFILTERTYPE);
+                     _PROXY_OMX_INIT_PARAM(&tVstabParam, OMX_CONFIG_BOOLEANTYPE);
+-                    eError = OMX_GetParameter(hComponent, OMX_IndexParamFrameStabilisation, &tVstabParam);
++                    eError = OMX_GetParameter(hComponent, (unsigned int)OMX_IndexParamFrameStabilisation, &tVstabParam);
+                     if(eError != OMX_ErrorNone) {
+                         DOMX_ERROR("OMX_GetParameter for OMX_IndexParamFrameStabilisation returned error %x", eError);
+                         goto EXIT;
+                     }
+                     tVnfParam.nPortIndex = PREVIEW_PORT;
+-                    eError = OMX_GetParameter(hComponent, OMX_IndexParamVideoNoiseFilter, &tVnfParam);
++                    eError = OMX_GetParameter(hComponent, (unsigned int)OMX_IndexParamVideoNoiseFilter, &tVnfParam);
+                     if(eError != OMX_ErrorNone) {
+                         DOMX_ERROR("OMX_GetParameter for OMX_IndexParamVideoNoiseFilter returned error %x", eError);
+                         goto EXIT;
+@@ -349,7 +352,8 @@ static OMX_ERRORTYPE Camera_SendCommand(OMX_IN OMX_HANDLETYPE hComponent,
+         }
+ #endif
+     } else if (eCmd == OMX_CommandPortDisable) {
+-        int i, j;
++        unsigned int i;
++        int j;
+         for (i = 0; i < PROXY_MAXNUMOFPORTS; i++) {
+             if ((i == nParam) || (nParam == OMX_ALL)) {
+                 for (j = 0; j < MAX_NUM_INTERNAL_BUFFERS; j++) {
+@@ -399,7 +403,7 @@ static OMX_ERRORTYPE CameraGetConfig(OMX_IN OMX_HANDLETYPE
+ 	OMX_PTR pTempSharedBuff = NULL;
+ 	OMX_U32 status = 0;
+ 
+-	switch (nParamIndex)
++	switch ((unsigned int)nParamIndex)
+ 	{
+ 	case OMX_TI_IndexConfigAAAskipBuffer:
+ 	case OMX_TI_IndexConfigCamCapabilities:
+@@ -462,7 +466,7 @@ static OMX_ERRORTYPE CameraSetConfig(OMX_IN OMX_HANDLETYPE
+ 	OMX_PTR pTempSharedBuff = NULL;
+ 	OMX_U32 status = 0;
+ 
+-	switch (nParamIndex)
++	switch ((unsigned int)nParamIndex)
+ 	{
+ 	case OMX_TI_IndexConfigAAAskipBuffer:
+ 	case OMX_TI_IndexConfigCamCapabilities:
+@@ -506,6 +510,10 @@ static OMX_ERRORTYPE CameraSetConfig(OMX_IN OMX_HANDLETYPE
+ 	return eError;
+ }
+ 
++OMX_ERRORTYPE GLUE_CameraSetParam(OMX_IN OMX_HANDLETYPE
++    hComponent, OMX_IN OMX_INDEXTYPE nParamIndex,
++    OMX_INOUT OMX_PTR pComponentParameterStructure);
++
+ static OMX_ERRORTYPE CameraSetParam(OMX_IN OMX_HANDLETYPE
+     hComponent, OMX_IN OMX_INDEXTYPE nParamIndex,
+     OMX_INOUT OMX_PTR pComponentParameterStructure)
+@@ -515,7 +523,7 @@ static OMX_ERRORTYPE CameraSetParam(OMX_IN OMX_HANDLETYPE
+     OMX_COMPONENTTYPE *hComp = (OMX_COMPONENTTYPE *)hComponent;
+     pCompPrv = (PROXY_COMPONENT_PRIVATE *)hComp->pComponentPrivate;
+ 
+-    switch (nParamIndex)
++    switch ((unsigned int)nParamIndex)
+     {
+ 	case OMX_TI_IndexParamComponentBufferAllocation:
+              eError = GLUE_CameraSetParam(hComponent,
+diff --git a/domx/omx_proxy_component/omx_camera/src/proxy_camera_android_glue.c b/domx/omx_proxy_component/omx_camera/src/proxy_camera_android_glue.c
+index d3eac23..f214199 100644
+--- a/domx/omx_proxy_component/omx_camera/src/proxy_camera_android_glue.c
++++ b/domx/omx_proxy_component/omx_camera/src/proxy_camera_android_glue.c
+@@ -79,7 +79,7 @@ OMX_ERRORTYPE GLUE_CameraSetParam(OMX_IN OMX_HANDLETYPE
+     pIonParams = ((MEMPLUGIN_ION_PARAMS *)pMemPluginHdl->pPluginExtendedInfo);
+     MEMPLUGIN_BUFFER_PARAMS_INIT(newBuffer_params);
+     MEMPLUGIN_BUFFER_PARAMS_INIT(delBuffer_params);
+-    switch (nParamIndex)
++    switch ((unsigned int)nParamIndex)
+     {
+ 	case OMX_TI_IndexParamComponentBufferAllocation: {
+                 OMX_U32 port = 0, index = 0;
+@@ -117,7 +117,7 @@ OMX_ERRORTYPE GLUE_CameraSetParam(OMX_IN OMX_HANDLETYPE
+ 		}
+ 		bufferalloc->pBuf[0] = (OMX_PTR)newBuffer_prop.sBuffer_accessor.bufferFd;
+ 		eError = __PROXY_SetParameter(hComponent,
+-					      OMX_TI_IndexParamComponentBufferAllocation,
++					      (unsigned int)OMX_TI_IndexParamComponentBufferAllocation,
+ 					      bufferalloc, &bufferalloc->pBuf[0], 1);
+                 if (eError != OMX_ErrorNone) {
+                    MemPlugin_Free(pCompPrv->pMemPluginHandle,pCompPrv->nMemmgrClientDesc, &newBuffer_params,&newBuffer_prop);
+@@ -228,7 +228,7 @@ OMX_ERRORTYPE GLUE_CameraVtcAllocateMemory(OMX_IN OMX_HANDLETYPE hComponent, OMX
+ 			goto EXIT;
+ 		}
+ 
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, newBuffer_prop.sBuffer_accessor.bufferFd,-1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, newBuffer_prop.sBuffer_accessor.bufferFd, -1,
+                                                            &pCamPrv->sInternalBuffers[i][1].pRegBufferHandle, NULL, IONPointers);
+         PROXY_checkRpcError();
+         pVtcConfig->IonBufhdl[1] = pCamPrv->sInternalBuffers[i][1].pRegBufferHandle;
+@@ -237,7 +237,7 @@ OMX_ERRORTYPE GLUE_CameraVtcAllocateMemory(OMX_IN OMX_HANDLETYPE hComponent, OMX
+         DOMX_DEBUG("DOMX: ION Buffer#%d: UV: 0x%x, eError: 0x%x eRPCError: 0x%x\n", i, pVtcConfig->IonBufhdl[1],eError,eRPCError);
+ 
+         eError = __PROXY_SetParameter(hComponent,
+-                                      OMX_TI_IndexParamVtcSlice,
++                                      (unsigned int)OMX_TI_IndexParamVtcSlice,
+                                       pVtcConfig,
+                                       pVtcConfig->IonBufhdl, 2);
+         if (eError != OMX_ErrorNone) {
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
+index 018e5cc..e94f7b2 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
+@@ -609,7 +609,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264E_SetParameter(OMX_IN OMX_HANDLETYPE hComponent,
+ 		tParamSetNPA.nPortIndex = OMX_H264E_INPUT_PORT;
+ 		tParamSetNPA.bEnabled = OMX_FALSE;
+ 		//Call NPA on OMX encoder on ducati.
+-		PROXY_SetParameter(hComponent,OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
++		PROXY_SetParameter(hComponent, (unsigned int)OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
+ 		pCompPrv->proxyPortBuffers[pStoreMetaData->nPortIndex].proxyBufferType = EncoderMetadataPointers;
+ 		DOMX_DEBUG("Moving to Metadatamode done");
+ 
+@@ -992,7 +992,7 @@ int COLORCONVERT_AllocateBuffer(OMX_HANDLETYPE hComponent, OMX_U32 nStride)
+         tParam.nPortIndex = OMX_H264E_INPUT_PORT;
+         eError = PROXY_GetParameter(hComponent, (OMX_INDEXTYPE)OMX_TI_IndexParam2DBufferAllocDimension, &tParam);
+         PROXY_assert(eError == OMX_ErrorNone, eError, " Error in Proxy GetParameter");
+-        err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (const struct native_handle_t * *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
++        err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (buffer_handle_t *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
+         PROXY_assert(!err, err, " Error in allocating Gralloc buffers");
+         eOSALStatus = TIMM_OSAL_WriteToPipe(pProxy->hBufPipe, (void *) &pProxy->nCurBufIndex, sizeof(OMX_U32), TIMM_OSAL_SUSPEND);
+         PROXY_assert(eOSALStatus == TIMM_OSAL_ERR_NONE, OMX_ErrorBadParameter, "Pipe write failed");
+@@ -1081,7 +1081,7 @@ int COLORCONVERT_open(void **hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 				      void *pSrc[COLORCONVERT_MAX_SUB_BUFFERS],
+ 				      void *pDst[COLORCONVERT_MAX_SUB_BUFFERS],
+-				      int nWidth, int nHeight, int nStride,
++				      int nWidth, int nHeight, __unused int nStride,
+ 				      int nSrcBufType,int nDstBufType)
+ {
+ 	IMG_gralloc_module_public_t const* module = hCC;
+@@ -1099,7 +1099,7 @@ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 	return nErr;
+ }
+ 
+-int COLORCONVERT_close(void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
++int COLORCONVERT_close(__unused void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
+ {
+ 	OMX_PROXY_ENCODER_PRIVATE *pProxy = NULL;
+ 	pProxy = (OMX_PROXY_ENCODER_PRIVATE *) pCompPrv->pCompProxyPrv;
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc_secure.c b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc_secure.c
+index 558e170..6ad5409 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc_secure.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc_secure.c
+@@ -120,7 +120,6 @@ OMX_U16 nBFrames = 0; /* Number of B Frames in H264 Encoder */
+  * ANDROID_QUIRCK_CHANGE_PORT_VALUES
+  */
+ #define OMX_H264VE_NUM_INTERNAL_BUF (8)
+-#define HAL_PIXEL_FORMAT_TI_NV12 (0x100)
+ 
+ #define COLORCONVERT_MAX_SUB_BUFFERS (3)
+ 
+@@ -612,7 +611,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264ESECURE_SetParameter(OMX_IN OMX_HANDLETYPE hCompon
+ 		tParamSetNPA.nPortIndex = OMX_H264ESECURE_INPUT_PORT;
+ 		tParamSetNPA.bEnabled = OMX_FALSE;
+ 		//Call NPA on OMX encoder on ducati.
+-		PROXY_SetParameter(hComponent,OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
++		PROXY_SetParameter(hComponent, (unsigned int)OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
+ 		pCompPrv->proxyPortBuffers[pStoreMetaData->nPortIndex].proxyBufferType = EncoderMetadataPointers;
+ 		DOMX_DEBUG("Moving to Metadatamode done");
+ 
+@@ -866,7 +865,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264ESECURE_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+ 			goto EXIT; //need to restore lenght fields in pBufferHdr
+ 		}
+ #ifdef ENABLE_GRALLOC_BUFFER
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pBufferHdr->pBuffer,-1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer, -1,
+ 									   &pAuxBuf0, &pAuxBuf1,
+ 									   GrallocPointers);
+ 		PROXY_checkRpcError();
+@@ -995,7 +994,7 @@ int COLORCONVERT_AllocateBuffer(OMX_HANDLETYPE hComponent, OMX_U32 nStride)
+         tParam.nPortIndex = OMX_H264ESECURE_INPUT_PORT;
+         eError = PROXY_GetParameter(hComponent, (OMX_INDEXTYPE)OMX_TI_IndexParam2DBufferAllocDimension, &tParam);
+         PROXY_assert(eError == OMX_ErrorNone, eError, " Error in Proxy GetParameter");
+-        err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (const struct native_handle_t * *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
++        err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (buffer_handle_t *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
+         PROXY_assert(!err, err, " Error in allocating Gralloc buffers");
+         eOSALStatus = TIMM_OSAL_WriteToPipe(pProxy->hBufPipe, (void *) &pProxy->nCurBufIndex, sizeof(OMX_U32), TIMM_OSAL_SUSPEND);
+         PROXY_assert(eOSALStatus == TIMM_OSAL_ERR_NONE, OMX_ErrorBadParameter, "Pipe write failed");
+@@ -1084,7 +1083,7 @@ int COLORCONVERT_open(void **hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 				      void *pSrc[COLORCONVERT_MAX_SUB_BUFFERS],
+ 				      void *pDst[COLORCONVERT_MAX_SUB_BUFFERS],
+-				      int nWidth, int nHeight, int nStride,
++				      int nWidth, int nHeight, __unused int nStride,
+ 				      int nSrcBufType,int nDstBufType)
+ {
+ 	IMG_gralloc_module_public_t const* module = hCC;
+@@ -1102,7 +1101,7 @@ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 	return nErr;
+ }
+ 
+-int COLORCONVERT_close(void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
++int COLORCONVERT_close(__unused void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
+ {
+ 	OMX_PROXY_ENCODER_PRIVATE *pProxy = NULL;
+ 	pProxy = (OMX_PROXY_ENCODER_PRIVATE *) pCompPrv->pCompProxyPrv;
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
+index bc0f215..0173f5b 100644
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
+@@ -587,7 +587,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264SVCE_SetParameter(OMX_IN OMX_HANDLETYPE hComponent
+             tParamSetNPA.nPortIndex = OMX_H264SVCE_INPUT_PORT;
+             tParamSetNPA.bEnabled = OMX_FALSE;
+             //Call NPA on OMX encoder on ducati.
+-            PROXY_SetParameter(hComponent, OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
++            PROXY_SetParameter(hComponent, (unsigned int)OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
+             pCompPrv->proxyPortBuffers[pStoreMetaData->nPortIndex].proxyBufferType = EncoderMetadataPointers;
+             DOMX_DEBUG("Moving to Metadatamode done");
+ 
+@@ -956,7 +956,7 @@ int COLORCONVERT_AllocateBuffer(OMX_HANDLETYPE hComponent, OMX_U32 nStride)
+     tParam.nPortIndex = OMX_H264SVCE_INPUT_PORT;
+     eError = PROXY_GetParameter(hComponent, (OMX_INDEXTYPE)OMX_TI_IndexParam2DBufferAllocDimension, &tParam);
+     PROXY_assert(eError == OMX_ErrorNone, eError, " Error in Proxy GetParameter");
+-    err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (const struct native_handle_t * *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
++    err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight, (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER, (buffer_handle_t *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
+     PROXY_assert(!err, err, " Error in allocating Gralloc buffers");
+     eOSALStatus = TIMM_OSAL_WriteToPipe(pProxy->hBufPipe, (void *) &pProxy->nCurBufIndex, sizeof(OMX_U32), TIMM_OSAL_SUSPEND);
+     PROXY_assert(eOSALStatus == TIMM_OSAL_ERR_NONE, OMX_ErrorBadParameter, "Pipe write failed");
+@@ -1036,7 +1036,7 @@ int COLORCONVERT_open(void * *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+                                       void *pSrc[COLORCONVERT_MAX_SUB_BUFFERS],
+                                       void *pDst[COLORCONVERT_MAX_SUB_BUFFERS],
+-                                      int nWidth, int nHeight, int nStride,
++                                      int nWidth, int nHeight, __unused int nStride,
+                                       int nSrcBufType, int nDstBufType)
+ {
+     IMG_gralloc_module_public_t const   *module = hCC;
+@@ -1051,7 +1051,7 @@ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+     return (nErr);
+ }
+ 
+-int COLORCONVERT_close(void *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
++int COLORCONVERT_close(__unused void *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ {
+     OMX_PROXY_ENCODER_PRIVATE   *pProxy = NULL;
+ 
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
+index 342bbb4..928d0c9 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
+@@ -591,7 +591,7 @@ OMX_ERRORTYPE LOCAL_PROXY_MPEG4E_SetParameter(OMX_IN OMX_HANDLETYPE hComponent,
+ 		tParamSetNPA.nPortIndex = OMX_MPEG4E_INPUT_PORT;
+ 		tParamSetNPA.bEnabled = OMX_FALSE;
+ 		//Call NPA on OMX encoder on ducati.
+-		PROXY_SetParameter(hComponent,OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
++		PROXY_SetParameter(hComponent, (unsigned int)OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
+ 		pCompPrv->proxyPortBuffers[pStoreMetaData->nPortIndex].proxyBufferType = EncoderMetadataPointers;
+ 		DOMX_DEBUG("Moving to Metadatamode done");
+ 
+@@ -824,7 +824,7 @@ OMX_ERRORTYPE LOCAL_PROXY_MPEG4E_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+ 			return OMX_ErrorBadParameter;
+ 		}
+ #ifdef ENABLE_GRALLOC_BUFFER
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer,-1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer, -1,
+ 									   &pAuxBuf0, &pAuxBuf1,
+ 									   GrallocPointers);
+ 		PROXY_checkRpcError();
+@@ -896,7 +896,7 @@ static OMX_ERRORTYPE LOCAL_PROXY_MPEG4E_AllocateBuffer(OMX_HANDLETYPE hComponent
+ 
+ 		err = pProxy->mAllocDev->alloc(pProxy->mAllocDev,(int) tParamRect.nWidth,(int) tParamRect.nHeight,
+ 			(int) HAL_PIXEL_FORMAT_TI_NV12,(int) GRALLOC_USAGE_HW_RENDER,
+-			(const struct native_handle_t **)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), &nStride);
++			(buffer_handle_t *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), &nStride);
+ 	}
+ 
+ 	eError = PROXY_AllocateBuffer(hComponent, ppBufferHdr, nPortIndex,
+@@ -1043,7 +1043,7 @@ int COLORCONVERT_open(void **hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 				      void *pSrc[COLORCONVERT_MAX_SUB_BUFFERS],
+ 				      void *pDst[COLORCONVERT_MAX_SUB_BUFFERS],
+-				      int nWidth, int nHeight, int nStride,
++				      int nWidth, int nHeight, __unused int nStride,
+ 				      int nSrcBufType,int nDstBufType)
+ {
+ 	IMG_gralloc_module_public_t const* module = hCC;
+@@ -1062,7 +1062,7 @@ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+ 	return nErr;
+ }
+ 
+-int COLORCONVERT_close(void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
++int COLORCONVERT_close(__unused void *hCC,PROXY_COMPONENT_PRIVATE *pCompPrv)
+ {
+ 	OMX_PROXY_ENCODER_PRIVATE *pProxy = NULL;
+ 	pProxy = (OMX_PROXY_ENCODER_PRIVATE *) pCompPrv->pCompProxyPrv;
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
+index 6595680..e5956f6 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
+@@ -141,10 +141,10 @@ static OMX_ERRORTYPE LOCAL_PROXY_VC1E_FreeBuffer(OMX_IN OMX_HANDLETYPE hComponen
+ 
+ static OMX_ERRORTYPE LOCAL_PROXY_VC1E_ComponentDeInit(OMX_HANDLETYPE hComponent);
+ 
+-RPC_OMX_ERRORTYPE RPC_RegisterBuffer(OMX_HANDLETYPE hRPCCtx, int fd,
+-                                     OMX_PTR *handle1, OMX_PTR *handle2,
+-                                     PROXY_BUFFER_TYPE proxyBufferType);
+-RPC_OMX_ERRORTYPE RPC_UnRegisterBuffer(OMX_HANDLETYPE hRPCCtx, OMX_PTR handle);
++extern RPC_OMX_ERRORTYPE RPC_RegisterBuffer(OMX_HANDLETYPE hRPCCtx, int fd1, int fd2,
++				     OMX_PTR *handle1, OMX_PTR *handle2,
++				     PROXY_BUFFER_TYPE proxyBufferType);
++extern RPC_OMX_ERRORTYPE RPC_UnRegisterBuffer(OMX_HANDLETYPE hRPCCtx, OMX_PTR handle1, OMX_PTR handle2, PROXY_BUFFER_TYPE proxyBufferType);
+ #endif
+ 
+ 
+@@ -613,7 +613,7 @@ OMX_ERRORTYPE LOCAL_PROXY_VC1E_SetParameter(OMX_IN OMX_HANDLETYPE hComponent,
+             tParamSetNPA.nPortIndex = OMX_VC1E_INPUT_PORT;
+             tParamSetNPA.bEnabled = OMX_FALSE;
+             //Call NPA on OMX encoder on ducati.
+-            PROXY_SetParameter(hComponent, OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
++            PROXY_SetParameter(hComponent, (unsigned int)OMX_TI_IndexParamBufferPreAnnouncement, &tParamSetNPA);
+             pCompPrv->proxyPortBuffers[pStoreMetaData->nPortIndex].proxyBufferType = EncoderMetadataPointers;
+             DOMX_DEBUG("Moving to Metadatamode done");
+ 
+@@ -856,7 +856,7 @@ OMX_ERRORTYPE LOCAL_PROXY_VC1E_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+             goto EXIT; //need to restore lenght fields in pBufferHdr
+         }
+ #ifdef ENABLE_GRALLOC_BUFFER
+-        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer,
++        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer, -1,
+                                        &pAuxBuf0, &pAuxBuf1,
+                                        GrallocPointers);
+         PROXY_checkRpcError();
+@@ -889,8 +889,7 @@ EXIT:
+         pBufferHdr->nFilledLen = nFilledLen;
+         pBufferHdr->nAllocLen = nAllocLen;
+ #ifdef ENABLE_GRALLOC_BUFFER
+-        RPC_UnRegisterBuffer(pCompPrv->hRemoteComp, pAuxBuf0);
+-        RPC_UnRegisterBuffer(pCompPrv->hRemoteComp, pAuxBuf1);
++        RPC_UnRegisterBuffer(pCompPrv->hRemoteComp, pAuxBuf0, pAuxBuf1, GrallocPointers);
+ #endif
+     }
+     DOMX_EXIT("%s eError: %d", __FUNCTION__, eError);
+@@ -1020,7 +1019,7 @@ int COLORCONVERT_AllocateBuffer(OMX_HANDLETYPE hComponent, OMX_U32 nStride)
+     PROXY_assert(eError == OMX_ErrorNone, eError, " Error in Proxy GetParameter");
+     err = pProxy->mAllocDev->alloc(pProxy->mAllocDev, (int) tParam.nWidth, (int) tParam.nHeight,
+                                    (int) HAL_PIXEL_FORMAT_TI_NV12, (int) GRALLOC_USAGE_HW_RENDER,
+-                                   (const struct native_handle_t * *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
++                                   (buffer_handle_t *)(&(pProxy->gralloc_handle[pProxy->nCurBufIndex])), (int *) &nStride);
+     PROXY_assert(!err, err, " Error in allocating Gralloc buffers");
+     eOSALStatus = TIMM_OSAL_WriteToPipe(pProxy->hBufPipe, (void *) &pProxy->nCurBufIndex, sizeof(OMX_U32), TIMM_OSAL_SUSPEND);
+     PROXY_assert(eOSALStatus == TIMM_OSAL_ERR_NONE, OMX_ErrorBadParameter, "Pipe write failed");
+@@ -1132,7 +1131,7 @@ int COLORCONVERT_open(void * *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+                                       void *pSrc[COLORCONVERT_MAX_SUB_BUFFERS],
+                                       void *pDst[COLORCONVERT_MAX_SUB_BUFFERS],
+-                                      int nWidth, int nHeight, int nStride,
++                                      int nWidth, int nHeight, __unused int nStride,
+                                       int nSrcBufType, int nDstBufType)
+ {
+     IMG_gralloc_module_public_t const   *module = hCC;
+@@ -1157,7 +1156,7 @@ int COLORCONVERT_PlatformOpaqueToNV12(void *hCC,
+  *
+  */
+ /* ===========================================================================*/
+-int COLORCONVERT_close(void *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
++int COLORCONVERT_close(__unused void *hCC, PROXY_COMPONENT_PRIVATE *pCompPrv)
+ {
+     OMX_PROXY_ENCODER_PRIVATE   *pProxy = NULL;
+ 
+-- 
+2.7.4
+

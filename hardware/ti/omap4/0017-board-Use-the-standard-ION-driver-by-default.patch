@@ -1,7 +1,7 @@
-From 2a669946f61bcd231c2a9b3b91f24c9bb63e86f1 Mon Sep 17 00:00:00 2001
+From 8c0b46286faa55286f8f90ae2b0ef723d8992fc3 Mon Sep 17 00:00:00 2001
 From: Daniel Jarai <jaraidaniel@gmail.com>
 Date: Sat, 27 Jan 2018 20:56:36 +0100
-Subject: [PATCH 15/15] board: Use the standard ION driver by default
+Subject: [PATCH 17/17] board: Use the standard ION driver by default
 
 Our common kernel finally has DMA-buffered ION, so let's use the
 standard libion instead of TI's.

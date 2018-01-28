@@ -1,0 +1,214 @@
+From d6c9a7b874bd02a2525052985d794aee1444e158 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Sun, 28 Feb 2016 14:25:18 -0600
+Subject: [PATCH 14/17] domx: Fix building with Clang.
+
+Change-Id: I7f706f8c176b00f38ce6d8e197abfc68cfbf0c5a
+---
+ domx/domx/omx_proxy_common/src/omx_proxy_common.c        |  4 ++--
+ domx/domx/plugins/memplugin.c                            |  4 ++--
+ domx/domx/plugins/memplugin_table.c                      |  2 +-
+ domx/mm_osal/inc/timm_osal_trace.h                       | 16 ++++++++--------
+ .../src/omx_h264_enc/src/omx_proxy_h264enc.c             |  3 +--
+ .../src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c       |  3 +--
+ .../src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c           |  3 +--
+ .../omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c |  3 +--
+ 8 files changed, 17 insertions(+), 21 deletions(-)
+
+diff --git a/domx/domx/omx_proxy_common/src/omx_proxy_common.c b/domx/domx/omx_proxy_common/src/omx_proxy_common.c
+index 22a02ea..5137ec4 100644
+--- a/domx/domx/omx_proxy_common/src/omx_proxy_common.c
++++ b/domx/domx/omx_proxy_common/src/omx_proxy_common.c
+@@ -833,7 +833,7 @@ OMX_ERRORTYPE PROXY_AllocateBuffer(OMX_IN OMX_HANDLETYPE hComponent,
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferHandle = newbuffer_prop.sBuffer_accessor.pBufferHandle;
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferMappedAddress = newbuffer_prop.sBuffer_accessor.pBufferMappedAddress;
+ 		pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd = newbuffer_prop.sBuffer_accessor.bufferFd;
+-		pMemptr = pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd;
++		pMemptr = (OMX_U8*)pCompPrv->tBufList[currentBuffer].bufferAccessors[0].bufferFd;
+ 		DOMX_DEBUG ("Ion handle recieved = %x",pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pBufferHandle);
+ 
+ 	/*No need to increment Allocated buffers here.
+@@ -1113,7 +1113,7 @@ static OMX_ERRORTYPE PROXY_UseBuffer(OMX_IN OMX_HANDLETYPE hComponent,
+ #ifdef USE_ION
+ 	{
+ 		// Need to register buffers when using ion and rpmsg
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pAuxBuf0,(int)((OMX_TI_PLATFORMPRIVATE *) pBufferHeader->pPlatformPrivate)->pAuxBuf1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pAuxBuf0,(int)((OMX_TI_PLATFORMPRIVATE *) pBufferHeader->pPlatformPrivate)->pAuxBuf1,
+ 							&pCompPrv->tBufList[currentBuffer].bufferAccessors[0].pRegBufferHandle,&pCompPrv->tBufList[currentBuffer].bufferAccessors[1].pRegBufferHandle,
+ 		                    pCompPrv->proxyPortBuffers[nPortIndex].proxyBufferType);
+ 		 PROXY_checkRpcError();
+diff --git a/domx/domx/plugins/memplugin.c b/domx/domx/plugins/memplugin.c
+index b6597b4..e2ba37a 100644
+--- a/domx/domx/plugins/memplugin.c
++++ b/domx/domx/plugins/memplugin.c
+@@ -51,7 +51,7 @@ extern MEMPLUGIN_TABLETYPE    MemPlugins_Map[];
+ MEMPLUGIN_ERRORTYPE MemPlugin_Init(char *cMemPluginName, void **pMemPluginHandle)
+ {
+     MEMPLUGIN_OBJECT *pMemPluginHdl;
+-    OMX_BOOL bFound;
++    OMX_BOOL bFound = OMX_FALSE;
+     OMX_U16 i = 0;
+     MEMPLUGIN_ERRORTYPE eError = MEMPLUGIN_ERROR_NONE;
+ 
+@@ -62,7 +62,7 @@ MEMPLUGIN_ERRORTYPE MemPlugin_Init(char *cMemPluginName, void **pMemPluginHandle
+         goto EXIT;
+     }
+ 
+-    while(MemPlugins_Map[i].cMemPluginName != NULL)
++    while(MemPlugins_Map[i].pMemPluginConfig != 0)
+     {
+         if(strcmp(MemPlugins_Map[i].cMemPluginName,cMemPluginName) == 0)
+         {
+diff --git a/domx/domx/plugins/memplugin_table.c b/domx/domx/plugins/memplugin_table.c
+index a5b30c4..254d1cc 100644
+--- a/domx/domx/plugins/memplugin_table.c
++++ b/domx/domx/plugins/memplugin_table.c
+@@ -48,5 +48,5 @@ MEMPLUGIN_TABLETYPE    MemPlugins_Map[] =
+ {
+     { "MEMPLUGIN_ION",    &MemPlugin_ION_Init },
+     //   {"MEMPLUGIN_DRM" ,  &MemPlugin_DRM_Configure},
+-    { NULL, NULL }
++    { 0, 0 }
+ };
+diff --git a/domx/mm_osal/inc/timm_osal_trace.h b/domx/mm_osal/inc/timm_osal_trace.h
+index 0f02f14..412c5a9 100755
+--- a/domx/mm_osal/inc/timm_osal_trace.h
++++ b/domx/mm_osal/inc/timm_osal_trace.h
+@@ -138,7 +138,7 @@ extern "C"
+         static const __TIMM_OSAL_TRACE_LOCATION loc = {                       \
+                 __FILE__, __FUNCTION__, __LINE__, (level), (tracegrp)         \
+         };                                                                    \
+-        __TIMM_OSAL_TraceFunction(&loc, fmt"\n", ##__VA_ARGS__);              \
++        __TIMM_OSAL_TraceFunction(&loc, fmt "\n", ##__VA_ARGS__);              \
+     } while(0)
+ 
+ /**
+@@ -180,34 +180,34 @@ extern "C"
+ /**
+ * TIMM_OSAL_ErrorExt() -- Fatal errors
+ */
+-#define TIMM_OSAL_ErrorExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_ERROR, tracegrp, "ERROR: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_ErrorExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_ERROR, tracegrp, "ERROR: " fmt, ##__VA_ARGS__)
+ 
+ /**
+ * TIMM_OSAL_WarningExt() -- Warnings that are useful to know about
+ */
+-#define TIMM_OSAL_WarningExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_WARNING, tracegrp, "WARNING: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_WarningExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_WARNING, tracegrp, "WARNING: " fmt, ##__VA_ARGS__)
+ 
+ /**
+ * TIMM_OSAL_ProfilingExt() -- performance analysis trace that must not impact use case perf]
+ */
+-#define TIMM_OSAL_ProfilingExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_PROFILING, tracegrp, "PROFILING: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_ProfilingExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_PROFILING, tracegrp, "PROFILING: " fmt, ##__VA_ARGS__)
+ 
+ /**
+ * TIMM_OSAL_InfoExt() -- general information
+ */
+-#define TIMM_OSAL_InfoExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_INFO, tracegrp, "INFO: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_InfoExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_INFO, tracegrp, "INFO: " fmt, ##__VA_ARGS__)
+ 
+ /**
+ * TIMM_OSAL_DebugExt() -- most-commonly used statement for us developers
+ */
+-#define TIMM_OSAL_DebugExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_DEBUG, tracegrp, "TRACE: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_DebugExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_DEBUG, tracegrp, "TRACE: " fmt, ##__VA_ARGS__)
+ 
+ /**
+ * TIMM_OSAL_EnteringExt() -- "ENTERING <function>" statements
+ * TIMM_OSAL_ExitingExt()  -- "EXITING <function>" statements
+ */
+-#define TIMM_OSAL_EnteringExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_ENTERING, tracegrp, "ENTER: "fmt, ##__VA_ARGS__)
+-#define TIMM_OSAL_ExitingExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_EXITING, tracegrp, "EXIT: "fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_EnteringExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_ENTERING, tracegrp, "ENTER: " fmt, ##__VA_ARGS__)
++#define TIMM_OSAL_ExitingExt(tracegrp, fmt, ...)  __TIMM_OSAL_Trace(TIMM_OSAL_TRACE_LEVEL_EXITING, tracegrp, "EXIT: " fmt, ##__VA_ARGS__)
+ 
+ 
+ #ifdef __cplusplus
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
+index 638ed0c..018e5cc 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_h264_enc/src/omx_proxy_h264enc.c
+@@ -121,7 +121,6 @@ OMX_U16 nBFrames = 0; /* Number of B Frames in H264 Encoder */
+  * ANDROID_QUIRCK_CHANGE_PORT_VALUES
+  */
+ #define OMX_H264VE_NUM_INTERNAL_BUF (8)
+-#define HAL_PIXEL_FORMAT_TI_NV12 (0x100)
+ 
+ #define COLORCONVERT_MAX_SUB_BUFFERS (3)
+ 
+@@ -864,7 +863,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264E_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+ 			goto EXIT; //need to restore lenght fields in pBufferHdr
+ 		}
+ #ifdef ENABLE_GRALLOC_BUFFER
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pBufferHdr->pBuffer,-1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer,-1,
+ 									   &pAuxBuf0, &pAuxBuf1,
+ 									   GrallocPointers);
+ 		PROXY_checkRpcError();
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
+index 05a05f4..bc0f215 100644
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_h264svc_enc/src/omx_proxy_h264svcenc.c
+@@ -119,7 +119,6 @@ OMX_U16      nBFrames = 0; /* Number of B Frames in H264SVC Encoder */
+  * ANDROID_QUIRCK_CHANGE_PORT_VALUES
+  */
+ #define OMX_H264SVCVE_NUM_INTERNAL_BUF (8)
+-#define HAL_PIXEL_FORMAT_TI_NV12 (0x100)
+ 
+ #define COLORCONVERT_MAX_SUB_BUFFERS (3)
+ 
+@@ -832,7 +831,7 @@ OMX_ERRORTYPE LOCAL_PROXY_H264SVCE_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+             goto EXIT; //need to restore lenght fields in pBufferHdr
+         }
+ #ifdef ENABLE_GRALLOC_BUFFER
+-        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pBufferHdr->pBuffer, -1,
++        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer, -1,
+                                        &pAuxBuf0, &pAuxBuf1,
+                                        GrallocPointers);
+         PROXY_checkRpcError();
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
+index ea3377f..342bbb4 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_mpeg4_enc/src/omx_proxy_mpeg4enc.c
+@@ -120,7 +120,6 @@ OMX_U16 nBFrames = 0; /* Number of B Frames in H264 Encoder */
+ 
+ #ifdef ANDROID_CUSTOM_OPAQUECOLORFORMAT
+ #define OMX_MPEG4E_NUM_INTERNAL_BUF (8)
+-#define HAL_PIXEL_FORMAT_TI_NV12 (0x100)
+ 
+ #define COLORCONVERT_MAX_SUB_BUFFERS (3)
+ 
+@@ -825,7 +824,7 @@ OMX_ERRORTYPE LOCAL_PROXY_MPEG4E_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+ 			return OMX_ErrorBadParameter;
+ 		}
+ #ifdef ENABLE_GRALLOC_BUFFER
+-		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pBufferHdr->pBuffer,-1,
++		eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer,-1,
+ 									   &pAuxBuf0, &pAuxBuf1,
+ 									   GrallocPointers);
+ 		PROXY_checkRpcError();
+diff --git a/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c b/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
+index 478139d..6595680 100755
+--- a/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
++++ b/domx/omx_proxy_component/omx_video_enc/src/omx_vc1_enc/src/omx_proxy_vc1enc.c
+@@ -118,7 +118,6 @@ OMX_TICKS    nLastFrameRateUpdateTime = 0; /*Time stamp at last frame rate updat
+  * ANDROID_QUIRCK_CHANGE_PORT_VALUES
+  */
+ #define OMX_VC1VE_NUM_INTERNAL_BUF (8)
+-#define HAL_PIXEL_FORMAT_TI_NV12 (0x100)
+ 
+ #define COLORCONVERT_MAX_SUB_BUFFERS (3)
+ 
+@@ -857,7 +856,7 @@ OMX_ERRORTYPE LOCAL_PROXY_VC1E_EmptyThisBuffer(OMX_HANDLETYPE hComponent,
+             goto EXIT; //need to restore lenght fields in pBufferHdr
+         }
+ #ifdef ENABLE_GRALLOC_BUFFER
+-        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, pBufferHdr->pBuffer,
++        eRPCError = RPC_RegisterBuffer(pCompPrv->hRemoteComp, (int)pBufferHdr->pBuffer,
+                                        &pAuxBuf0, &pAuxBuf1,
+                                        GrallocPointers);
+         PROXY_checkRpcError();
+-- 
+2.7.4
+
