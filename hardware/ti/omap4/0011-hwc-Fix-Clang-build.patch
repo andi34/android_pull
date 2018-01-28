@@ -1,0 +1,29 @@
+From a39d44a264f766705c9a0f851f3e65c15501fd37 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Fri, 26 Aug 2016 03:44:26 -0500
+Subject: [PATCH 11/13] hwc: Fix Clang build.
+
+This change keeps the current logic, but I have doubts
+that the current logic is correct. Will revisit later.
+
+Change-Id: I5f31b12c7864ee10ca1c56ec9838ed41c6513f78
+---
+ hwc/hwc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hwc/hwc.c b/hwc/hwc.c
+index b30ebf4..e68a905 100644
+--- a/hwc/hwc.c
++++ b/hwc/hwc.c
+@@ -1797,7 +1797,7 @@ static int hwc_prepare(struct hwc_composer_device_1 *dev, size_t numDisplays,
+     if (needs_fb) {
+         /* assign a z-layer for fb */
+         if (fb_z < 0) {
+-            if (!hwc_dev->blt_policy != BLTPOLICY_DISABLED && num->composited_layers)
++            if ((!hwc_dev->blt_policy) != BLTPOLICY_DISABLED && num->composited_layers)
+                 ALOGE("**** should have assigned z-layer for fb");
+             fb_z = z++;
+         }
+-- 
+2.7.4
+

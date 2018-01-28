@@ -1,7 +1,7 @@
 From e0190cc5945c5f56f4381e696b36adebc2ce1e30 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sun, 28 Feb 2016 15:28:55 -0600
-Subject: [PATCH 6/9] hwc: Build with -Wall -Werror.
+Subject: [PATCH 06/13] hwc: Build with -Wall -Werror.
 
 Also builds with Clang now too.
 TODO: Go through and actually remove some of these unused parameters.

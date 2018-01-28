@@ -1,7 +1,7 @@
 From 2a8f2a333ee377c5075392e986344e3499ee086b Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sun, 28 Feb 2016 16:03:27 -0600
-Subject: [PATCH 3/9] libion_ti: Build with -Wall -Werror.
+Subject: [PATCH 03/13] libion_ti: Build with -Wall -Werror.
 
 Change-Id: I26628110f35e9eab799126cf959051870564c907
 ---

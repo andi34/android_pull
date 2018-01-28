@@ -1,7 +1,7 @@
-From 5c6099726ec140c7c7fd9ffb4cad5c599568a33f Mon Sep 17 00:00:00 2001
+From 4896c6a8494271db2c6b3277ac43a0e6acaa9e33 Mon Sep 17 00:00:00 2001
 From: Daniel Jarai <jaraidaniel@gmail.com>
 Date: Sat, 27 Jan 2018 20:56:36 +0100
-Subject: [PATCH 9/9] board: Use the standard ION driver by default
+Subject: [PATCH 13/13] board: Use the standard ION driver by default
 
 Our common kernel finally has DMA-buffered ION, so let's use the
 standard ION driver instead of TI's.

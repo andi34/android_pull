@@ -1,8 +1,8 @@
 From d14a434062570619c00a1dbffc950f697da24a46 Mon Sep 17 00:00:00 2001
 From: Hashcode <hashcode0f@gmail.com>
 Date: Sat, 21 Feb 2015 21:20:02 -0800
-Subject: [PATCH 2/9] Add APIs/BOARD flag toggle for using standard google ION
- driver
+Subject: [PATCH 02/13] Add APIs/BOARD flag toggle for using standard google
+ ION driver
 
 I'm experimenting with a 3.4 kernel where I picked in the Google/ION
 (dma-buf) driver changes in kernel/common's android-3.4 branch.

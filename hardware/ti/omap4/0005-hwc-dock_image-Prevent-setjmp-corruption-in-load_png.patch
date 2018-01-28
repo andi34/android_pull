@@ -1,7 +1,7 @@
 From 383627305b6968b3c593ed71e868052601927421 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sun, 28 Feb 2016 14:59:52 -0600
-Subject: [PATCH 5/9] hwc: dock_image: Prevent setjmp corruption in
+Subject: [PATCH 05/13] hwc: dock_image: Prevent setjmp corruption in
  load_png_image.
 
 Change-Id: I2d731fcea882de5a1682758d52b0ec0efad20f92
