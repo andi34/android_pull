@@ -1,0 +1,48 @@
+From c0c63549b03132715d68bae93d311025b3ce215c Mon Sep 17 00:00:00 2001
+From: Rebecca Schultz Zavin <rebecca@android.com>
+Date: Thu, 18 Oct 2012 21:54:01 -0700
+Subject: [PATCH 051/102] gpu: ion: Don't flush allocatoins that come from the
+ page pools
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Change-Id: Ib08cb2cea3b6ea4b1ebf5a1b28abe6b9374fd2bd
+Signed-off-by: Rebecca Schultz Zavin <rebecca@android.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion_system_heap.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/ion/ion_system_heap.c b/drivers/gpu/ion/ion_system_heap.c
+index 2dc3048..26e6bbc 100644
+--- a/drivers/gpu/ion/ion_system_heap.c
++++ b/drivers/gpu/ion/ion_system_heap.c
+@@ -76,9 +76,14 @@ static struct page *alloc_buffer_page(struct ion_system_heap *heap,
+ 		if (order > 4)
+ 			gfp_flags = high_order_gfp_flags;
+ 		page = alloc_pages(gfp_flags, order);
++		if (!page)
++			return 0;
++		__dma_page_cpu_to_dev(page, 0, PAGE_SIZE << order,
++				      DMA_BIDIRECTIONAL);
+ 	}
+ 	if (!page)
+ 		return 0;
++
+ 	if (split_pages)
+ 		split_page(page, order);
+ 	return page;
+@@ -201,9 +206,6 @@ static int ion_system_heap_allocate(struct ion_heap *heap,
+ 		kfree(info);
+ 	}
+ 
+-	dma_sync_sg_for_device(NULL, table->sgl, table->nents,
+-			       DMA_BIDIRECTIONAL);
+-
+ 	buffer->priv_virt = table;
+ 	return 0;
+ err1:
+-- 
+2.7.4
+

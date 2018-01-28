@@ -1,0 +1,104 @@
+From 6d36d5ec645dee0f55fdb43f52a1959a11efcdbb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
+Date: Tue, 24 Nov 2015 15:27:28 -0500
+Subject: [PATCH 074/102] Revert "ion: omap: change behaviour of getting
+ buffers from pvr fd"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This reverts commit 6a663dee24bcb47fce76968e8bb5542897a24ea1.
+
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/omap/omap_ion.c | 41 ++++++++++++-----------------------------
+ include/linux/omap_ion.h        |  5 +++--
+ 2 files changed, 15 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/gpu/ion/omap/omap_ion.c b/drivers/gpu/ion/omap/omap_ion.c
+index 7377615..a2caea7 100644
+--- a/drivers/gpu/ion/omap/omap_ion.c
++++ b/drivers/gpu/ion/omap/omap_ion.c
+@@ -162,51 +162,34 @@ void omap_ion_register_pvr_export(void *pvr_export_fd)
+ }
+ EXPORT_SYMBOL(omap_ion_register_pvr_export);
+ 
+-int omap_ion_share_fd_to_buffers(int fd, struct ion_buffer **buffers,
++int omap_ion_fd_to_handles(int fd, struct ion_client **client,
++		struct ion_handle **handles,
+ 		int *num_handles)
+ {
+-	struct ion_handle **handles;
+-	struct ion_client *client;
+-	int i = 0, ret = 0;
+-
+-	handles = kzalloc(*num_handles * sizeof(struct ion_handle *),
+-			  GFP_KERNEL);
+-	if (!handles)
+-		return -ENOMEM;
+-
+ #ifdef CONFIG_PVR_SGX
+-	if (*num_handles == 2) {
+-		PVRSRVExportFDToIONHandles(fd, &client, handles);
+-	} else if (*num_handles == 1) {
+-		handles[0] = PVRSRVExportFDToIONHandle(fd, &client);
+-	} else {
+-		ret = -EINVAL;
+-		goto exit;
+-	}
++	if (*num_handles == 2)
++		PVRSRVExportFDToIONHandles(fd, client, handles);
++	else if (*num_handles == 1)
++		handles[0] = PVRSRVExportFDToIONHandle(fd, client);
++	else
++		return -EINVAL;
+ #else
+ 	if (export_fd_to_ion_handles) {
+ 		export_fd_to_ion_handles(fd,
+-				&client,
++				client,
+ 				handles,
+ 				num_handles);
+ 	} else {
+ 		pr_err("%s: export_fd_to_ion_handles"
+ 				"not initiazied",
+ 				__func__);
+-		ret = -EINVAL;
+-		goto exit;
++		return -EINVAL;
+ 	}
+ #endif
+-	for (i = 0; i < *num_handles; i++) {
+-		if (handles[i])
+-			buffers[i] = ion_share(client, handles[i]);
+-	}
+ 
+-exit:
+-	kfree(handles);
+-	return ret;
++	return 0;
+ }
+-EXPORT_SYMBOL(omap_ion_share_fd_to_buffers);
++
+ 
+ static struct platform_driver ion_driver = {
+ 	.probe = omap_ion_probe,
+diff --git a/include/linux/omap_ion.h b/include/linux/omap_ion.h
+index 1ba4a7c..621c2c8 100644
+--- a/include/linux/omap_ion.h
++++ b/include/linux/omap_ion.h
+@@ -51,8 +51,9 @@ int omap_ion_nonsecure_tiler_alloc(struct ion_client *client,
+ /* given a handle in the tiler, return a list of tiler pages that back it */
+ int omap_tiler_pages(struct ion_client *client, struct ion_handle *handle,
+ 		     int *n, u32 ** tiler_pages);
+-int omap_ion_share_fd_to_buffers(int fd, struct ion_buffer **buffers,
+-				 int *num_handles);
++int omap_ion_fd_to_handles(int fd, struct ion_client **client,
++		struct ion_handle **handles,
++		int *num_handles);
+ int omap_tiler_vinfo(struct ion_client *client,
+ 			struct ion_handle *handle, unsigned int *vstride,
+ 			unsigned int *vsize);
+-- 
+2.7.4
+
