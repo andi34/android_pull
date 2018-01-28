@@ -7,6 +7,7 @@ PATCHREPOS=(
     'device/samsung/espresso3g'
     'frameworks/av'
     'hardware/ti/omap4'
+    'kernel/ti/omap4'
 )
 
 for patches in "${PATCHREPOS[@]}"; do
