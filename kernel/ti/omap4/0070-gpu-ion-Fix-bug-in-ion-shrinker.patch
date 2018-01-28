@@ -1,0 +1,34 @@
+From bd3296da037ca52f132c1b26002d3d2991811aea Mon Sep 17 00:00:00 2001
+From: Rebecca Schultz Zavin <rebecca@android.com>
+Date: Wed, 24 Apr 2013 14:33:55 -0700
+Subject: [PATCH 070/102] gpu: ion: Fix bug in ion shrinker
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The high variable was sometimes used uninitialized
+
+Change-Id: I2f51413fd2d063fdff325047e824dc8c749d9e0a
+Signed-off-by: Rebecca Schultz Zavin <rebecca@android.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/ion_page_pool.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/ion/ion_page_pool.c b/drivers/gpu/ion/ion_page_pool.c
+index f003c7c..0e120fa 100644
+--- a/drivers/gpu/ion/ion_page_pool.c
++++ b/drivers/gpu/ion/ion_page_pool.c
+@@ -203,8 +203,7 @@ static int ion_page_pool_shrink(struct shrinker *shrinker,
+ 	bool high;
+ 	int nr_to_scan = sc->nr_to_scan;
+ 
+-	if (sc->gfp_mask & __GFP_HIGHMEM)
+-		high = true;
++	high = sc->gfp_mask & __GFP_HIGHMEM;
+ 
+ 	if (nr_to_scan == 0)
+ 		return ion_page_pool_total(high);
+-- 
+2.7.4
+
