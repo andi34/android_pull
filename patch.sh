@@ -7,7 +7,6 @@ PATCHREPOS=(
     'device/samsung/espresso3g'
     'device/samsung/tuna'
     'hardware/ti/omap4'
-    'kernel/ti/omap4'
     'packages/apps/SlimLauncher'
 )
 
