@@ -1,0 +1,46 @@
+From 2a8f2a333ee377c5075392e986344e3499ee086b Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Sun, 28 Feb 2016 16:03:27 -0600
+Subject: [PATCH 3/9] libion_ti: Build with -Wall -Werror.
+
+Change-Id: I26628110f35e9eab799126cf959051870564c907
+---
+ libion_ti/Android.mk | 1 +
+ libion_ti/ion.c      | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libion_ti/Android.mk b/libion_ti/Android.mk
+index ad24515..b87f8ee 100644
+--- a/libion_ti/Android.mk
++++ b/libion_ti/Android.mk
+@@ -5,6 +5,7 @@ LOCAL_PATH:= $(call my-dir)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_SRC_FILES := ion.c
++LOCAL_CFLAGS := -Wall -Werror
+ LOCAL_MODULE := libion_ti
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_SHARED_LIBRARIES := liblog
+diff --git a/libion_ti/ion.c b/libion_ti/ion.c
+index 01459ab..b6b9bbf 100644
+--- a/libion_ti/ion.c
++++ b/libion_ti/ion.c
+@@ -19,6 +19,7 @@
+  */
+ #include <errno.h>
+ #include <fcntl.h>
++#include <string.h>
+ #include <stdio.h>
+ #include <sys/ioctl.h>
+ #include <sys/mman.h>
+@@ -128,7 +129,6 @@ int ion_map(int fd, struct ion_handle *handle, size_t length, int prot,
+ 
+ int ion_share(int fd, struct ion_handle *handle, int *share_fd)
+ {
+-        int map_fd;
+         struct ion_fd_data data = {
+                 .handle = handle,
+         };
+-- 
+2.7.4
+

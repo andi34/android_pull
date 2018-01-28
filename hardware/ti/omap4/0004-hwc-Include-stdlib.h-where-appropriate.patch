@@ -1,0 +1,40 @@
+From 11984cb3bfb7a41102f16f336c4250f024026509 Mon Sep 17 00:00:00 2001
+From: Kyle Repinski <repinski23@gmail.com>
+Date: Sun, 28 Feb 2016 14:44:21 -0600
+Subject: [PATCH 4/9] hwc: Include stdlib.h where appropriate.
+
+Fixes e.g. 'incompatible implicit declaration of built-in function 'free''
+
+Change-Id: If3ba5c16900e30efbc5ec2783549ca5cf31d1c7b
+---
+ hwc/display.c    | 1 +
+ hwc/dock_image.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/hwc/display.c b/hwc/display.c
+index bd59813..5a75f65 100644
+--- a/hwc/display.c
++++ b/hwc/display.c
+@@ -15,6 +15,7 @@
+  */
+ 
+ #include <errno.h>
++#include <stdlib.h>
+ #include <stdint.h>
+ #include <stdbool.h>
+ #include <sys/ioctl.h>
+diff --git a/hwc/dock_image.c b/hwc/dock_image.c
+index b74a17e..55c907d 100644
+--- a/hwc/dock_image.c
++++ b/hwc/dock_image.c
+@@ -15,6 +15,7 @@
+  */
+ 
+ #include <errno.h>
++#include <stdlib.h>
+ #include <stdint.h>
+ #include <stdbool.h>
+ #include <sys/ioctl.h>
+-- 
+2.7.4
+

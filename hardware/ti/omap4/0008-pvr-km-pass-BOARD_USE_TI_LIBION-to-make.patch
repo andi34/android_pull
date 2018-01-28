@@ -1,0 +1,43 @@
+From 90ffc2915c59a5fd28cb0b22c6fc9feb3737ac38 Mon Sep 17 00:00:00 2001
+From: Daniel Jarai <jaraidaniel@gmail.com>
+Date: Sat, 27 Jan 2018 20:53:40 +0100
+Subject: [PATCH 8/9] pvr-km: pass BOARD_USE_TI_LIBION to make
+
+Avoids having to export it in boards.
+Also, remove an unnecessary export in the main PVR Makefile.
+
+Change-Id: I78324b6c2f0d8f10584e1ac0868f468a65225dca
+---
+ pvr-km.mk                                                    | 3 ++-
+ pvr-source/eurasiacon/build/linux2/omap4430_android/Makefile | 1 -
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/pvr-km.mk b/pvr-km.mk
+index 040b2af..4e204ae 100644
+--- a/pvr-km.mk
++++ b/pvr-km.mk
+@@ -17,7 +17,8 @@ PVR_MODULES:
+ 	make -j8 -C $(OMAP4_NEXT_FOLDER)/pvr-source/eurasiacon/build/linux2/omap4430_android \
+ 			ARCH=arm $(if $(ARM_CROSS_COMPILE),$(ARM_CROSS_COMPILE),$(KERNEL_CROSS_COMPILE)) \
+ 			TARGET_SGX=$(if $(filter-out 4470,$(TARGET_BOARD_OMAP_CPU)),540,544sc) \
+-			KERNELDIR=$(KERNEL_OUT) BUILD=release
++			KERNELDIR=$(KERNEL_OUT) BOARD_USE_TI_LIBION=$(BOARD_USE_TI_LIBION) \
++			BUILD=release
+ 	mv $(KERNEL_OUT)/../../target/kbuild/pvrsrvkm.ko $(KERNEL_MODULES_OUT)
+ 	$(if $(ARM_EABI_TOOLCHAIN),$(ARM_EABI_TOOLCHAIN)/arm-eabi-strip, \
+ 			$(KERNEL_TOOLCHAIN_PATH)strip) --strip-unneeded \
+diff --git a/pvr-source/eurasiacon/build/linux2/omap4430_android/Makefile b/pvr-source/eurasiacon/build/linux2/omap4430_android/Makefile
+index 32952c4..e11072c 100644
+--- a/pvr-source/eurasiacon/build/linux2/omap4430_android/Makefile
++++ b/pvr-source/eurasiacon/build/linux2/omap4430_android/Makefile
+@@ -46,7 +46,6 @@ ifeq ($(BOARD_USE_TI_LIBION),false)
+ else
+  USE_TI_LIBION := 1
+ endif
+-export USE_TI_LIBION
+ 
+ ifeq ($(TARGET_SGX),544sc)
+  SGXCORE := 544
+-- 
+2.7.4
+
