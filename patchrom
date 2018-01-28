@@ -3,10 +3,9 @@
 SAUCE=~/android/android-6.0
 
 # Let's apply all commits!
-echo "----------------------------------------"
-echo "----------------------------------------"
 echo ""
-cd $SAUCE
-echo "Done!"
 echo "----------------------------------------"
 echo "----------------------------------------"
+
+cd $SAUCE/pull
+. patch.sh

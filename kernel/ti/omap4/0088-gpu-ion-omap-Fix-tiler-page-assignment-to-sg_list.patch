@@ -1,0 +1,44 @@
+From 4c92c9459d3c67eeb976cd86f5c91cdd2d0341d1 Mon Sep 17 00:00:00 2001
+From: Ruslan Ruslichenko <ruslan.ruslichenko@globallogic.com>
+Date: Wed, 18 Feb 2015 10:10:37 -0800
+Subject: [PATCH 088/111] gpu: ion: omap: Fix tiler page assignment to sg_list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Since tiler allocator returns physical page addresses we need
+to use phys_to_page() when initializing sg_list.
+
+Change-Id: Id7f2bd0710ada8c01eaa41a5864e3fee6fbb054d
+Signed-off-by: Ruslan Ruslichenko <ruslan.ruslichenko@globallogic.com>
+Signed-off-by: D. Andrei Măceș <dmaces@nd.edu>
+---
+ drivers/gpu/ion/omap/omap_tiler_heap.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/ion/omap/omap_tiler_heap.c b/drivers/gpu/ion/omap/omap_tiler_heap.c
+index fdc0ebc..8f3a56b 100644
+--- a/drivers/gpu/ion/omap/omap_tiler_heap.c
++++ b/drivers/gpu/ion/omap/omap_tiler_heap.c
+@@ -142,14 +142,14 @@ static struct sg_table *omap_tiler_map_dma(struct omap_tiler_info *info,
+ 	}
+ 
+ 	if (info->lump) {
+-		sg_set_page(table->sgl, virt_to_page(info->tiler_addrs[0]),
+-			info->n_tiler_pages * PAGE_SIZE, 0);
++		sg_set_page(table->sgl, phys_to_page(info->tiler_addrs[0]),
++			    info->n_tiler_pages * PAGE_SIZE, 0);
+ 		return table;
+ 	}
+ 
+ 	for (i = 0; i < info->n_tiler_pages; i++) {
+-		sg_set_page(table->sgl, virt_to_page(info->tiler_addrs[i]),
+-			PAGE_SIZE, 0);
++		sg_set_page(table->sgl, phys_to_page(info->tiler_addrs[i]),
++			    PAGE_SIZE, 0);
+ 	}
+ 	return table;
+ }
+-- 
+2.7.4
+
