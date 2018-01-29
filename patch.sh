@@ -5,6 +5,7 @@ PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'build'
     'external/koush/Superuser'
+    'hardware/ti/omap4'
     'frameworks/base'
     'packages/apps/Settings'
     'system/core'
