@@ -1,7 +1,7 @@
-From d6c9a7b874bd02a2525052985d794aee1444e158 Mon Sep 17 00:00:00 2001
+From 7363786300444375ea124260857ef140c4fdec2d Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sun, 28 Feb 2016 14:25:18 -0600
-Subject: [PATCH 14/17] domx: Fix building with Clang.
+Subject: [PATCH 15/18] domx: Fix building with Clang.
 
 Change-Id: I7f706f8c176b00f38ce6d8e197abfc68cfbf0c5a
 ---

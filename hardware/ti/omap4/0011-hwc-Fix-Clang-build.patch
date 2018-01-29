@@ -1,7 +1,7 @@
-From a39d44a264f766705c9a0f851f3e65c15501fd37 Mon Sep 17 00:00:00 2001
+From 59ceea5540e62a2c4726780cfd205d223ead1707 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Fri, 26 Aug 2016 03:44:26 -0500
-Subject: [PATCH 11/13] hwc: Fix Clang build.
+Subject: [PATCH 11/18] hwc: Fix Clang build.
 
 This change keeps the current logic, but I have doubts
 that the current logic is correct. Will revisit later.

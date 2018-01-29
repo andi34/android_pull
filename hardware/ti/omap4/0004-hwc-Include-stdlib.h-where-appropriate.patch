@@ -1,7 +1,7 @@
-From 11984cb3bfb7a41102f16f336c4250f024026509 Mon Sep 17 00:00:00 2001
+From 0871e67e417e332b19db4adf8486bbd41bdddef3 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Sun, 28 Feb 2016 14:44:21 -0600
-Subject: [PATCH 04/13] hwc: Include stdlib.h where appropriate.
+Subject: [PATCH 04/18] hwc: Include stdlib.h where appropriate.
 
 Fixes e.g. 'incompatible implicit declaration of built-in function 'free''
 

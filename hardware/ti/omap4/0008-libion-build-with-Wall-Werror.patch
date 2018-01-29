@@ -1,7 +1,7 @@
-From 8276bbfd397c2a4aa930c2b83d88547d773faabf Mon Sep 17 00:00:00 2001
+From 5ecaf0ba823e3c2567349eb5092b49404c184901 Mon Sep 17 00:00:00 2001
 From: Ziyan <jaraidaniel@gmail.com>
 Date: Sat, 4 Jun 2016 13:15:41 +0200
-Subject: [PATCH 08/13] libion: build with -Wall -Werror
+Subject: [PATCH 08/18] libion: build with -Wall -Werror
 
 Change-Id: I633d17b3f6aa51a3ea5c0e37c5a20a0b43db8dcf
 ---

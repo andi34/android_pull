@@ -1,7 +1,7 @@
-From a0af583e5059feb278c6a935927a32f661ff650f Mon Sep 17 00:00:00 2001
+From cd908f0a138cf9520415e65bd9d4e3626b9a7449 Mon Sep 17 00:00:00 2001
 From: Hashcode <hashcode0f@gmail.com>
 Date: Thu, 25 Aug 2016 09:34:46 -0700
-Subject: [PATCH 12/15] domx: fixes for USE_TI_LIBION handling
+Subject: [PATCH 12/18] domx: fixes for USE_TI_LIBION handling
 
 Change-Id: Ic330821b832713a08d491d1926144e26d19f78ec
 ---

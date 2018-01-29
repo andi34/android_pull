@@ -1,7 +1,7 @@
-From 7736a49df1ea94c2d5a27867076508b42a0d8b00 Mon Sep 17 00:00:00 2001
+From ea49bfb7ba2144df8c8f62afe091fa09518c76a8 Mon Sep 17 00:00:00 2001
 From: Kyle Repinski <repinski23@gmail.com>
 Date: Thu, 19 Nov 2015 18:15:00 -0600
-Subject: [PATCH 01/13] camera: Makefile overhaul.
+Subject: [PATCH 01/18] camera: Makefile overhaul.
 
 Upon trying to build only the OMX interface, it was discovered that some
 necessary bits and pieces were only in the ALL interface. After attempting

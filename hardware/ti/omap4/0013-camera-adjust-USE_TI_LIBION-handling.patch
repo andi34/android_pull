@@ -1,0 +1,29 @@
+From c666e9346829d359837692c0125261addf5f5be8 Mon Sep 17 00:00:00 2001
+From: Hashcode <hashcode0f@gmail.com>
+Date: Thu, 25 Aug 2016 09:38:29 -0700
+Subject: [PATCH 13/18] camera: adjust USE_TI_LIBION handling
+
+Change-Id: Idf94269ccbe00235c075e27c7114f5bbed4fd9ca
+---
+ camera/MemoryManager.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/camera/MemoryManager.cpp b/camera/MemoryManager.cpp
+index 676ef2e..27267e2 100644
+--- a/camera/MemoryManager.cpp
++++ b/camera/MemoryManager.cpp
+@@ -100,11 +100,7 @@ CameraBuffer* MemoryManager::allocateBufferList(int width, int height, const cha
+ #endif
+             if((ret < 0) || ((int)handle == -ENOMEM)) {
+                 ret = ion_alloc_tiler(mIonFd, (size_t)size, 1, TILER_PIXEL_FMT_PAGE,
+-#ifdef USE_TI_LIBION
+                 OMAP_ION_HEAP_TILER_MASK, &handle, &stride);
+-#else
+-                OMAP_ION_HEAP_TILER_MASK, (ion_user_handle_t*)&handle, &stride);
+-#endif
+             }
+ 
+             if((ret < 0) || ((int)handle == -ENOMEM)) {
+-- 
+2.7.4
+

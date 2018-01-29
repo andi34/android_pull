@@ -1,7 +1,7 @@
-From 604d64d9767e8e36eff6f9b11462f4a2cfb6b34d Mon Sep 17 00:00:00 2001
+From 6a2a67b1a76827d6b22af69cf2e2c50492e24fd2 Mon Sep 17 00:00:00 2001
 From: Kunal <kunal@pixavi.com>
 Date: Fri, 26 Aug 2016 14:06:51 +0200
-Subject: [PATCH 13/15] domx: for ion_alloc alloc flag must be (1 << ID) and
+Subject: [PATCH 14/18] domx: for ion_alloc alloc flag must be (1 << ID) and
  not the ID
 
 Fixing a bug in the code.

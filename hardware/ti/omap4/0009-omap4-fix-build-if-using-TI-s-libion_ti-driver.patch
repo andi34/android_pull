@@ -1,7 +1,7 @@
-From 4d4e9fb4cbd89d7f629b9b6b048c20a2f09c4e1b Mon Sep 17 00:00:00 2001
+From 397eaff44e159031ac0bd640501ce0c09236852f Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Mon, 6 Jun 2016 14:03:36 +0200
-Subject: [PATCH 09/13] omap4: fix build if using TI's libion_ti driver
+Subject: [PATCH 09/18] omap4: fix build if using TI's libion_ti driver
 
 Change-Id: I5114167a5653eefd984f7a4d9d1b1da417ec5767
 ---

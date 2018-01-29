@@ -1,7 +1,7 @@
-From 7a4afedbf042df0cee4f000086e278f2a25f63a3 Mon Sep 17 00:00:00 2001
+From ddbd9ee970752d8440010d5e2edd59bd7bd0c91d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
 Date: Wed, 24 Aug 2016 12:58:43 -0400
-Subject: [PATCH 07/13] board: Localize COMMON_GLOBAL_CFLAGS to respective
+Subject: [PATCH 07/18] board: Localize COMMON_GLOBAL_CFLAGS to respective
  modules
 
 * -DENHANCED_DOMX already localized, so remove it here

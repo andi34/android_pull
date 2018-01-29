@@ -1,7 +1,7 @@
-From 0e067ac6740b5aae4ee5a3fba3258d61ab951f28 Mon Sep 17 00:00:00 2001
+From 71c226033faf831d28d18041034a22e3be5401f6 Mon Sep 17 00:00:00 2001
 From: Hashcode <hashcode0f@gmail.com>
 Date: Thu, 25 Aug 2016 09:34:06 -0700
-Subject: [PATCH 15/17] domx: clang fixes for warnings / errors
+Subject: [PATCH 16/18] domx: clang fixes for warnings / errors
 
 Change-Id: I6c4d4c4e70568e0e0c7e2411869acfa22ae842ab
 ---
