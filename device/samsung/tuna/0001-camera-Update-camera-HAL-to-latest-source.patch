@@ -1,0 +1,734 @@
+From ff44bf3b086ed9953a1941d7f2d3e9a7dac815aa Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Mon, 29 Jan 2018 20:07:11 +0100
+Subject: [PATCH] camera: Update camera HAL to latest source
+
+* camera: fix clang errors
+* camera: Use GBAllocator.allocate for N_MR1.
+* Fix camera video recording on N.
+* camera: fix build for LP
+* camera: Move tuna DCC path to /data/misc/cameraserver/ on N.
+* camera: for carveout alloc we must use ID OMAP_ION_HEAP_SECURE_INPUT
+* camera: adjust USE_TI_LIBION handling
+* camera, domx: Add DOMX_TUNA defines where needed.
+* camera: Fix N build.
+* board: Localize COMMON_GLOBAL_CFLAGS to respective modules
+* camera: fix build for KK
+* Add APIs/BOARD flag toggle for using standard google ION driver
+* camera: Init all members of camera_module_t to fix warnings.
+* camera: Rename version_major/minor to the new, non-deprecated names.
+* camera: Fix building with Clang.
+* camera: Remove use of GNU old-style field designator extension
+
+HEAD 9763c54756b863e56be321aa3434218f6eba75b7 from hardware/ti/omap4
+
+Change-Id: I31afcb255ce5c3ad1260ba511e98bdb15658de64
+---
+ camera/Android.mk                              | 38 ++++++++++++++++++-------
+ camera/AppCallbackNotifier.cpp                 | 37 ++++++++++++++++++------
+ camera/CameraHal.cpp                           | 12 ++++++++
+ camera/CameraHal_Module.cpp                    | 37 +++++++++++++++---------
+ camera/Decoder_libjpeg.cpp                     |  8 ++++++
+ camera/MemoryManager.cpp                       | 20 ++++++++++---
+ camera/OMXCameraAdapter/OMXCameraAdapter.cpp   |  2 +-
+ camera/OMXCameraAdapter/OMXDCC.cpp             |  7 +++--
+ camera/OMXCameraAdapter/OMXZoom.cpp            | 39 +++++++++++++++++++-------
+ camera/V4LCameraAdapter/V4LCameraAdapter.cpp   |  0
+ camera/V4LCameraAdapter/V4LCapabilities.cpp    |  0
+ camera/android-api.mk                          | 23 +++++++++++++++
+ camera/inc/CameraHal.h                         |  3 +-
+ camera/inc/Decoder_libjpeg.h                   |  0
+ camera/inc/Encoder_libjpeg.h                   |  4 +++
+ camera/inc/OMXCameraAdapter/OMXCameraAdapter.h |  2 --
+ camera/inc/OMXCameraAdapter/OMXDCC.h           |  2 +-
+ camera/inc/V4LCameraAdapter/V4LCameraAdapter.h |  0
+ camera/inc/VideoMetadata.h                     | 26 +++++++++++++++--
+ 19 files changed, 204 insertions(+), 56 deletions(-)
+ mode change 100644 => 100755 camera/Android.mk
+ mode change 100644 => 100755 camera/Decoder_libjpeg.cpp
+ mode change 100644 => 100755 camera/OMXCameraAdapter/OMXCameraAdapter.cpp
+ mode change 100644 => 100755 camera/V4LCameraAdapter/V4LCameraAdapter.cpp
+ mode change 100644 => 100755 camera/V4LCameraAdapter/V4LCapabilities.cpp
+ mode change 100644 => 100755 camera/inc/Decoder_libjpeg.h
+ mode change 100644 => 100755 camera/inc/V4LCameraAdapter/V4LCameraAdapter.h
+
+diff --git a/camera/Android.mk b/camera/Android.mk
+old mode 100644
+new mode 100755
+index 1789304..2d69c45
+--- a/camera/Android.mk
++++ b/camera/Android.mk
+@@ -57,6 +57,22 @@ ifeq ($(ENHANCED_DOMX),true)
+     TI_CAMERAHAL_COMMON_CFLAGS += -DENHANCED_DOMX
+ endif
+ 
++ifdef OMAP_ENHANCEMENT
++    TI_CAMERAHAL_COMMON_CFLAGS += -DOMAP_ENHANCEMENT
++endif
++
++ifdef OMAP_ENHANCEMENT_BURST_CAPTURE
++    TI_CAMERAHAL_COMMON_CFLAGS += -DOMAP_ENHANCEMENT_BURST_CAPTURE
++endif
++
++ifdef OMAP_ENHANCEMENT_S3D
++    TI_CAMERAHAL_COMMON_CFLAGS += -DOMAP_ENHANCEMENT_S3D
++endif
++
++ifdef OMAP_ENHANCEMENT_VTC
++    TI_CAMERAHAL_COMMON_CFLAGS += -DOMAP_ENHANCEMENT_VTC
++endif
++
+ ifdef ARCH_ARM_HAVE_NEON
+     TI_CAMERAHAL_COMMON_CFLAGS += -DARCH_ARM_HAVE_NEON
+ endif
+@@ -70,7 +86,7 @@ ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),piranha)
+ endif
+ 
+ ifeq ($(TARGET_BOOTLOADER_BOARD_NAME),tuna)
+-    TI_CAMERAHAL_COMMON_CFLAGS += -DCAMERAHAL_TUNA
++    TI_CAMERAHAL_COMMON_CFLAGS += -DCAMERAHAL_TUNA -DDOMX_TUNA
+ endif
+ 
+ TI_CAMERAHAL_OMX_CFLAGS := -DOMX_CAMERA_ADAPTER
+@@ -176,13 +192,13 @@ TI_CAMERAHAL_COMMON_SHARED_LIBRARIES := \
+     libjpeg \
+     $(TI_CAMERAHAL_EXIF_LIBRARY)
+ 
+-ifdef ANDROID_API_JB_MR1_OR_LATER
+-TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += \
+-    libion_ti
+-TI_CAMERAHAL_COMMON_CFLAGS += -DUSE_LIBION_TI
++ifeq ($(BOARD_USE_TI_LIBION),true)
++TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += libion_ti
++TI_CAMERAHAL_COMMON_CFLAGS += -DUSE_TI_LIBION
+ else
+-TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += \
+-    libion
++TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += libion
++TI_CAMERAHAL_COMMON_SRC +=  $(OMAP4_NEXT_FOLDER)/libion/ion_ti_custom.c
++TI_CAMERAHAL_COMMON_INCLUDES += $(OMAP4_NEXT_FOLDER)/libion
+ endif
+ 
+ TI_CAMERAHAL_OMX_SHARED_LIBRARIES := \
+@@ -194,6 +210,8 @@ TI_CAMERAHAL_OMX_SHARED_LIBRARIES := \
+ ifdef OMAP_ENHANCEMENT_CPCAM
+ TI_CAMERAHAL_COMMON_STATIC_LIBRARIES += \
+     libcpcamcamera_client
++TI_CAMERAHAL_COMMON_CFLAGS += -DOMAP_ENHANCEMENT_CPCAM
++PRODUCT_MAKEFILES += $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
+ endif
+ 
+ 
+@@ -226,7 +244,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+ LOCAL_MODULE := camera.tuna
+ LOCAL_MODULE_TAGS := optional
+ 
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
+ 
+ else ifeq ($(TI_CAMERAHAL_INTERFACE),USB)
+ # ====================
+@@ -256,7 +274,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+ LOCAL_MODULE := camera.tuna
+ LOCAL_MODULE_TAGS := optional
+ 
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
+ 
+ else ifeq ($(TI_CAMERAHAL_INTERFACE),ALL)
+ # =====================
+@@ -290,7 +308,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
+ LOCAL_MODULE := camera.tuna
+ LOCAL_MODULE_TAGS := optional
+ 
+-include $(BUILD_SHARED_LIBRARY)
++include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
+ 
+ endif
+ 
+diff --git a/camera/AppCallbackNotifier.cpp b/camera/AppCallbackNotifier.cpp
+index 8bc10b1..cab0ae9 100644
+--- a/camera/AppCallbackNotifier.cpp
++++ b/camera/AppCallbackNotifier.cpp
+@@ -1123,7 +1123,11 @@ void AppCallbackNotifier::notifyFrame()
+                                                       raw_picture,
+                                                       exif_data, frame->mBuffer);
+                     gEncoderQueue.add(frame->mBuffer->mapped, encoder);
++#ifdef ANDROID_API_N_OR_LATER
++                    encoder->run("jpeg_encoder");
++#else
+                     encoder->run();
++#endif
+                     encoder.clear();
+                     if (params != NULL)
+                       {
+@@ -1197,15 +1201,15 @@ void AppCallbackNotifier::notifyFrame()
+                                 }
+                                 void *y_uv[2];
+                                 mapper.lock((buffer_handle_t)vBuf, CAMHAL_GRALLOC_USAGE, bounds, y_uv);
+-                                y_uv[1] = y_uv[0] + mVideoHeight*4096;
++                                y_uv[1] = (void*)((int)y_uv[0] + mVideoHeight*4096);
+ 
+-                                structConvImage input =  {frame->mWidth,
+-                                                          frame->mHeight,
++                                structConvImage input =  {(mmInt32)frame->mWidth,
++                                                          (mmInt32)frame->mHeight,
+                                                           4096,
+                                                           IC_FORMAT_YCbCr420_lp,
+                                                           (mmByte *)frame->mYuv[0],
+                                                           (mmByte *)frame->mYuv[1],
+-                                                          frame->mOffset};
++                                                          (mmInt32)frame->mOffset};
+ 
+                                 structConvImage output = {mVideoWidth,
+                                                           mVideoHeight,
+@@ -1220,16 +1224,23 @@ void AppCallbackNotifier::notifyFrame()
+                                 if (mExternalLocking) {
+                                     unlockBufferAndUpdatePtrs(frame);
+                                 }
+-                                videoMetadataBuffer->metadataBufferType = (int) android::kMetadataBufferTypeCameraSource;
++                                videoMetadataBuffer->eType = CAMERA_METADATA_BUFFER_TYPE;
+                                 /* FIXME remove cast */
+-                                videoMetadataBuffer->handle = (void *)vBuf->opaque;
++                                videoMetadataBuffer->pHandle = (native_handle_t*)vBuf->opaque;
++#ifndef ANDROID_API_N_OR_LATER
+                                 videoMetadataBuffer->offset = 0;
++#endif
+                               }
+                             else
+                               {
+-                                videoMetadataBuffer->metadataBufferType = (int) android::kMetadataBufferTypeCameraSource;
+-                                videoMetadataBuffer->handle = camera_buffer_get_omx_ptr(frame->mBuffer);
++                                /* FIXME?: This will likely be broken on N without mOffset. */
++                                videoMetadataBuffer->eType = CAMERA_METADATA_BUFFER_TYPE;
++                                /* NOTE: get_omx_ptr can *technically* return something other
++                                 *       than native_handle_t*, but not in this code path. */
++                                videoMetadataBuffer->pHandle = (native_handle_t*)camera_buffer_get_omx_ptr(frame->mBuffer);
++#ifndef ANDROID_API_N_OR_LATER
+                                 videoMetadataBuffer->offset = frame->mOffset;
++#endif
+                               }
+ 
+                             CAMHAL_LOGVB("mDataCbTimestamp : frame->mBuffer=0x%x, videoMetadataBuffer=0x%x, videoMedatadaBufferMemory=0x%x",
+@@ -1857,7 +1868,15 @@ status_t AppCallbackNotifier::releaseRecordingFrame(const void* mem)
+         /* FIXME remove cast */
+         frame = mVideoMetadataBufferReverseMap.valueFor(videoMetadataBuffer);
+         CAMHAL_LOGVB("Releasing frame with videoMetadataBuffer=0x%x, videoMetadataBuffer->handle=0x%x & frame handle=0x%x\n",
+-                       videoMetadataBuffer, videoMetadataBuffer->handle, frame);
++                       videoMetadataBuffer, videoMetadataBuffer->pHandle, frame);
++#if defined(ANDROID_API_N_OR_LATER) && defined(CAMERAHAL_FREES_METADATA)
++        /* Stock N releases do not free metadata buffers, but a patch to
++         * frameworks/av can resolve this. Considering this wasn't the HAL's
++         * responsibility in previous releases it is recommended to use said
++         * patch instead of this, but the code is left for reference. */
++        native_handle_close(videoMetadataBuffer->pHandle);
++        native_handle_delete(videoMetadataBuffer->pHandle);
++#endif
+         }
+     else
+         {
+diff --git a/camera/CameraHal.cpp b/camera/CameraHal.cpp
+index ae3120c..b033c41 100644
+--- a/camera/CameraHal.cpp
++++ b/camera/CameraHal.cpp
+@@ -599,6 +599,13 @@ int CameraHal::setParameters(const android::CameraParameters& params)
+             if (isParameterValid(valstr, mCameraProperties->get(CameraProperties::SUPPORTED_FOCUS_MODES))) {
+                 CAMHAL_LOGDB("Focus mode set %s", valstr);
+ 
++#ifdef CAMERAHAL_TUNA
++                // FOCUS_MODE_CONTINUOUS_PICTURE and FOCUS_MODE_CONTINUOUS_VIDEO are the same in Tuna Ducati
++                // implementation (both point to OMX_IMAGE_FocusControlAuto), so setting / resetting the video
++                // mode based on this distinction achieves nothing but constant preview restarts. Don't bother
++                // with anything mode-related here at all as mode changes will be handled by other parts of
++                // setParameters() as appropriate.
++#else
+                 // we need to take a decision on the capture mode based on whether CAF picture or
+                 // video is chosen so the behavior of each is consistent to the application
+                 if(strcmp(valstr, android::CameraParameters::FOCUS_MODE_CONTINUOUS_PICTURE) == 0){
+@@ -606,6 +613,7 @@ int CameraHal::setParameters(const android::CameraParameters& params)
+                 } else if (strcmp(valstr, android::CameraParameters::FOCUS_MODE_CONTINUOUS_VIDEO) == 0){
+                     restartPreviewRequired |= setVideoModeParameters(params);
+                 }
++#endif
+ 
+                 mParameters.set(android::CameraParameters::KEY_FOCUS_MODE, valstr);
+              } else {
+@@ -1589,7 +1597,11 @@ status_t CameraHal::allocVideoBufs(uint32_t width, uint32_t height, uint32_t buf
+       for (unsigned int i = 0; i< bufferCount; i++){
+         android::GraphicBufferAllocator &GrallocAlloc = android::GraphicBufferAllocator::get();
+         buffer_handle_t handle;
++#ifdef ANDROID_API_N_MR1_OR_LATER
++        ret = GrallocAlloc.allocate(width, height, HAL_PIXEL_FORMAT_NV12, CAMHAL_GRALLOC_USAGE, &handle, &stride, i, "OMAP Camera");
++#else
+         ret = GrallocAlloc.alloc(width, height, HAL_PIXEL_FORMAT_NV12, CAMHAL_GRALLOC_USAGE, &handle, &stride);
++#endif
+         if (ret != NO_ERROR){
+           CAMHAL_LOGEA("Couldn't allocate video buffers using Gralloc");
+           ret = -NO_MEMORY;
+diff --git a/camera/CameraHal_Module.cpp b/camera/CameraHal_Module.cpp
+index ddddacd..4e36b7c 100644
+--- a/camera/CameraHal_Module.cpp
++++ b/camera/CameraHal_Module.cpp
+@@ -50,7 +50,7 @@ static int camera_get_number_of_cameras(void);
+ static int camera_get_camera_info(int camera_id, struct camera_info *info);
+ 
+ static struct hw_module_methods_t camera_module_methods = {
+-        open: camera_device_open
++    .open = camera_device_open
+ };
+ 
+ } // namespace Camera
+@@ -58,19 +58,30 @@ static struct hw_module_methods_t camera_module_methods = {
+ 
+ 
+ camera_module_t HAL_MODULE_INFO_SYM = {
+-    common: {
+-         tag: HARDWARE_MODULE_TAG,
+-         version_major: 1,
+-         version_minor: 0,
+-         id: CAMERA_HARDWARE_MODULE_ID,
+-         name: "TI OMAP CameraHal Module",
+-         author: "TI",
+-         methods: &Ti::Camera::camera_module_methods,
+-         dso: NULL, /* remove compilation warnings */
+-         reserved: {0}, /* remove compilation warnings */
++    .common = {
++         .tag = HARDWARE_MODULE_TAG,
++         .module_api_version = 1,
++         .hal_api_version = 0,
++         .id = CAMERA_HARDWARE_MODULE_ID,
++         .name = "TI OMAP CameraHal Module",
++         .author = "TI",
++         .methods = &Ti::Camera::camera_module_methods,
++         .dso = NULL, /* remove compilation warnings */
++         .reserved = {0}, /* remove compilation warnings */
+     },
+-    get_number_of_cameras: Ti::Camera::camera_get_number_of_cameras,
+-    get_camera_info: Ti::Camera::camera_get_camera_info,
++    .get_number_of_cameras = Ti::Camera::camera_get_number_of_cameras,
++    .get_camera_info = Ti::Camera::camera_get_camera_info,
++    /* remove compilation warnings: */
++    .set_callbacks = NULL,
++    .get_vendor_tag_ops = NULL,
++#ifdef ANDROID_API_LP_OR_LATER
++    .open_legacy = NULL,
++#ifdef ANDROID_API_MM_OR_LATER
++    .set_torch_mode = NULL,
++    .init = NULL,
++#endif
++#endif
++    .reserved = {0},
+ };
+ 
+ 
+diff --git a/camera/Decoder_libjpeg.cpp b/camera/Decoder_libjpeg.cpp
+old mode 100644
+new mode 100755
+index 35c343f..bdf48ab
+--- a/camera/Decoder_libjpeg.cpp
++++ b/camera/Decoder_libjpeg.cpp
+@@ -76,9 +76,12 @@ static void libjpeg_init_source(j_decompress_ptr cinfo) {
+     libjpeg_source_mgr*  src = (libjpeg_source_mgr*)cinfo->src;
+     src->next_input_byte = (const JOCTET*)src->mBufferPtr;
+     src->bytes_in_buffer = 0;
++#ifndef ANDROID_API_N_OR_LATER
+     src->current_offset = 0;
++#endif
+ }
+ 
++#ifndef ANDROID_API_N_OR_LATER
+ static boolean libjpeg_seek_input_data(j_decompress_ptr cinfo, long byte_offset) {
+     libjpeg_source_mgr* src = (libjpeg_source_mgr*)cinfo->src;
+     src->current_offset = byte_offset;
+@@ -86,10 +89,13 @@ static boolean libjpeg_seek_input_data(j_decompress_ptr cinfo, long byte_offset)
+     src->bytes_in_buffer = 0;
+     return TRUE;
+ }
++#endif
+ 
+ static boolean libjpeg_fill_input_buffer(j_decompress_ptr cinfo) {
+     libjpeg_source_mgr* src = (libjpeg_source_mgr*)cinfo->src;
++#ifndef ANDROID_API_N_OR_LATER
+     src->current_offset += src->mFilledLen;
++#endif
+     src->next_input_byte = src->mBufferPtr;
+     src->bytes_in_buffer = src->mFilledLen;
+     return TRUE;
+@@ -121,7 +127,9 @@ libjpeg_source_mgr::libjpeg_source_mgr(unsigned char *buffer_ptr, int len) : mBu
+     skip_input_data = libjpeg_skip_input_data;
+     resync_to_restart = libjpeg_resync_to_restart;
+     term_source = libjpeg_term_source;
++#ifndef ANDROID_API_N_OR_LATER
+     seek_input_data = libjpeg_seek_input_data;
++#endif
+ }
+ 
+ libjpeg_source_mgr::~libjpeg_source_mgr() {}
+diff --git a/camera/MemoryManager.cpp b/camera/MemoryManager.cpp
+index b684203..273ea54 100644
+--- a/camera/MemoryManager.cpp
++++ b/camera/MemoryManager.cpp
+@@ -91,12 +91,12 @@ CameraBuffer* MemoryManager::allocateBufferList(int width, int height, const cha
+         ///1D buffers
+         for (int i = 0; i < numBufs; i++) {
+             unsigned char *data;
+-#ifdef USE_LIBION_TI
+-            int ret = ion_alloc(mIonFd, size, 0, 1 << ION_HEAP_TYPE_CARVEOUT,
++#ifdef USE_TI_LIBION
++            int ret = ion_alloc(mIonFd, size, 0, 1 << OMAP_ION_HEAP_SECURE_INPUT,
+                     &handle);
+ #else
+-            int ret = ion_alloc(mIonFd, size, 0, 1 << ION_HEAP_TYPE_CARVEOUT, 0,
+-                    &handle);
++            int ret = ion_alloc(mIonFd, size, 0, 1 << OMAP_ION_HEAP_SECURE_INPUT, 0,
++                    (ion_user_handle_t*)&handle);
+ #endif
+             if((ret < 0) || ((int)handle == -ENOMEM)) {
+                 ret = ion_alloc_tiler(mIonFd, (size_t)size, 1, TILER_PIXEL_FMT_PAGE,
+@@ -109,10 +109,18 @@ CameraBuffer* MemoryManager::allocateBufferList(int width, int height, const cha
+             }
+ 
+             CAMHAL_LOGDB("Before mapping, handle = %p, nSize = %d", handle, size);
++#ifdef USE_TI_LIBION
+             if ((ret = ion_map(mIonFd, handle, size, PROT_READ | PROT_WRITE, MAP_SHARED, 0,
++#else
++            if ((ret = ion_map(mIonFd, (ion_user_handle_t)handle, size, PROT_READ | PROT_WRITE, MAP_SHARED, 0,
++#endif
+                           &data, &mmap_fd)) < 0) {
+                 CAMHAL_LOGEB("Userspace mapping of ION buffers returned error %d", ret);
++#ifdef USE_TI_LIBION
+                 ion_free(mIonFd, handle);
++#else
++                ion_free(mIonFd, (ion_user_handle_t)handle);
++#endif
+                 goto error;
+             }
+ 
+@@ -193,7 +201,11 @@ int MemoryManager::freeBufferList(CameraBuffer *buffers)
+             {
+             munmap(buffers[i].opaque, buffers[i].size);
+             close(buffers[i].fd);
++#ifdef USE_TI_LIBION
+             ion_free(mIonFd, buffers[i].ion_handle);
++#else
++            ion_free(mIonFd, (ion_user_handle_t)buffers[i].ion_handle);
++#endif
+             }
+         else
+             {
+diff --git a/camera/OMXCameraAdapter/OMXCameraAdapter.cpp b/camera/OMXCameraAdapter/OMXCameraAdapter.cpp
+old mode 100644
+new mode 100755
+index 00d57a2..5a5f96f
+--- a/camera/OMXCameraAdapter/OMXCameraAdapter.cpp
++++ b/camera/OMXCameraAdapter/OMXCameraAdapter.cpp
+@@ -4093,7 +4093,7 @@ OMX_OTHER_EXTRADATATYPE *OMXCameraAdapter::getExtradata(const OMX_PTR ptrPrivate
+                 OMX_U32 remainingSize = platformPrivate->nMetaDataSize;
+                 OMX_OTHER_EXTRADATATYPE *extraData = (OMX_OTHER_EXTRADATATYPE *) platformPrivate->pMetaDataBuffer;
+                 if ( NULL != extraData ) {
+-                    while ( extraData->eType && extraData->nDataSize && extraData->data &&
++                    while ( extraData->eType && extraData->nDataSize && /*extraData->data &&*/
+                         (remainingSize >= extraData->nSize)) {
+                         if ( type == extraData->eType ) {
+                             return extraData;
+diff --git a/camera/OMXCameraAdapter/OMXDCC.cpp b/camera/OMXCameraAdapter/OMXDCC.cpp
+index cbaf2ab..beed9b3 100644
+--- a/camera/OMXCameraAdapter/OMXDCC.cpp
++++ b/camera/OMXCameraAdapter/OMXDCC.cpp
+@@ -27,12 +27,13 @@
+ #include "OMXDCC.h"
+ #include <utils/String8.h>
+ #include <utils/Vector.h>
++#include "OMX_TI_IVCommon.h"
+ 
+ namespace Ti {
+ namespace Camera {
+ 
+ #ifndef MOTOROLA_CAMERA
+-android::String8 DCCHandler::DCCPath("/data/misc/camera/");
++android::String8 DCCHandler::DCCPath(DCC_PATH);
+ #else
+ android::String8 DCCHandler::DCCPath("/system/etc/omapcam/");
+ #endif
+@@ -119,7 +120,7 @@ OMX_ERRORTYPE DCCHandler::initDCC(OMX_HANDLETYPE hComponent)
+         goto EXIT;
+     }
+ 
+-    dccbuf_size = readDCCdir(dccBuffer[0].mapped, dccDirs);
++    dccbuf_size = readDCCdir((OMX_U8 *)dccBuffer[0].mapped, dccDirs);
+     CAMHAL_ASSERT_X(dccbuf_size > 0,"ERROR in copy DCC files into buffer");
+ 
+     eError = sendDCCBufPtr(hComponent, dccBuffer);
+@@ -162,7 +163,7 @@ OMX_ERRORTYPE DCCHandler::sendDCCBufPtr(OMX_HANDLETYPE hComponent,
+     return eError;
+ }
+ 
+-size_t DCCHandler::readDCCdir(OMX_PTR buffer,
++size_t DCCHandler::readDCCdir(OMX_U8* buffer,
+                           const android::Vector<android::String8 *> &dirPaths)
+ {
+     FILE *pFile;
+diff --git a/camera/OMXCameraAdapter/OMXZoom.cpp b/camera/OMXCameraAdapter/OMXZoom.cpp
+index af5c5db..ab37d87 100644
+--- a/camera/OMXCameraAdapter/OMXZoom.cpp
++++ b/camera/OMXCameraAdapter/OMXZoom.cpp
+@@ -26,10 +26,22 @@
+ 
+ #ifdef CAMERAHAL_TUNA
+ namespace {
+-    // Experimentally determined values that make
+-    // overlapping bands go away in video mode.
+-    const int32_t FrontSensorVideoMinZoom = 66816; // 65536 + 1280
+-    const int32_t BackSensorVideoMinZoom = 66304; // 65536 + 768
++
++// On tuna devices in video preview mode (front camera) or video recording
++// mode (both front and back cameras) there are horizontal colored bands
++// at the top or bottom of the video, which are duplicate parts of the image
++// from the opposite sensor edge. It's unclear what is the exact reason for
++// that (could be an issue with Ducati processing algos?), but performing
++// a tiny bit of digital zoom to exclude these bands works just fine and,
++// while hacky, is still better than having videos with these bands.
++//
++// The values below were determined experimentally, both of them probably
++// can be made slightly smaller - but I didn't bother to find the exact
++// thresholds, and also keeping them close to the powers of two, while not
++// strictly necessary, just looks nice.
++const int32_t FrontSensorVideoMinZoom = 66816; // 65536 + 1280
++const int32_t BackSensorVideoMinZoom = 66304; // 65536 + 768
++
+ }
+ #endif
+ 
+@@ -54,9 +66,9 @@ const int32_t OMXCameraAdapter::ZOOM_STEPS [ZOOM_STAGES] =  {
+                                 456131, 472515, 488899, 506593,
+                                 524288 };
+ 
+-#ifdef CAMERAHAL_TUNA
+ int32_t OMXCameraAdapter::getZoomStep(int index)
+ {
++#ifdef CAMERAHAL_TUNA
+     if (index != 0 || !mPrevZoomModeIsVideo) {
+         return OMXCameraAdapter::ZOOM_STEPS[index];
+     } else if (mSensorIndex == 1) {
+@@ -64,8 +76,10 @@ int32_t OMXCameraAdapter::getZoomStep(int index)
+     } else {
+         return BackSensorVideoMinZoom;
+     }
+-}
++#else
++    return OMXCameraAdapter::ZOOM_STEPS[index];
+ #endif
++}
+ 
+ status_t OMXCameraAdapter::setParametersZoom(const android::CameraParameters &params,
+                                              BaseCameraAdapter::AdapterState state)
+@@ -119,12 +133,13 @@ status_t OMXCameraAdapter::doZoom(int index)
+         ret = -EINVAL;
+         }
+ 
++#ifdef CAMERAHAL_TUNA
+     bool curZoomModeIsVideo = (mCapMode == OMXCameraAdapter::VIDEO_MODE ||
+         mCapMode == OMXCameraAdapter::VIDEO_MODE_HQ);
+ 
+     // When index == 0 and there was a switch between video and non-video mode or between sensors,
+-    // we do need to perform the zoom, as 0th index is different between video and non-video modes
+-    // and between different sensors.
++    // we do need to perform the zoom, as zoom values corresponding to 0th index are different
++    // for tuna devices between video and non-video modes and between different sensors.
+     if (mPreviousZoomIndx == index && (index != 0 || (curZoomModeIsVideo == mPrevZoomModeIsVideo &&
+                                                       mSensorIndex == mPrevZoomSensorIndex)))
+         {
+@@ -133,15 +148,19 @@ status_t OMXCameraAdapter::doZoom(int index)
+ 
+     mPrevZoomModeIsVideo = curZoomModeIsVideo;
+     mPrevZoomSensorIndex = mSensorIndex;
++#else
++    if (mPreviousZoomIndx == index )
++        {
++        return NO_ERROR;
++        }
++#endif
+ 
+     if ( NO_ERROR == ret )
+         {
+         OMX_INIT_STRUCT_PTR (&zoomControl, OMX_CONFIG_SCALEFACTORTYPE);
+         zoomControl.nPortIndex = OMX_ALL;
+-#ifdef CAMERAHAL_TUNA
+         zoomControl.xHeight = getZoomStep(index);
+         zoomControl.xWidth = zoomControl.xHeight;
+-#endif
+ 
+         eError =  OMX_SetConfig(mCameraAdapterParameters.mHandleComp,
+                                 OMX_IndexConfigCommonDigitalZoom,
+diff --git a/camera/V4LCameraAdapter/V4LCameraAdapter.cpp b/camera/V4LCameraAdapter/V4LCameraAdapter.cpp
+old mode 100644
+new mode 100755
+diff --git a/camera/V4LCameraAdapter/V4LCapabilities.cpp b/camera/V4LCameraAdapter/V4LCapabilities.cpp
+old mode 100644
+new mode 100755
+diff --git a/camera/android-api.mk b/camera/android-api.mk
+index 3b4e1f6..0f51256 100644
+--- a/camera/android-api.mk
++++ b/camera/android-api.mk
+@@ -1,6 +1,10 @@
+ 
+ # Makefile variables and C/C++ macros to recognize API level
++ANDROID_API_O_OR_LATER :=
++ANDROID_API_N_MR1_OR_LATER :=
++ANDROID_API_N_OR_LATER :=
+ ANDROID_API_MM_OR_LATER :=
++ANDROID_API_LP_MR1_OR_LATER :=
+ ANDROID_API_LP_OR_LATER :=
+ ANDROID_API_KK_OR_LATER :=
+ ANDROID_API_JB_MR1_OR_LATER :=
+@@ -8,10 +12,26 @@ ANDROID_API_JB_OR_LATER :=
+ ANDROID_API_ICS_OR_LATER :=
+ ANDROID_API_CFLAGS :=
+ 
++ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 26 || echo 1),)
++    ANDROID_API_O_OR_LATER := true
++    ANDROID_API_CFLAGS += -DANDROID_API_O_OR_LATER
++endif
++ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 25 || echo 1),)
++    ANDROID_API_N_MR1_OR_LATER := true
++    ANDROID_API_CFLAGS += -DANDROID_API_N_MR1_OR_LATER
++endif
++ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 24 || echo 1),)
++    ANDROID_API_N_OR_LATER := true
++    ANDROID_API_CFLAGS += -DANDROID_API_N_OR_LATER
++endif
+ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 23 || echo 1),)
+     ANDROID_API_MM_OR_LATER := true
+     ANDROID_API_CFLAGS += -DANDROID_API_MM_OR_LATER
+ endif
++ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 22 || echo 1),)
++    ANDROID_API_LP_MR1_OR_LATER := true
++    ANDROID_API_CFLAGS += -DANDROID_API_LP_MR1_OR_LATER
++endif
+ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 20 || echo 1),)
+     ANDROID_API_LP_OR_LATER := true
+     ANDROID_API_CFLAGS += -DANDROID_API_LP_OR_LATER
+@@ -34,7 +54,10 @@ ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 14 || echo 1),)
+ endif
+ 
+ define clear-android-api-vars
++$(eval ANDROID_API_N_MR1_OR_LATER:=) \
++$(eval ANDROID_API_N_OR_LATER:=) \
+ $(eval ANDROID_API_MM_OR_LATER:=) \
++$(eval ANDROID_API_LP_MR1_OR_LATER:=) \
+ $(eval ANDROID_API_LP_OR_LATER:=) \
+ $(eval ANDROID_API_KK_OR_LATER:=) \
+ $(eval ANDROID_API_JB_MR1_OR_LATER:=) \
+diff --git a/camera/inc/CameraHal.h b/camera/inc/CameraHal.h
+index b6d19b7..3eb1f78 100644
+--- a/camera/inc/CameraHal.h
++++ b/camera/inc/CameraHal.h
+@@ -48,10 +48,11 @@
+ #include <ui/GraphicBufferMapper.h>
+ #include <hal_public.h>
+ 
+-#ifdef USE_LIBION_TI
++#ifdef USE_TI_LIBION
+ #include <ion_ti/ion.h>
+ #else
+ #include <ion/ion.h>
++#include "ion_ti_custom.h"
+ #endif
+ 
+ #include "Common.h"
+diff --git a/camera/inc/Decoder_libjpeg.h b/camera/inc/Decoder_libjpeg.h
+old mode 100644
+new mode 100755
+diff --git a/camera/inc/Encoder_libjpeg.h b/camera/inc/Encoder_libjpeg.h
+index bb41562..08816c0 100644
+--- a/camera/inc/Encoder_libjpeg.h
++++ b/camera/inc/Encoder_libjpeg.h
+@@ -166,7 +166,11 @@ class Encoder_libjpeg : public android::Thread {
+             if (mThumbnailInput) {
+                 // start thread to encode thumbnail
+                 mThumb = new Encoder_libjpeg(mThumbnailInput, NULL, NULL, mType, NULL, NULL, NULL, NULL);
++#ifdef ANDROID_API_N_OR_LATER
++                mThumb->run("thumbnail_encoder");
++#else
+                 mThumb->run();
++#endif
+             }
+ 
+             // encode our main image
+diff --git a/camera/inc/OMXCameraAdapter/OMXCameraAdapter.h b/camera/inc/OMXCameraAdapter/OMXCameraAdapter.h
+index 5f0433c..14021b1 100644
+--- a/camera/inc/OMXCameraAdapter/OMXCameraAdapter.h
++++ b/camera/inc/OMXCameraAdapter/OMXCameraAdapter.h
+@@ -536,9 +536,7 @@ private:
+     //Digital zoom
+     status_t setParametersZoom(const android::CameraParameters &params,
+                                BaseCameraAdapter::AdapterState state);
+-#ifdef CAMERAHAL_TUNA
+     int32_t getZoomStep(int index);
+-#endif
+     status_t doZoom(int index);
+     status_t advanceZoom();
+ 
+diff --git a/camera/inc/OMXCameraAdapter/OMXDCC.h b/camera/inc/OMXCameraAdapter/OMXDCC.h
+index c75a24d..b2d1294 100644
+--- a/camera/inc/OMXCameraAdapter/OMXDCC.h
++++ b/camera/inc/OMXCameraAdapter/OMXDCC.h
+@@ -30,7 +30,7 @@ private:
+ 
+     OMX_ERRORTYPE initDCC(OMX_HANDLETYPE hComponent);
+     OMX_ERRORTYPE sendDCCBufPtr(OMX_HANDLETYPE hComponent, CameraBuffer *dccBuffer);
+-    size_t readDCCdir(OMX_PTR buffer, const android::Vector<android::String8 *> &dirPaths);
++    size_t readDCCdir(OMX_U8* buffer, const android::Vector<android::String8 *> &dirPaths);
+ 
+ private:
+ 
+diff --git a/camera/inc/V4LCameraAdapter/V4LCameraAdapter.h b/camera/inc/V4LCameraAdapter/V4LCameraAdapter.h
+old mode 100644
+new mode 100755
+diff --git a/camera/inc/VideoMetadata.h b/camera/inc/VideoMetadata.h
+index f05ee50..659d58e 100644
+--- a/camera/inc/VideoMetadata.h
++++ b/camera/inc/VideoMetadata.h
+@@ -17,15 +17,37 @@
+ #ifndef VIDEO_METADATA_H
+ #define VIDEO_METADATA_H
+ 
++#include <MetadataBufferType.h>
++
++#ifdef __cplusplus
++using namespace android;
++#endif
++
++#ifdef ANDROID_API_N_OR_LATER
++#define CAMERA_METADATA_BUFFER_TYPE kMetadataBufferTypeNativeHandleSource
++#else
++#define CAMERA_METADATA_BUFFER_TYPE kMetadataBufferTypeCameraSource
++#endif
++
+ /* This structure is used to pass buffer offset from Camera-Hal to Encoder component
+  * for specific algorithms like VSTAB & VNF
++ *
++ * With mediaserver hardening, Camera-Hal and Encoder are in separate processes.
++ * These must use VideoNativeHandleMetadata. Ideally, we'd just do something like:
++ *     #include <HardwareAPI.h>
++ *     typedef struct VideoNativeHandleMetadata video_metadata_t;"
++ * But HardwareAPI.h can't be included from C code like domx.
++ *
++ * So: REMEMBER TO ENSURE video_metadata_t MATCHES VideoNativeHandleMetadata!
+  */
+ 
+ typedef struct
+ {
+-    int metadataBufferType;
+-    void* handle;
++    MetadataBufferType eType;
++    native_handle_t* pHandle;
++#ifndef ANDROID_API_N_OR_LATER
+     int offset;
++#endif
+ }
+ video_metadata_t;
+ 
+-- 
+2.7.4
+
