@@ -1,4 +1,4 @@
-From 47075ba899988ec1a5a13b8088a4fe4135e74d97 Mon Sep 17 00:00:00 2001
+From 371b9e4ea8f16d34f9647bbf4acd21575bb79e88 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Mon, 29 Jan 2018 20:07:11 +0100
 Subject: [PATCH] camera: Update camera HAL to latest source
@@ -55,7 +55,7 @@ Change-Id: I31afcb255ce5c3ad1260ba511e98bdb15658de64
 diff --git a/camera/Android.mk b/camera/Android.mk
 old mode 100644
 new mode 100755
-index 1789304..cdd09b2
+index 1789304..b786804
 --- a/camera/Android.mk
 +++ b/camera/Android.mk
 @@ -57,6 +57,22 @@ ifeq ($(ENHANCED_DOMX),true)
@@ -105,7 +105,7 @@ index 1789304..cdd09b2
 -TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += \
 -    libion
 +TI_CAMERAHAL_COMMON_SHARED_LIBRARIES += libion
-+TI_CAMERAHAL_COMMON_SRC +=  $(OMAP4_NEXT_FOLDER)/libion/ion_ti_custom.c
++TI_CAMERAHAL_COMMON_SRC +=  ../../../../$(OMAP4_NEXT_FOLDER)/libion/ion_ti_custom.c
 +TI_CAMERAHAL_COMMON_INCLUDES += $(OMAP4_NEXT_FOLDER)/libion
  endif
  
