@@ -1,4 +1,4 @@
-From ff44bf3b086ed9953a1941d7f2d3e9a7dac815aa Mon Sep 17 00:00:00 2001
+From 47075ba899988ec1a5a13b8088a4fe4135e74d97 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Mon, 29 Jan 2018 20:07:11 +0100
 Subject: [PATCH] camera: Update camera HAL to latest source
@@ -24,7 +24,7 @@ HEAD 9763c54756b863e56be321aa3434218f6eba75b7 from hardware/ti/omap4
 
 Change-Id: I31afcb255ce5c3ad1260ba511e98bdb15658de64
 ---
- camera/Android.mk                              | 38 ++++++++++++++++++-------
+ camera/Android.mk                              | 32 ++++++++++++++++-----
  camera/AppCallbackNotifier.cpp                 | 37 ++++++++++++++++++------
  camera/CameraHal.cpp                           | 12 ++++++++
  camera/CameraHal_Module.cpp                    | 37 +++++++++++++++---------
@@ -43,7 +43,7 @@ Change-Id: I31afcb255ce5c3ad1260ba511e98bdb15658de64
  camera/inc/OMXCameraAdapter/OMXDCC.h           |  2 +-
  camera/inc/V4LCameraAdapter/V4LCameraAdapter.h |  0
  camera/inc/VideoMetadata.h                     | 26 +++++++++++++++--
- 19 files changed, 204 insertions(+), 56 deletions(-)
+ 19 files changed, 201 insertions(+), 53 deletions(-)
  mode change 100644 => 100755 camera/Android.mk
  mode change 100644 => 100755 camera/Decoder_libjpeg.cpp
  mode change 100644 => 100755 camera/OMXCameraAdapter/OMXCameraAdapter.cpp
@@ -55,7 +55,7 @@ Change-Id: I31afcb255ce5c3ad1260ba511e98bdb15658de64
 diff --git a/camera/Android.mk b/camera/Android.mk
 old mode 100644
 new mode 100755
-index 1789304..2d69c45
+index 1789304..cdd09b2
 --- a/camera/Android.mk
 +++ b/camera/Android.mk
 @@ -57,6 +57,22 @@ ifeq ($(ENHANCED_DOMX),true)
@@ -118,33 +118,6 @@ index 1789304..2d69c45
 +PRODUCT_MAKEFILES += $(LOCAL_DIR)/sdk_addon/ti_omap_addon.mk
  endif
  
- 
-@@ -226,7 +244,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
- LOCAL_MODULE := camera.tuna
- LOCAL_MODULE_TAGS := optional
- 
--include $(BUILD_SHARED_LIBRARY)
-+include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
- 
- else ifeq ($(TI_CAMERAHAL_INTERFACE),USB)
- # ====================
-@@ -256,7 +274,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
- LOCAL_MODULE := camera.tuna
- LOCAL_MODULE_TAGS := optional
- 
--include $(BUILD_SHARED_LIBRARY)
-+include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
- 
- else ifeq ($(TI_CAMERAHAL_INTERFACE),ALL)
- # =====================
-@@ -290,7 +308,7 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
- LOCAL_MODULE := camera.tuna
- LOCAL_MODULE_TAGS := optional
- 
--include $(BUILD_SHARED_LIBRARY)
-+include $(BUILD_HEAPTRACKED_SHARED_LIBRARY)
- 
- endif
  
 diff --git a/camera/AppCallbackNotifier.cpp b/camera/AppCallbackNotifier.cpp
 index 8bc10b1..cab0ae9 100644
