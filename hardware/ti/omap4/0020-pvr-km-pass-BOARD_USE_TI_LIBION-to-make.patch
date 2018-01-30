@@ -1,7 +1,7 @@
-From 74e9c56c4a718d0b1f6fe7c76977bd2a32f50cc6 Mon Sep 17 00:00:00 2001
+From 33a2ef6daaab109d3a98802630aa1e816a09f2a8 Mon Sep 17 00:00:00 2001
 From: Daniel Jarai <jaraidaniel@gmail.com>
 Date: Sat, 27 Jan 2018 20:53:40 +0100
-Subject: [PATCH 19/20] pvr-km: pass BOARD_USE_TI_LIBION to make
+Subject: [PATCH 20/21] pvr-km: pass BOARD_USE_TI_LIBION to make
 
 Avoids having to export it in boards.
 Also, remove an unnecessary export in the main PVR Makefile.

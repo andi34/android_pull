@@ -1,7 +1,7 @@
-From fa53b5609e4c4922f25e329d73105ad5ff5b1477 Mon Sep 17 00:00:00 2001
+From 343f874ddc46b56b2e0b1675aabd62d586629e6b Mon Sep 17 00:00:00 2001
 From: Daniel Jarai <jaraidaniel@gmail.com>
 Date: Sat, 27 Jan 2018 20:56:36 +0100
-Subject: [PATCH 20/20] board: Use the standard ION driver by default
+Subject: [PATCH 21/21] board: Use the standard ION driver by default
 
 Our common kernel finally has DMA-buffered ION, so let's use the
 standard libion instead of TI's.
@@ -12,7 +12,7 @@ Change-Id: Iaa348016b66edc12329175fbe472ad7411819565
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
-index 784b8c1..630eed3 100644
+index 4073f9c..ecedf4f 100644
 --- a/BoardConfigCommon.mk
 +++ b/BoardConfigCommon.mk
 @@ -37,7 +37,7 @@ OMAP_ENHANCEMENT_MULTIGPU := true
