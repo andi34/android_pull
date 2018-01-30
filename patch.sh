@@ -5,7 +5,6 @@ PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'build'
     'device/samsung/espressowifi'
-    'device/samsung/tuna'
     'hardware/ti/omap4'
     'vendor/cm'
 )
