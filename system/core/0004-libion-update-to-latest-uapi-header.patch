@@ -1,4 +1,4 @@
-From 1a9b16396e23e5d0a63662185d50d91c4980600e Mon Sep 17 00:00:00 2001
+From 071dc0e81434d3ead153b46e94934a954edb0091 Mon Sep 17 00:00:00 2001
 From: Colin Cross <ccross@android.com>
 Date: Wed, 18 Dec 2013 15:39:27 -0800
 Subject: [PATCH 3/3] libion: update to latest uapi header
@@ -22,10 +22,10 @@ Change-Id: I2d3fef08f6bb381522ecf7bcffea2b8280d5e737
  create mode 100644 libion/original-kernel-headers/linux/ion_test.h
 
 diff --git a/libion/Android.mk b/libion/Android.mk
-index ae99ac5..42e6f07 100644
+index 7b83b42..92f523c 100644
 --- a/libion/Android.mk
 +++ b/libion/Android.mk
-@@ -5,14 +5,14 @@ LOCAL_SRC_FILES := ion.c
+@@ -10,15 +10,15 @@ LOCAL_SRC_FILES := ion.c
  LOCAL_MODULE := libion
  LOCAL_MODULE_TAGS := optional
  LOCAL_SHARED_LIBRARIES := liblog
@@ -43,6 +43,7 @@ index ae99ac5..42e6f07 100644
 +LOCAL_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/kernel-headers
  LOCAL_SHARED_LIBRARIES := liblog
  include $(BUILD_EXECUTABLE)
+ 
 diff --git a/libion/kernel-headers/linux/ion.h b/libion/kernel-headers/linux/ion.h
 new file mode 100644
 index 0000000..5af39d0

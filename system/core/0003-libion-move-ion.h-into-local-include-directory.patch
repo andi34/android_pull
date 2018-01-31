@@ -1,4 +1,4 @@
-From eab21838c3f46163ca37e533e8acd211edca5734 Mon Sep 17 00:00:00 2001
+From f7b978504fc419ece3933459f2828dc9e58fbc75 Mon Sep 17 00:00:00 2001
 From: Colin Cross <ccross@android.com>
 Date: Thu, 7 Nov 2013 20:11:37 -0800
 Subject: [PATCH 2/3] libion: move ion.h into local include directory
@@ -64,10 +64,10 @@ index 47a4030..0000000
 -
 -#endif /* __SYS_CORE_ION_H */
 diff --git a/libion/Android.mk b/libion/Android.mk
-index 5121fee..ae99ac5 100644
+index 0f023d6..7b83b42 100644
 --- a/libion/Android.mk
 +++ b/libion/Android.mk
-@@ -5,11 +5,14 @@ LOCAL_SRC_FILES := ion.c
+@@ -10,12 +10,15 @@ LOCAL_SRC_FILES := ion.c
  LOCAL_MODULE := libion
  LOCAL_MODULE_TAGS := optional
  LOCAL_SHARED_LIBRARIES := liblog
@@ -82,6 +82,7 @@ index 5121fee..ae99ac5 100644
 +LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
  LOCAL_SHARED_LIBRARIES := liblog
  include $(BUILD_EXECUTABLE)
+ 
 diff --git a/libion/include/ion/ion.h b/libion/include/ion/ion.h
 new file mode 100644
 index 0000000..47a4030
