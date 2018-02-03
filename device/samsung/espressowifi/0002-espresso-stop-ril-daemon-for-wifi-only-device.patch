@@ -1,0 +1,28 @@
+From 59778918c0ee4a8e71fd22ec467263b7b050ddff Mon Sep 17 00:00:00 2001
+From: Ketut Putu Kumajaya <ketut.kumajaya@gmail.com>
+Date: Mon, 15 Sep 2014 23:42:08 +0200
+Subject: [PATCH 2/2] espresso: stop ril-daemon for wifi-only device
+
+Change-Id: I69fc856ce8b6fbb809d68eebc1affbe9dc0694fc
+---
+ rootdir/init.espresso.rc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/rootdir/init.espresso.rc b/rootdir/init.espresso.rc
+index 95e2f21..8b8d8ab 100644
+--- a/rootdir/init.espresso.rc
++++ b/rootdir/init.espresso.rc
+@@ -143,6 +143,10 @@ service variant_setup /system/bin/init.espresso.variant.sh
+     user root
+     oneshot
+ 
++# stop ril-daemon for wifi-only device
++on property:ro.carrier=wifi-only
++    stop ril-daemon
++
+ # LPM
+ on property:ro.bootmode=charger
+     mount ext4 /dev/block/platform/omap/omap_hsmmc.1/by-name/FACTORYFS /system wait ro
+-- 
+2.7.4
+
