@@ -5,8 +5,5 @@ SAUCE=~/android/cm-11.0
 echo "----------------------------------------"
 echo "----------------------------------------"
 
-repopick -t asb-2017.12-cm-11.0
-repopick -t asb-2018.01-cm11
-
 cd $SAUCE/pull
 . patch.sh
