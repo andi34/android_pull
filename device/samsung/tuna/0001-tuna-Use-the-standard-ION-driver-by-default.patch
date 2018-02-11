@@ -1,0 +1,30 @@
+From b2d7600f9a2cfa4d2871a80aaf311162ffc2a836 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Sun, 11 Feb 2018 13:42:36 +0100
+Subject: [PATCH] tuna: Use the standard ION driver by default
+
+Our common kernel finally has DMA-buffered ION, so let's use the
+standard libion instead of TI's.
+
+Change-Id: I7b7a9b03c751b0119401c75a24069b4bf1c02f22
+---
+ BoardConfig.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index f046abd..db7266d 100755
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -46,6 +46,9 @@ BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME)
+ TARGET_KERNEL_CONFIG := tuna_defconfig
+ TARGET_KERNEL_SOURCE := kernel/ti/omap4
+ 
++# Use the standard ION driver
++BOARD_USE_TI_LIBION := false
++
+ TI_CAMERAHAL_USES_LEGACY_DOMX_DCC := true
+ TI_CAMERAHAL_INTERFACE := OMX
+ DOMX_TUNA := true
+-- 
+2.7.4
+
