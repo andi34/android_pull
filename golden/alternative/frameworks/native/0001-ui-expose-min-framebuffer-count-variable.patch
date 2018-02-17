@@ -1,0 +1,56 @@
+From 300bc5ef43c3456d38f8b8b2cdf59200e3c1b6e4 Mon Sep 17 00:00:00 2001
+From: nuclearmistake <nuclearmistake@gmail.com>
+Date: Fri, 11 Apr 2014 20:17:19 -0400
+Subject: [PATCH] ui: expose min framebuffer count variable
+
+Change-Id: If9524c6fbb0d28484e24c5e908ca41fb6604537b
+---
+ include/ui/FramebufferNativeWindow.h | 5 ++++-
+ libs/ui/Android.mk                   | 4 ++++
+ libs/ui/FramebufferNativeWindow.cpp  | 2 +-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/include/ui/FramebufferNativeWindow.h b/include/ui/FramebufferNativeWindow.h
+index 02f3c8bc71a..8a6f4c29216 100644
+--- a/include/ui/FramebufferNativeWindow.h
++++ b/include/ui/FramebufferNativeWindow.h
+@@ -28,7 +28,10 @@
+ #include <ui/ANativeObjectBase.h>
+ #include <ui/Rect.h>
+ 
+-#define MIN_NUM_FRAME_BUFFERS  2
++#ifndef MIN_NUM_FRAME_BUFFERS
++#define MIN_NUM_FRAME_BUFFERS 2
++#endif
++
+ #define MAX_NUM_FRAME_BUFFERS  3
+ 
+ #ifdef SAMSUNG_HDMI_SUPPORT
+diff --git a/libs/ui/Android.mk b/libs/ui/Android.mk
+index 4da1a40a214..69a15424f75 100644
+--- a/libs/ui/Android.mk
++++ b/libs/ui/Android.mk
+@@ -69,6 +69,10 @@ ifeq ($(BOARD_USES_LEGACY_OVERLAY), true)
+ LOCAL_SRC_FILES += legacy/Overlay.cpp
+ endif
+ 
++ifneq (,$(TARGET_MIN_NUM_FRAME_BUFFERS))
++LOCAL_CFLAGS += -DMIN_NUM_FRAME_BUFFERS=$(TARGET_MIN_NUM_FRAME_BUFFERS)
++endif
++
+ LOCAL_MODULE:= libui
+ 
+ include $(BUILD_SHARED_LIBRARY)
+diff --git a/libs/ui/FramebufferNativeWindow.cpp b/libs/ui/FramebufferNativeWindow.cpp
+index 12c77b8787e..fbbfb047cb8 100644
+--- a/libs/ui/FramebufferNativeWindow.cpp
++++ b/libs/ui/FramebufferNativeWindow.cpp
+@@ -249,7 +249,7 @@ int FramebufferNativeWindow::dequeueBuffer(ANativeWindow* window,
+         self->mBufferHead = 0;
+ 
+     // wait for a free non-front buffer
+-    while (self->mNumFreeBuffers < 2) {
++    while (self->mNumFreeBuffers < MIN_NUM_FRAME_BUFFERS) {
+         self->mCondition.wait(self->mutex);
+     }
+     ALOG_ASSERT(self->buffers[index] != self->front);
