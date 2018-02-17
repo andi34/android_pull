@@ -1,0 +1,28 @@
+From 25fe2890b804f8223e8bcd85ffedd2d53e4136b7 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Sat, 17 Feb 2018 20:02:22 +0100
+Subject: [PATCH] espresso: restart geomagneticd and orientationd after boot
+ completed
+
+Change-Id: I9a289f23b5243cb5eaf9b3b087fe677ef786eec8
+---
+ rootdir/init.espresso.sensors.rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/rootdir/init.espresso.sensors.rc b/rootdir/init.espresso.sensors.rc
+index 895f621..1125aa5 100644
+--- a/rootdir/init.espresso.sensors.rc
++++ b/rootdir/init.espresso.sensors.rc
+@@ -111,3 +111,9 @@ service geomagneticd /system/bin/geomagneticd
+     class main
+     user compass
+     group system input
++
++on property:sys.boot_completed=1
++    stop orientationd
++    stop geomagneticd
++    start orientationd
++    start geomagneticd
+-- 
+2.7.4
+
