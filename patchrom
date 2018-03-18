@@ -5,5 +5,11 @@ SAUCE=~/android/cm-11.0
 echo "----------------------------------------"
 echo "----------------------------------------"
 
+repopick -t cm11.0-appops-su
+repopick -t bootzip-cm-11.0
+cd $SAUCE/vendor/cm
+git format-patch --start-number 2 -1
+repopick -t asb-2018.03-cm11
+
 cd $SAUCE/pull
 . patch.sh
