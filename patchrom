@@ -6,6 +6,7 @@ echo "----------------------------------------"
 echo "----------------------------------------"
 
 repopick -t cm11.0-appops-su
+repopick -t blueborne-cm11
 repopick -t bootzip-cm-11.0
 cd $SAUCE/vendor/cm
 git format-patch --start-number 2 -1
