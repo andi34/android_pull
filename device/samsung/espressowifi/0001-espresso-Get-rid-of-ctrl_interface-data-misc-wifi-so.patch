@@ -1,0 +1,35 @@
+From 7a7abbbba63fc8fd16dd531f820f53723434c29f Mon Sep 17 00:00:00 2001
+From: Dmitry Shmidt <dimitrysh@google.com>
+Date: Sun, 1 Mar 2015 11:31:07 -0700
+Subject: [PATCH] espresso: Get rid of ctrl_interface=/data/misc/wifi/sockets
+
+Change-Id: I2657b742ecc7b78d2b9e4611e9e9729f4d7c37e0
+---
+ rootdir/init.espresso.rc | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/rootdir/init.espresso.rc b/rootdir/init.espresso.rc
+index 8c63037..6534edc 100755
+--- a/rootdir/init.espresso.rc
++++ b/rootdir/init.espresso.rc
+@@ -137,8 +137,7 @@ service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdis
+ 
+ service p2p_supplicant /system/bin/wpa_supplicant \
+     -iwlan0 -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf \
+-    -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+-    -O/data/misc/wifi/sockets -N \
++    -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
+     -ip2p0 -Dnl80211 -c /data/misc/wifi/p2p_supplicant.conf \
+     -I/system/etc/wifi/p2p_supplicant_overlay.conf \
+     -puse_p2p_group_interface=1 -e/data/misc/wifi/entropy.bin \
+@@ -155,7 +154,6 @@ service p2p_supplicant /system/bin/wpa_supplicant \
+ service wpa_supplicant /system/bin/wpa_supplicant \
+     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+-    -O/data/misc/wifi/sockets \
+     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
+     #   we will start as root and wpa_supplicant will switch to user wifi
+     #   after setting up the capabilities required for WEXT
+-- 
+2.7.4
+
