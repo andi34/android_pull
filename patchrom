@@ -7,7 +7,6 @@ echo "----------------------------------------"
 
 repopick -t cm11.0-appops-su
 repopick -t bootzip-cm-11.0
-repopick -t asb-2018.04-cm11
 
 cd $SAUCE/pull
 . patch.sh
