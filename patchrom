@@ -5,6 +5,11 @@ SAUCE=~/android/cm-13.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
+repopick -t asb-2018.04-cm13
+repopick -t asb-2018.05-cm13
+repopick -t fix-aapt-warnings-cm-13.0
+cd $SAUCE/device/common
+git fetch https://github.com/LineageOS/android_device_common refs/changes/48/212848/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 
 cd $SAUCE/pull
