@@ -1,0 +1,49 @@
+From 243592e4e6518794d3c8a20077b9271f7a1bae8b Mon Sep 17 00:00:00 2001
+From: Daniel Micay <danielmicay@gmail.com>
+Date: Wed, 16 Dec 2015 16:42:49 -0500
+Subject: [PATCH] set ro.adb.secure=1 for user builds
+
+In user builds, adb without authentication is always disabled. However,
+it doesn't work with the defaults because authentication doesn't work
+without having ro.adb.secure=1 set. It makes sense to offer builds with
+no adb but not builds with adb present in an unusable state (especially
+as the default).
+
+Bug: 22220212
+Bug: 21862859
+Change-Id: Ic22300a70586fd57692ac59d6873ab16dde70919
+---
+ core/build-system.html | 1 +
+ core/main.mk           | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/core/build-system.html b/core/build-system.html
+index caade58..04fdb9d 100644
+--- a/core/build-system.html
++++ b/core/build-system.html
+@@ -270,6 +270,7 @@ for these).
+         <li>Installs non-APK modules that have no tags specified.
+         <li>Installs APKs according to the product definition files; tags
+             are ignored for APK modules.
++        <li><code>ro.adb.secure=1</code>
+         <li><code>ro.secure=1</code>
+         <li><code>ro.debuggable=0</code>
+         <li><code>adb</code> is disabled by default.
+diff --git a/core/main.mk b/core/main.mk
+index b82cd6a..e2a1e34 100644
+--- a/core/main.mk
++++ b/core/main.mk
+@@ -281,6 +281,10 @@ ifneq (,$(user_variant))
+   ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=1
+   ADDITIONAL_DEFAULT_PROPERTIES += security.perf_harden=1
+ 
++  ifeq ($(user_variant),user)
++    ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=1
++  endif
++
+   ifeq ($(user_variant),userdebug)
+     # Pick up some extra useful tools
+     tags_to_install += debug
+-- 
+2.7.4
+
