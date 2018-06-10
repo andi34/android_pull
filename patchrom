@@ -6,14 +6,21 @@ SAUCE=~/android/cm-13.0
 echo ""
 echo "----------------------------------------"
 repopick -t asb-2018.04-cm13
-repopick -t asb-2018.05-cm13
-repopick -t fix-aapt-warnings-cm-13.0
+repopick -t asb-2018.06-cm13
 cd $SAUCE/device/common
 git fetch https://github.com/LineageOS/android_device_common refs/changes/48/212848/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd $SAUCE/external/chromium-webview
 git fetch https://github.com/LineageOS/android_external_chromium-webview refs/changes/31/215531/1 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
-
+cd $SAUCE/packages/apps/Snap
+git fetch https://github.com/LineageOS/android_packages_apps_Snap refs/changes/08/216708/5 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/LockClock
+git fetch https://github.com/LineageOS/android_packages_apps_LockClock refs/changes/33/216433/1 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/frameworks/base
+git fetch https://github.com/LineageOS/android_frameworks_base refs/changes/29/216429/2 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
 cd $SAUCE/pull
 . patch.sh
