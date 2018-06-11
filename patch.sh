@@ -7,7 +7,6 @@ PATCHREPOS=(
     'device/samsung/espresso3g'
     'device/samsung/espressowifi'
     'device/samsung/tuna'
-    'vendor/slim'
 )
 
 for patches in "${PATCHREPOS[@]}"; do
