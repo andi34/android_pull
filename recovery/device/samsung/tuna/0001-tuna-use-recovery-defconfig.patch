@@ -1,0 +1,26 @@
+From 9e06d748ce74aac490715833b0c01b0adb6c9ae6 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Mon, 2 Jul 2018 12:16:13 +0200
+Subject: [PATCH] tuna: use recovery defconfig
+
+Change-Id: I60642d49829bf3b32919a0c9154443bd48ee8eaa
+---
+ BoardConfig.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index ec879b9..634d0d8 100755
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -39,7 +39,7 @@ TARGET_OTA_ASSERT_DEVICE := tuna,maguro,toro,toroplus
+ # Kernel
+ BOARD_KERNEL_BASE := 0x80000000
+ BOARD_KERNEL_CMDLINE := androidboot.hardware=$(TARGET_BOOTLOADER_BOARD_NAME)
+-TARGET_KERNEL_CONFIG := tuna_defconfig
++TARGET_KERNEL_CONFIG := tuna_recovery_defconfig
+ TARGET_KERNEL_SOURCE := kernel/ti/omap4
+ TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
+ 
+-- 
+2.7.4
+
