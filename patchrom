@@ -5,7 +5,12 @@ SAUCE=~/android/cm-13.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-repopick -t asb-2018.09-cm13
+#repopick -t asb-2018.10-cm13
+cd $SAUCE/build
+git fetch https://github.com/LineageOS/android_build refs/changes/94/234594/3 && git cherry-pick FETCH_HEAD
+echo "----------------------------------------"
+cd $SAUCE/packages/apps/Settings
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/08/230408/2 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 cd $SAUCE/pull
 . patch.sh
