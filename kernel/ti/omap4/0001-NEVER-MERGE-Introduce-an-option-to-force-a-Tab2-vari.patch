@@ -1,0 +1,233 @@
+From 90792f32fb1840e0a1438810b2d3df3d12a65719 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Fri, 10 Mar 2017 12:00:16 +0100
+Subject: [PATCH] (NEVER MERGE) Introduce an option to force a Tab2 variant
+
+Also add variant specific defconfig:
+  On Android:
+    TARGET_KERNEL_VARIANT_CONFIG := p****_defconfig
+    and
+    TARGET_KERNEL_CONFIG := espresso_defconfig
+    or
+    TARGET_KERNEL_CONFIG := espresso_kitkat_defconfig
+
+  Compiling outside Android:
+    make VARIANT_DEFCONFIG=p****_defconfig espresso_defconfig
+    or
+    make VARIANT_DEFCONFIG=p****_defconfig espresso_kitkat_defconfig
+
+Change-Id: I4030324d734fce26a8e6ca0d5acb779a2afda681
+---
+ arch/arm/configs/p3100_defconfig     |  2 ++
+ arch/arm/configs/p3110_defconfig     |  2 ++
+ arch/arm/configs/p3113_defconfig     |  2 ++
+ arch/arm/configs/p5100_defconfig     |  2 ++
+ arch/arm/configs/p5110_defconfig     |  2 ++
+ arch/arm/configs/p5113_defconfig     |  2 ++
+ arch/arm/mach-omap2/Kconfig          | 35 +++++++++++++++++++++
+ arch/arm/mach-omap2/board-espresso.c | 47 ++++++++++++++++++++++++++++
+ 8 files changed, 94 insertions(+)
+ create mode 100644 arch/arm/configs/p3100_defconfig
+ create mode 100644 arch/arm/configs/p3110_defconfig
+ create mode 100644 arch/arm/configs/p3113_defconfig
+ create mode 100644 arch/arm/configs/p5100_defconfig
+ create mode 100644 arch/arm/configs/p5110_defconfig
+ create mode 100644 arch/arm/configs/p5113_defconfig
+
+diff --git a/arch/arm/configs/p3100_defconfig b/arch/arm/configs/p3100_defconfig
+new file mode 100644
+index 00000000000..af85b7b39ba
+--- /dev/null
++++ b/arch/arm/configs/p3100_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P3100=y
+diff --git a/arch/arm/configs/p3110_defconfig b/arch/arm/configs/p3110_defconfig
+new file mode 100644
+index 00000000000..ba6f3260fe1
+--- /dev/null
++++ b/arch/arm/configs/p3110_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P3110=y
+diff --git a/arch/arm/configs/p3113_defconfig b/arch/arm/configs/p3113_defconfig
+new file mode 100644
+index 00000000000..8fbbf3896c3
+--- /dev/null
++++ b/arch/arm/configs/p3113_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P3113=y
+diff --git a/arch/arm/configs/p5100_defconfig b/arch/arm/configs/p5100_defconfig
+new file mode 100644
+index 00000000000..71b61afe103
+--- /dev/null
++++ b/arch/arm/configs/p5100_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P5100=y
+diff --git a/arch/arm/configs/p5110_defconfig b/arch/arm/configs/p5110_defconfig
+new file mode 100644
+index 00000000000..d47fd6268b5
+--- /dev/null
++++ b/arch/arm/configs/p5110_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P5110=y
+diff --git a/arch/arm/configs/p5113_defconfig b/arch/arm/configs/p5113_defconfig
+new file mode 100644
+index 00000000000..b96f8e45757
+--- /dev/null
++++ b/arch/arm/configs/p5113_defconfig
+@@ -0,0 +1,2 @@
++CONFIG_OMAP_SKIP_BOARDDETECTION=y
++CONFIG_OMAP_P5113=y
+diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
+index 8341d3756b3..5c9c2b7ac64 100644
+--- a/arch/arm/mach-omap2/Kconfig
++++ b/arch/arm/mach-omap2/Kconfig
+@@ -383,6 +383,41 @@ config MACH_OMAP4_ESPRESSO
+ 	select REGULATOR_FIXED_VOLTAGE
+ 	select TWL6030_GPADC
+ 
++config OMAP_SKIP_BOARDDETECTION
++	bool "Skip intelligent Espresso / Espresso10 detection"
++	depends on MACH_OMAP4_ESPRESSO
++	default n
++
++config OMAP_P3100
++	bool "Force P3100 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
++config OMAP_P3110
++	bool "Force P3110 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
++config OMAP_P3113
++	bool "Force P3113 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
++config OMAP_P5100
++	bool "Force P5100 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
++config OMAP_P5110
++	bool "Force P5110 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
++config OMAP_P5113
++	bool "Force P5113 Tab 2 variant"
++	depends on OMAP_SKIP_BOARDDETECTION
++	default n
++
+ config MACH_TUNA
+ 	bool "Tuna Board"
+ 	default n
+diff --git a/arch/arm/mach-omap2/board-espresso.c b/arch/arm/mach-omap2/board-espresso.c
+index ae119612e10..5ad1082f558 100644
+--- a/arch/arm/mach-omap2/board-espresso.c
++++ b/arch/arm/mach-omap2/board-espresso.c
+@@ -110,10 +110,51 @@ static struct omap_musb_board_data musb_board_data = {
+ 
+ /* Board identification */
+ 
++#ifdef CONFIG_OMAP_SKIP_BOARDDETECTION
++#ifdef CONFIG_OMAP_P3100
++static bool _board_has_modem = true;
++static bool _board_is_espresso10 = false;
++static bool _board_is_bestbuy_variant = false;
++#endif
++
++#ifdef CONFIG_OMAP_P3110
++static bool _board_has_modem = false;
++static bool _board_is_espresso10 = false;
++static bool _board_is_bestbuy_variant = false;
++#endif
++
++#ifdef CONFIG_OMAP_P3113
++static bool _board_has_modem = false;
++static bool _board_is_espresso10 = false;
++static bool _board_is_bestbuy_variant = true;
++#endif
++
++#ifdef CONFIG_OMAP_P5100
++static bool _board_has_modem = true;
++static bool _board_is_espresso10 = true;
++static bool _board_is_bestbuy_variant = false;
++#endif
++
++#ifdef CONFIG_OMAP_P5110
++static bool _board_has_modem = false;
++static bool _board_is_espresso10 = true;
++static bool _board_is_bestbuy_variant = false;
++#endif
++
++#ifdef CONFIG_OMAP_P5113
++static bool _board_has_modem = false;
++static bool _board_is_espresso10 = true;
++static bool _board_is_bestbuy_variant = true;
++#endif
++
++#else
++
+ static bool _board_has_modem = true;
+ static bool _board_is_espresso10 = true;
+ static bool _board_is_bestbuy_variant = false;
+ 
++#endif
++
+ /*
+  * Sets the board type
+  */
+@@ -128,6 +169,7 @@ static __init int setup_board_type(char *str)
+ 	 */
+ 	console_loglevel = 15;
+ 
++#ifndef CONFIG_OMAP_SKIP_BOARDDETECTION
+ 	if (kstrtoint(str, 0, &lcd_id)) {
+ 		pr_err("************************************************\n");
+ 		pr_err("Cannot parse lcd_panel_id command line parameter\n");
+@@ -144,6 +186,7 @@ static __init int setup_board_type(char *str)
+ 		_board_is_espresso10 = false;
+ 
+ 	return 0;
++#endif
+ }
+ early_param("lcd_panel_id", setup_board_type);
+ 
+@@ -152,12 +195,14 @@ early_param("lcd_panel_id", setup_board_type);
+  */
+ static int __init espresso_set_subtype(char *str)
+ {
++#ifndef CONFIG_OMAP_SKIP_BOARDDETECTION
+ 	#define CARRIER_WIFI_ONLY "wifi-only"
+ 
+ 	if (!strncmp(str, CARRIER_WIFI_ONLY, strlen(CARRIER_WIFI_ONLY)))
+ 		_board_has_modem = false;
+ 
+ 	return 0;
++#endif
+ }
+ __setup("androidboot.carrier=", espresso_set_subtype);
+ 
+@@ -166,6 +211,7 @@ __setup("androidboot.carrier=", espresso_set_subtype);
+  */
+ static int __init espresso_set_vendor_type(char *str)
+ {
++#ifndef CONFIG_OMAP_SKIP_BOARDDETECTION
+ 	unsigned int vendor;
+ 
+ 	if (kstrtouint(str, 0, &vendor))
+@@ -175,6 +221,7 @@ static int __init espresso_set_vendor_type(char *str)
+ 		_board_is_bestbuy_variant = true;
+ 
+ 	return 0;
++#endif
+ }
+ __setup("sec_vendor=", espresso_set_vendor_type);
+ 
