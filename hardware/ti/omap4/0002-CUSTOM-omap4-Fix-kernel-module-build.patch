@@ -1,0 +1,28 @@
+From f2d085b88ffe94e4853a2f46d05c28249a332234 Mon Sep 17 00:00:00 2001
+From: Michael Gernoth <michael@gernoth.net>
+Date: Mon, 11 Dec 2017 11:06:28 +0100
+Subject: [PATCH 2/6] [CUSTOM] omap4: Fix kernel module build
+
+Change 195970 split the kernel module build-logic into separate parts
+and introduced a new target to actually install the modules. As we
+override TARGET_KERNEL_MODULES we need to add this new target, too.
+
+Change-Id: I159bd09e7c33a89bfb97e199f3b28e0dfed98214
+---
+ pvr-km.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/pvr-km.mk b/pvr-km.mk
+index 040b2af..f6b3bc0 100644
+--- a/pvr-km.mk
++++ b/pvr-km.mk
+@@ -24,3 +24,6 @@ PVR_MODULES:
+ 			$(KERNEL_MODULES_OUT)/pvrsrvkm.ko
+ 
+ TARGET_KERNEL_MODULES += PVR_MODULES
++
++# Target to build standard modules
++TARGET_KERNEL_MODULES += INSTALLED_KERNEL_MODULES
+-- 
+2.7.4
+

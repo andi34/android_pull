@@ -1,20 +1,19 @@
-From dd57c2b6735d18389e1767a64fa49438bdb5a613 Mon Sep 17 00:00:00 2001
+From 58e5057193fd493a8594540cc0b8bc8a07794dba Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Fri, 9 Jun 2017 14:22:58 +0200
-Subject: [PATCH] camera: espresso: revert "add Pixel{X,Y}Dimension and
- Orientation EXIF tags"
+Subject: [PATCH 3/6] [CUSTOM] camera: espresso: revert "add
+ Pixel{X,Y}Dimension and Orientation EXIF tags"
 
 - fixes images cropped to square when shooting in portrait
 
 Change-Id: I533ab769f61baebbf7f1eedc9b41c85425aacb9f
-(cherry picked from commit c6a06c47329d5e475dc18f6bc138594bf3693b27)
 ---
  camera/OMXCameraAdapter/OMXExif.cpp | 6 ++++++
  camera/inc/Encoder_libjpeg.h        | 2 ++
  2 files changed, 8 insertions(+)
 
 diff --git a/camera/OMXCameraAdapter/OMXExif.cpp b/camera/OMXCameraAdapter/OMXExif.cpp
-index c70c5eb..41935a0 100644
+index f9ed59d..81135d0 100644
 --- a/camera/OMXCameraAdapter/OMXExif.cpp
 +++ b/camera/OMXCameraAdapter/OMXExif.cpp
 @@ -373,6 +373,7 @@ status_t OMXCameraAdapter::setupEXIF()
@@ -57,7 +56,7 @@ index c70c5eb..41935a0 100644
  
      if ((NO_ERROR == ret) && (mEXIFData.mGPSData.mLatValid)) {
 diff --git a/camera/inc/Encoder_libjpeg.h b/camera/inc/Encoder_libjpeg.h
-index 089b02b..4a7ff39 100644
+index 08816c0..327b2f6 100644
 --- a/camera/inc/Encoder_libjpeg.h
 +++ b/camera/inc/Encoder_libjpeg.h
 @@ -63,8 +63,10 @@ static const char TAG_FOCALLENGTH[] = "FocalLength";
