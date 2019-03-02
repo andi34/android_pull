@@ -1,0 +1,27 @@
+From 67a49e4b16c765c4eccb4dae38cb7f323e81bf9c Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Fri, 11 Sep 2015 20:10:06 +0200
+Subject: [PATCH 2/2] [CUSTOM] omap4: skip OMX buffer reallocation
+
+Change-Id: I5ce8bdfe38f7b4172d74bead21e959950e5b8cb5
+---
+ BoardConfigCommon.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index 03792d4..d2fb4b9 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -32,6 +32,9 @@ TARGET_FORCE_SCREENSHOT_CPU_PATH ?= true
+ # Global include changes
+ #TARGET_SPECIFIC_HEADER_PATH += $(OMAP4_NEXT_FOLDER)/include
+ 
++# OMX buffer reallocate
++BOARD_CANT_REALLOCATE_OMX_BUFFERS := true
++
+ # TI Enhancement Settings
+ OMAP_ENHANCEMENT := true
+ OMAP_ENHANCEMENT_MULTIGPU := true
+-- 
+2.7.4
+
