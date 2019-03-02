@@ -1,0 +1,29 @@
+From 2dd15391f4c2c3a7c1a6d195fca8ab73de631b65 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Fri, 16 Jun 2017 23:19:00 +0200
+Subject: [PATCH 2/2] [CUSTOM] sepolicy: remove common sepolicy
+
+- rule exist already in vendor/slim
+
+Change-Id: I36046c25670e0ad05439fd4a014b45f5cd70984c
+---
+ sepolicy/file.te | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/sepolicy/file.te b/sepolicy/file.te
+index 2dc726b..c29f1df 100644
+--- a/sepolicy/file.te
++++ b/sepolicy/file.te
+@@ -1,9 +1,2 @@
+ # Hardware tunables
+ type sysfs_hardware, fs_type, sysfs_type;
+-
+-# Support asec containers getting mounted (Android 4.4)
+-ifelse(android_api_lp_or_later,  `true', `
+-  # not needed on Android >= 5.0'
+-, `
+-  allow file_type rootfs:filesystem associate;')
+-
+-- 
+2.7.4
+
