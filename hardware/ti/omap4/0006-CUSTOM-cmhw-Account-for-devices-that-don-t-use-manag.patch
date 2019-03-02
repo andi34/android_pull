@@ -1,0 +1,51 @@
+From dd4c30e4d205b2789007a295fd4216091deec600 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?D=2E=20Andrei=20M=C4=83ce=C8=99?= <dmaces@nd.edu>
+Date: Thu, 1 Dec 2016 13:27:34 -0500
+Subject: [PATCH 6/6] [CUSTOM] cmhw: Account for devices that don't use
+ manager0 sysfs paths
+
+Change-Id: I5602bfe642ed1c3bae9b5209e43362f2b6c37852
+(cherry picked from commit 453e2165e3dcba2274b21b5c0a395c8624d5a354)
+---
+ .../hardware/DisplayColorCalibration.java          | 23 ++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/cmhw/org/cyanogenmod/hardware/DisplayColorCalibration.java b/cmhw/org/cyanogenmod/hardware/DisplayColorCalibration.java
+index 1cffbff..8dda4b5 100644
+--- a/cmhw/org/cyanogenmod/hardware/DisplayColorCalibration.java
++++ b/cmhw/org/cyanogenmod/hardware/DisplayColorCalibration.java
+@@ -38,10 +38,29 @@ package org.cyanogenmod.hardware;
+ import org.cyanogenmod.internal.util.FileUtils;
+ 
+ public class DisplayColorCalibration {
+-    private static final String COLOR_FILE = "/sys/devices/platform/omapdss/manager0/cpr_coef";
+-    private static final String COLOR_FILE_CTRL = "/sys/devices/platform/omapdss/manager0/cpr_enable";
++    private static final String MGR_PATH = getManagerPath();
++
++    private static final String COLOR_FILE = MGR_PATH + "cpr_coef";
++    private static final String COLOR_FILE_CTRL = MGR_PATH + "cpr_enable";
++
+     private static int last_rgb[] = { 256, 256, 256 };
+ 
++    private static String getManagerPath() {
++        final String sysfs_root = "/sys/devices/platform/omapdss/";
++        final String disp_name = FileUtils.readOneLine(sysfs_root + "display0/name");
++
++        String mgr_path = "";
++
++        for (int mgr_idx = 0; mgr_idx < 3; mgr_idx++) {
++            mgr_path = sysfs_root + "manager" + mgr_idx + "/";
++            if (disp_name.equals(FileUtils.readOneLine(mgr_path + "display"))) {
++                break;
++            }
++        }
++
++        return mgr_path;
++    }
++
+     public static boolean isSupported() {
+         return true;
+     }
+-- 
+2.7.4
+
