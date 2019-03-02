@@ -11,10 +11,12 @@ repopick -t asb-2018.09-cm11
 repopick -t asb-2018.10-cm11
 repopick -t asb-2018.11-cm11
 repopick -t asb-2018.12-cm11
+repopick -t asb-2019.01-cm11
 echo "----------------------------------------"
 echo "----------------------------------------"
 cd $SAUCE/packages/apps/Settings
 git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/54/230054/8 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/changes/92/230392/12 && git cherry-pick FETCH_HEAD
 echo "----------------------------------------"
 
 cd $SAUCE/pull
