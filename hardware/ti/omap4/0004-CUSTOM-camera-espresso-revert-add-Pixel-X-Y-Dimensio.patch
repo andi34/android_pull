@@ -1,7 +1,7 @@
-From 58e5057193fd493a8594540cc0b8bc8a07794dba Mon Sep 17 00:00:00 2001
+From 2e5c34bb994a093cff4d24b17a6c04cb587c84d3 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Fri, 9 Jun 2017 14:22:58 +0200
-Subject: [PATCH 3/6] [CUSTOM] camera: espresso: revert "add
+Subject: [PATCH 4/7] [CUSTOM] camera: espresso: revert "add
  Pixel{X,Y}Dimension and Orientation EXIF tags"
 
 - fixes images cropped to square when shooting in portrait

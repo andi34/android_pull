@@ -1,0 +1,28 @@
+From fe558ebe69cde95ab153d4f9a564dd53b3ccc1f6 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <skate4life@gmx.de>
+Date: Tue, 4 Apr 2017 12:21:33 +0200
+Subject: [PATCH 1/7] [CUSTOM] omap4: define
+ TARGET_CAMERASERVICE_CLOSES_NATIVE_HANDLES
+
+Change-Id: I00c75220899c89ffaa7792d38c4caf01c2d202c7
+---
+ BoardConfigCommon.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
+index 683cf13..c3be998 100644
+--- a/BoardConfigCommon.mk
++++ b/BoardConfigCommon.mk
+@@ -29,6 +29,9 @@ USE_OPENGL_RENDERER := true
+ BOARD_EGL_WORKAROUND_BUG_10194508 ?= true
+ TARGET_FORCE_SCREENSHOT_CPU_PATH ?= true
+ 
++# Camera
++TARGET_CAMERASERVICE_CLOSES_NATIVE_HANDLES := true
++
+ # Global include changes
+ #TARGET_SPECIFIC_HEADER_PATH += $(OMAP4_NEXT_FOLDER)/include
+ 
+-- 
+2.7.4
+

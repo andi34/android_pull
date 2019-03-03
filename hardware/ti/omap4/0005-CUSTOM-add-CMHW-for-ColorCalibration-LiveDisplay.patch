@@ -1,7 +1,7 @@
-From f6cd3e523d506d26aa22d585d08c11a30d0da855 Mon Sep 17 00:00:00 2001
+From 998526d24739da73bf7529d6c802ba00d57c80ac Mon Sep 17 00:00:00 2001
 From: Michael Gernoth <michael@gernoth.net>
 Date: Wed, 13 Jan 2016 23:06:07 +0100
-Subject: [PATCH 4/6] [CUSTOM] add CMHW for ColorCalibration/LiveDisplay
+Subject: [PATCH 5/7] [CUSTOM] add CMHW for ColorCalibration/LiveDisplay
 
 This uses the color phase rotation hardware of Omap4 to set RGB
 calibration values.
