@@ -1,7 +1,7 @@
-From db7561363985dcc5454f544f8d35926e5f405317 Mon Sep 17 00:00:00 2001
+From 87511fefb3bca425aa6903bcf500d8f94172e559 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Sat, 25 Mar 2017 12:45:53 +0100
-Subject: [PATCH 3/3] bootzip: fix strip on GCC4.9
+Subject: [PATCH 2/2] bootzip: fix strip on GCC4.9
 
 - check KERNEL_TOOLCHAIN_PREFIX which is defined in the build tree
 
@@ -14,7 +14,7 @@ Signed-off-by: Andreas Blaesius <skate4life@gmx.de>
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/build/tools/releasetools/boot_flash_from_image b/build/tools/releasetools/boot_flash_from_image
-index dc9852c..f77bba8 100755
+index 0b633f3..9ff6c75 100755
 --- a/build/tools/releasetools/boot_flash_from_image
 +++ b/build/tools/releasetools/boot_flash_from_image
 @@ -116,12 +116,16 @@ if path.exists("%s/system/lib/modules" % out):
