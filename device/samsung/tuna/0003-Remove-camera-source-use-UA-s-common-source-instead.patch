@@ -1,7 +1,7 @@
-From 10af49a0f162285a485678dea42b2c919f5f66c8 Mon Sep 17 00:00:00 2001
+From 9048cd978411f01fe7eefaf199737bb770bb1d9f Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <andi@unlegacy-android.org>
 Date: Sun, 3 Mar 2019 01:09:00 +0100
-Subject: [PATCH] Remove camera source, use UA's common source instead
+Subject: [PATCH 3/3] Remove camera source, use UA's common source instead
 
 Change-Id: I3413d887fe66f72b37486ca77157174b46a12101
 ---
@@ -43282,7 +43282,7 @@ index 659d58e..0000000
 -
 -#endif
 diff --git a/device.mk b/device.mk
-index 9789636..1318f39 100755
+index da25c7f..13a4d71 100755
 --- a/device.mk
 +++ b/device.mk
 @@ -37,7 +37,7 @@ PRODUCT_PACKAGES += \

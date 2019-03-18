@@ -1,0 +1,41 @@
+From 784b140469d0ff2708b14a039d93824bac491e40 Mon Sep 17 00:00:00 2001
+From: Daniel Jarai <jaraidaniel@gmail.com>
+Date: Wed, 25 Jul 2018 00:06:51 +0200
+Subject: [PATCH 1/3] ueventd: update graphics related permissions
+
+- remove /dev/dmm and /dev/tiler; they're not used
+- allow world access to /dev/ion
+- add /dev/pvr_sync, used on never DDKs
+
+Change-Id: I585f71b0668dd9419426eba67bb80f48a455945c
+---
+ rootdir/ueventd.tuna.rc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/rootdir/ueventd.tuna.rc b/rootdir/ueventd.tuna.rc
+index 6d4710e..0e26ac4 100755
+--- a/rootdir/ueventd.tuna.rc
++++ b/rootdir/ueventd.tuna.rc
+@@ -1,8 +1,6 @@
+ #for DSSCOMP
+ /dev/dsscomp              0660   system     system
+-/dev/tiler                0660   system     system
+-/dev/dmm                  0660   media      graphics
+-/dev/ion                  0770   media      graphics
++/dev/ion                  0666   system     system
+ 
+ #for SYSLINK
+ /dev/rpmsg-omx0           0660   drmrpc    drmrpc
+@@ -11,7 +9,9 @@
+ /dev/tf_driver            0660   drmrpc    drmrpc
+ /dev/tf_ctrl              0660   drmrpc    drmrpc
+ 
++# PVR
+ /dev/pvrsrvkm             0666   system     system
++/dev/pvr_sync             0666   system     system
+ 
+ #for Sensors
+ /dev/mpu                  0660   system     system
+-- 
+2.7.4
+
