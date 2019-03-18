@@ -1,7 +1,7 @@
-From 45af7b31e5c905cc5bad8dd396347256c1cf638a Mon Sep 17 00:00:00 2001
+From b581a3bfd7132be594233e6a9a7fd76f5208e827 Mon Sep 17 00:00:00 2001
 From: Michael Bestas <mikeioannina@cyanogenmod.org>
 Date: Thu, 16 Jun 2016 12:38:06 -0500
-Subject: [PATCH 5/6] [CUSTOM] cmhw: Use cmsdk FileUtils
+Subject: [PATCH 4/5] (CUSTOM) cmhw: Use cmsdk FileUtils
 
 Change-Id: I1cde19085f5624d9fa80043be93c119f66e3ab3c
 ---
