@@ -1,7 +1,7 @@
-From 61bde97973f63f9f2652fc353f06fa2fa36ec927 Mon Sep 17 00:00:00 2001
+From 7ef57f21c0da68a3fe52a5b355e71d83f33abfb9 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Fri, 16 Jun 2017 23:19:00 +0200
-Subject: [PATCH 1/2] [CUSTOM] sepolicy: remove common sepolicy
+Subject: [PATCH] (CUSTOM) sepolicy: remove common sepolicy
 
 - rule exist already in vendor/slim
 
