@@ -1,7 +1,7 @@
-From 89e27f84aa18394cf6a380cb9117d9fbef79840e Mon Sep 17 00:00:00 2001
+From 0c75fd327779de2bff515c8dad5971911ff2762b Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Sun, 6 Nov 2016 16:03:39 +0200
-Subject: [PATCH 4/4] [CUSTOM] omap4: Fix screencast
+Subject: [PATCH 3/3] (CUSTOM) omap4: Fix screencast
 
 Change-Id: I494bf541737d66e88d6daa035c0b3398eadd536b
 ---
@@ -9,10 +9,10 @@ Change-Id: I494bf541737d66e88d6daa035c0b3398eadd536b
  1 file changed, 3 insertions(+)
 
 diff --git a/BoardConfigCommon.mk b/BoardConfigCommon.mk
-index 4b3aba1..eefdbd8 100644
+index 4e1a317..5b84624 100644
 --- a/BoardConfigCommon.mk
 +++ b/BoardConfigCommon.mk
-@@ -52,6 +52,9 @@ TARGET_BOOTANIMATION_PRELOAD := false
+@@ -51,6 +51,9 @@ TARGET_BOOTANIMATION_PRELOAD := false
  TARGET_BOOTANIMATION_TEXTURE_CACHE := false
  TARGET_BOOTANIMATION_USE_RGB565 := true
  

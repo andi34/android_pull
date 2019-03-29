@@ -1,7 +1,7 @@
-From 45265259f5f2d1df328bc811584fa6139f5094e1 Mon Sep 17 00:00:00 2001
+From c9ad059f5298b4a9c34faa5a9018c54e91a1e09a Mon Sep 17 00:00:00 2001
 From: Michael Gernoth <michael@gernoth.net>
 Date: Mon, 11 Dec 2017 11:06:28 +0100
-Subject: [PATCH 3/4] [CUSTOM] omap4: Fix kernel module build
+Subject: [PATCH 2/3] (CUSTOM) omap4: Fix kernel module build
 
 Change 195970 split the kernel module build-logic into separate parts
 and introduced a new target to actually install the modules. As we
