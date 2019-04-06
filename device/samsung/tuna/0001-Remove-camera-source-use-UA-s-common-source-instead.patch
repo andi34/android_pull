@@ -1,7 +1,7 @@
-From 9048cd978411f01fe7eefaf199737bb770bb1d9f Mon Sep 17 00:00:00 2001
+From 4beba055f0cff7805a945f33c7b40c479be1ce46 Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <andi@unlegacy-android.org>
 Date: Sun, 3 Mar 2019 01:09:00 +0100
-Subject: [PATCH 3/3] Remove camera source, use UA's common source instead
+Subject: [PATCH] Remove camera source, use UA's common source instead
 
 Change-Id: I3413d887fe66f72b37486ca77157174b46a12101
 ---
@@ -43282,18 +43282,18 @@ index 659d58e..0000000
 -
 -#endif
 diff --git a/device.mk b/device.mk
-index da25c7f..13a4d71 100755
+index 764c575..8cf55e2 100755
 --- a/device.mk
 +++ b/device.mk
-@@ -37,7 +37,7 @@ PRODUCT_PACKAGES += \
+@@ -53,7 +53,7 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
+ # HALs
+ PRODUCT_PACKAGES += \
  	audio.primary.tuna \
- 	audio.r_submix.default \
- 	audio.usb.default \
 -	camera.tuna \
 +	camera.omap4 \
- 	lights.tuna \
- 	nfc.tuna \
+ 	keystore.tuna \
  	libpn544_fw \
+ 	lights.tuna \
 -- 
 2.7.4
 
