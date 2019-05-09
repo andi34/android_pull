@@ -9,6 +9,7 @@ repopick -f -t cm11.0-appops-su
 repopick -t bootzip-cm-11.0
 repopick -t asb-2019.02-cm11
 repopick -t asb-2019.03-cm11
+repopick -t asb-2019.04-cm11
 
 echo "----------------------------------------"
 echo "----------------------------------------"
