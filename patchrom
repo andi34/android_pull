@@ -5,8 +5,9 @@ SAUCE=~/android/cm-13.0
 # Let's apply all commits!
 echo ""
 echo "----------------------------------------"
-repopick -t asb-2019.02-cm13
 repopick -t asb-2019.03-cm13
+repopick -t asb-2019.04-cm13
+repopick -t asb-2019.05-cm13
 echo "----------------------------------------"
 cd $SAUCE/pull
 . patch.sh
