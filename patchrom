@@ -13,6 +13,8 @@ repopick -t asb-2019.04-cm11
 repopick -t asb-2019.05-cm11
 repopick -t asb-2019.06-cm11
 repopick -t asb-2019.07-cm11
+repopick -t asb-2019.08-cm11
+repopick -t asb-2019.09-cm11
 
 echo "----------------------------------------"
 echo "----------------------------------------"
