@@ -1,0 +1,41 @@
+From e1664c11cfd4bc0c74fd046a4da7bd952be98e11 Mon Sep 17 00:00:00 2001
+From: Mykola Ostrovskyy <mykola@ti.com>
+Date: Tue, 8 Apr 2014 14:36:57 -0500
+Subject: [PATCH 2/3] HWComposer: Use native FB format for HWC 1.1
+
+Until HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED is supported by
+EGL, we have to hard-code FB pixel format.
+
+Change-Id: I0f654c894bbfa82851bb03b85ad59e7c7305f309
+Signed-off-by: Mykola Ostrovskyy <mykola@ti.com>
+---
+ services/surfaceflinger/DisplayHardware/HWComposer_hwc1.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/services/surfaceflinger/DisplayHardware/HWComposer_hwc1.cpp b/services/surfaceflinger/DisplayHardware/HWComposer_hwc1.cpp
+index 7d09567fa..c7e0dabd2 100644
+--- a/services/surfaceflinger/DisplayHardware/HWComposer_hwc1.cpp
++++ b/services/surfaceflinger/DisplayHardware/HWComposer_hwc1.cpp
+@@ -451,7 +451,8 @@ status_t HWComposer::queryDisplayProperties(int disp) {
+     }
+ 
+     // FIXME: what should we set the format to?
+-#ifdef USE_BGRA_8888
++#if defined(USE_BGRA_8888) || defined(OMAP_ENHANCEMENT)
++    // Use pixel format native to DSS HW
+     mDisplayData[disp].format = HAL_PIXEL_FORMAT_BGRA_8888;
+ #else
+     mDisplayData[disp].format = HAL_PIXEL_FORMAT_RGBA_8888;
+@@ -906,7 +907,8 @@ int HWComposer::getVisualID() const {
+         // FIXME: temporary hack until HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED
+         // is supported by the implementation. we can only be in this case
+         // if we have HWC 1.1
+-#ifdef USE_BGRA_8888
++#if defined(USE_BGRA_8888) || defined(OMAP_ENHANCEMENT)
++        // Use pixel format native to DSS HW
+         return HAL_PIXEL_FORMAT_BGRA_8888;
+ #else
+         return HAL_PIXEL_FORMAT_RGBA_8888;
+-- 
+2.17.1
+

@@ -5,6 +5,7 @@ PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'build'
     'frameworks/av'
+    'frameworks/native'
     'vendor/cm'
 )
 
