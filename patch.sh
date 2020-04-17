@@ -4,8 +4,6 @@ ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
     'build'
-    'device/samsung/espresso3g'
-    'hardware/ti/omap4'
     'frameworks/av'
     'vendor/cm'
 )
