@@ -3,7 +3,6 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'hardware/ti/omap4'
 )
 
 for patches in "${PATCHREPOS[@]}"; do
