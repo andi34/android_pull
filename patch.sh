@@ -3,8 +3,6 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'device/samsung/espressowifi'
-    'hardware/ti/omap4'
     'system/core'
 )
 
