@@ -1,0 +1,34 @@
+From b887a9ad5421928c3a9e3d868cb1069e747499fd Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Fri, 1 Mar 2019 18:23:48 +0000
+Subject: [PATCH] native: don't enable workaround bug 10194508 for omap4 by
+ default
+
+- follow newer android branches and set
+  BOARD_EGL_WORKAROUND_BUG_10194508 := true
+  in your BoardConfig.mk to enable this workaround
+
+  CM11: initial change was made on commit 509e43d8bcc636c5138d6f0e660e75a3dfdd16de
+
+Change-Id: I940d583951e62e3fbd8ad163ff0bfaf331c4d71a
+---
+ opengl/libs/Android.mk | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/opengl/libs/Android.mk b/opengl/libs/Android.mk
+index d04a4a3..30968cb 100644
+--- a/opengl/libs/Android.mk
++++ b/opengl/libs/Android.mk
+@@ -48,9 +48,6 @@ LOCAL_CFLAGS += -DEGL_TRACE=1
+ ifeq ($(BOARD_ALLOW_EGL_HIBERNATION),true)
+   LOCAL_CFLAGS += -DBOARD_ALLOW_EGL_HIBERNATION
+ endif
+-ifeq ($(TARGET_BOARD_PLATFORM), omap4)
+-  LOCAL_CFLAGS += -DWORKAROUND_BUG_10194508=1
+-endif
+ ifeq ($(BOARD_EGL_SYSTEMUI_PBSIZE_HACK),true)
+   # see Loader.cpp for details
+   LOCAL_CFLAGS += -DSYSTEMUI_PBSIZE_HACK=1
+-- 
+2.7.4
+

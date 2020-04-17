@@ -3,8 +3,8 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'hardware/ti/omap4'
     'frameworks/base'
+    'frameworks/native'
     'system/core'
     'vendor/cm'
 )
