@@ -3,9 +3,7 @@
 ROOT="$SAUCE"
 PATCHPATH="$SAUCE/pull"
 PATCHREPOS=(
-    'device/samsung/tuna'
     'frameworks/native'
-    'hardware/ti/omap4'
     'packages/apps/Settings'
     'vendor/cm'
 )
