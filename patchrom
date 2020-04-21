@@ -2,6 +2,7 @@
 SAUCE=~/android/cm-14.1
 
 # Let's apply all commits!
+repopick -t n-asb-2020-04
 
 cd $SAUCE/pull
 . patch.sh
