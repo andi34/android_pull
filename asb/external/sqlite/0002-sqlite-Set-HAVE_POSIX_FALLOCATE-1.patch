@@ -1,0 +1,29 @@
+From d875d7210740ad70fe4ce6d594589799301ac0da Mon Sep 17 00:00:00 2001
+From: syphyr <syphyr@gmail.com>
+Date: Sun, 15 Sep 2019 21:53:41 +0200
+Subject: [PATCH 2/3] sqlite: Set HAVE_POSIX_FALLOCATE = 1
+
+Requires additional changes to android_bionic:
+https://review.lineageos.org/c/LineageOS/android_bionic/+/258207
+
+Change-Id: Icc0e4f11fc41716da8196277b52e457362adee6f
+---
+ dist/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dist/Android.mk b/dist/Android.mk
+index 2b21c3c..aff8550 100644
+--- a/dist/Android.mk
++++ b/dist/Android.mk
+@@ -12,7 +12,7 @@ LOCAL_PATH:= $(call my-dir)
+ #   SQLITE_DEFAULT_AUTOVACUUM=1  causes the databases to be subject to auto-vacuum
+ common_sqlite_flags := \
+ 	-DNDEBUG=1 \
+-	-DHAVE_POSIX_FALLOCATE=0 \
++	-DHAVE_POSIX_FALLOCATE=1 \
+ 	-DHAVE_USLEEP=1 \
+ 	-DSQLITE_HAVE_ISNAN \
+ 	-DSQLITE_DEFAULT_JOURNAL_SIZE_LIMIT=1048576 \
+-- 
+2.17.1
+

@@ -1,0 +1,84 @@
+From 1d1645392a7d45d8d030e62bb89a360f81e6da54 Mon Sep 17 00:00:00 2001
+From: "D. Richard Hipp" <drh@hwaci.com>
+Date: Tue, 3 Sep 2019 17:39:12 +0000
+Subject: [PATCH 3/3] Disable the undocumented rtreenode() SQL function that is
+ only used for testing, except when doing a build that is specifically
+ intended for testing.
+
+Change-Id: I51cf0c937234a38f0a21eceb93d9abb330cdc034
+---
+ dist/orig/sqlite3.c | 7 +++++--
+ dist/sqlite3.c      | 7 +++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/dist/orig/sqlite3.c b/dist/orig/sqlite3.c
+index c137c3b..f5d025c 100644
+--- a/dist/orig/sqlite3.c
++++ b/dist/orig/sqlite3.c
+@@ -154239,7 +154239,7 @@ static int rtreeInit(
+   return rc;
+ }
+ 
+-
++#if defined(SQLITE_TEST)
+ /*
+ ** Implementation of a scalar function that decodes r-tree nodes to
+ ** human readable strings. This can be used for debugging and analysis.
+@@ -154300,6 +154300,7 @@ static void rtreenode(sqlite3_context *ctx, int nArg, sqlite3_value **apArg){
+   
+   sqlite3_result_text(ctx, zText, -1, sqlite3_free);
+ }
++#endif
+ 
+ /* This routine implements an SQL function that returns the "depth" parameter
+ ** from the front of a blob that is an r-tree node.  For example:
+@@ -154329,9 +154330,11 @@ static void rtreedepth(sqlite3_context *ctx, int nArg, sqlite3_value **apArg){
+ */
+ SQLITE_PRIVATE int sqlite3RtreeInit(sqlite3 *db){
+   const int utf8 = SQLITE_UTF8;
+-  int rc;
++  int rc = SQLITE_OK;
+ 
++#if defined(SQLITE_TEST)
+   rc = sqlite3_create_function(db, "rtreenode", 2, utf8, 0, rtreenode, 0, 0);
++#endif
+   if( rc==SQLITE_OK ){
+     rc = sqlite3_create_function(db, "rtreedepth", 1, utf8, 0,rtreedepth, 0, 0);
+   }
+diff --git a/dist/sqlite3.c b/dist/sqlite3.c
+index 5d74975..659edbb 100644
+--- a/dist/sqlite3.c
++++ b/dist/sqlite3.c
+@@ -154262,7 +154262,7 @@ static int rtreeInit(
+   return rc;
+ }
+ 
+-
++#if defined(SQLITE_TEST)
+ /*
+ ** Implementation of a scalar function that decodes r-tree nodes to
+ ** human readable strings. This can be used for debugging and analysis.
+@@ -154323,6 +154323,7 @@ static void rtreenode(sqlite3_context *ctx, int nArg, sqlite3_value **apArg){
+   
+   sqlite3_result_text(ctx, zText, -1, sqlite3_free);
+ }
++#endif
+ 
+ /* This routine implements an SQL function that returns the "depth" parameter
+ ** from the front of a blob that is an r-tree node.  For example:
+@@ -154352,9 +154353,11 @@ static void rtreedepth(sqlite3_context *ctx, int nArg, sqlite3_value **apArg){
+ */
+ SQLITE_PRIVATE int sqlite3RtreeInit(sqlite3 *db){
+   const int utf8 = SQLITE_UTF8;
+-  int rc;
++  int rc = SQLITE_OK;
+ 
++#if defined(SQLITE_TEST)
+   rc = sqlite3_create_function(db, "rtreenode", 2, utf8, 0, rtreenode, 0, 0);
++#endif
+   if( rc==SQLITE_OK ){
+     rc = sqlite3_create_function(db, "rtreedepth", 1, utf8, 0,rtreedepth, 0, 0);
+   }
+-- 
+2.17.1
+

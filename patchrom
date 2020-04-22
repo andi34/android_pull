@@ -28,4 +28,4 @@ git fetch https://github.com/LineageOS/android_packages_apps_Settings refs/chang
 echo "----------------------------------------"
 
 cd $SAUCE/pull
-. patch.sh
+. asb.sh
