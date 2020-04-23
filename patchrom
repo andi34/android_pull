@@ -1,8 +1,7 @@
 #!/bin/bash
-SAUCE=~/android/cm-14.1
+SAUCE=~/android2/efoundation
 
 # Let's apply all commits!
-repopick -t n-asb-2020-04
 
 cd $SAUCE/pull
 . patch.sh
