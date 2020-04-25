@@ -1,7 +1,7 @@
 From 4e4a270f13e0e7e9305fe13b2205478265c3ebce Mon Sep 17 00:00:00 2001
 From: Andreas Blaesius <skate4life@gmx.de>
 Date: Sat, 25 Mar 2017 12:45:53 +0100
-Subject: [PATCH 2/3] bootzip: fix strip on GCC4.9
+Subject: [PATCH 2/4] bootzip: fix strip on GCC4.9
 
 - check KERNEL_TOOLCHAIN_PREFIX which is defined in the build tree
 

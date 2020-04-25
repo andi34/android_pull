@@ -1,0 +1,41 @@
+From d176873b15983981edc971114c718afa59879015 Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Sat, 25 Apr 2020 21:28:25 +0200
+Subject: [PATCH 4/4] Vendor: add hour and minute for zip-nameing
+
+---
+ config/common.mk | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 9be50027..423bbd24 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -357,13 +357,13 @@ else
+         ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
+             LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d_%H%M%S)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+         else
+-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d-%H%M)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+         endif
+     else
+         ifeq ($(LINEAGE_VERSION_APPEND_TIME_OF_DAY), TRUE)
+             LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d_%H%M%S)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+         else
+-            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
++            LINEAGE_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(CM_VERSION_MAINTENANCE)-$(ANDROID_LETTER)-$(shell date -u +%Y%m%d-%H%M)$(CI_PIPELINE_ID)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+         endif
+     endif
+ endif
+@@ -402,7 +402,7 @@ ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
+                 CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
+                 TARGET_VENDOR_RELEASE_BUILD_ID := $(CM_EXTRAVERSION)
+             else
+-                TARGET_VENDOR_RELEASE_BUILD_ID := $(shell date -u +%Y%m%d)
++                TARGET_VENDOR_RELEASE_BUILD_ID := $(shell date -u +%Y%m%d-%H%M)
+             endif
+         else
+             TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
+-- 
+2.17.1
+
