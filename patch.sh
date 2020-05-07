@@ -9,6 +9,7 @@ PATCHREPOS=(
     'prebuilts/misc'
     'prebuilts/prebuiltapks'
     'vendor/cm'
+    'vendor/extra'
 )
 
 for patches in "${PATCHREPOS[@]}"; do

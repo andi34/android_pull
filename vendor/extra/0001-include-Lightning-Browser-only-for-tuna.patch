@@ -1,0 +1,24 @@
+From 4799060a8a6311b6e6dfdc7842fc17eb5b0c275c Mon Sep 17 00:00:00 2001
+From: Andreas Blaesius <andi@unlegacy-android.org>
+Date: Thu, 7 May 2020 18:00:58 +0200
+Subject: [PATCH] include Lightning Browser only for tuna
+
+---
+ prebuilt/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/prebuilt/Android.mk b/prebuilt/Android.mk
+index 2f8edd8..cd1c46a 100644
+--- a/prebuilt/Android.mk
++++ b/prebuilt/Android.mk
+@@ -1,6 +1,6 @@
+ LOCAL_PATH := $(call my-dir)
+ 
+-ifneq ($(filter tuna maguro toro toroplus espresso espressowifi espresso3g p3100 p3110 p5100 p5110,$(TARGET_DEVICE)),)
++ifneq ($(filter tuna maguro toro toroplus,$(TARGET_DEVICE)),)
+ 
+ include $(CLEAR_VARS)
+ LOCAL_MODULE        := Lightning
+-- 
+2.17.1
+
