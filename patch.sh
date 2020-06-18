@@ -7,7 +7,6 @@ PATCHREPOS=(
     'frameworks/av'
     'frameworks/native'
     'prebuilts/misc'
-    'prebuilts/prebuiltapks'
     'vendor/cm'
     'vendor/extra'
 )
